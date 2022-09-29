@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7c566207934be4499a392b4a6a00774, type: 3}
+  m_Name: Shotgun
+  m_EditorClassIdentifier: 
+  ourPlayer: {fileID: 0}
+  puppet: {fileID: 0}
+  playerCameraTransform: {fileID: 0}
+  canFire: 1
+  testPositionMarker: {fileID: 4869646674359422768, guid: 417cee157325748408436d338ac6b284, type: 3}
+  inGameModel: {fileID: 6146762529555134310, guid: 7da3649fce1d20149b728c09aab5e83b, type: 3}
+  gunAnimScript: {fileID: 0}
+  gunAnim: {fileID: 0}
+  weaponSlot: 1
+  singleFire: 1
+  canFireInAnim: CanFire
+  gunStateAnim: GunState
+  canHolsterInAnim: CanHolster
+  damage: 10
+  ammo: 6
+  ammoInReserve: 72
+  magazineSize: 6
+  maxAmmo: 72
+  accuracy: 90
+  effectiveRange: 10
+  knockBack: 0
+  aimAssist: 10
+  sphereCastRadius: 0.5
+  pelletsPerShot: 10
+  minimumSpreadRange: 3
+  spreadAngle: 100
