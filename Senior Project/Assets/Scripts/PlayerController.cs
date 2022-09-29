@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
             }
 
             // Currently start is only used to set up all of the weapons that begin equipped to the player
-
+/*
             // This checks if there is a primary weapon
             if (primaryWeapon != null)
             {
@@ -141,6 +141,7 @@ public class PlayerController : MonoBehaviour
                     heavyWeapon.SwapToWeapon();
                 }
             }
+*/
         }
     }
 
