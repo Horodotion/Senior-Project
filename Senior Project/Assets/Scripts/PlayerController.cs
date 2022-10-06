@@ -131,67 +131,76 @@ public class PlayerController : MonoBehaviour
             if (heavyWeapon != null)
             {
                 // If there is a heavy weapon, then it spawns a copy of the serialized object and sets it up
-                heavyWeapon = Instantiate(heavyWeapon);
+                {
+                    heavyWeapon.SwapToWeapon();
+                }
+            }
+               heavyWeapon = Instantiate(heavyWeapon);
                 puppet.heavyWeapon = heavyWeapon;
                 heavyWeapon.InitializeGun(this, puppet); // This sets the references of itself and the puppet
 
                 // If there are no other weapons equipped, the heavy weapon becomes the current weapon
                 if (currentWeapon == null)
-                {
-                    heavyWeapon.SwapToWeapon();
-                }
-            }
 */
         }
     }
 
-    // void Start()
-    // {
-    //     // Currently start is only used to set up all of the weapons that begin equipped to the player
+    void Start()
+    {
+        // Currently start is only used to set up all of the weapons that begin equipped to the player
 
-    //     // This checks if there is a primary weapon
-    //     if (primaryWeapon != null)
-    //     {
-    //         // If there is a primary weapon, then it spawns a copy of the serialized object and sets it up
-    //         primaryWeapon = Instantiate(primaryWeapon);
-    //         puppet.primaryWeapon = primaryWeapon;
-    //         primaryWeapon.InitializeGun(this, puppet); // This sets the references of itself and the puppet
+        // This checks if there is a primary weapon
+        if (primaryWeapon != null)
+        {
+            // If there is a primary weapon, then it spawns a copy of the serialized object and sets it up
+            primaryWeapon = Instantiate(primaryWeapon);
+            if (puppet != null)
+            {
+                puppet.primaryWeapon = primaryWeapon;
+                primaryWeapon.InitializeGun(this, puppet); // This sets the references of itself and the puppet
+            }
 
-    //         // If there are no other weapons equipped, the primary weapon becomes the current weapon
-    //         if (currentWeapon == null)
-    //         {
-    //             primaryWeapon.SwapToWeapon();
-    //         }
-    //     }
-    //     // This checks if there is a secondary weapon
-    //     if (secondaryWeapon != null)
-    //     {
-    //         // If there is a secondary weapon, then it spawns a copy of the serialized object and sets it up
-    //         secondaryWeapon = Instantiate(secondaryWeapon);
-    //         puppet.secondaryWeapon = secondaryWeapon;
-    //         secondaryWeapon.InitializeGun(this, puppet); // This sets the references of itself and the puppet
+            // If there are no other weapons equipped, the primary weapon becomes the current weapon
+            if (currentWeapon == null)
+            {
+                primaryWeapon.SwapToWeapon();
+            }
+        }
+        // This checks if there is a secondary weapon
+        if (secondaryWeapon != null)
+        {
+            // If there is a secondary weapon, then it spawns a copy of the serialized object and sets it up
+            secondaryWeapon = Instantiate(secondaryWeapon);
+            if (puppet != null)
+            {
+                puppet.secondaryWeapon = secondaryWeapon;
+                secondaryWeapon.InitializeGun(this, puppet); // This sets the references of itself and the puppet
+            }
 
-    //         // If there are no other weapons equipped, the secondary weapon becomes the current weapon
-    //         if (currentWeapon == null)
-    //         {
-    //             secondaryWeapon.SwapToWeapon();
-    //         }
-    //     }
-    //     // This checks if there is a heavy weapon
-    //     if (heavyWeapon != null)
-    //     {
-    //         // If there is a heavy weapon, then it spawns a copy of the serialized object and sets it up
-    //         heavyWeapon = Instantiate(heavyWeapon);
-    //         puppet.heavyWeapon = heavyWeapon;
-    //         heavyWeapon.InitializeGun(this, puppet); // This sets the references of itself and the puppet
+            // If there are no other weapons equipped, the secondary weapon becomes the current weapon
+            if (currentWeapon == null)
+            {
+                secondaryWeapon.SwapToWeapon();
+            }
+        }
+        // This checks if there is a heavy weapon
+        if (heavyWeapon != null)
+        {
+            // If there is a heavy weapon, then it spawns a copy of the serialized object and sets it up
+            heavyWeapon = Instantiate(heavyWeapon);
+            if (puppet != null)
+            {
+                puppet.heavyWeapon = heavyWeapon;
+                heavyWeapon.InitializeGun(this, puppet); // This sets the references of itself and the puppet
+            }
 
-    //         // If there are no other weapons equipped, the heavy weapon becomes the current weapon
-    //         if (currentWeapon == null)
-    //         {
-    //             heavyWeapon.SwapToWeapon();
-    //         }
-    //     }
-    // }
+            // If there are no other weapons equipped, the heavy weapon becomes the current weapon
+            if (currentWeapon == null)
+            {
+                heavyWeapon.SwapToWeapon();
+            }
+        }
+    }
 
     void Update()
     {

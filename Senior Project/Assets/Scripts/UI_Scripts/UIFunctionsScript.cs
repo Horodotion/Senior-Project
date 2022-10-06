@@ -20,10 +20,6 @@ public class UIFunctionsScript : MonoBehaviour
     public TextMeshProUGUI ammoReserveSecondary;
     public TextMeshProUGUI ammoReserveHeavy;
     public Image reticle;
-    // public Slider chargeMeter;
-    // public TextMeshProUGUI money_Ctrl;
-    // public TextMeshProUGUI level_Ctrl;
-    // public TextMeshProUGUI exp_Ctrl;
     public TextMeshProUGUI useItemText;
 
     void Awake()
@@ -43,6 +39,8 @@ public class UIFunctionsScript : MonoBehaviour
         healthbarSlider.maxValue = PlayerController.instance.playerStats.maxStat[StatType.health];
         Update_Healthbar((int)PlayerController.instance.playerStats.stat[StatType.health]);
         Hide_AmmoMeter();
+
+        Debug.Log((int)PlayerController.instance.playerStats.stat[StatType.health]);
 
         // Sets the max for each ammo meter to the actual defined max. As I type this these are identical but better safe than sorry. Super hacky but functional
         ammoSliderPrimary.gameObject.transform.Find("MaxChargeText (TMP)").GetComponent<TextMeshProUGUI>().text = PlayerController.instance.primaryWeapon.maxAmmo.ToString();

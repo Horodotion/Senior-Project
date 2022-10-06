@@ -28,6 +28,8 @@ public class PlayerPuppet : MonoBehaviour
         spring multiplier is a speed buff to the player while running
     */
     public float mouseSensetivity = 1.0f, lookAngles = 90f, Gravity = 1, JumpSpeed = 1, SprintMultiplier = 2f;
+    [HideInInspector] public int jumpsRemaining = 2, totalJumps = 2;
+    [HideInInspector] public bool canJump = true;
 
 
     void Awake()
@@ -200,11 +202,22 @@ public class PlayerPuppet : MonoBehaviour
             fallingSpeed -= (Gravity / 10) * Time.deltaTime;
             moveDirection.y = fallingSpeed;
         }
-        // If not, it checks if the player is trying to jump, then adds one tenth of the jump speed to the move
-        else if (ourPlayer.jumpHeldDown)
+        else if (jumpsRemaining != totalJumps)
         {
+            jumpsRemaining = totalJumps;
+        }
+
+        // If not, it checks if the player is trying to jump, then adds one tenth of the jump speed to the move
+        if (ourPlayer.jumpHeldDown && (canJump && jumpsRemaining > 0))
+        {
+            canJump = false;
+            jumpsRemaining--;   
             fallingSpeed = (JumpSpeed / 10);
             moveDirection.y = fallingSpeed;
+        }
+        else if (!ourPlayer.jumpHeldDown)
+        {
+            canJump = true;
         }
         
         // After everything is calculated, they player is moved based on the moveDirection
