@@ -27,7 +27,8 @@ public class PlayerPuppet : MonoBehaviour
         Gavity is how much gravity effects the player, while jump speed affects how high the player can jump
         spring multiplier is a speed buff to the player while running
     */
-    public float mouseSensetivity = 1.0f, lookAngles = 90f, Gravity = 1, JumpSpeed = 1, SprintMultiplier = 2f;
+    public float mouseSensetivity = 1.0f, lookAngles = 90f, Gravity = 1, JumpSpeed = 1, SprintMultiplier = 2f,
+                 inAirControlMultiplier;
     [HideInInspector] public int jumpsRemaining = 2, totalJumps = 2;
     [HideInInspector] public bool canJump = true;
 
@@ -181,7 +182,7 @@ public class PlayerPuppet : MonoBehaviour
         {
             // If the sprint key is held down, it multiplies the speed by the sprint multiplier
             // If not, it multiplies it by time and the player's speed stat
-            if (PlayerController.instance.sprintHeldDown)
+            if (PlayerController.instance.sprintHeldDown && moveDirection.z > 0)
             {
                 moveDirection *= Time.deltaTime * ourPlayer.playerStats.stat[StatType.speed] * SprintMultiplier;
             }
@@ -238,6 +239,13 @@ public class PlayerPuppet : MonoBehaviour
     public void Damage(float damageTaken)
     {
         Debug.Log(damageTaken);
+    }
+
+    public void ChangeTemperature(float tempToAdd)
+    {
+        playerStats.AddToStat(StatType.temperature, tempToAdd);
+        PlayerUI.instance.ChangeTemperature();
+        Debug.Log(playerStats.stat[StatType.temperature]);
     }
 
     public void AddAmmo(WeaponSlot slot, float ammoToAdd)

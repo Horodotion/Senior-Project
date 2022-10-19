@@ -6,7 +6,7 @@ public class ExplosiveObject : EnemyController
 {
     public GameObject destroyEffectPrefab;
     // On fresh prefabs I set health to 10 by default, but feel free to change if we have a global damage scale
-    public float health, explosionRadius, baseDamageDealt, secondsUntilParticlesAreDestroyed;
+    public float health, explosionRadius, baseDamageDealt, baseTempChange, secondsUntilParticlesAreDestroyed;
 
 
     // Not sure exactly how we're assigning damage from the player controller or wherever,
@@ -39,6 +39,7 @@ public class ExplosiveObject : EnemyController
             if (hC.gameObject.tag == "Player" && hC.GetComponent<PlayerPuppet>() != null)
             {
                 hC.GetComponent<PlayerPuppet>().Damage(damage);
+                hC.GetComponent<PlayerPuppet>().ChangeTemperature(baseTempChange);
             }
             if (hC.gameObject.tag == "Enemy" && hC.GetComponent<EnemyController>() != null && !hC.GetComponent<EnemyController>().dead)
             {

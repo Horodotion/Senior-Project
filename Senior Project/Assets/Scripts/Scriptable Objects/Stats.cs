@@ -5,45 +5,52 @@ using UnityEngine;
 
 public enum StatType
 {
+    newStat,
     health,
     damage,
-    speed
+    speed,
+    temperature
 }
 
-// This allows us to have a single variable with both a StatType and a float for a value
-[System.Serializable] public class StatValue
-{
-    public StatType stat;
-    public float value;
-}
+[System.Serializable] public class CustomStats : SerializableDictionary<StatType, float> { }
 
 [System.Serializable]
 [CreateAssetMenu(menuName = "Stat set")]
 public class Stats : ScriptableObject
 {
-    // These Arrays are unused, and are purely to allowed us to utilize them in the hierarchy
-    public List<StatValue> baseStatList; // The starting stats of the player
-    public List<StatValue> maxStatList; // The maximum a stat can be
-
     // The dictionaries to actually be used in game
     // Stat is what will be referenced to the player, and allows buffs and debuffs to occur numerically.
-    public Dictionary<StatType, float> stat = new Dictionary<StatType, float> {};
+    [Tooltip("Stat is what is used by the player, it does not need to be edited directly.")]
+    public CustomStats stat = new CustomStats {};
 
     // BaseStat is used to try resetting the stats back to a set number
     // IE, if a speedbuff only lasts 5 seconds and then goes back to the normal speed.
-    public Dictionary<StatType, float> baseStat = new Dictionary<StatType, float> {};
+    [Tooltip("The base stats of the player, it will determine what Stat is set to by default and what it gets reset to.")]
+    public CustomStats baseStat = new CustomStats {};
 
+    [Tooltip("The minimum a stat can be, by default it is 0.")]
+    // MinStat is used in case there is a minimum that is not 0, IE, scales from -100 to 100 instead of 0 to 100.
+    public CustomStats minStat = new CustomStats {};
+
+    [Tooltip("The maximum a stat can be, if 0, it will be ignored.")]
     //MaxStat is to put a hard cap on a certain stat. IE, getting 150 points of healing but we can only have 100 health.
-    public Dictionary<StatType, float> maxStat = new Dictionary<StatType, float> {};
+    public CustomStats maxStat = new CustomStats {};
 
     // This function that tells each dictionary to piece together
     public void SetStats()
     {
-        stat = NewStatDictionary(baseStatList);
-        baseStat = NewStatDictionary(baseStatList);
-        maxStat = NewStatDictionary(maxStatList);
+        FillInBlankStats(stat);
+        FillInBlankStats(baseStat);
+        FillInBlankStats(minStat);
+        FillInBlankStats(maxStat);
+
+        foreach (StatType statType in Enum.GetValues(typeof(StatType)))
+        {
+            stat[statType] = baseStat[statType];
+        }
     }
 
+    // This function simply sets stat to its baseStat counterpart
     public void ResetStat(StatType statType)
     {
         stat[statType] = baseStat[statType];
@@ -52,27 +59,35 @@ public class Stats : ScriptableObject
     // This function changes the stat to be called, up to the maximum set by the Maximum Stat
     public void AddToStat(StatType statType, float amountToAdd)
     {
-        stat[statType] = Mathf.Clamp(stat[statType] + amountToAdd, 0f, maxStat[statType]);
+        stat[statType] = Mathf.Clamp(stat[statType] + amountToAdd, minStat[statType], GetMaxStat(statType, maxStat));
     }
 
-    // This is the function that pieces a dictionary from a list
-    public Dictionary<StatType, float> NewStatDictionary(List<StatValue> statValues)
-    {
-        // This creates a new temporary dictionary to hold values
-        Dictionary<StatType, float> dict = new Dictionary<StatType, float> {};
 
+    // Gets the maximum a stat can have, in the case that it is needed
+    public float GetMaxStat(StatType statType, CustomStats statsToGet)
+    {
+        if (statsToGet[statType] == 0)
+        {
+            return Mathf.Infinity;
+        }
+        else
+        {
+            return statsToGet[statType];
+        }
+    }
+
+
+    // This function simply fills out the remaining values a dictionary has
+    // It's mostly to avoid errors in cases where a stat is forgotten or ignored
+    public void FillInBlankStats(CustomStats dict)
+    {
         foreach (StatType statType in Enum.GetValues(typeof(StatType)))
         {
-            dict.Add(statType, 0.0f);
+            if (!dict.ContainsKey(statType))
+            {
+                dict.Add(statType, 0.0f);
+            }
         }
-
-        // Looping through each value in the List, it takes the stattype as the Key, and the value as the value to add new values to the dictionary.
-        foreach (StatValue stat in statValues)  // (int i = 0; i < statValues.Count; i++)
-        {
-            dict[stat.stat] = stat.value;
-        }
-
-        return dict;
     }
 
 }

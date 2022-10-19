@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum PlayerState
+{
+    inGame,
+    inMenu,
+    other
+}
 
 // This script acts as the inputs and data storage for the players, 
 // This acts as an input collector and data storage to transfer between scenes and menus
@@ -33,8 +39,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool fireHeldDown; // A bool to keep track of whether space is being held down
     // A dictionary to keep track of Keys
     public Dictionary<KeyType, Key> keyRing = new Dictionary<KeyType, Key>(); 
-    public Vector2 moveAxis; // A Vector 2 that holds movement values
-    public Vector2 lookAxis; // A vector 2 that holds the delta of the mouse to look around
+    [HideInInspector] public Vector2 moveAxis; // A Vector 2 that holds movement values
+    [HideInInspector] public Vector2 lookAxis; // A vector 2 that holds the delta of the mouse to look around
 
     public Weapon currentWeapon; // The player's currently equipped weapon
     public Weapon primaryWeapon; // The player's primary weapon
