@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -44,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: f5f54fc0dc2139d49be7a52bc10b1958, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: f5f54fc0dc2139d49be7a52bc10b1958,
+    type: 3}
   m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -103,11 +105,20 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
-  onFire:
-    m_Name: On Fire
+  onPrimaryFire:
+    m_Name: 
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: a586b071-5b2b-4ea4-ae15-107aa1295d84
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  onSecondaryFire:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
@@ -130,34 +141,16 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
-  onPrimaryWeapon:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  onSecondaryWeapon:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  onHeavyWeapon:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
   onLastWeapon:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  onReload:
     m_Name: 
     m_Type: 0
     m_ExpectedControlType: 
@@ -168,10 +161,11 @@ MonoBehaviour:
     m_Flags: 0
   sprintHeldDown: 0
   jumpHeldDown: 0
-  fireHeldDown: 0
+  primaryFireHeldDown: 0
+  secondaryFireHeldDown: 0
   moveAxis: {x: 0, y: 0}
   lookAxis: {x: 0, y: 0}
-  currentWeapon: {fileID: 0}
-  primaryWeapon: {fileID: 11400000, guid: fbdf9e9335fe7034097ebcb9d483f5f0, type: 2}
-  secondaryWeapon: {fileID: 11400000, guid: e0d5fcbcfefaeea40a6d957c1d2409ff, type: 2}
-  heavyWeapon: {fileID: 11400000, guid: c2cd7803671ded848b7ac702c4a6a65b, type: 2}
+  currentPrimarySpell: {fileID: 0}
+  currentSecondarySpell: {fileID: 11400000, guid: 0ce0810707ce4564196ca7cd287a96c7,
+    type: 2}
+  currentMobilitySpell: {fileID: 0}

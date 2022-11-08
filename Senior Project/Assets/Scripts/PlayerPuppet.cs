@@ -10,15 +10,15 @@ public class PlayerPuppet : MonoBehaviour
     [HideInInspector] public PlayerController ourPlayer; // A local  reference to the playerController
     [HideInInspector] public Stats playerStats; // A reference to the stats for easier reading
     [HideInInspector] public Vector3 lookRotation; // The current lookRotation on the puppet
-    [HideInInspector] public Weapon currentWeapon; // A local reference to the current weapon
-    [HideInInspector] public Weapon primaryWeapon; // A local reference to the primary weapon
-    [HideInInspector] public Weapon secondaryWeapon; // A local reference to the secondary weapon
-    [HideInInspector] public Weapon heavyWeapon; // A local reference to the heavy weapon
-
     [HideInInspector] public CharacterController charController; // A reference to the CharacterController
     [HideInInspector] public List<GameObject> interactableObjectList; // A list of objects that can be interacted with
+    
     public GameObject cameraObj; // The object that the camera is held on
     public GameObject interactableObject; // A reference to what object we can currently interact with
+    public GameObject spellAnimObj;
+    public Animator spellAnim;
+    public SpellAnimHolder ourAnimHolder;
+
     [HideInInspector] public float fallingSpeed = 0f; // The speed at which the player is currently falling
 
     /*
@@ -31,6 +31,9 @@ public class PlayerPuppet : MonoBehaviour
                  inAirControlMultiplier;
     [HideInInspector] public int jumpsRemaining = 2, totalJumps = 2;
     [HideInInspector] public bool canJump = true;
+
+    public Spell primarySpell, secondarySpell, mobilitySpell, currentSpellBeingCast;
+    public Transform primaryFirePosition, secondaryFirePosition;
 
 
     void Awake()
@@ -56,36 +59,60 @@ public class PlayerPuppet : MonoBehaviour
         // At start, it gathers the referneces of the playerController and the stats
         ourPlayer = PlayerController.instance;
         playerStats = PlayerController.instance.playerStats;
+
+        if (GetComponentInChildren<Animator>() != null)
+        {
+            spellAnim = GetComponentInChildren<Animator>();
+        }
+
+        if (GetComponentInChildren<SpellAnimHolder>() != null)
+        {
+            ourAnimHolder = GetComponentInChildren<SpellAnimHolder>();
+            ourAnimHolder.ourPuppet = this;
+        }
     }
 
     void FixedUpdate()
     {
-        //Calling the function for movement for easier reading of the FixedUpdate
-        Movement();
+        switch(PlayerController.ourPlayerState)
+        {  
+            case PlayerState.inGame:
+                Movement();
+                break;
 
-        // This gathers the currently closest item
-        GameObject closestItem = GetClosestInteractableObject();
-        if (closestItem != null)
-        {
-            // If the closest item exists, it checks if it is not already used
-            if (interactableObject == null || closestItem != interactableObject)
-            {
-                //If it's not already being used, then it will be set to the current interactable object 
-                interactableObject = closestItem;
-                UIFunctionsScript.instance.SetUseItemText(interactableObject.GetComponent<Interactable>().interactableText);
-            }
-        }
-        else if (interactableObject != null)
-        {
-            // If there's no closest item, it will turn off the UI script and make the reference null
-            interactableObject = null;
-            UIFunctionsScript.instance.TurnOffUseItemText();
-        }
+            case PlayerState.casting:
+                currentSpellBeingCast.SpellUpdate();
+                Movement();
+                break;
 
-        // If there's a weapon that is equipped, this will update the gun as if it was a monobehavior
-        if (currentWeapon != null)
-        {
-            currentWeapon.GunUpdate(Time.deltaTime);
+            case PlayerState.dashing:
+                Movement();
+                currentSpellBeingCast.SpellUpdate();
+                break;
+
+            default:
+                //Calling the function for movement for easier reading of the FixedUpdate
+                Movement();
+
+                // // This gathers the currently closest item
+                // GameObject closestItem = GetClosestInteractableObject();
+                // if (closestItem != null)
+                // {
+                //     // If the closest item exists, it checks if it is not already used
+                //     if (interactableObject == null || closestItem != interactableObject)
+                //     {
+                //         //If it's not already being used, then it will be set to the current interactable object 
+                //         interactableObject = closestItem;
+                //         UIFunctionsScript.instance.SetUseItemText(interactableObject.GetComponent<Interactable>().interactableText);
+                //     }
+                // }
+                // else if (interactableObject != null)
+                // {
+                //     // If there's no closest item, it will turn off the UI script and make the reference null
+                //     interactableObject = null;
+                //     UIFunctionsScript.instance.TurnOffUseItemText();
+                // }
+                break;
         }
     }
     
@@ -246,23 +273,5 @@ public class PlayerPuppet : MonoBehaviour
         playerStats.AddToStat(StatType.temperature, tempToAdd);
         PlayerUI.instance.ChangeTemperature();
         Debug.Log(playerStats.stat[StatType.temperature]);
-    }
-
-    public void AddAmmo(WeaponSlot slot, float ammoToAdd)
-    {
-        switch (slot)
-        {
-            case WeaponSlot.secondary:
-                secondaryWeapon.AddAmmo(ammoToAdd);
-                break;
-
-            case WeaponSlot.heavy:
-                heavyWeapon.AddAmmo(ammoToAdd);
-                break;
-
-            case WeaponSlot.primary:
-            default:
-                break;
-        }
     }
 }

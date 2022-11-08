@@ -38,20 +38,8 @@ public class UIFunctionsScript : MonoBehaviour
     {
         healthbarSlider.maxValue = PlayerController.instance.playerStats.maxStat[StatType.health];
         Update_Healthbar((int)PlayerController.instance.playerStats.stat[StatType.health]);
-        Hide_AmmoMeter();
 
         Debug.Log((int)PlayerController.instance.playerStats.stat[StatType.health]);
-
-        // Sets the max for each ammo meter to the actual defined max. As I type this these are identical but better safe than sorry. Super hacky but functional
-        ammoSliderPrimary.gameObject.transform.Find("MaxChargeText (TMP)").GetComponent<TextMeshProUGUI>().text = PlayerController.instance.primaryWeapon.maxAmmo.ToString();
-        ammoSliderSecondary.gameObject.transform.Find("MaxLoadedText (TMP)").GetComponent<TextMeshProUGUI>().text = PlayerController.instance.secondaryWeapon.maxAmmo.ToString();
-        ammoSliderHeavy.gameObject.transform.Find("MaxLoadedText (TMP)").GetComponent<TextMeshProUGUI>().text = PlayerController.instance.heavyWeapon.maxAmmo.ToString();
-
-        // chargeMeter.maxValue = (PlayerController.ourPlayer.playerStats.maxStat[StatType.charge] * 100);
-        // chargeMeter.value = 0;
-        // UpdateDis_Money((int)PlayerController.ourPlayer.playerStats.stat[StatType.money]);
-        // UpdateDis_Level((int)PlayerController.ourPlayer.playerStats.stat[StatType.level]);
-        // UpdateExp((int)PlayerController.ourPlayer.playerStats.stat[StatType.experience]);
     }
     
     public void SetUseItemText(string name)
@@ -76,45 +64,6 @@ public class UIFunctionsScript : MonoBehaviour
     {
         //Sets the HP bar with the input value
         healthbarSlider.value = health;
-    }
-
-    public void Update_AmmoMeter(float ammo, Slider slider, bool makeVisible = false, bool updateReserve = false) // Updates the specified ammo meter with the input, and set visible if specified
-    {
-        //Sets the specified ammo bar with the input value
-        slider.value = ammo;
-
-        //Update reserve ammo counters if applicable
-        if (updateReserve == true)
-        {
-            if (slider == ammoSliderSecondary)
-            {
-                ammoReserveSecondary.text = PlayerController.instance.secondaryWeapon.ammoInReserve.ToString();
-            }
-            if (slider == ammoSliderHeavy)
-            {
-                ammoReserveHeavy.text = PlayerController.instance.heavyWeapon.ammoInReserve.ToString();
-            }
-        }
-
-        //Makes this ammo slider visible, and the others invisible, if specified
-        if (makeVisible)
-        {
-            // A bit hacky but functional- a better programmer than I (aka most programmers) can probably optimize this
-            Hide_AmmoMeter();
-            if (slider != null)
-            {
-                ammoSliderActive = slider;
-                slider.gameObject.SetActive(true);
-            }
-        }
-    }
-
-    public void Hide_AmmoMeter() //Disables all ammo meters
-    {
-        ammoSliderPrimary.gameObject.SetActive(false);
-        ammoSliderSecondary.gameObject.SetActive(false);
-        ammoSliderHeavy.gameObject.SetActive(false);
-        ammoSliderActive = null;
     }
 
     public void Update_Reticle(float size, bool visible = true) //Updates the size and visibility of the reticle

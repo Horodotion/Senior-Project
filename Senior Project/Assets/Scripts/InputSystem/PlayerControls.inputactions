@@ -33,9 +33,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Fire",
+                    "name": "PrimaryFire",
                     "type": "Button",
                     "id": "e4d5b6d3-5d59-4ce3-bbc2-c892ef701ff4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SecondaryFire",
+                    "type": "Button",
+                    "id": "b8cccc50-9987-43c0-a4ed-239b54406d6f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -54,33 +63,6 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "4771a0ab-3ea4-4a0a-9454-a89b62684ed5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "PrimaryWeapon",
-                    "type": "Button",
-                    "id": "38ff2d79-c08b-4ac8-aeff-9275807224c2",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SecondaryWeapon",
-                    "type": "Button",
-                    "id": "b8884dda-6ba3-44a3-9401-01d54bd65c7c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "HeavyWeapon",
-                    "type": "Button",
-                    "id": "b3664c20-2c94-44bd-bbf1-aac7b90d28a9",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -232,7 +214,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Fire",
+                    "action": "PrimaryFire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -243,7 +225,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Fire",
+                    "action": "PrimaryFire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -293,39 +275,6 @@
                 },
                 {
                     "name": "",
-                    "id": "6faeaf4f-e464-48b6-aa0d-a7296784ec57",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PrimaryWeapon",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c27bd351-1dd6-431f-84fb-1e8b60329e12",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SecondaryWeapon",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8de2b8eb-6b16-4acf-bbf0-534a69e93153",
-                    "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "HeavyWeapon",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "74326753-aa56-4dac-a5b6-67b99a4d6a39",
                     "path": "<Keyboard>/q",
                     "interactions": "",
@@ -354,6 +303,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "702af6dd-6c76-4f77-adab-d051fd9b4f4e",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SecondaryFire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b092e9b5-437c-49a4-965a-fa91046f3c9f",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SecondaryFire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
