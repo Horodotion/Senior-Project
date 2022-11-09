@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     // A lot of hidden variables for the inputs, all stored in a PlayerInput component on the gameObject
     // They're hidden to allow for a cleaner set up in the inspector
     [HideInInspector] public PlayerInput playerInput;
-    [HideInInspector] public InputAction onMove, onLook, onRun, onPrimaryFire, onSecondaryFire, onUse, onJump, onLastWeapon, onReload;
+    [HideInInspector] public InputAction onMove, onLook, onRun, onPrimaryFire, onSecondaryFire, onUse, onJump, onLastWeapon, onReload, onDash;
 
     [HideInInspector] public bool sprintHeldDown, jumpHeldDown, primaryFireHeldDown, secondaryFireHeldDown;
 
@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
             onSecondaryFire = playerInput.currentActionMap.FindAction("SecondaryFire");
             onUse = playerInput.currentActionMap.FindAction("Use");
             onJump = playerInput.currentActionMap.FindAction("Jump");
+            onDash = playerInput.currentActionMap.FindAction("Dash");
 
             // These however, do have held down functions, and therefore need 2 functions to turn on and off
             onRun.started += OnRunAction;
@@ -81,6 +82,7 @@ public class PlayerController : MonoBehaviour
             onSecondaryFire.canceled += OffSecondaryFireAction;
             onJump.started += OnJumpAction;
             onJump.canceled += OffJumpAction;
+            onDash.performed += OnDashAction;
 
             // This adds one of each type of key to the dictionary tracking them to allow easier coding later on
             foreach (KeyType keyType in System.Enum.GetValues(typeof(KeyType)))
@@ -155,11 +157,14 @@ public class PlayerController : MonoBehaviour
     // The function to call for the gun to shoot
     public void OnPrimaryFireAction(InputAction.CallbackContext context)
     {
-       if (puppet.primarySpell != null)
+       if (puppet.primarySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame)
         {
             if (puppet.primarySpell.chargingSpell)
             {
-                
+                primaryFireHeldDown = true;
+                ourPlayerState = PlayerState.casting;
+                puppet.primarySpell.Cast();
+                puppet.currentSpellBeingCast = puppet.primarySpell;
             }
             else
             {
@@ -176,7 +181,8 @@ public class PlayerController : MonoBehaviour
         {
             if (puppet.primarySpell.chargingSpell)
             {
-                
+                primaryFireHeldDown = false;
+                puppet.ourAnimHolder.ReleaseSpell();
             }
             else
             {
@@ -188,11 +194,14 @@ public class PlayerController : MonoBehaviour
     // The function to call for the gun to shoot
     public void OnSecondaryFireAction(InputAction.CallbackContext context)
     {
-        if (puppet.secondarySpell != null)
+        if (puppet.secondarySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame)
         {
             if (puppet.secondarySpell.chargingSpell)
             {
-                
+                secondaryFireHeldDown = true;
+                ourPlayerState = PlayerState.casting;
+                puppet.secondarySpell.Cast();
+                puppet.currentSpellBeingCast = puppet.secondarySpell;
             }
             else
             {
@@ -210,7 +219,8 @@ public class PlayerController : MonoBehaviour
         {
             if (puppet.secondarySpell.chargingSpell)
             {
-                
+                secondaryFireHeldDown = false;
+                puppet.ourAnimHolder.ReleaseSpell();
             }
             else
             {
@@ -239,5 +249,14 @@ public class PlayerController : MonoBehaviour
     public void OffJumpAction(InputAction.CallbackContext context)
     {
         jumpHeldDown = false;
-    }    
+    }
+
+    public void OnDashAction(InputAction.CallbackContext context)
+    {
+        if (puppet.mobilitySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame)
+        {
+            puppet.currentSpellBeingCast = puppet.mobilitySpell;
+            puppet.mobilitySpell.Cast();
+        }
+    }
 }

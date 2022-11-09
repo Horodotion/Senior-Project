@@ -9,26 +9,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd7355939c1eccc4f9a006e3aaad26c8, type: 3}
-  m_Name: Icicle Blast
+  m_Script: {fileID: 11500000, guid: efdd7307783712d45aa288cdef6574bd, type: 3}
+  m_Name: Fire Beam
   m_EditorClassIdentifier: 
   ourPlayer: {fileID: 0}
   puppet: {fileID: 0}
   playerCameraTransform: {fileID: 0}
   canCast: 1
+  ourSpellState: 0
   ourSpellSlot: 0
   spellAnim: {fileID: 0}
   spellAnimHolder: {fileID: 0}
-  animationLocation: 3
-  chargingSpell: 0
-  tempPerSecond: 0
-  temperatureChange: -10
+  animationLocation: 1
+  ourhand: 2
+  chargingSpell: 1
+  tempPerSecond: 1
+  temperatureChange: 10
   testPositionMarker: {fileID: 4869646674359422768, guid: 417cee157325748408436d338ac6b284,
     type: 3}
-  damage: 10
-  effectiveRange: 10
+  damage: 1
+  effectiveRange: 30
   sphereCastRadius: 0.01
-  projectileToSpawn: {fileID: 0}
-  pelletsPerShot: 10
-  minimumSpreadRange: 3
-  spreadAngle: 50
+  objectToSpawn: {fileID: 0}

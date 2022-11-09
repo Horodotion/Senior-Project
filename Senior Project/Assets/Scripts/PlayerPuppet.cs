@@ -81,37 +81,17 @@ public class PlayerPuppet : MonoBehaviour
                 break;
 
             case PlayerState.casting:
-                currentSpellBeingCast.SpellUpdate();
+                SpellUpdater();
                 Movement();
                 break;
 
             case PlayerState.dashing:
-                Movement();
-                currentSpellBeingCast.SpellUpdate();
+                SpellUpdater();
                 break;
 
             default:
                 //Calling the function for movement for easier reading of the FixedUpdate
                 Movement();
-
-                // // This gathers the currently closest item
-                // GameObject closestItem = GetClosestInteractableObject();
-                // if (closestItem != null)
-                // {
-                //     // If the closest item exists, it checks if it is not already used
-                //     if (interactableObject == null || closestItem != interactableObject)
-                //     {
-                //         //If it's not already being used, then it will be set to the current interactable object 
-                //         interactableObject = closestItem;
-                //         UIFunctionsScript.instance.SetUseItemText(interactableObject.GetComponent<Interactable>().interactableText);
-                //     }
-                // }
-                // else if (interactableObject != null)
-                // {
-                //     // If there's no closest item, it will turn off the UI script and make the reference null
-                //     interactableObject = null;
-                //     UIFunctionsScript.instance.TurnOffUseItemText();
-                // }
                 break;
         }
     }
@@ -262,6 +242,14 @@ public class PlayerPuppet : MonoBehaviour
         }
     }
 
+    public void SpellUpdater()
+    {
+        if (currentSpellBeingCast != null)
+        {
+            currentSpellBeingCast.SpellUpdate();
+        }
+    }
+
     // A function to take damage from, currently only has a debug log
     public void Damage(float damageTaken)
     {
@@ -272,6 +260,6 @@ public class PlayerPuppet : MonoBehaviour
     {
         playerStats.AddToStat(StatType.temperature, tempToAdd);
         PlayerUI.instance.ChangeTemperature();
-        Debug.Log(playerStats.stat[StatType.temperature]);
+        // Debug.Log(playerStats.stat[StatType.temperature]);
     }
 }

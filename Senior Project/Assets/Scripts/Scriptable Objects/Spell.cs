@@ -25,6 +25,7 @@ public abstract class Spell : ScriptableObject
     [HideInInspector] public PlayerPuppet puppet; // The player object that the controller is attached to
     [HideInInspector] public Transform playerCameraTransform; // The transform for the player camera
     [HideInInspector] public bool canCast = true; // A bool to decide if the gun can fire or not
+    [HideInInspector] public SpellState ourSpellState;
 
     [Header("All Spells Variables")]
     public SpellSlot ourSpellSlot;
@@ -32,6 +33,8 @@ public abstract class Spell : ScriptableObject
     public Animator spellAnim; // An animator on the player hands
     [HideInInspector] public SpellAnimHolder spellAnimHolder;
     public int animationLocation = -1;
+    [Tooltip("1 for the left hand, 2 for right, 0 for neither")]
+    public int ourhand;
 
     [Tooltip("Check true if the spell needs to be held down/charged up before releasing.")]
     public bool chargingSpell;
@@ -42,10 +45,12 @@ public abstract class Spell : ScriptableObject
 
     [Header("Attack Spells Variables")]
 
+
+    public GameObject testPositionMarker; // This is a testing market to spawn on hit for testing purposes
     public float damage;
     public float effectiveRange;
     public float sphereCastRadius;
-    public GameObject projectileToSpawn;
+    public GameObject objectToSpawn;
 
     public virtual void InitializeSpell(PlayerController player, PlayerPuppet newPuppet)
     {
@@ -68,7 +73,26 @@ public abstract class Spell : ScriptableObject
 
     public virtual void SpellUpdate()
     {
+        if (chargingSpell)
+        {
+            switch (ourSpellState)
+            {
+                case (SpellState.charging):
+                    Charging();
+                    break;
 
+                case (SpellState.casting):
+                    Fire();
+                    break;
+
+                case (SpellState.releasing):
+                    Releasing();
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
 
     public virtual void Charging()
@@ -83,9 +107,8 @@ public abstract class Spell : ScriptableObject
         {
             if (animationLocation > 0 && spellAnimHolder != null)
             {
+                Debug.Log("FIRING");
                 spellAnimHolder.SetAnimState(animationLocation);
-            
-                // spellAnim.SetInteger(spellAnimHolder.spellStateAnim, animationLocation);
             }
             else
             {
@@ -113,7 +136,15 @@ public abstract class Spell : ScriptableObject
 
     public virtual void ChangePlayerTemp()
     {
-        puppet.ChangeTemperature(temperatureChange);
+        if (tempPerSecond)
+        {
+            puppet.ChangeTemperature(temperatureChange * Time.deltaTime);
+        }
+        else
+        {
+            puppet.ChangeTemperature(temperatureChange);
+        }
+        
     }
 
     public virtual void DamageEnemy(EnemyController enemyController)
@@ -129,7 +160,7 @@ public abstract class Spell : ScriptableObject
         Vector3 direction = playerCameraTransform.forward; //Accuracy(playerCameraTransform.forward, accuracy);
 
         // After creating a new direction from accuracy, it gathers all colliders from within that direction
-        RaycastHit[] raycastHits = Physics.SphereCastAll(playerCameraTransform.position, sphereCastRadius, direction, effectiveRange);
+        RaycastHit[] raycastHits = Physics.SphereCastAll(GetFirePos().position, sphereCastRadius, direction, effectiveRange);
         
         //A set of variables that will be used to decide what was hit
         float tempAngle = Mathf.Infinity; // The lowest angle of what was hit
@@ -142,12 +173,13 @@ public abstract class Spell : ScriptableObject
         {
             // Variables to ensure that we did hit an enemy
             RaycastHit newHit = new RaycastHit(); // Gathering a new raycast to gather the data
-            Vector3 hitDirection = hit.point - playerCameraTransform.position; // Getting the direction to spawn the raycast in
+            Vector3 hitDirection = hit.point - GetFirePos().position; // Getting the direction to spawn the raycast in
             float newAngle = Vector3.Angle(direction, hitDirection); // Checking the angle of said direction to compare against aim assist
 
             // If we hit something marked as an enemy, we are within the bounds of aim assist, 
             // and if we have line of sight to the hit object, then we compare it to what we currently have as our target
-            if (hit.collider.tag == "Enemy" && newHit.collider.gameObject == hit.collider.gameObject) // && newAngle <= aimAssist && Physics.Raycast(playerCameraTransform.position, hitDirection, out newHit)
+            if (hit.collider.tag == "Enemy" && newHit.collider != null &&
+                newHit.collider.gameObject == hit.collider.gameObject) // && newAngle <= aimAssist && Physics.Raycast(playerCameraTransform.position, hitDirection, out newHit)
             {
 
                 // if the hit gameobject is closer to center than all others checked or if none have
@@ -185,21 +217,24 @@ public abstract class Spell : ScriptableObject
 
     public virtual void ProjectileFire()
     {
-        GameObject newProjectile = Instantiate(projectileToSpawn, GetFirePos().position, puppet.cameraObj.transform.rotation);
+        GameObject newProjectile = Instantiate(objectToSpawn, GetFirePos().position, puppet.cameraObj.transform.rotation);
+        newProjectile.GetComponent<ProjectileController>().damage = damage;
     }
 
     public virtual Transform GetFirePos()
     {
-        if (ourSpellSlot == SpellSlot.primary)
+        if (ourhand == 2)
         {
             return puppet.primaryFirePosition;
         }
-        else if (ourSpellSlot == SpellSlot.primary)
+        else if (ourhand == 1)
         {
             return puppet.secondaryFirePosition;
         }
-
-        return null;
+        else
+        {
+            return playerCameraTransform;
+        }
     }
 
     public virtual Vector3 Accuracy(Vector3 forwardDirection, float variance)
