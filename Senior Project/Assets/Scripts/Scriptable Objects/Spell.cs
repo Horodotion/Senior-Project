@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public enum SpellSlot
 {
@@ -52,6 +53,9 @@ public abstract class Spell : ScriptableObject
     public float sphereCastRadius;
     public GameObject objectToSpawn;
 
+    public GameObject vfxEffectObj;
+    public VisualEffect vfx;
+
     public virtual void InitializeSpell(PlayerController player, PlayerPuppet newPuppet)
     {
         //Getting the variables for the player itself
@@ -68,6 +72,14 @@ public abstract class Spell : ScriptableObject
                 spellAnim = puppet.spellAnim;
                 spellAnimHolder = puppet.ourAnimHolder;
             }
+        }
+
+        if (vfxEffectObj != null)
+        {
+            Transform handTransform = GetFirePos();
+            vfxEffectObj = Instantiate(vfxEffectObj, handTransform.position, handTransform.rotation);
+
+            vfxEffectObj.transform.parent = handTransform;
         }
     }
 

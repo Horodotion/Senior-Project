@@ -19,7 +19,7 @@ public class PlayerPuppet : MonoBehaviour
     public Animator spellAnim;
     public SpellAnimHolder ourAnimHolder;
 
-    [HideInInspector] public float fallingSpeed = 0f; // The speed at which the player is currently falling
+    public float fallingSpeed = 0f; // The speed at which the player is currently falling
 
     /*
         A good amount of variables for physics and controls
@@ -210,9 +210,17 @@ public class PlayerPuppet : MonoBehaviour
             fallingSpeed -= (Gravity / 10) * Time.deltaTime;
             moveDirection.y = fallingSpeed;
         }
-        else if (jumpsRemaining != totalJumps)
+        else
         {
-            jumpsRemaining = totalJumps;
+            if (jumpsRemaining != totalJumps)
+            {
+                jumpsRemaining = totalJumps;
+            }
+            
+            if (fallingSpeed != 0f)
+            {
+                fallingSpeed = 0f;
+            }
         }
 
         // If not, it checks if the player is trying to jump, then adds one tenth of the jump speed to the move
@@ -226,6 +234,7 @@ public class PlayerPuppet : MonoBehaviour
         else if (!ourPlayer.jumpHeldDown)
         {
             canJump = true;
+            
         }
         
         // After everything is calculated, they player is moved based on the moveDirection

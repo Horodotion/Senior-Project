@@ -22,7 +22,7 @@ public class ProjectileController : MonoBehaviour
             rb.AddForce(transform.forward * projectileSpeed, ForceMode.VelocityChange);
         }
         
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, lifeSpan);
     }
 
     void OnTriggerEnter(Collider col)

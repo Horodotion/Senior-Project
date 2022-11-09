@@ -69,6 +69,11 @@ public class SpellAnimHolder : MonoBehaviour
         if (ourPuppet.currentSpellBeingCast && ourPuppet.currentSpellBeingCast.ourSpellState != SpellState.casting)
         {
             ourPuppet.currentSpellBeingCast.ourSpellState = SpellState.casting;
+
+            if (ourPuppet.currentSpellBeingCast.vfx != null)
+            {
+                ourPuppet.currentSpellBeingCast.vfx.Play();
+            }
         }
     }
 
@@ -78,6 +83,10 @@ public class SpellAnimHolder : MonoBehaviour
         {
             ourPuppet.currentSpellBeingCast.ourSpellState = SpellState.releasing;
             ourPuppet.spellAnim.SetBool(releaseSpell, true);
+            if (ourPuppet.currentSpellBeingCast.vfx != null)
+            {
+                ourPuppet.currentSpellBeingCast.vfx.Stop();
+            }
         }
     }
 

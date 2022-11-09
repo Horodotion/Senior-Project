@@ -14,11 +14,12 @@ public class ShotgunSpell : Spell
     public override void HitScanFire()
     {
         Vector3 direction = playerCameraTransform.forward;
+        Vector3 raycastOrigin = GetFirePos().TransformPoint(Vector3.zero); //.position;
         RaycastHit hit;
 
-        if (Physics.SphereCast(GetFirePos().position, sphereCastRadius, direction, out hit, effectiveRange) && hit.collider.tag == "Enemy"
+        if (Physics.SphereCast(raycastOrigin, sphereCastRadius, direction, out hit, effectiveRange) && hit.collider.tag == "Enemy"
             && hit.collider.gameObject != null && hit.collider.gameObject.GetComponent<EnemyController>() != null 
-            && Vector3.Distance(GetFirePos().position, hit.point) <= minimumSpreadRange)
+            && Vector3.Distance(raycastOrigin, hit.point) <= minimumSpreadRange)
         {
             Debug.Log(hit.collider.gameObject.name);
             DamageEnemy(hit.collider.gameObject.GetComponent<EnemyController>(), pelletsPerShot);
@@ -28,15 +29,21 @@ public class ShotgunSpell : Spell
             for (int i = 0; i < pelletsPerShot; i++)
             {
                 Vector3 shotDirection = Accuracy(direction, spreadAngle);
-                RaycastHit raycastHit;
+                // RaycastHit raycastHit;
 
-                if (Physics.Raycast(GetFirePos().position, shotDirection, out raycastHit, effectiveRange) && raycastHit.collider.tag == "Enemy"
-                && raycastHit.collider.gameObject != null && raycastHit.collider.gameObject.GetComponent<EnemyController>() != null)
+                // if (Physics.Raycast(raycastOrigin, shotDirection, out raycastHit, effectiveRange) && raycastHit.collider.tag == "Enemy"
+                // && raycastHit.collider.gameObject != null && raycastHit.collider.gameObject.GetComponent<EnemyController>() != null)
+                // {
+                //     GameObject marker = Instantiate(testPositionMarker, raycastHit.point, playerCameraTransform.rotation);
+                //     DamageEnemy(raycastHit.collider.gameObject.GetComponent<EnemyController>(), 1);
+
+                //     Destroy(marker, 2);
+                // }
+
+                if (objectToSpawn != null)
                 {
-                    GameObject marker = Instantiate(testPositionMarker, raycastHit.point, playerCameraTransform.rotation);
-                    DamageEnemy(raycastHit.collider.gameObject.GetComponent<EnemyController>(), 1);
+                    GameObject iceParticle = Instantiate(objectToSpawn, raycastOrigin, Quaternion.LookRotation(shotDirection, Vector3.up));
 
-                    Destroy(marker, 2);
                 }
             }
         }

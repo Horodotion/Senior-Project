@@ -16,10 +16,12 @@ MonoBehaviour:
   puppet: {fileID: 0}
   playerCameraTransform: {fileID: 0}
   canCast: 1
+  ourSpellState: 0
   ourSpellSlot: 0
   spellAnim: {fileID: 0}
   spellAnimHolder: {fileID: 0}
   animationLocation: 3
+  ourhand: 1
   chargingSpell: 0
   tempPerSecond: 0
   temperatureChange: -10
@@ -28,7 +30,8 @@ MonoBehaviour:
   damage: 10
   effectiveRange: 10
   sphereCastRadius: 0.01
-  projectileToSpawn: {fileID: 0}
+  objectToSpawn: {fileID: 2365351995808669214, guid: 2ce1513dc8647114baef7e0fedb61eaf,
+    type: 3}
   pelletsPerShot: 10
   minimumSpreadRange: 3
   spreadAngle: 50
