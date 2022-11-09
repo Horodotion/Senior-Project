@@ -4,6 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+public enum Faction
+{
+    Player,
+    Enemy,
+    Wall,
+    Terrain,
+    other
+}
+
 [System.Serializable] public class EventFlag
 {
     public string eventString; // A string to name the event in the hierarchy, planned to be unused

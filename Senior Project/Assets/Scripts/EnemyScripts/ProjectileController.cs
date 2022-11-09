@@ -4,25 +4,39 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-    public float force = 2;
+    public Rigidbody rb;
+    public Faction hostileFaction;
+    public float projectileSpeed;
+    public float lifeSpan;
+    public float damage;
 
     public GameObject destroyEffectPrefab;
     // On fresh prefabs I set health to 10 by default, but feel free to change if we have a global damage scale
     public float explosionRadius, baseDamageDealt, secondsUntilParticlesAreDestroyed;
 
-
-    private void Update()
+    void Start()
     {
-        this.GetComponent<Rigidbody>().AddForce(transform.forward * force, ForceMode.Force);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag != "Enemy")
+        if (GetComponent<Rigidbody>() != null)
         {
-            Explode();
+            rb = GetComponent<Rigidbody>();
+            rb.AddForce(transform.forward * projectileSpeed, ForceMode.VelocityChange);
         }
+        
+        Destroy(gameObject, lifeSpan);
     }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "Enemy" && col.gameObject.GetComponent<EnemyController>() != null)
+        {
+            col.gameObject.GetComponent<EnemyController>().Damage(damage);
+        }
+        // else if (col.gameObject.tag != "Projectile")
+        // {
+        //     Destroy(gameObject);
+        // }
+    }
+
     public void Explode()
     {
         GameObject destructionParticles = Instantiate(destroyEffectPrefab, transform.position, Quaternion.Euler(0, 0, 0));
