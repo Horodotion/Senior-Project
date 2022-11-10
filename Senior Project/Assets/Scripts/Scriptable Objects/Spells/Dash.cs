@@ -41,6 +41,10 @@ public class Dash : Spell
             Debug.Log(bigD);
             PlayerController.ourPlayerState = PlayerState.inGame;
             puppet.currentSpellBeingCast = null;
+            if (vfx != null)
+            {
+                vfx.Stop();
+            }
         }
     }
 }

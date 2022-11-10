@@ -26,8 +26,12 @@ public class ExplosiveObject : EnemyController
 
     public override void Explode()
     {
-        GameObject destructionParticles = Instantiate(destroyEffectPrefab, transform.position, Quaternion.Euler(0, 0, 0));
-        Destroy(destructionParticles, secondsUntilParticlesAreDestroyed);
+        if (destroyEffectPrefab != null)
+        {
+            GameObject destructionParticles = Instantiate(destroyEffectPrefab, transform.position, Quaternion.Euler(0, 0, 0));
+            Destroy(destructionParticles, secondsUntilParticlesAreDestroyed);
+        }
+
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (var hC in hitColliders)
