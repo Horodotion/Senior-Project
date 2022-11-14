@@ -14,10 +14,20 @@ public enum StatType
 
 [System.Serializable] public class CustomStats : SerializableDictionary<StatType, float> { }
 
+[System.Serializable] public class StatValue
+{
+    public StatType statType;
+    public float statValue;
+}
+
 [System.Serializable]
 [CreateAssetMenu(menuName = "Stat set")]
 public class Stats : ScriptableObject
 {
+    public List<StatValue> baseStatValues;
+    public List<StatValue> maxStatValues;
+    public List<StatValue> minStatValues;
+
     // The dictionaries to actually be used in game
     // Stat is what will be referenced to the player, and allows buffs and debuffs to occur numerically.
     [Tooltip("Stat is what is used by the player, it does not need to be edited directly.")]
@@ -39,10 +49,10 @@ public class Stats : ScriptableObject
     // This function that tells each dictionary to piece together
     public void SetStats()
     {
-        FillInBlankStats(stat);
-        FillInBlankStats(baseStat);
-        FillInBlankStats(minStat);
-        FillInBlankStats(maxStat);
+        stat = NewStatDictionary(baseStatValues);
+        baseStat = NewStatDictionary(baseStatValues);
+        maxStat = NewStatDictionary(maxStatValues);
+        minStat = NewStatDictionary(minStatValues);
 
         foreach (StatType statType in Enum.GetValues(typeof(StatType)))
         {
@@ -76,6 +86,18 @@ public class Stats : ScriptableObject
         }
     }
 
+    public CustomStats NewStatDictionary(List<StatValue> statValues)
+    {
+        CustomStats newDict = new CustomStats();
+
+        foreach(StatValue statValue in statValues)
+        {
+            newDict.Add(statValue.statType, statValue.statValue);
+        }
+        FillInBlankStats(newDict);
+
+        return newDict;
+    }
 
     // This function simply fills out the remaining values a dictionary has
     // It's mostly to avoid errors in cases where a stat is forgotten or ignored

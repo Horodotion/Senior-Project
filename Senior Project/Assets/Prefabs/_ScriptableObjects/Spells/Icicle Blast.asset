@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd7355939c1eccc4f9a006e3aaad26c8, type: 3}
+  m_Name: Icicle Blast
+  m_EditorClassIdentifier: 
+  ourPlayer: {fileID: 0}
+  puppet: {fileID: 0}
+  playerCameraTransform: {fileID: 0}
+  canCast: 1
+  ourSpellState: 0
+  ourSpellSlot: 0
+  spellAnim: {fileID: 0}
+  spellAnimHolder: {fileID: 0}
+  animationLocation: 3
+  ourhand: 1
+  chargingSpell: 0
+  tempPerSecond: 0
+  temperatureChange: -10
+  testPositionMarker: {fileID: 4869646674359422768, guid: 417cee157325748408436d338ac6b284,
+    type: 3}
+  damage: 10
+  effectiveRange: 10
+  sphereCastRadius: 0.01
+  objectToSpawn: {fileID: 2365351995808669214, guid: 2ce1513dc8647114baef7e0fedb61eaf,
+    type: 3}
+  vfxEffectObj: {fileID: 0}
+  vfx: {fileID: 2212470434278275990, guid: 44b27de345e9b2548a4c466c618b8e17, type: 3}
+  pelletsPerShot: 10
+  minimumSpreadRange: 3
+  spreadAngle: 50

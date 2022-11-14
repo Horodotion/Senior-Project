@@ -72,10 +72,10 @@ public abstract class Weapon : ScriptableObject
     public virtual void GunUpdate(float timeValue)
     {
         // If the gun can be autofired and the player is holding down the trigger, fire the gun
-        if (!singleFire && ourPlayer.fireHeldDown)
-        {
-            Fire();
-        }
+        // if (!singleFire && ourPlayer.fireHeldDown)
+        // {
+        //     Fire();
+        // }
     }
 
     // This is the function that can fire the gun itself
@@ -204,26 +204,26 @@ public abstract class Weapon : ScriptableObject
     }
 
     // This function makes this weapon be the player's current weapon
-    public virtual void SwapToWeapon()
-    {
-        ourPlayer.currentWeapon = this;
-        puppet.currentWeapon = this;
-        if (gunAnim != null)
-        {
-            gunAnim.SetInteger(gunStateAnim, 1);
-        }
-    }
+    // public virtual void SwapToWeapon()
+    // {
+    //     ourPlayer.currentWeapon = this;
+    //     puppet.currentWeapon = this;
+    //     if (gunAnim != null)
+    //     {
+    //         gunAnim.SetInteger(gunStateAnim, 1);
+    //     }
+    // }
 
     // This function makes this weapon not be the player's current weapon
-    public virtual void SwapOffWeapon()
-    {
-        if (gunAnim != null)
-        {
-            gunAnim.SetInteger(gunStateAnim, 0);
-        }
-        ourPlayer.currentWeapon = null;
-        puppet.currentWeapon = null;
-    }
+    // public virtual void SwapOffWeapon()
+    // {
+    //     if (gunAnim != null)
+    //     {
+    //         gunAnim.SetInteger(gunStateAnim, 0);
+    //     }
+    //     ourPlayer.currentWeapon = null;
+    //     puppet.currentWeapon = null;
+    // }
 
     public virtual void AddAmmo(float ammoToAdd)
     {

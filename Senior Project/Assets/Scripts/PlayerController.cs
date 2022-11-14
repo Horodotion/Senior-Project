@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 public enum PlayerState
 {
     inGame,
+    casting,
+    dashing,
     inMenu,
     other
 }
@@ -17,35 +19,27 @@ public class PlayerController : MonoBehaviour
     // Static variables to let this script and the puppet to be easily accessed
     public static PlayerController instance;
     public static PlayerPuppet puppet;
+    public static PlayerState ourPlayerState;
+
+    [Header("Stats and Abilities")]
     // This is to act as the stats itself, and will carry between scenes with this setup
     public Stats playerStats;
     
     // A lot of hidden variables for the inputs, all stored in a PlayerInput component on the gameObject
     // They're hidden to allow for a cleaner set up in the inspector
     [HideInInspector] public PlayerInput playerInput;
-    [HideInInspector] public InputAction onMove; // Defaults to WASD
-    [HideInInspector] public InputAction onLook; // Defaults to mouse movement
-    [HideInInspector] public InputAction onRun; // Defaults to left shift
-    [HideInInspector] public InputAction onFire; // Defaults to left click
-    [HideInInspector] public InputAction onUse; // Defaults to E
-    [HideInInspector] public InputAction onJump; // Defaults to the spacebar
-    [HideInInspector] public InputAction onPrimaryWeapon; // Defaults to 1
-    [HideInInspector] public InputAction onSecondaryWeapon; // Defaults to 2
-    [HideInInspector] public InputAction onHeavyWeapon; // Defaults to 3
-    [HideInInspector] public InputAction onLastWeapon; // Defaults to Q
-    [HideInInspector] public InputAction onReload; // Defaults to R
-    [HideInInspector] public bool sprintHeldDown; // A bool to keep track of whether shift is being held down
-    [HideInInspector] public bool jumpHeldDown; // A bool to keep track of whether space is being held down
-    [HideInInspector] public bool fireHeldDown; // A bool to keep track of whether space is being held down
+    [HideInInspector] public InputAction onMove, onLook, onRun, onPrimaryFire, onSecondaryFire, onUse, onJump, onLastWeapon, onReload, onDash;
+
+    [HideInInspector] public bool sprintHeldDown, jumpHeldDown, primaryFireHeldDown, secondaryFireHeldDown;
+
+
     // A dictionary to keep track of Keys
     public Dictionary<KeyType, Key> keyRing = new Dictionary<KeyType, Key>(); 
     [HideInInspector] public Vector2 moveAxis; // A Vector 2 that holds movement values
     [HideInInspector] public Vector2 lookAxis; // A vector 2 that holds the delta of the mouse to look around
 
-    public Weapon currentWeapon; // The player's currently equipped weapon
-    public Weapon primaryWeapon; // The player's primary weapon
-    public Weapon secondaryWeapon; // The player's secondary weapon
-    public Weapon heavyWeapon; // The player's heavy weapon
+    // public Spell fireBasic, iceBasic, fireHeavy, iceHeavy, dash, blink;
+    public Spell currentPrimarySpell, currentSecondarySpell, currentMobilitySpell;
 
 
     void Awake()
@@ -73,139 +67,36 @@ public class PlayerController : MonoBehaviour
             onMove = playerInput.currentActionMap.FindAction("MoveAxis");
             onLook = playerInput.currentActionMap.FindAction("LookAxis");
             onRun = playerInput.currentActionMap.FindAction("Run");
-            onFire = playerInput.currentActionMap.FindAction("Fire");
+            onPrimaryFire = playerInput.currentActionMap.FindAction("PrimaryFire");
+            onSecondaryFire = playerInput.currentActionMap.FindAction("SecondaryFire");
             onUse = playerInput.currentActionMap.FindAction("Use");
             onJump = playerInput.currentActionMap.FindAction("Jump");
-            onPrimaryWeapon = playerInput.currentActionMap.FindAction("PrimaryWeapon");
-            onSecondaryWeapon = playerInput.currentActionMap.FindAction("SecondaryWeapon");
-            onHeavyWeapon = playerInput.currentActionMap.FindAction("HeavyWeapon");
-            onReload = playerInput.currentActionMap.FindAction("Reload");
-
-            // These are setting up the functions to be triggered by the Input Actions
-            // These do not currently have a held down function, and only need one function
-            onUse.performed += OnUseAction;
-            onPrimaryWeapon.performed += OnPrimaryWeaponAction;
-            onSecondaryWeapon.performed += OnSecondaryWeaponAction;
-            onHeavyWeapon.performed += OnHeavyWeaponAction;
-            onReload.performed += OnReloadWeaponAction;
+            onDash = playerInput.currentActionMap.FindAction("Dash");
 
             // These however, do have held down functions, and therefore need 2 functions to turn on and off
             onRun.started += OnRunAction;
             onRun.canceled += OffRunAction;
-            onFire.started += OnFireAction;
-            onFire.canceled += OffFireAction;
+            onPrimaryFire.started += OnPrimaryFireAction;
+            onPrimaryFire.canceled += OffPrimaryFireAction;
+            onSecondaryFire.started += OnSecondaryFireAction;
+            onSecondaryFire.canceled += OffSecondaryFireAction;
             onJump.started += OnJumpAction;
             onJump.canceled += OffJumpAction;
+            onDash.performed += OnDashAction;
 
             // This adds one of each type of key to the dictionary tracking them to allow easier coding later on
             foreach (KeyType keyType in System.Enum.GetValues(typeof(KeyType)))
             {
                 keyRing.Add(keyType, null);
             }
-
-            // Currently start is only used to set up all of the weapons that begin equipped to the player
-/*
-            // This checks if there is a primary weapon
-            if (primaryWeapon != null)
-            {
-                // If there is a primary weapon, then it spawns a copy of the serialized object and sets it up
-                primaryWeapon = Instantiate(primaryWeapon);
-                puppet.primaryWeapon = primaryWeapon;
-                primaryWeapon.InitializeGun(this, puppet); // This sets the references of itself and the puppet
-
-                // If there are no other weapons equipped, the primary weapon becomes the current weapon
-                if (currentWeapon == null)
-                {
-                    primaryWeapon.SwapToWeapon();
-                }
-            }
-            // This checks if there is a secondary weapon
-            if (secondaryWeapon != null)
-            {
-                // If there is a secondary weapon, then it spawns a copy of the serialized object and sets it up
-                secondaryWeapon = Instantiate(secondaryWeapon);
-                puppet.secondaryWeapon = secondaryWeapon;
-                secondaryWeapon.InitializeGun(this, puppet); // This sets the references of itself and the puppet
-
-                // If there are no other weapons equipped, the secondary weapon becomes the current weapon
-                if (currentWeapon == null)
-                {
-                    secondaryWeapon.SwapToWeapon();
-                }
-            }
-            // This checks if there is a heavy weapon
-            if (heavyWeapon != null)
-            {
-                // If there is a heavy weapon, then it spawns a copy of the serialized object and sets it up
-                {
-                    heavyWeapon.SwapToWeapon();
-                }
-            }
-               heavyWeapon = Instantiate(heavyWeapon);
-                puppet.heavyWeapon = heavyWeapon;
-                heavyWeapon.InitializeGun(this, puppet); // This sets the references of itself and the puppet
-
-                // If there are no other weapons equipped, the heavy weapon becomes the current weapon
-                if (currentWeapon == null)
-*/
         }
     }
 
     void Start()
     {
-        // Currently start is only used to set up all of the weapons that begin equipped to the player
-
-        // This checks if there is a primary weapon
-        if (primaryWeapon != null)
-        {
-            // If there is a primary weapon, then it spawns a copy of the serialized object and sets it up
-            primaryWeapon = Instantiate(primaryWeapon);
-            if (puppet != null)
-            {
-                puppet.primaryWeapon = primaryWeapon;
-                primaryWeapon.InitializeGun(this, puppet); // This sets the references of itself and the puppet
-            }
-
-            // If there are no other weapons equipped, the primary weapon becomes the current weapon
-            if (currentWeapon == null)
-            {
-                primaryWeapon.SwapToWeapon();
-            }
-        }
-        // This checks if there is a secondary weapon
-        if (secondaryWeapon != null)
-        {
-            // If there is a secondary weapon, then it spawns a copy of the serialized object and sets it up
-            secondaryWeapon = Instantiate(secondaryWeapon);
-            if (puppet != null)
-            {
-                puppet.secondaryWeapon = secondaryWeapon;
-                secondaryWeapon.InitializeGun(this, puppet); // This sets the references of itself and the puppet
-            }
-
-            // If there are no other weapons equipped, the secondary weapon becomes the current weapon
-            if (currentWeapon == null)
-            {
-                secondaryWeapon.SwapToWeapon();
-            }
-        }
-        // This checks if there is a heavy weapon
-        if (heavyWeapon != null)
-        {
-            // If there is a heavy weapon, then it spawns a copy of the serialized object and sets it up
-            heavyWeapon = Instantiate(heavyWeapon);
-            if (puppet != null)
-            {
-                puppet.heavyWeapon = heavyWeapon;
-                heavyWeapon.InitializeGun(this, puppet); // This sets the references of itself and the puppet
-            }
-
-            // If there are no other weapons equipped, the heavy weapon becomes the current weapon
-            if (currentWeapon == null)
-            {
-                heavyWeapon.SwapToWeapon();
-            }
-        }
+        SpellSetup(currentPrimarySpell, SpellSlot.primary);
+        SpellSetup(currentSecondarySpell, SpellSlot.secondary);
+        SpellSetup(currentMobilitySpell, SpellSlot.utility);
     }
 
     void Update()
@@ -214,6 +105,42 @@ public class PlayerController : MonoBehaviour
         moveAxis = onMove.ReadValue<Vector2>().normalized;
         lookAxis = onLook.ReadValue<Vector2>();
     }
+
+    public Spell SpellSetup(Spell spellToSetUp, SpellSlot slot)
+    {
+        if (spellToSetUp != null)
+        {
+            spellToSetUp = Instantiate(spellToSetUp);
+
+            switch (slot)
+            {
+                case SpellSlot.primary:
+                    puppet.primarySpell = spellToSetUp;
+                    break;
+
+                case SpellSlot.secondary:
+                    puppet.secondarySpell = spellToSetUp;
+                    break;
+
+                case SpellSlot.utility:
+                    puppet.mobilitySpell = spellToSetUp;
+                    break;
+
+                default:
+                    break;
+            }
+
+            spellToSetUp.InitializeSpell(this, puppet);
+
+            return spellToSetUp;
+        }
+        else
+        {
+            Debug.Log("No Spell to set up");
+            return null;
+        }
+    }
+
 
     // The function to allow sprinting to begin
     public void OnRunAction(InputAction.CallbackContext context)
@@ -228,31 +155,77 @@ public class PlayerController : MonoBehaviour
     }
 
     // The function to call for the gun to shoot
-    public void OnFireAction(InputAction.CallbackContext context)
+    public void OnPrimaryFireAction(InputAction.CallbackContext context)
     {
-        // Checking if there is a current weapon
-        if (currentWeapon != null)
+       if (puppet.primarySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame)
         {
-            // If the weapon is single fire, it simple calls for the gun to fire
-            // If not, it counts the trigger as being held down
-            if (currentWeapon.singleFire)
+            if (puppet.primarySpell.chargingSpell)
             {
-                currentWeapon.Fire();
+                primaryFireHeldDown = true;
+                ourPlayerState = PlayerState.casting;
+                puppet.primarySpell.Cast();
+                puppet.currentSpellBeingCast = puppet.primarySpell;
             }
             else
             {
-                fireHeldDown = true;
+                puppet.primarySpell.Cast();
+                puppet.currentSpellBeingCast = puppet.primarySpell;
             }
         }
     }
 
     // A function for releasing the trigger
-    public void OffFireAction(InputAction.CallbackContext context)
+    public void OffPrimaryFireAction(InputAction.CallbackContext context)
     {
-        // If the current weapon exists and isn't single fire, it pulls off of the trigger
-        if (currentWeapon != null && !currentWeapon.singleFire)
+       if (puppet.primarySpell != null)
         {
-            fireHeldDown = false;
+            if (puppet.primarySpell.chargingSpell)
+            {
+                primaryFireHeldDown = false;
+                puppet.ourAnimHolder.ReleaseSpell();
+            }
+            else
+            {
+                
+            }
+        }
+    }
+
+    // The function to call for the gun to shoot
+    public void OnSecondaryFireAction(InputAction.CallbackContext context)
+    {
+        if (puppet.secondarySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame)
+        {
+            if (puppet.secondarySpell.chargingSpell)
+            {
+                secondaryFireHeldDown = true;
+                ourPlayerState = PlayerState.casting;
+                puppet.secondarySpell.Cast();
+                puppet.currentSpellBeingCast = puppet.secondarySpell;
+            }
+            else
+            {
+                puppet.secondarySpell.Cast();
+                puppet.currentSpellBeingCast = puppet.secondarySpell;
+            }
+        }
+
+    }
+
+    // A function for releasing the trigger
+    public void OffSecondaryFireAction(InputAction.CallbackContext context)
+    {
+        if (puppet.secondarySpell != null)
+        {
+            if (puppet.secondarySpell.chargingSpell)
+            {
+                secondaryFireHeldDown = false;
+                puppet.ourAnimHolder.ReleaseSpell();
+            }
+            else
+            {
+
+            }
         }
     }
 
@@ -278,63 +251,12 @@ public class PlayerController : MonoBehaviour
         jumpHeldDown = false;
     }
 
-    // This function swaps to the primary weapon
-    public void OnPrimaryWeaponAction(InputAction.CallbackContext context)
+    public void OnDashAction(InputAction.CallbackContext context)
     {
-        // If there is a primary weapon and it's not already equipped, it swaps to the primary weapon
-        if (primaryWeapon != null && currentWeapon != primaryWeapon)
+        if (puppet.mobilitySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame)
         {
-            // A null check in case there isn't any weapon equipped, then calls for the current weapon to lower
-            if (currentWeapon != null)
-            {
-                currentWeapon.SwapOffWeapon();
-            }
-
-            // This calls for the primary weapon to begin
-            primaryWeapon.SwapToWeapon();
-        }
-    }
-
-    // This function swaps to the secondary weapon
-    public void OnSecondaryWeaponAction(InputAction.CallbackContext context)
-    {
-        // If there is a secondary weapon and it's not already equipped, it swaps to the secondary weapon
-        if (secondaryWeapon != null && currentWeapon != secondaryWeapon)
-        {
-            // A null check in case there isn't any weapon equipped, then calls for the current weapon to lower
-            if (currentWeapon != null)
-            {
-                currentWeapon.SwapOffWeapon();
-            }
-
-            // This calls for the secondary weapon to begin
-            secondaryWeapon.SwapToWeapon();
-        }
-    }
-
-    // This function swaps to the heavy weapon
-    public void OnHeavyWeaponAction(InputAction.CallbackContext context)
-    {
-        // If there is a heavy weapon and it's not already equipped, it swaps to the heavy weapon
-        if (heavyWeapon != null && currentWeapon != heavyWeapon)
-        {
-            // A null check in case there isn't any weapon equipped, then calls for the current weapon to lower
-            if (currentWeapon != null)
-            {
-                currentWeapon.SwapOffWeapon();
-            }
-
-            // This calls for the heavy weapon to begin
-            heavyWeapon.SwapToWeapon();
-        }
-    }
-
-    public void OnReloadWeaponAction(InputAction.CallbackContext context)
-    {
-        // If there is a primary weapon and it's not already equipped, it swaps to the primary weapon
-        if (currentWeapon != null && currentWeapon.ammo < currentWeapon.magazineSize)
-        {
-            currentWeapon.Reload();
+            puppet.currentSpellBeingCast = puppet.mobilitySpell;
+            puppet.mobilitySpell.Cast();
         }
     }
 }
