@@ -34,34 +34,41 @@ public class VFX_Texting_Script : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Icicle_blast.Play();
+            flamethrower.Play();
+            //Icicle_blast.Play();
             //call the projectile spawn function using the denomenator of 1 to signify that is is an icicle
-            SpawnVFX (1);
+            //SpawnVFX (1);
         }
 
         if (Input.GetMouseButtonDown(1))
         {
+            shotgun.Play();
             //call the projectile spawn function using the denomenator of 2 to signify that is is a fireball
-            SpawnVFX(2);
+            //SpawnVFX(2);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetMouseButtonUp(0))
         {
-            //This is the command to play the flamethrower effect
-            flamethrower.Play();
-        }
-
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            //This is the command to stop the flamethrower effect
             flamethrower.Stop();
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+            //This is the command to play the flamethrower effect
+            //flamethrower.Play();
+        //}
+
+        //if (Input.GetKeyUp(KeyCode.E))
+        //{
+            //This is the command to stop the flamethrower effect
+            //flamethrower.Stop();
+        //}
+
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
             //This is the command to play the shotgun effect
-            shotgun.Play();
-        }
+            //shotgun.Play();
+        //}
     }
 
     private void SpawnVFX(int Projectile)
