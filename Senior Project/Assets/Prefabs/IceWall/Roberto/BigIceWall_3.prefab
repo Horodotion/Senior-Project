@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7253010531659756012}
   - component: {fileID: 5983037824879836745}
   - component: {fileID: 8425375609502354051}
+  - component: {fileID: 3100351071138996447}
   m_Layer: 0
   m_Name: BigIceWall_3
   m_TagString: Untagged
@@ -84,3 +85,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3100351071138996447
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8064836469246618454}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 7.422202, y: 6.7551074, z: 3.7058148}
+  m_Center: {x: 0, y: 2.497482, z: 0}
