@@ -78,10 +78,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b73aa2519dc34884f9b192c337ece845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ourProjectileManager: {fileID: 0}
   rb: {fileID: 0}
   hostileFaction: 0
-  projectileSpeed: 40
-  lifeSpan: 0.3
+  projectileSpeed: 20
+  lifeSpan: 0.5
   damage: 5
   destroyEffectPrefab: {fileID: 0}
   explosionRadius: 0

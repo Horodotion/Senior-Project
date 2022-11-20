@@ -51,7 +51,9 @@ public abstract class Spell : ScriptableObject
     public float damage;
     public float effectiveRange;
     public float sphereCastRadius;
+
     public GameObject objectToSpawn;
+    [HideInInspector] public ProjectileManager ourProjectileManager;
 
     public GameObject vfxEffectObj;
     public VisualEffect vfx;
@@ -80,6 +82,13 @@ public abstract class Spell : ScriptableObject
             vfxEffectObj = Instantiate(vfxEffectObj, handTransform.position, handTransform.rotation);
 
             vfxEffectObj.transform.parent = handTransform;
+            vfx = vfxEffectObj.GetComponent<VisualEffect>();
+        }
+
+        if (objectToSpawn != null)
+        {
+            ourProjectileManager = new ProjectileManager();
+            
         }
     }
 
@@ -261,5 +270,18 @@ public abstract class Spell : ScriptableObject
         newDirection.y += Random.Range(-variance, variance);
 
         return newDirection;
+    }
+
+    public virtual void PlayVFX()
+    {
+        if (vfx != null)
+        {
+            if (vfxEffectObj.transform.rotation != playerCameraTransform.rotation)
+            {
+                vfxEffectObj.transform.rotation = playerCameraTransform.rotation;
+            }
+
+            vfx.Play();
+        }
     }
 }

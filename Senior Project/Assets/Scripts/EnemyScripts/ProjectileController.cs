@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
+    public ProjectileManager ourProjectileManager;
+
     public Rigidbody rb;
     public Faction hostileFaction;
     public float projectileSpeed;

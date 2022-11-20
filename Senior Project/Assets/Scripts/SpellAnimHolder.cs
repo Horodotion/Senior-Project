@@ -27,9 +27,13 @@ public class SpellAnimHolder : MonoBehaviour
 
     public virtual void DisableCasting()
     {
-        if (ourPuppet.currentSpellBeingCast)
+        if (ourPuppet.currentSpellBeingCast != null)
         {
             ourPuppet.currentSpellBeingCast.canCast = false;
+            if (ourPuppet.currentSpellBeingCast.vfx != null)
+            {
+                ourPuppet.currentSpellBeingCast.vfx.Stop();
+            }
         }
         ourPuppet.spellAnim.SetBool(canCastInAnim, false);
         ourPuppet.spellAnim.SetBool(releaseSpell, false);
@@ -44,6 +48,11 @@ public class SpellAnimHolder : MonoBehaviour
         if (ourPuppet.currentSpellBeingCast != null)
         {
             ourPuppet.currentSpellBeingCast.canCast = true;
+            if (ourPuppet.currentSpellBeingCast.vfx != null)
+            {
+                ourPuppet.currentSpellBeingCast.vfx.Stop();
+            }
+
             ourPuppet.currentSpellBeingCast = null;
         }
     }
@@ -69,11 +78,7 @@ public class SpellAnimHolder : MonoBehaviour
         if (ourPuppet.currentSpellBeingCast && ourPuppet.currentSpellBeingCast.ourSpellState != SpellState.casting)
         {
             ourPuppet.currentSpellBeingCast.ourSpellState = SpellState.casting;
-
-            if (ourPuppet.currentSpellBeingCast.vfx != null)
-            {
-                ourPuppet.currentSpellBeingCast.vfx.Play();
-            }
+            ourPuppet.currentSpellBeingCast.PlayVFX();
         }
     }
 
@@ -89,41 +94,4 @@ public class SpellAnimHolder : MonoBehaviour
             }
         }
     }
-
-    // public Weapon ourGun;
-
-    // public void EnableFiring()
-    // {
-    //     ourGun.EnableFiring();
-    // }
-
-    // public void DisableFiring()
-    // {
-    //     ourGun.DisableFiring();
-    // }
-
-    // public void EnableWeaponSwapping()
-    // {
-    //     ourGun.EnableWeaponSwapping();
-    // }
-
-    // public void DisableWeaponSwapping()
-    // {
-    //     ourGun.DisableWeaponSwapping();
-    // }
-
-    // public void AddBulletsToMagazine()
-    // {
-    //     ourGun.AddBulletsToMagazine();
-    // }
-
-    // public void GoToHolster()
-    // {
-    //     ourGun.GoToHolster();
-    // }
-
-    // public void GoToIdle()
-    // {
-    //     ourGun.GoToIdle();
-    // }
 }
