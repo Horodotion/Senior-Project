@@ -63,7 +63,7 @@ MonoBehaviour:
       x: 1468
       y: -257
       width: 802
-      height: 2156
+      height: 2285
     contents:
     - model: {fileID: 8926484042661614668}
       id: 0
@@ -229,6 +229,9 @@ MonoBehaviour:
       isStickyNote: 0
     - model: {fileID: 8926484042661614929}
       id: 4
+      isStickyNote: 0
+    - model: {fileID: 8926484042661614757}
+      id: 2
       isStickyNote: 0
   - title: Muzzle_Flash
     position:
@@ -554,7 +557,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1024
+      m_SerializableObject: 512
     m_Space: 2147483647
   m_Property:
     name: Rate
@@ -1230,7 +1233,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Vector, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"vector":{"x":-0.30000001192092898,"y":-0.10000000149011612,"z":5.0}}'
+      m_SerializableObject: '{"vector":{"x":-0.10000000149011612,"y":-0.10000000149011612,"z":5.0}}'
     m_Space: 0
   m_Property:
     name: A
@@ -1401,7 +1404,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Vector, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"vector":{"x":0.30000001192092898,"y":0.800000011920929,"z":7.0}}'
+      m_SerializableObject: '{"vector":{"x":0.10000000149011612,"y":0.10000000149011612,"z":7.0}}'
     m_Space: 0
   m_Property:
     name: B
@@ -2031,9 +2034,7 @@ MonoBehaviour:
     expandedSlots: []
     expanded: 0
   - m_Id: 4
-    linkedSlots:
-    - outputSlot: {fileID: 8926484042661614661}
-      inputSlot: {fileID: 8926484042661614987}
+    linkedSlots: []
     position: {x: 1593, y: 3403}
     expandedSlots: []
     expanded: 0
@@ -2078,7 +2079,6 @@ MonoBehaviour:
   m_LinkedSlots:
   - {fileID: 8926484042661614819}
   - {fileID: 8926484042661614903}
-  - {fileID: 8926484042661614987}
 --- !u!114 &8926484042661614662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3387,7 +3387,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"37add044aa0befd46b504fac156f4f61","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"9bd06d17d2de6ae4ba868f58529bd96d","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: mainTexture
@@ -3507,7 +3507,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 3
+      m_SerializableObject: 2.5
     m_Space: 2147483647
   m_Property:
     name: B
@@ -3570,7 +3570,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.0,"value":0.10000000149011612,"inTangent":0.0,"outTangent":0.0,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":1.0,"value":1.0,"inTangent":2.8572328090667726,"outTangent":2.8572328090667726,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
+      m_SerializableObject: '{"frames":[{"time":0.0,"value":0.10000000149011612,"inTangent":0.9430631399154663,"outTangent":0.9430631399154663,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":1.0,"value":1.5068235397338868,"inTangent":2.8572328090667726,"outTangent":2.8572328090667726,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
     m_Space: 2147483647
   m_Property:
     name: Size
@@ -4011,7 +4011,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.0,"value":0.0,"inTangent":7.0,"outTangent":7.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false},{"time":1.0,"value":7.0,"inTangent":7.0,"outTangent":7.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
+      m_SerializableObject: '{"frames":[{"time":0.0,"value":0.0,"inTangent":6.0,"outTangent":6.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false},{"time":0.5,"value":3.0,"inTangent":0.0,"outTangent":0.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false},{"time":1.0,"value":0.0,"inTangent":-6.0,"outTangent":-6.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
     m_Space: 2147483647
   m_Property:
     name: TexIndex
@@ -4076,7 +4076,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.0,"y":0.0,"z":-360.0}'
+      m_SerializableObject: '{"x":0.0,"y":0.0,"z":-90.0}'
     m_Space: 2147483647
   m_Property:
     name: A
@@ -4212,7 +4212,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.0,"y":0.0,"z":360.0}'
+      m_SerializableObject: '{"x":0.0,"y":0.0,"z":90.0}'
     m_Space: 2147483647
   m_Property:
     name: B
@@ -4362,7 +4362,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661614758}
       inputSlot: {fileID: 8926484042661614722}
-    position: {x: 1616, y: 1689}
+    position: {x: 1554, y: 1715}
     expandedSlots: []
     expanded: 0
   - m_Id: 1
@@ -4370,6 +4370,13 @@ MonoBehaviour:
     - outputSlot: {fileID: 8926484042661614758}
       inputSlot: {fileID: 8926484042661614913}
     position: {x: -198, y: 1419}
+    expandedSlots: []
+    expanded: 0
+  - m_Id: 2
+    linkedSlots:
+    - outputSlot: {fileID: 8926484042661614758}
+      inputSlot: {fileID: 8926484042661614999}
+    position: {x: 1547.3501, y: 4056.7505}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661614758
@@ -4408,6 +4415,7 @@ MonoBehaviour:
   m_LinkedSlots:
   - {fileID: 8926484042661614722}
   - {fileID: 8926484042661614913}
+  - {fileID: 8926484042661614999}
 --- !u!114 &8926484042661614759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4729,7 +4737,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 256
+      m_SerializableObject: 129
     m_Space: 2147483647
   m_Property:
     name: Rate
@@ -5632,7 +5640,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.0,"y":0.0,"z":-360.0}'
+      m_SerializableObject: '{"x":0.0,"y":0.0,"z":-90.0}'
     m_Space: 2147483647
   m_Property:
     name: A
@@ -5768,7 +5776,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.0,"y":0.0,"z":360.0}'
+      m_SerializableObject: '{"x":0.0,"y":0.0,"z":90.0}'
     m_Space: 2147483647
   m_Property:
     name: B
@@ -6200,7 +6208,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"37add044aa0befd46b504fac156f4f61","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"9bd06d17d2de6ae4ba868f58529bd96d","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: mainTexture
@@ -6286,7 +6294,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.0,"value":0.0,"inTangent":7.0,"outTangent":7.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false},{"time":1.0,"value":7.0,"inTangent":7.0,"outTangent":7.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
+      m_SerializableObject: '{"frames":[{"time":0.0,"value":0.0,"inTangent":6.0,"outTangent":6.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false},{"time":0.5,"value":3.0,"inTangent":0.0,"outTangent":0.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false},{"time":1.0,"value":0.0,"inTangent":-6.0,"outTangent":-6.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
     m_Space: 2147483647
   m_Property:
     name: TexIndex
@@ -6446,7 +6454,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.0,"value":0.10000000149011612,"inTangent":0.0,"outTangent":0.0,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":1.0,"value":2.0,"inTangent":6.195517539978027,"outTangent":6.195517539978027,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
+      m_SerializableObject: '{"frames":[{"time":0.0,"value":0.10000000149011612,"inTangent":0.9108744859695435,"outTangent":0.9108744859695435,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":1.0,"value":2.0,"inTangent":3.660287380218506,"outTangent":3.660287380218506,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
     m_Space: 2147483647
   m_Property:
     name: Size
@@ -8243,7 +8251,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Vector, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"vector":{"x":-6.0,"y":-4.0,"z":5.0}}'
+      m_SerializableObject: '{"vector":{"x":-3.0,"y":0.0,"z":5.0}}'
     m_Space: 0
   m_Property:
     name: A
@@ -8414,7 +8422,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Vector, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"vector":{"x":6.0,"y":8.0,"z":7.0}}'
+      m_SerializableObject: '{"vector":{"x":3.0,"y":4.0,"z":7.0}}'
     m_Space: 0
   m_Property:
     name: B
@@ -9753,7 +9761,7 @@ MonoBehaviour:
   m_InputSlots:
   - {fileID: 8926484042661614934}
   m_OutputSlots: []
-  m_Disabled: 0
+  m_Disabled: 1
 --- !u!114 &8926484042661614934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9779,7 +9787,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 256
+      m_SerializableObject: 129
     m_Space: 2147483647
   m_Property:
     name: Rate
@@ -11357,7 +11365,7 @@ MonoBehaviour:
   m_UISuperCollapsed: 0
   m_InputSlots:
   - {fileID: 8926484042661614984}
-  - {fileID: 8926484042661614987}
+  - {fileID: 8926484042661615570}
   - {fileID: 8926484042661614988}
   m_OutputSlots: []
   m_Label: Fire
@@ -11496,41 +11504,6 @@ MonoBehaviour:
         PublicKeyToken=b77a5c561934e089
   m_Direction: 0
   m_LinkedSlots: []
---- !u!114 &8926484042661614987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UIIgnoredErrors: []
-  m_Parent: {fileID: 0}
-  m_Children: []
-  m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
-  m_UISuperCollapsed: 0
-  m_MasterSlot: {fileID: 8926484042661614987}
-  m_MasterData:
-    m_Owner: {fileID: 8926484042661614983}
-    m_Value:
-      m_Type:
-        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1
-    m_Space: 2147483647
-  m_Property:
-    name: softParticleFadeDistance
-    m_serializedType:
-      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-  m_Direction: 0
-  m_LinkedSlots:
-  - {fileID: 8926484042661614661}
 --- !u!114 &8926484042661614988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11556,7 +11529,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"37add044aa0befd46b504fac156f4f61","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"9bd06d17d2de6ae4ba868f58529bd96d","type":3}}'
     m_Space: 2147483647
   m_Property:
     name: mainTexture
@@ -11873,7 +11846,8 @@ MonoBehaviour:
       m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
   m_Direction: 0
-  m_LinkedSlots: []
+  m_LinkedSlots:
+  - {fileID: 8926484042661614758}
 --- !u!114 &8926484042661615000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12113,7 +12087,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":2.0,"y":2.0}'
+      m_SerializableObject: '{"x":1.0,"y":1.0}'
     m_Space: 2147483647
   m_Property:
     name: flipBookSize
@@ -15330,7 +15304,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.0,"value":0.15000000596046449,"inTangent":-0.655274510383606,"outTangent":-0.655274510383606,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":1.0,"value":0.0,"inTangent":0.0,"outTangent":0.0,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
+      m_SerializableObject: '{"frames":[{"time":0.002418065443634987,"value":0.1877208799123764,"inTangent":-0.20924177765846253,"outTangent":-0.20924177765846253,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.9951573610305786,"value":-0.004716981202363968,"inTangent":-0.08470060676336289,"outTangent":-0.08470060676336289,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
     m_Space: 2147483647
   m_Property:
     name: Size
@@ -15550,7 +15524,7 @@ MonoBehaviour:
   m_InputSlots:
   - {fileID: 8926484042661615567}
   m_OutputSlots: []
-  m_Disabled: 0
+  m_Disabled: 1
   attribute: angle
   Composition: 1
   AlphaComposition: 0
@@ -15613,7 +15587,7 @@ MonoBehaviour:
   m_InputSlots:
   - {fileID: 8926484042661615569}
   m_OutputSlots: []
-  m_Disabled: 0
+  m_Disabled: 1
   attribute: angle
   Composition: 1
   AlphaComposition: 0
@@ -15653,5 +15627,39 @@ MonoBehaviour:
     m_serializedType:
       m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
+  m_Direction: 0
+  m_LinkedSlots: []
+--- !u!114 &8926484042661615570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 0}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  m_MasterSlot: {fileID: 8926484042661615570}
+  m_MasterData:
+    m_Owner: {fileID: 8926484042661614983}
+    m_Value:
+      m_Type:
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+      m_SerializableObject: 1
+    m_Space: 2147483647
+  m_Property:
+    name: softParticleFadeDistance
+    m_serializedType:
+      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
   m_Direction: 0
   m_LinkedSlots: []
