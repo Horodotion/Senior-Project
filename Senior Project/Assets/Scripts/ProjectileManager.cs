@@ -28,7 +28,7 @@ public class ProjectileManager : MonoBehaviour
         {
             projectileToReturn = Instantiate(projectileToSpawn);
             allProjectiles.Add(projectileToReturn);
-            projectileToReturn.GetComponent<ProjectileController>().ourProjectileManager = this;
+            // projectileToReturn.GetComponent<ProjectileController>().ourProjectileManager = this;
         }
 
         return projectileToReturn;
