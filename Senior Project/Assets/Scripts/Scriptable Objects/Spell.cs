@@ -79,16 +79,11 @@ public abstract class Spell : ScriptableObject
         if (vfxEffectObj != null)
         {
             Transform handTransform = GetFirePos();
+            
             vfxEffectObj = Instantiate(vfxEffectObj, handTransform.position, handTransform.rotation);
 
             vfxEffectObj.transform.parent = handTransform;
             vfx = vfxEffectObj.GetComponent<VisualEffect>();
-        }
-
-        if (objectToSpawn != null)
-        {
-            ourProjectileManager = new ProjectileManager();
-            
         }
     }
 
@@ -136,11 +131,6 @@ public abstract class Spell : ScriptableObject
                 ChangePlayerTemp();
                 HitScanFire();
             }
-
-            // if (gunAnim != null)
-            // {
-            //     gunAnim.SetInteger(gunStateAnim, 3);
-            // }
         }
     }
 
@@ -238,8 +228,15 @@ public abstract class Spell : ScriptableObject
 
     public virtual void ProjectileFire()
     {
-        GameObject newProjectile = Instantiate(objectToSpawn, GetFirePos().position, puppet.cameraObj.transform.rotation);
+        
+        // GameObject newProjectile = Instantiate(objectToSpawn, GetFirePos().position, puppet.cameraObj.transform.rotation);
+        GameObject newProjectile = SpawnManager.instance.GetGameObject(objectToSpawn, SpawnType.projectile);
+
+        newProjectile.transform.position = GetFirePos().position;
+        newProjectile.transform.rotation = puppet.cameraObj.transform.rotation;
+
         newProjectile.GetComponent<ProjectileController>().damage = damage;
+        newProjectile.GetComponent<ProjectileController>().LaunchProjectile();
     }
 
     public virtual Transform GetFirePos()
@@ -262,7 +259,7 @@ public abstract class Spell : ScriptableObject
     {
         // This subtracts the player's accuracy from 100, 
         // then divides it by 1000 to make it less extreme of an angle
-        variance = (100 - variance) / 1000;
+        variance = variance / 1000;
 
         // This creates a new direction from the forward direction, then adds a random amount to the x and y value
         Vector3 newDirection = forwardDirection;
