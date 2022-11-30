@@ -22,15 +22,17 @@ public class AttacksManager : MonoBehaviour
     //[SerializeField] public AttackWithSP[] attacksList;
     //[SerializeField] public EnemyAttacks currentAttack;
 
+    //All the boss attack
     [SerializeField] public EnemyAttack iceMeleeAttack;
     [SerializeField] public EnemyAttack fireMeleeAttack;
     [SerializeField] public EnemyAttack iceRangedAttack;
     [SerializeField] public EnemyAttack fireRangedAttack;
 
-    AttackDecision rangedAttackDicision;
+    //All the attack decision and modifer
+    [SerializeField] public AttackDecision rangedAttackDicision;
     [SerializeField] public AttackDecision[] rangedAttackDicisionMod = new AttackDecision[4];
 
-    AttackDecision meleeAttackDicision;
+    [SerializeField] public AttackDecision meleeAttackDicision;
     [SerializeField] public AttackDecision[] meleeAttackDicisionMod = new AttackDecision[4];
 
 
@@ -40,6 +42,7 @@ public class AttacksManager : MonoBehaviour
     {
         enemy = GetComponent<BossEnemyController>();
 
+        // Initialize the attacks so that the attackmotion class contain their spawn point
         iceMeleeAttack.attackMotion.InitializeAttacks(enemy, iceMeleeAttack.spawnPoiont);
         fireMeleeAttack.attackMotion.InitializeAttacks(enemy, fireMeleeAttack.spawnPoiont);
         iceRangedAttack.attackMotion.InitializeAttacks(enemy, iceRangedAttack.spawnPoiont);
@@ -79,31 +82,45 @@ public class AttacksManager : MonoBehaviour
         }
         */
     }
+
+    //Decide which element for the ranged attack
     public void RangedAttack()
     {
+        // Decide if it fire or ice
         if (RangedAttackDicision())
         {
+            //Use Ice
             enemy.MovementCoroutine = StartCoroutine(iceRangedAttack.attackMotion.AttackingPlayer());
         }
         else
         {
+            //Use Fire
             enemy.MovementCoroutine = StartCoroutine(fireRangedAttack.attackMotion.AttackingPlayer());
         }
     }
+
+    //Decide which element for the melee attack
     public void MeleeAttack()
     {
+        // Decide if it fire or ice
         if (MeleeAttackDicision())
         {
+            //Use Ice
             enemy.MovementCoroutine = StartCoroutine(iceMeleeAttack.attackMotion.AttackingPlayer());
         }
         else
         {
+            //Use Fire
             enemy.MovementCoroutine = StartCoroutine(fireMeleeAttack.attackMotion.AttackingPlayer());
         }
     }
+
+    //This output a bool (true is ice/ false is fire) by calculate the element needed to use using the decision and decision modifier during range attack.
     public bool RangedAttackDicision()
     {
         AttackDecision temp = rangedAttackDicision;
+
+        // Adds up all the modifier and calculate the weight of each elements for the ranged attack.
         if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 75)
         {
             temp.AddDicision(rangedAttackDicisionMod[0]);
@@ -120,11 +137,17 @@ public class AttacksManager : MonoBehaviour
         {
             temp.AddDicision(rangedAttackDicisionMod[3]);
         }
-        return temp.GiveTheNextRandomDicision();
+
+        //Find which element for the next attack
+        return temp.GiveTheNextRandomDicision(); 
     }
+
+    //This output a bool (true is ice/ false is fire) by calculate the element needed to use using the decision and decision modifier during melee attack.
     public bool MeleeAttackDicision()
     {
         AttackDecision temp = meleeAttackDicision;
+
+        // Adds up all the modifier and calculate the weight of each elements for the melee attack.
         if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 75)
         {
             temp.AddDicision(meleeAttackDicisionMod[0]);
@@ -141,7 +164,9 @@ public class AttacksManager : MonoBehaviour
         {
             temp.AddDicision(meleeAttackDicisionMod[3]);
         }
-        return temp.GiveTheNextRandomDicision();
+
+        //Find which element for the next attack
+        return temp.GiveTheNextRandomDicision(); 
     }
     
     /*

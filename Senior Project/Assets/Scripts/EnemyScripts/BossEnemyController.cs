@@ -342,9 +342,12 @@ public class BossEnemyController : MonoBehaviour
         }
     }
 
+    //This output a bossstate by calculate the bossstate using the decision and decision modifier during ambushed decision.
     public BossState AmbushedDicision()
     {
         MovementDecision temp = ambushedDicision;
+
+        // Adding all the decision modifers into the decision
         if (health / maxHealth > 0.5)
         {
             temp.AddDicision(ambushedDicisionMod[0]);
@@ -361,12 +364,17 @@ public class BossEnemyController : MonoBehaviour
         {
             temp.AddDicision(ambushedDicisionMod[3]);
         }
+
+        // Find which bossstate to output
         return temp.GiveTheNextRandomDicision();
     }
 
+    //This output a bossstate by calculate the bossstate using the decision and decision modifier during attack decision.
     public BossState AttackDicision()
     {
         MovementDecision temp = attackDicision;
+
+        // Adding all the decision modifers into the decision
         if (!IsPlayerWithinDistance(50))
         {
             temp.AddDicision(attackDicisionMod[0]);
@@ -383,6 +391,8 @@ public class BossEnemyController : MonoBehaviour
         {
             temp.AddDicision(attackDicisionMod[3]);
         }
+
+        // Find which bossstate to output
         return temp.GiveTheNextRandomDicision();
     }
 
