@@ -53,10 +53,9 @@ public abstract class Spell : ScriptableObject
     public float sphereCastRadius;
 
     public GameObject objectToSpawn;
-    [HideInInspector] public ProjectileManager ourProjectileManager;
 
     public GameObject vfxEffectObj;
-    public VisualEffect vfx;
+    [HideInInspector] public VisualEffect vfx;
 
     public virtual void InitializeSpell(PlayerController player, PlayerPuppet newPuppet)
     {
@@ -228,8 +227,6 @@ public abstract class Spell : ScriptableObject
 
     public virtual void ProjectileFire()
     {
-        
-        // GameObject newProjectile = Instantiate(objectToSpawn, GetFirePos().position, puppet.cameraObj.transform.rotation);
         GameObject newProjectile = SpawnManager.instance.GetGameObject(objectToSpawn, SpawnType.projectile);
 
         newProjectile.transform.position = GetFirePos().position;
@@ -263,8 +260,9 @@ public abstract class Spell : ScriptableObject
 
         // This creates a new direction from the forward direction, then adds a random amount to the x and y value
         Vector3 newDirection = forwardDirection;
-        newDirection.x += Random.Range(-variance, variance);
-        newDirection.y += Random.Range(-variance, variance);
+
+        Vector2 spread = Random.insideUnitCircle;
+        newDirection += new Vector3(spread.x, spread.y, 0f) * variance; 
 
         return newDirection;
     }
