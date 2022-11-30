@@ -14161,8 +14161,6 @@ MonoBehaviour:
   - link:
     - context: {fileID: 8926484042661615383}
       slotIndex: 0
-    - context: {fileID: 8926484042661615536}
-      slotIndex: 0
   integration: 0
   angularIntegration: 0
   ageParticles: 1
@@ -14812,7 +14810,6 @@ MonoBehaviour:
   - {fileID: 8926484042661615344}
   - {fileID: 8926484042661615379}
   - {fileID: 8926484042661615383}
-  - {fileID: 8926484042661615536}
   dataType: 0
   capacity: 1024
   stripCapacity: 16
@@ -15018,11 +15015,9 @@ MonoBehaviour:
   - {fileID: 8926484042661615539}
   m_OutputSlots: []
   m_Label: 
-  m_Data: {fileID: 8926484042661615401}
+  m_Data: {fileID: 8926484042661615571}
   m_InputFlowSlot:
-  - link:
-    - context: {fileID: 8926484042661615379}
-      slotIndex: 0
+  - link: []
   m_OutputFlowSlot:
   - link: []
   blendMode: 0
@@ -15663,3 +15658,31 @@ MonoBehaviour:
         PublicKeyToken=b77a5c561934e089
   m_Direction: 0
   m_LinkedSlots: []
+--- !u!114 &8926484042661615571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d78581a96eae8bf4398c282eb0b098bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 114350483966674976}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  title: 
+  m_Owners:
+  - {fileID: 8926484042661615536}
+  dataType: 0
+  capacity: 128
+  stripCapacity: 1
+  particlePerStripCount: 128
+  needsComputeBounds: 0
+  boundsMode: 0
+  m_Space: 0
