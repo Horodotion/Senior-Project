@@ -18,57 +18,14 @@ public enum BossState
     waitingInCover
 }
 
-[CreateAssetMenu(menuName = "Decision/Movement Dicision")]
-public class MovementDicision : Dicision
+public class Dicision : ScriptableObject
 {
-    public int takingCover;
-    public int meleeAttack;
-    public int rangedAttack;
-    public int taunt;
-    public MovementDicision()
-    {
-    }
-    public MovementDicision(int tC, int mA, int rA, int t)
-    {
-        takingCover = tC;
-        meleeAttack = mA;
-        rangedAttack = rA;
-        taunt = t;
-    }
-    public MovementDicision AddDicision(MovementDicision d)
-    {
-        return new MovementDicision(
-                this.takingCover + d.takingCover,
-                this.meleeAttack + d.meleeAttack,
-                this.rangedAttack + d.rangedAttack,
-                this.taunt + d.taunt);
-    }
-    public int AddAllDicision()
-    {
-        return takingCover + meleeAttack + rangedAttack + taunt;
-    }
-
-    public BossState GiveTheNextRandomDicision()
-    {
-        int index = Random.Range(1, AddAllDicision());
-        switch (index)
-        {
-            case int x when x > 0 && x <= takingCover:
-                return BossState.takingCover;
-            case int x when x > takingCover && x <= takingCover + meleeAttack:
-                return BossState.meleeAttack;
-            case int x when x > takingCover + meleeAttack && x <= takingCover + meleeAttack + rangedAttack:
-                return BossState.rangedAttack;
-            case int x when x > takingCover + meleeAttack + rangedAttack && x <= AddAllDicision():
-                return BossState.taunt;
-        }
-        Debug.Log("Out of bounds in CalculateNextDicision() for movement");
-        return BossState.takingCover;
-    }
 }
 
 public class BossEnemyController : MonoBehaviour
 {
+    [Header("Boss Stats")]
+    [SerializeField] public float maxHealth = 1000;
     [SerializeField] public float health = 1000;
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float acceleration = 8f;
@@ -82,6 +39,18 @@ public class BossEnemyController : MonoBehaviour
     [SerializeField] public float viewDegreeV = 50; // The Vertical angle where the enemy can see the player
     [SerializeField] public float viewRange = 10; // The distance that the enemy can see the player
 
+    [Header("Boss Dicision Setting")]
+    [SerializeField] public MovementDecision ambushedDicision;
+    [SerializeField] public MovementDecision [] ambushedDicisionMod = new MovementDecision[4];
+
+    [SerializeField] public MovementDecision attackDicision;
+    [SerializeField] public MovementDecision[] attackDicisionMod = new MovementDecision[4];
+
+    [SerializeField] public MovementDecision rangedAtkFollowUpDicision;
+
+    [SerializeField] public MovementDecision meleeAtkFollowUpDicision;
+
+    [Header("Boss Covering System")]
     public LayerMask coverLayers;
     public Enemy_LineOfSightChecker losChecker;
     public AttacksManager attacksManager;
@@ -93,6 +62,8 @@ public class BossEnemyController : MonoBehaviour
     private Collider[] coverColliders = new Collider[20]; // How many potential hiding spots to seek out per cover cycle. This should be twice the number of objects you want to use as cover, since each object generates two potential spots.
     [Range(.001f, 5)] [Tooltip("Interval in seconds for the enemy to check for new hiding spots")] public float coverUpdateFrequency = .75f;
     [HideInInspector] float timer = 0;
+
+
     public BossState state = BossState.idle;
 
     public BossState bossState // Public boss state variable that can be set to trigger a clean state transition
@@ -123,11 +94,18 @@ public class BossEnemyController : MonoBehaviour
         //
         //Debug.Log(bossState);
         //player = PlayerController.puppet;
+
+        
     }
     void Start()
     {
         //StartCoroutine(InCombatState());
         bossState = BossState.inCombat;
+        MovementDecision testDiscision = new MovementDecision(0,0,0,1);
+        //for (int i = 0; i < 100; i++)
+        //{
+        //    Debug.Log(testDiscision.GiveTheNextRandomDicision());
+        //}
     }
     
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
@@ -138,7 +116,7 @@ public class BossEnemyController : MonoBehaviour
             {
                 StopCoroutine(MovementCoroutine);
             }
-            switch (newState) // See BossState.cs for enum
+            switch (newState)
             {
                 // Spawnin probably should not be assigned with this, but putting it here just in case
                 case BossState.idle:
@@ -147,8 +125,17 @@ public class BossEnemyController : MonoBehaviour
                     MovementCoroutine = StartCoroutine(InCombatState());
                     break;
                 case BossState.attacking:
-                    Debug.Log("1");
                     attacksManager.Attack();
+                    break;
+                case BossState.taunt:
+                    //MovementCoroutine = StartCoroutine(InTauntState());
+                    bossState = BossState.takingCover; //Take care the taunt later
+                    break;
+                case BossState.meleeAttack:
+                    attacksManager.MeleeAttack();
+                    break;
+                case BossState.rangedAttack:
+                    attacksManager.RangedAttack();
                     break;
                 case BossState.takingCover:
                     MovementCoroutine = StartCoroutine(TakeCoverState(PlayerController.puppet.transform, true));
@@ -159,36 +146,13 @@ public class BossEnemyController : MonoBehaviour
             }
         }
     }
-    //  Update is called once per frame
-    /*
-    void Update()
+
+    public IEnumerator InTauntState()
     {
-        if (MovementCoroutine != null)
-        {
-            StopCoroutine(MovementCoroutine);
-        }
-        bossState = BossState.hiding;
-        switch (bossState)
-        {
-            case BossState.spawning:
-                break;
-            case BossState.inCombat:
-                //InAggroState();
-                break;
-            case BossState.attacking:
-                //Attack();
-                break;
-            case BossState.hiding:
-                Debug.Log(transform);
-                MovementCoroutine = StartCoroutine(TakeCover(PlayerController.puppet.transform, true));
-                bossState = BossState.spawning;
-                break;
-            
-        }
-        //navMeshAgent.destination = PlayerController.puppet.transform.position;
-        //attacksManager.Attack();
+        
+        yield return null;
     }
-    */
+
     public IEnumerator InCombatState()
     {
         //navMeshAgent.updatePosition = false;
@@ -317,7 +281,6 @@ public class BossEnemyController : MonoBehaviour
         }
     }
 
-
     private IEnumerator WaitInCoverState(float secondsToWait = 0, bool breakWhenSpotted = true) // Either breakWhenSpotted should be true, or secondsToWait should be >0, or both. If not this would go forever
     {
         // Check to see if this call is actually capable of ending
@@ -347,18 +310,17 @@ public class BossEnemyController : MonoBehaviour
                     {
                         // INSERT: Whatever should happen once gaining LOS to player. This should be an ambushed reaction if the player finds it fast enough, and the queued action if the boss is ready for them
                         // BossState = BossState.Ambush; or something
-                        bossState = BossState.takingCover;
+                        bossState = AmbushedDicision();
                         yield break;
                     }
                 }
             }
 
             yield return wait;
-            bossState = BossState.takingCover;
+            bossState = AttackDicision();
             yield break;
         }
     }
-
 
     public int CoverColliderArraySortComparer(Collider A, Collider B) // Refer to documentation on System.Array.Sort
     {
@@ -378,6 +340,63 @@ public class BossEnemyController : MonoBehaviour
         {
             return Vector3.Distance(navMeshAgent.transform.position, A.transform.position).CompareTo(Vector3.Distance(navMeshAgent.transform.position, B.transform.position));
         }
+    }
+
+    public BossState AmbushedDicision()
+    {
+        MovementDecision temp = ambushedDicision;
+        if (health / maxHealth > 0.5)
+        {
+            temp.AddDicision(ambushedDicisionMod[0]);
+        }
+        if (health / maxHealth > 0.3)
+        {
+            temp.AddDicision(ambushedDicisionMod[1]);
+        }
+        if (IsPlayerWithinDistance(5))
+        {
+            temp.AddDicision(ambushedDicisionMod[2]);
+        }
+        if (!IsPlayerWithinDistance(25))
+        {
+            temp.AddDicision(ambushedDicisionMod[3]);
+        }
+        return temp.GiveTheNextRandomDicision();
+    }
+
+    public BossState AttackDicision()
+    {
+        MovementDecision temp = attackDicision;
+        if (!IsPlayerWithinDistance(50))
+        {
+            temp.AddDicision(attackDicisionMod[0]);
+        }
+        if (!IsPlayerWithinDistance(25))
+        {
+            temp.AddDicision(attackDicisionMod[1]);
+        }
+        if (IsPlayerWithinDistance(25))
+        {
+            temp.AddDicision(attackDicisionMod[2]);
+        }
+        if (IsPlayerWithinDistance(10))
+        {
+            temp.AddDicision(attackDicisionMod[3]);
+        }
+        return temp.GiveTheNextRandomDicision();
+    }
+
+    public bool IsPlayerWithinDistance(float range)
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, range);
+        foreach (Collider thisCollider in colliders)
+        {
+            if (thisCollider.tag == "Player")
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void Damage(float damageAmount)

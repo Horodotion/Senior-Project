@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 //[System.Serializable]
 [CreateAssetMenu(menuName = "Enemy Attack Value/Jumping Attack")]
-public class JumpingAttack : EnemyAttacks
+public class JumpingAttack : AttackMotion
 {
     [SerializeField] GameObject hitbox;
     [SerializeField] float hitboxDuration;

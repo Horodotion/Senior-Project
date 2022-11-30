@@ -15,7 +15,7 @@ using UnityEngine;
 
 [System.Serializable]
 [CreateAssetMenu(menuName = "Enemy Attack Value")]
-public class EnemyAttacks : ScriptableObject
+public class AttackMotion : ScriptableObject
 {
     [HideInInspector] public PlayerController player;
     [HideInInspector] public BossEnemyController enemy;

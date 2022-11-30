@@ -4,52 +4,10 @@ using UnityEngine;
 
 
 
-[CreateAssetMenu(menuName = "Decision/Attack Dicision")]
-public class AttackDicision : Dicision
-{
-    public int iceAttack;
-    public int fireAttack;
-    public AttackDicision()
-    {
-    }
-    public AttackDicision(int iA, int fA)
-    {
-        iceAttack = iA;
-        fireAttack = fA;
-    }
-    public AttackDicision AddDicision(AttackDicision d)
-    {
-        return new AttackDicision(
-                this.iceAttack + d.fireAttack,
-                this.iceAttack + d.fireAttack);
-    }
-    public int AddAllDicision()
-    {
-        return iceAttack + fireAttack;
-    }
-    public bool GiveTheNextRandomDicision() //Return true if the output is ice, and false if it's fire.
-    {
-        int index = Random.Range(1, AddAllDicision());
-        switch (index)
-        {
-            case int x when x > 0 && x <= iceAttack:
-                return true;
-            case int x when x > iceAttack && x <= AddAllDicision():
-                return false;
-        }
-        Debug.Log("Out of bounds in GiveTheNextRandomDicision() for attack type");
-        return false;
-    }
-}
-
-public class Dicision : ScriptableObject
-{
-}
-
 [System.Serializable]
-public struct AttackWithSP
+public struct EnemyAttack
 {
-    public EnemyAttacks attacks;
+    public AttackMotion attackMotion;
     public Transform[] spawnPoiont;
 }
 
@@ -61,13 +19,19 @@ public class AttacksManager : MonoBehaviour
     
     public float timer;
 
-    [SerializeField] public AttackWithSP[] attacksList;
-    [SerializeField] public EnemyAttacks currentAttack;
+    //[SerializeField] public AttackWithSP[] attacksList;
+    //[SerializeField] public EnemyAttacks currentAttack;
 
-    [SerializeField] public EnemyAttacks iceMeleeAttack;
-    [SerializeField] public EnemyAttacks fireMeleeAttack;
-    [SerializeField] public ProjectileAttacks iceRangedAttack;
-    [SerializeField] public ProjectileAttacks fireRangedAttack;
+    [SerializeField] public EnemyAttack iceMeleeAttack;
+    [SerializeField] public EnemyAttack fireMeleeAttack;
+    [SerializeField] public EnemyAttack iceRangedAttack;
+    [SerializeField] public EnemyAttack fireRangedAttack;
+
+    AttackDecision rangedAttackDicision;
+    [SerializeField] public AttackDecision[] rangedAttackDicisionMod = new AttackDecision[4];
+
+    AttackDecision meleeAttackDicision;
+    [SerializeField] public AttackDecision[] meleeAttackDicisionMod = new AttackDecision[4];
 
 
     private bool ableToAttack = true;
@@ -75,6 +39,12 @@ public class AttacksManager : MonoBehaviour
     public void Awake()
     {
         enemy = GetComponent<BossEnemyController>();
+
+        iceMeleeAttack.attackMotion.InitializeAttacks(enemy, iceMeleeAttack.spawnPoiont);
+        fireMeleeAttack.attackMotion.InitializeAttacks(enemy, fireMeleeAttack.spawnPoiont);
+        iceRangedAttack.attackMotion.InitializeAttacks(enemy, iceRangedAttack.spawnPoiont);
+        fireRangedAttack.attackMotion.InitializeAttacks(enemy, fireRangedAttack.spawnPoiont);
+        /*
         currentAttack = RandomAttack();
         timer = currentAttack.coolDown;
         instance = this;
@@ -85,6 +55,7 @@ public class AttacksManager : MonoBehaviour
                 thisAttacks.attacks.InitializeAttacks(enemy, thisAttacks.spawnPoiont);
             }
         }
+        */
     }
     private void Update()
     {
@@ -93,7 +64,7 @@ public class AttacksManager : MonoBehaviour
     }
     public void Attack()
     {
-        enemy.MovementCoroutine = StartCoroutine(RandomAttack().AttackingPlayer());
+        //enemy.MovementCoroutine = StartCoroutine(RandomAttack().AttackingPlayer());
         
         /*
         if (attacksList != null)
@@ -108,26 +79,77 @@ public class AttacksManager : MonoBehaviour
         }
         */
     }
-    public void Attack(EnemyAttacks attack)
+    public void RangedAttack()
     {
-        if (attacksList != null)
+        if (RangedAttackDicision())
         {
-            if (currentAttack.AbleToAttack(timer))
-            {
-                //enemy.bossState = BossState.attacking;
-                currentAttack.AttackingPlayer();
-                timer = currentAttack.coolDown;
-                currentAttack = attack;// Change to Next attack;
-                timer += currentAttack.timeTaken;
-            }
+            enemy.MovementCoroutine = StartCoroutine(iceRangedAttack.attackMotion.AttackingPlayer());
+        }
+        else
+        {
+            enemy.MovementCoroutine = StartCoroutine(fireRangedAttack.attackMotion.AttackingPlayer());
         }
     }
+    public void MeleeAttack()
+    {
+        if (MeleeAttackDicision())
+        {
+            enemy.MovementCoroutine = StartCoroutine(iceMeleeAttack.attackMotion.AttackingPlayer());
+        }
+        else
+        {
+            enemy.MovementCoroutine = StartCoroutine(fireMeleeAttack.attackMotion.AttackingPlayer());
+        }
+    }
+    public bool RangedAttackDicision()
+    {
+        AttackDecision temp = rangedAttackDicision;
+        if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 75)
+        {
+            temp.AddDicision(rangedAttackDicisionMod[0]);
+        }
+        if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 60)
+        {
+            temp.AddDicision(rangedAttackDicisionMod[1]);
+        }
+        if (PlayerController.instance.playerStats.stat[StatType.temperature] <= 40)
+        {
+            temp.AddDicision(rangedAttackDicisionMod[2]);
+        }
+        if (PlayerController.instance.playerStats.stat[StatType.temperature] <= 25)
+        {
+            temp.AddDicision(rangedAttackDicisionMod[3]);
+        }
+        return temp.GiveTheNextRandomDicision();
+    }
+    public bool MeleeAttackDicision()
+    {
+        AttackDecision temp = meleeAttackDicision;
+        if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 75)
+        {
+            temp.AddDicision(meleeAttackDicisionMod[0]);
+        }
+        if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 60)
+        {
+            temp.AddDicision(meleeAttackDicisionMod[1]);
+        }
+        if (PlayerController.instance.playerStats.stat[StatType.temperature] <= 40)
+        {
+            temp.AddDicision(meleeAttackDicisionMod[2]);
+        }
+        if (PlayerController.instance.playerStats.stat[StatType.temperature] <= 25)
+        {
+            temp.AddDicision(meleeAttackDicisionMod[3]);
+        }
+        return temp.GiveTheNextRandomDicision();
+    }
+    
     /*
     public bool AbleToAttack(float timer)
     {
         //return 0 < currentAttack.coolDown + currentAttack.timeTaken;
     }
-    */
+    
     public EnemyAttacks RandomAttack()
     {
         if (attacksList.Length != 0)
@@ -136,7 +158,7 @@ public class AttacksManager : MonoBehaviour
         }
         return null;
     }
+    */
 
-    
 
 }
