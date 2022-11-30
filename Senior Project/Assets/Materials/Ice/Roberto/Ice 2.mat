@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Top Snow
-  m_Shader: {fileID: -6465566751694194690, guid: 8920266ff5deaa6469f5f839a96b9680,
+  m_Name: Ice 2
+  m_Shader: {fileID: -6465566751694194690, guid: bbbd22ba0a7296442a5669fb3ad4cd04,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -21,16 +21,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Base_Normal_Texture:
-        m_Texture: {fileID: 2800000, guid: acfc3cead7260634a8caaad7e8a3b781, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Base_Smoothness_Texture:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Base_Texture:
-        m_Texture: {fileID: 2800000, guid: b701d3e11a3c36d4f81b2c8012b530f7, type: 3}
+    - _IceTexture:
+        m_Texture: {fileID: 2800000, guid: 24515600b731e6048aa59e9ab7ae3f22, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -47,22 +39,19 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Base_Normal_Strength: 5.95
-    - _Buildup_Noise_Size: 50
+    - _FresnelPower: 2.62
+    - _Metalic: 0
+    - _Normals: -0.8
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Snow_Blend_distance: 0.158
-    - _Snow_Color_Noise_Size: 250
-    - _Snow_Color_Noise_Strength: 0.5
-    - _Snow_amount: 1
+    - _RefractionAmount: 0.34
+    - _Smoothness: 0.993
     m_Colors:
-    - _Base_Color: {r: 0, g: 0, b: 0, a: 0}
-    - _Base_Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _Base_Tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _Snow_Color: {r: 1, g: 1, b: 1, a: 0}
-    - _Snow_direction: {r: 0, g: 1, b: 0, a: 0}
+    - _Color: {r: 0.18912424, g: 0.44312322, b: 0.4716981, a: 0}
+    - _FresnelColor: {r: 1, g: 1, b: 1, a: 0}
+    - _IceTiling: {r: 2, g: 2, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &5614226199376649384
+--- !u!114 &7318700453740827752
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
