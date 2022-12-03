@@ -1386,6 +1386,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 175997585}
     m_Modifications:
+    - target: {fileID: 5442043602853235640, guid: 67636f0403be4d647b1d7e058219e945,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6683711769452340401, guid: 67636f0403be4d647b1d7e058219e945,
         type: 3}
       propertyPath: m_Name
@@ -1516,10 +1521,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2212470434278275989, guid: 44b27de345e9b2548a4c466c618b8e17,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2212470434278275995, guid: 44b27de345e9b2548a4c466c618b8e17,
         type: 3}
       propertyPath: m_Name
       value: Ice_Shotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212470434278275995, guid: 44b27de345e9b2548a4c466c618b8e17,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44b27de345e9b2548a4c466c618b8e17, type: 3}
@@ -1534,6 +1549,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Flamethrower
+      objectReference: {fileID: 0}
+    - target: {fileID: 5267170268050952336, guid: 2bf3698b2326be94cb7f9943e84fcad6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5267170268050952337, guid: 2bf3698b2326be94cb7f9943e84fcad6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5267170268050952343, guid: 2bf3698b2326be94cb7f9943e84fcad6,
         type: 3}
@@ -1603,6 +1628,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Icicle_Shot_Blast
+      objectReference: {fileID: 0}
+    - target: {fileID: 5550560979663694782, guid: 6aa9540c5716f5944a04b5e797e03a1e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6584630878296283841, guid: 6aa9540c5716f5944a04b5e797e03a1e,
         type: 3}

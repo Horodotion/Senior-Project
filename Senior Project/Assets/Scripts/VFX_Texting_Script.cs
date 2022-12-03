@@ -34,7 +34,7 @@ public class VFX_Texting_Script : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            flamethrower.Play();
+            //flamethrower.Play();
             //Icicle_blast.Play();
             //call the projectile spawn function using the denomenator of 1 to signify that is is an icicle
             //SpawnVFX (1);
