@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3f869b3b18ce784f9e06cd7599172ee, type: 3}
   m_Name: FireProjectileAttack
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   enemy: {fileID: 0}
   damage: 10
   coolDown: 3
   timeTaken: 3
   minDistanceTowardPlayer: 0
   maxDistanceTowardPlayer: 10
-  projectile: {fileID: 0}
-  projectileForce: 0
+  projectile: {fileID: 2964537244032325312, guid: eb94422f3fffae143a99751b50fda3e3,
+    type: 3}
+  projectileForce: 20
+  fireDistance: 15
+  aimSpeed: 0.5
+  waitTimeAfterFire: 1

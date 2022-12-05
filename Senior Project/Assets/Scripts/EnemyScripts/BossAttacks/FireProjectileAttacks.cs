@@ -7,6 +7,9 @@ public class FireProjectileAttacks : AttackMotion
 {
     [SerializeField] GameObject projectile;
     [SerializeField] float projectileForce = 20;
+    [SerializeField] float fireDistance = 1;
+    [SerializeField] float aimSpeed = 0.5f;
+    [SerializeField] float waitTimeAfterFire = 0.5f;
 
     public FireProjectileAttacks(BossEnemyController enemyController, Transform[] SP)
     {
@@ -15,23 +18,42 @@ public class FireProjectileAttacks : AttackMotion
     }
     public override IEnumerator AttackingPlayer()
     {
-
-        enemy.navMeshAgent.updatePosition = false;
-        for(int t = 0; true; t++)
+        while (!enemy.IsPlayerWithinDistance(fireDistance))
         {
-            Vector3 veiwToPlayerMesh = PlayerController.puppet.cameraObj.transform.position - enemy.viewPoint.transform.position;
-            enemy.transform.forward = Vector3.RotateTowards(enemy.transform.forward, veiwToPlayerMesh, 1f * Time.deltaTime, 0.0f);
-            Debug.DrawRay(enemy.viewPoint.transform.position, veiwToPlayerMesh, Color.blue);
-            if (t > 4)
-            {
-                GameObject thisProjectile = Instantiate(projectile, SP[0].position, SP[0].rotation);
-                thisProjectile.GetComponent<Rigidbody>().AddForce(SP[0].transform.forward * projectileForce, ForceMode.Impulse);
-                //enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
-                enemy.bossState = BossState.inCombat;
+            Debug.Log("Am I stuck?");
+            enemy.navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
 
+            yield return null;
+        }
+        Debug.Log("Firing fire attack " + enemy.bossState);
+        //enemy.bossState = BossState.inCombat;
+
+        enemy.navMeshAgent.speed = 0f;
+
+        //yield return new WaitForSeconds(1f);
+
+        while(true)
+        {
+            enemy.AimTowards(PlayerController.puppet.transform.position, aimSpeed);
+            if (enemy.IsPlayerWithinView(100f, 4f, 100f))
+            {
+                GameObject thisProjectile1 = Instantiate(projectile, SP[0].position, SP[0].rotation);
+                thisProjectile1.GetComponent<Rigidbody>().AddForce(SP[0].transform.forward * projectileForce, ForceMode.Impulse);
+                yield return new WaitForSeconds(0.5f);
+                GameObject thisProjectile2 = Instantiate(projectile, SP[0].position, SP[0].rotation);
+                thisProjectile2.GetComponent<Rigidbody>().AddForce(SP[0].transform.forward * projectileForce, ForceMode.Impulse);
+                yield return new WaitForSeconds(0.5f);
+                GameObject thisProjectile3 = Instantiate(projectile, SP[0].position, SP[0].rotation);
+                thisProjectile3.GetComponent<Rigidbody>().AddForce(SP[0].transform.forward * projectileForce, ForceMode.Impulse);
+                break;
             }
             yield return null;
         }
-        
+
+        yield return new WaitForSeconds(waitTimeAfterFire);
+        enemy.navMeshAgent.speed = enemy.speed;
+        enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
+        //enemy.bossState = BossState.inCombat;
+        //yield return null;
     }
 }

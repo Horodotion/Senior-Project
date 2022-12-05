@@ -84,41 +84,47 @@ public class AttacksManager : MonoBehaviour
     }
 
     //Decide which element for the ranged attack
-    public void RangedAttack()
+    public IEnumerator RangedAttack()
     {
         // Decide if it fire or ice
         if (RangedAttackDicision())
         {
             //Use Ice
-            enemy.MovementCoroutine = StartCoroutine(iceRangedAttack.attackMotion.AttackingPlayer());
+            Debug.Log("Use ice projectile " + enemy.bossState);
+            return iceRangedAttack.attackMotion.AttackingPlayer();
         }
         else
         {
             //Use Fire
-            enemy.MovementCoroutine = StartCoroutine(fireRangedAttack.attackMotion.AttackingPlayer());
+            Debug.Log("Use fire projectile");
+            return fireRangedAttack.attackMotion.AttackingPlayer();
         }
+        //StartCoroutine(enemy.MovementCoroutine);
     }
 
     //Decide which element for the melee attack
-    public void MeleeAttack()
+    public IEnumerator MeleeAttack()
     {
         // Decide if it fire or ice
         if (MeleeAttackDicision())
         {
+            Debug.Log("Use ice melee attack");
             //Use Ice
-            enemy.MovementCoroutine = StartCoroutine(iceMeleeAttack.attackMotion.AttackingPlayer());
+            return iceMeleeAttack.attackMotion.AttackingPlayer();
         }
         else
         {
             //Use Fire
-            enemy.MovementCoroutine = StartCoroutine(fireMeleeAttack.attackMotion.AttackingPlayer());
+            Debug.Log("Use fire melee attack");
+            return fireMeleeAttack.attackMotion.AttackingPlayer();
         }
+        //StartCoroutine(enemy.MovementCoroutine);
     }
 
     //This output a bool (true is ice/ false is fire) by calculate the element needed to use using the decision and decision modifier during range attack.
     public bool RangedAttackDicision()
     {
-        AttackDecision temp = rangedAttackDicision;
+        AttackDecision temp = new AttackDecision(rangedAttackDicision);
 
         // Adds up all the modifier and calculate the weight of each elements for the ranged attack.
         if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 75)
@@ -137,7 +143,7 @@ public class AttacksManager : MonoBehaviour
         {
             temp.AddDicision(rangedAttackDicisionMod[3]);
         }
-
+        Debug.Log(temp.iceAttack + " " + temp.fireAttack);
         //Find which element for the next attack
         return temp.GiveTheNextRandomDicision(); 
     }
@@ -145,7 +151,7 @@ public class AttacksManager : MonoBehaviour
     //This output a bool (true is ice/ false is fire) by calculate the element needed to use using the decision and decision modifier during melee attack.
     public bool MeleeAttackDicision()
     {
-        AttackDecision temp = meleeAttackDicision;
+        AttackDecision temp = new AttackDecision(meleeAttackDicision);
 
         // Adds up all the modifier and calculate the weight of each elements for the melee attack.
         if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 75)

@@ -10,6 +10,11 @@ public class AttackDecision : Dicision
     public AttackDecision()
     {
     }
+    public AttackDecision(AttackDecision aD)
+    {
+        iceAttack = aD.iceAttack;
+        fireAttack = aD.fireAttack;
+    }
     public AttackDecision(int iA, int fA)
     {
         iceAttack = iA;
@@ -36,5 +41,9 @@ public class AttackDecision : Dicision
         }
         Debug.Log("Out of bounds in GiveTheNextRandomDicision() for attack type");
         return false;
+    }
+    public void DisplayLog()
+    {
+        Debug.Log("Ice Attack: " + iceAttack + "Fire Attack: " + fireAttack);
     }
 }

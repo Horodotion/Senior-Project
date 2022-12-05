@@ -9,18 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f2029f3c3d35664d9ac8b80026e61f7, type: 3}
-  m_Name: IceProjectileAttack
+  m_Script: {fileID: 11500000, guid: 4b80e8268bd170d4d9931faed063c464, type: 3}
+  m_Name: IceMeleeAttacks
   m_EditorClassIdentifier: 
   enemy: {fileID: 0}
   damage: 10
-  coolDown: 3
-  timeTaken: 3
+  coolDown: 0
+  timeTaken: 0
   minDistanceTowardPlayer: 0
-  maxDistanceTowardPlayer: 10
-  projectile: {fileID: 2964537244032325312, guid: 086afa8d9ddddc14da5581102539ee44,
-    type: 3}
-  projectileForce: 20
-  fireDistance: 15
-  aimSpeed: 0.5
-  waitTimeAfterFire: 1
+  maxDistanceTowardPlayer: 0
+  chargeSpeed: 5
+  meleeDistance: 2
+  turnSpeed: 1.5
+  stoppingDistance: 3.5
+  hitboxSpawnTime: 0.5

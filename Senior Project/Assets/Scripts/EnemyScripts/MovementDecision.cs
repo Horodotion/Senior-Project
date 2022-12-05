@@ -12,6 +12,13 @@ public class MovementDecision : Dicision
     public MovementDecision()
     {
     }
+    public MovementDecision(MovementDecision mD)
+    {
+        takingCover = mD.takingCover;
+        meleeAttack = mD.meleeAttack;
+        rangedAttack = mD.rangedAttack;
+        taunt = mD.taunt;
+    }
     public MovementDecision(int tC, int mA, int rA, int t)
     {
         takingCover = tC;
@@ -55,5 +62,10 @@ public class MovementDecision : Dicision
         }
         Debug.Log("Out of bounds in CalculateNextDicision() for movement");
         return BossState.takingCover;
+    }
+
+    public void DisplayLog()
+    {
+        Debug.Log("Taking Cover: " + takingCover + " Melee Attack: " + meleeAttack + " Ranged Attack: " + rangedAttack + " Taunt: " + taunt);
     }
 }
