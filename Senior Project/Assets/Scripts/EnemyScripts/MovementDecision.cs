@@ -48,6 +48,10 @@ public class MovementDecision : Dicision
 
     public BossState GiveTheNextRandomDicision()
     {
+        if (takingCover < 0) takingCover = 0;
+        if (meleeAttack < 0) meleeAttack = 0;
+        if (rangedAttack < 0) rangedAttack = 0;
+        if (taunt < 0) taunt = 0;
         int index = Random.Range(1, AddAllDicision());
         switch (index)
         {

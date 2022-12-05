@@ -31,6 +31,8 @@ public class AttackDecision : Dicision
     }
     public bool GiveTheNextRandomDicision() //Return true if the output is ice, and false if it's fire.
     {
+        if (iceAttack < 0) iceAttack = 0;
+        if (fireAttack < 0) fireAttack = 0;
         int index = Random.Range(1, AddAllDicision());
         switch (index)
         {
