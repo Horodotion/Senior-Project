@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7197190832184265555
+--- !u!1 &5281465209885469763
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7541944161125716457}
-  - component: {fileID: 6847025954766052940}
-  - component: {fileID: 8710369176229063302}
+  - component: {fileID: 4755898018731849465}
+  - component: {fileID: 8480141319139883356}
+  - component: {fileID: 5929961773051481494}
   m_Layer: 0
   m_Name: wall_mushroom_clump4
   m_TagString: Untagged
@@ -18,36 +18,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7541944161125716457
+--- !u!4 &4755898018731849465
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7197190832184265555}
+  m_GameObject: {fileID: 5281465209885469763}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6847025954766052940
+--- !u!33 &8480141319139883356
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7197190832184265555}
+  m_GameObject: {fileID: 5281465209885469763}
   m_Mesh: {fileID: -4761569780889446502, guid: 29e9fe74f86280e41b734444b0c40ae5, type: 3}
---- !u!23 &8710369176229063302
+--- !u!23 &5929961773051481494
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7197190832184265555}
+  m_GameObject: {fileID: 5281465209885469763}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1

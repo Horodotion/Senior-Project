@@ -27,13 +27,15 @@ public class PlayerPuppet : MonoBehaviour
         Gavity is how much gravity effects the player, while jump speed affects how high the player can jump
         spring multiplier is a speed buff to the player while running
     */
-    public float mouseSensetivity = 1.0f, lookAngles = 90f, Gravity = 1, JumpSpeed = 1, SprintMultiplier = 2f,
+    public float mouseSensetivity = 1.0f, lookAngles = 90f, gravity = 1, jumpSpeed = 1, sprintMultiplier = 2f,
                  inAirControlMultiplier;
     [HideInInspector] public int jumpsRemaining = 2, totalJumps = 2;
     [HideInInspector] public bool canJump = true;
 
     public Spell primarySpell, secondarySpell, mobilitySpell, currentSpellBeingCast;
     public Transform primaryFirePosition, secondaryFirePosition;
+    [HideInInspector] public Vector3 moveDirection, inputDirection;
+    [HideInInspector] public RaycastHit slidingHit;
 
 
     void Awake()
@@ -182,35 +184,43 @@ public class PlayerPuppet : MonoBehaviour
     public void Movement()
     {
         // Changing the move axis to a Vector3
-        Vector3 moveDirection = new Vector3(ourPlayer.moveAxis.x, 0f, ourPlayer.moveAxis.y).normalized;
+        inputDirection = new Vector3(ourPlayer.moveAxis.x, 0f, ourPlayer.moveAxis.y).normalized;
 
         // Checking if it's not empty
-        if (ourPlayer.moveAxis != Vector2.zero)
+        if (inputDirection != Vector3.zero)
         {
             // If the sprint key is held down, it multiplies the speed by the sprint multiplier
             // If not, it multiplies it by time and the player's speed stat
-            if (PlayerController.instance.sprintHeldDown && moveDirection.z > 0)
+            if (PlayerController.instance.sprintHeldDown && inputDirection.z > 0)
             {
-                moveDirection *= Time.deltaTime * ourPlayer.playerStats.stat[StatType.speed] * SprintMultiplier;
+                inputDirection *= ourPlayer.playerStats.stat[StatType.speed] * sprintMultiplier;
             }
             else
             {
-                moveDirection *= Time.deltaTime * ourPlayer.playerStats.stat[StatType.speed];
+                inputDirection *= ourPlayer.playerStats.stat[StatType.speed];
             }
 
             // After multiplying it by the speed, it will transform the direction of movement into world space
-            moveDirection = transform.TransformDirection(moveDirection);
+            inputDirection = transform.TransformDirection(inputDirection);
             // If the player is falling, the y value is set to how fast the player is falling
-            moveDirection.y = fallingSpeed;
-        }
-
-        // If the player is in the air, it will add one tenth of the gravity value to the falling speed
-        if (!charController.isGrounded)
-        {
-            fallingSpeed -= (Gravity / 10) * Time.deltaTime;
-            moveDirection.y = fallingSpeed;
+            // inputDirection.y = fallingSpeed;
         }
         else
+        {
+
+        }
+
+        moveDirection = inputDirection;
+
+        Falling();
+        FinalMovement();
+    }
+
+    public void Falling()
+    {
+        // If the player is in the air, it will add one tenth of the gravity value to the falling speed
+
+        if (charController.isGrounded && !Sliding())
         {
             if (jumpsRemaining != totalJumps)
             {
@@ -220,25 +230,63 @@ public class PlayerPuppet : MonoBehaviour
             if (fallingSpeed != 0f)
             {
                 fallingSpeed = 0f;
+                moveDirection.y = 0;
             }
         }
+        else
+        {
+            fallingSpeed -= (gravity / 10);// * Time.deltaTime;
+            moveDirection.y += fallingSpeed;
+        }
+
 
         // If not, it checks if the player is trying to jump, then adds one tenth of the jump speed to the move
         if (ourPlayer.jumpHeldDown && (canJump && jumpsRemaining > 0))
         {
             canJump = false;
-            jumpsRemaining--;   
-            fallingSpeed = (JumpSpeed / 10);
+            jumpsRemaining--;
+            fallingSpeed = jumpSpeed; //(JumpSpeed / 10);
             moveDirection.y = fallingSpeed;
         }
         else if (!ourPlayer.jumpHeldDown)
         {
             canJump = true;
-            
         }
-        
-        // After everything is calculated, they player is moved based on the moveDirection
-        charController.Move(moveDirection);
+    }
+
+    public bool Sliding()
+    {
+        if (charController.isGrounded && Physics.Raycast(transform.position, -transform.up, out slidingHit))
+        {
+            return Vector3.Angle(slidingHit.normal, Vector3.up) > charController.slopeLimit;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void FinalMovement()
+    {
+        if (Sliding())
+        {
+            moveDirection = new Vector3(slidingHit.normal.x, -slidingHit.normal.y * gravity, slidingHit.normal.z);
+
+
+            Vector3 testDirection = transform.TransformDirection(inputDirection);
+
+            if (moveDirection.x * inputDirection.x > 0 && moveDirection.x < inputDirection.x)
+            {
+                moveDirection.x = inputDirection.x;
+            }
+
+            if (moveDirection.z * inputDirection.z > 0 && moveDirection.z < inputDirection.z)
+            {
+                moveDirection.z = inputDirection.z;
+            }
+        }
+
+        charController.Move(moveDirection * Time.deltaTime);
     }
 
     // The function that the useObject 

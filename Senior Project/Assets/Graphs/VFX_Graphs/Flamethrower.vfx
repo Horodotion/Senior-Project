@@ -14159,7 +14159,7 @@ MonoBehaviour:
       slotIndex: 0
   m_OutputFlowSlot:
   - link:
-    - context: {fileID: 8926484042661615383}
+    - context: {fileID: 8926484042661615536}
       slotIndex: 0
   integration: 0
   angularIntegration: 0
@@ -14256,11 +14256,9 @@ MonoBehaviour:
   - {fileID: 8926484042661615385}
   m_OutputSlots: []
   m_Label: Beam
-  m_Data: {fileID: 8926484042661615401}
+  m_Data: {fileID: 8926484042661615579}
   m_InputFlowSlot:
-  - link:
-    - context: {fileID: 8926484042661615379}
-      slotIndex: 0
+  - link: []
   m_OutputFlowSlot:
   - link: []
   blendMode: 0
@@ -14532,7 +14530,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.0,"value":1.0,"inTangent":-2.86129093170166,"outTangent":-2.86129093170166,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":1.0,"value":0.0,"inTangent":0.0,"outTangent":0.0,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
+      m_SerializableObject: '{"frames":[{"time":0.0,"value":0.6000000238418579,"inTangent":-1.607740879058838,"outTangent":-1.607740879058838,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":1.0,"value":0.0,"inTangent":0.0,"outTangent":0.0,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
     m_Space: 2147483647
   m_Property:
     name: Size
@@ -14809,7 +14807,7 @@ MonoBehaviour:
   m_Owners:
   - {fileID: 8926484042661615344}
   - {fileID: 8926484042661615379}
-  - {fileID: 8926484042661615383}
+  - {fileID: 8926484042661615536}
   dataType: 0
   capacity: 1024
   stripCapacity: 16
@@ -14843,8 +14841,8 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.DirectionType, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"direction":{"x":0.0,"y":0.0,"z":90.0}}'
-    m_Space: 0
+      m_SerializableObject: '{"direction":{"x":0.0,"y":0.0,"z":180.0}}'
+    m_Space: 1
   m_Property:
     name: Up
     m_serializedType:
@@ -15002,6 +15000,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children:
+  - {fileID: 8926484042661615573}
   - {fileID: 8926484042661615547}
   - {fileID: 8926484042661615550}
   - {fileID: 8926484042661615552}
@@ -15015,9 +15014,11 @@ MonoBehaviour:
   - {fileID: 8926484042661615539}
   m_OutputSlots: []
   m_Label: 
-  m_Data: {fileID: 8926484042661615571}
+  m_Data: {fileID: 8926484042661615401}
   m_InputFlowSlot:
-  - link: []
+  - link:
+    - context: {fileID: 8926484042661615379}
+      slotIndex: 0
   m_OutputFlowSlot:
   - link: []
   blendMode: 0
@@ -15299,7 +15300,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.002418065443634987,"value":0.1877208799123764,"inTangent":-0.20924177765846253,"outTangent":-0.20924177765846253,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.9951573610305786,"value":-0.004716981202363968,"inTangent":-0.08470060676336289,"outTangent":-0.08470060676336289,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
+      m_SerializableObject: '{"frames":[{"time":0.0,"value":0.10000000149011612,"inTangent":-0.20924177765846253,"outTangent":-0.20924177765846253,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.9951573610305786,"value":-0.004716981202363968,"inTangent":-0.08470060676336289,"outTangent":-0.08470060676336289,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
     m_Space: 2147483647
   m_Property:
     name: Size
@@ -15658,7 +15659,30 @@ MonoBehaviour:
         PublicKeyToken=b77a5c561934e089
   m_Direction: 0
   m_LinkedSlots: []
---- !u!114 &8926484042661615571
+--- !u!114 &8926484042661615573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16c6aeaef944094b9a1633041804207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 8926484042661615536}
+  m_Children: []
+  m_UIPosition: {x: 261.50775, y: -108.33496}
+  m_UICollapsed: 0
+  m_UISuperCollapsed: 0
+  m_InputSlots: []
+  m_OutputSlots: []
+  m_Disabled: 0
+  mode: 0
+  axes: 4
+--- !u!114 &8926484042661615579
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15678,7 +15702,7 @@ MonoBehaviour:
   m_UISuperCollapsed: 0
   title: 
   m_Owners:
-  - {fileID: 8926484042661615536}
+  - {fileID: 8926484042661615383}
   dataType: 0
   capacity: 128
   stripCapacity: 1
