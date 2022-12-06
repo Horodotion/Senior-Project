@@ -256,7 +256,7 @@ public class PlayerPuppet : MonoBehaviour
 
     public bool Sliding()
     {
-        if (charController.isGrounded && Physics.Raycast(transform.position, -transform.up, out slidingHit))
+        if (charController.isGrounded && Physics.Raycast(charController.center, -transform.up, out slidingHit))
         {
             return Vector3.Angle(slidingHit.normal, Vector3.up) > charController.slopeLimit;
         }
