@@ -17,7 +17,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Enemy Attack Value")]
 public class AttackMotion : ScriptableObject
 {
-    [HideInInspector] public PlayerController player;
+    //[HideInInspector] public PlayerPuppet player;
     [HideInInspector] public BossEnemyController enemy;
 
     public int damage;
@@ -37,7 +37,7 @@ public class AttackMotion : ScriptableObject
 
     public virtual void Awake()
     {
-        player = PlayerController.instance;
+        
         isFiredOnce = true;
         //attacksManager = AttacksManager.instance;
         //enemy = enemyGameObject.GetComponent<MovingEnemyController>();
@@ -57,22 +57,10 @@ public class AttackMotion : ScriptableObject
     public bool AbleToAttack(float timer)
     {
 
-        return IsPlayerWithinDistance(maxDistanceTowardPlayer) && 
-              !IsPlayerWithinDistance(minDistanceTowardPlayer) &&
+        return enemy.IsPlayerWithinDistance(maxDistanceTowardPlayer) && 
+              !enemy.IsPlayerWithinDistance(minDistanceTowardPlayer) &&
               timer <= 0;
 
-    }
-    public bool IsPlayerWithinDistance(float range)
-    {
-        Collider[] colliders = Physics.OverlapSphere(enemy.transform.position, range);
-        foreach (Collider thisCollider in colliders)
-        {
-            if (thisCollider.tag == "Player")
-            {
-                return true;
-            }
-        }
-        return false;
     }
 }
 

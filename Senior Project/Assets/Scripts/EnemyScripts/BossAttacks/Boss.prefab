@@ -60,7 +60,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2252356615974982659}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -169,15 +169,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f88c53b80ec57444bde08cd06d21a5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 1000
   health: 1000
   speed: 3.5
   acceleration: 8
   navMeshAgent: {fileID: 0}
   dead: 0
-  viewPoint: {fileID: 0}
+  viewPoint: {fileID: 2252356615428781622}
   viewDegreeH: 100
   viewDegreeV: 50
   viewRange: 10
+  ambushedDicision: {fileID: 11400000, guid: ad2fa5b166fa80440a825f8d714b3869, type: 2}
+  ambushedDicisionMod:
+  - {fileID: 11400000, guid: 8255abfa0d3a6d64ab3e1355421968ee, type: 2}
+  - {fileID: 11400000, guid: 07e3f14b044012f47aedbec468546de4, type: 2}
+  - {fileID: 11400000, guid: ce6495e072ead5b49b6703aaee9c9ea5, type: 2}
+  - {fileID: 11400000, guid: 52a0d39f1a3e29a48b86bba2b8591613, type: 2}
+  attackDicision: {fileID: 11400000, guid: 6ccb6cdff00ab3c42adcfb5a68f166d0, type: 2}
+  attackDicisionMod:
+  - {fileID: 11400000, guid: d7290147744fcd144bb26f8d34762dc0, type: 2}
+  - {fileID: 11400000, guid: 51531bb8916a91649b66f546ee290b76, type: 2}
+  - {fileID: 11400000, guid: 59ab25050372d6d4a8d054c52f09edaa, type: 2}
+  - {fileID: 11400000, guid: 27a7dced07b38d94cb40559769ca9b94, type: 2}
+  rangedAtkFollowUpDicision: {fileID: 11400000, guid: 62ff0637c23a45240ba420d0db600f2e,
+    type: 2}
+  meleeAtkFollowUpDicision: {fileID: 11400000, guid: ae19224f10197734fa4d4b067d0dc3ad,
+    type: 2}
   coverLayers:
     serializedVersion: 2
     m_Bits: 1
@@ -203,11 +220,34 @@ MonoBehaviour:
   enemy: {fileID: 0}
   instance: {fileID: 0}
   timer: 0
-  attacksList:
-  - attacks: {fileID: 11400000, guid: 7a68af1bcf40ebe45b2db53c3fea53f9, type: 2}
+  iceMeleeAttack:
+    attackMotion: {fileID: 11400000, guid: 26bfbfb5f40c5184b9e2697218ba9542, type: 2}
+    spawnPoiont: []
+  fireMeleeAttack:
+    attackMotion: {fileID: 11400000, guid: 26bfbfb5f40c5184b9e2697218ba9542, type: 2}
+    spawnPoiont: []
+  iceRangedAttack:
+    attackMotion: {fileID: 11400000, guid: c69271cd835c02d4ba89559b5f4aa1e2, type: 2}
     spawnPoiont:
-    - {fileID: 2252356616836842677}
-  currentAttack: {fileID: 0}
+    - {fileID: 2252356615428781609}
+  fireRangedAttack:
+    attackMotion: {fileID: 11400000, guid: 0a67adcccb456f741bb5905cb460993a, type: 2}
+    spawnPoiont:
+    - {fileID: 2252356615428781609}
+  rangedAttackDicision: {fileID: 11400000, guid: 4beb446b46c9731448c43581dfb83bd1,
+    type: 2}
+  rangedAttackDicisionMod:
+  - {fileID: 11400000, guid: 9bb62eb94fa00de418127238600fb312, type: 2}
+  - {fileID: 11400000, guid: 4825d2ce9b0fc384e9bbcb0cc6694717, type: 2}
+  - {fileID: 11400000, guid: 7ca09d70a25bbaa4c9b6f48cdc1b738a, type: 2}
+  - {fileID: 11400000, guid: 9c8712df6cf13a44ca01ac521a32994b, type: 2}
+  meleeAttackDicision: {fileID: 11400000, guid: 7a200ba46523fe1429c927beed8b4d9b,
+    type: 2}
+  meleeAttackDicisionMod:
+  - {fileID: 11400000, guid: 12f2decc11bb7f547a0f4b1ff365f256, type: 2}
+  - {fileID: 11400000, guid: 97696ddc62187a44eb907e9ebbc5109b, type: 2}
+  - {fileID: 11400000, guid: 6b11a0a27353d7c45bdc925048144d55, type: 2}
+  - {fileID: 11400000, guid: 16622740fc70081479279f8a64a94c4f, type: 2}
 --- !u!1 &2252356616287809271
 GameObject:
   m_ObjectHideFlags: 0
