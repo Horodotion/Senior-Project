@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 775589575456253803}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 11.383991, y: 2.3984604, z: 15.559152}
-  m_LocalScale: {x: 0.12264329, y: 0.09322314, z: 0.079454385}
+  m_LocalScale: {x: 0.29389012, y: 0.09322314, z: 0.079454385}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -116,8 +116,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 5
-      minScalar: 3
+      scalar: 15
+      minScalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -169,7 +169,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.5
+      scalar: 0.02
       minScalar: 0.01
       maxCurve:
         serializedVersion: 2
@@ -1490,7 +1490,7 @@ ParticleSystem:
     x:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1543,7 +1543,7 @@ ParticleSystem:
     y:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1596,7 +1596,7 @@ ParticleSystem:
     z:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1649,8 +1649,8 @@ ParticleSystem:
     orbitalX:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0
-      minScalar: 1
+      scalar: -5
+      minScalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1702,8 +1702,8 @@ ParticleSystem:
     orbitalY:
       serializedVersion: 2
       minMaxState: 3
-      scalar: -1
-      minScalar: 1
+      scalar: -5
+      minScalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1755,8 +1755,8 @@ ParticleSystem:
     orbitalZ:
       serializedVersion: 2
       minMaxState: 3
-      scalar: -1
-      minScalar: 1
+      scalar: -5
+      minScalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1808,7 +1808,7 @@ ParticleSystem:
     orbitalOffsetX:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1861,7 +1861,7 @@ ParticleSystem:
     orbitalOffsetY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1914,7 +1914,7 @@ ParticleSystem:
     orbitalOffsetZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1967,7 +1967,7 @@ ParticleSystem:
     radial:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 12.22
+      scalar: 2.16
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -2020,7 +2020,7 @@ ParticleSystem:
     speedModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.009
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -3933,7 +3933,7 @@ ParticleSystem:
     lifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.01
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -3983,7 +3983,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    minVertexDistance: 1
+    minVertexDistance: 0.63
     textureMode: 0
     ribbonCount: 1
     shadowBias: 0.5
@@ -4120,10 +4120,10 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 1, g: 0.8639528, b: 0.12587817, a: 0.19607843}
         key1: {r: 1, g: 0.8627451, b: 0.1254902, a: 1}
-        key2: {r: 1, g: 0.8627451, b: 0.1254902, a: 0.19607843}
+        key2: {r: 1, g: 0.8627451, b: 0.1254902, a: 1}
         key3: {r: 1, g: 0.8627451, b: 0.1254902, a: 0.9867395}
-        key4: {r: 1, g: 0.8627451, b: 0.1254902, a: 0}
-        key5: {r: 0, g: 0, b: 0, a: 0}
+        key4: {r: 1, g: 0.8627451, b: 0.1254902, a: 0.19607843}
+        key5: {r: 0, g: 0, b: 0, a: 0.19607843}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
@@ -4139,7 +4139,7 @@ ParticleSystem:
         atime2: 28720
         atime3: 50308
         atime4: 65535
-        atime5: 0
+        atime5: 65535
         atime6: 0
         atime7: 0
         m_Mode: 0
@@ -4783,7 +4783,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_RenderMode: 0
+  m_RenderMode: 5
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
