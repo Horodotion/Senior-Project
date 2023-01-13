@@ -256,7 +256,7 @@ public class PlayerPuppet : MonoBehaviour
 
     public bool Sliding()
     {
-        if (charController.isGrounded && Physics.Raycast(charController.center, -transform.up, out slidingHit))
+        if (charController.isGrounded && Physics.Raycast(charController.center, -transform.up, out slidingHit, 100f))
         {
             return Vector3.Angle(slidingHit.normal, Vector3.up) > charController.slopeLimit;
         }
@@ -275,15 +275,7 @@ public class PlayerPuppet : MonoBehaviour
 
             Vector3 testDirection = transform.TransformDirection(inputDirection);
 
-            if (moveDirection.x * inputDirection.x > 0 && moveDirection.x < inputDirection.x)
-            {
-                moveDirection.x = inputDirection.x;
-            }
 
-            if (moveDirection.z * inputDirection.z > 0 && moveDirection.z < inputDirection.z)
-            {
-                moveDirection.z = inputDirection.z;
-            }
         }
 
         charController.Move(moveDirection * Time.deltaTime);
