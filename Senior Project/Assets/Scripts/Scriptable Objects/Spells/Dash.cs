@@ -36,7 +36,7 @@ public class Dash : Spell
         
         float bigD = Vector3.Distance(puppet.transform.position, dashOrigin);
 
-        if (bigD >= dashDistance)
+        if (bigD >= dashDistance || puppet.charController.velocity == Vector3.zero)
         {
             Debug.Log(bigD);
             PlayerController.ourPlayerState = PlayerState.inGame;

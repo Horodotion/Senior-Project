@@ -44,10 +44,10 @@ public class KeyInteractable : Interactable
             PlayerController.instance.keyRing.Add(ourKey.key, newKey);
         }
 
-        if(PlayerController.puppet.interactableObjectList.Contains(gameObject))
-        {
-            PlayerController.puppet.interactableObjectList.Remove(gameObject);
-        }
+        // if(PlayerController.puppet.interactableObjectList.Contains(gameObject))
+        // {
+        //     PlayerController.puppet.interactableObjectList.Remove(gameObject);
+        // }
         Destroy(gameObject);
     }
 }

@@ -232,11 +232,11 @@ public class PlayerController : MonoBehaviour
     // The button to allow interactable objects to be used
     public void OnUseAction(InputAction.CallbackContext context)
     {
-        // This only works from the puppet's side, and sends a message to it
-        if (puppet != null)
-        {
-            puppet.UseObject();
-        }
+        // // This only works from the puppet's side, and sends a message to it
+        // if (puppet != null)
+        // {
+        //     puppet.UseObject();
+        // }
     }
 
     // This calls for the player to start jumping

@@ -122,7 +122,7 @@ public abstract class Spell : ScriptableObject
         {
             if (animationLocation > 0 && spellAnimHolder != null)
             {
-                Debug.Log("FIRING");
+                // Debug.Log("FIRING");
                 spellAnimHolder.SetAnimState(animationLocation);
             }
             else
