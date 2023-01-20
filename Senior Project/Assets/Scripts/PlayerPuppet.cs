@@ -127,19 +127,32 @@ public class PlayerPuppet : MonoBehaviour
         }
     }
 
+
+    //Functions that handle movement
     public void Movement()
     {
         grounded = charController.isGrounded;// || velocity.y == 0);
         isSliding = Sliding();
+        inputDirection = HorizontalMovement();
 
         if (!grounded)//, charController.height))
         {
-            moveDirection = HorizontalMovement() * inAirControlMultiplier;
+            Vector3 aerialVector = Vector3.zero;
+
+            aerialVector = inputDirection * inAirControlMultiplier;
+
+            float maxSpeed = playerStats.stat[StatType.speed] * Time.deltaTime;
+            
+            moveDirection += new Vector3(aerialVector.x, 0, aerialVector.z) * Time.deltaTime;
+
+            // moveDirection = Vector3.ClampMagnitude(moveDirection, maxSpeed);
+            moveDirection.x = Mathf.Clamp(moveDirection.x, -maxSpeed, maxSpeed);
+            moveDirection.z = Mathf.Clamp(moveDirection.z, -maxSpeed, maxSpeed);
+            
             movementState = MovementState.inAir;
         }
         else
         {
-            inputDirection = HorizontalMovement();
             if (isSliding)
             {
                 moveDirection += new Vector3(slidingHit.normal.x, 0, slidingHit.normal.z) * Time.deltaTime;
@@ -159,7 +172,6 @@ public class PlayerPuppet : MonoBehaviour
         velocity = charController.velocity;
     }
 
-    // The function that handles movement itself
     public Vector3 HorizontalMovement()
     {
         Vector3 vectorToReturn = Vector3.zero;
@@ -186,9 +198,17 @@ public class PlayerPuppet : MonoBehaviour
         return vectorToReturn;
     }
 
+    public void AerialMovement()
+    {
+        
+
+    }
+
     public void Falling()
     {
         // If the player is in the air, it will add one tenth of the gravity value to the falling speed
+
+        moveDirection.y = 0;
 
         if (grounded && !isSliding)
         {
@@ -200,7 +220,7 @@ public class PlayerPuppet : MonoBehaviour
             if (fallingSpeed != 0f)
             {
                 fallingSpeed = 0f;
-                moveDirection.y = 0;
+                
             }
         }
         else
