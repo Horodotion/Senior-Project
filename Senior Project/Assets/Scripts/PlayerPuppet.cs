@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MovementState
+{
+    grounded,
+    inAir,
+    sliding,
+    dashing,
+    knockback,
+    other
+}
+
 // This class acts as the actual game object to run around in the scene
 // For the inputs and data storage, look to the PlayerController script
 public class PlayerPuppet : MonoBehaviour
@@ -11,13 +21,14 @@ public class PlayerPuppet : MonoBehaviour
     [HideInInspector] public Stats playerStats; // A reference to the stats for easier reading
     [HideInInspector] public Vector3 lookRotation; // The current lookRotation on the puppet
     [HideInInspector] public CharacterController charController; // A reference to the CharacterController
-    [HideInInspector] public List<GameObject> interactableObjectList; // A list of objects that can be interacted with
-    
     public GameObject cameraObj; // The object that the camera is held on
-    public GameObject interactableObject; // A reference to what object we can currently interact with
-    public GameObject spellAnimObj;
-    public Animator spellAnim;
-    public SpellAnimHolder ourAnimHolder;
+    
+    
+    // [HideInInspector] public List<GameObject> interactableObjectList; // A list of objects that can be interacted with
+    // public GameObject interactableObject; // A reference to what object we can currently interact with
+    [HideInInspector] public GameObject spellAnimObj;
+    [HideInInspector] public Animator spellAnim;
+    [HideInInspector] public SpellAnimHolder ourAnimHolder;
 
     public float fallingSpeed = 0f; // The speed at which the player is currently falling
 
@@ -30,11 +41,13 @@ public class PlayerPuppet : MonoBehaviour
     public float mouseSensetivity = 1.0f, lookAngles = 90f, gravity = 1, jumpSpeed = 1, sprintMultiplier = 2f,
                  inAirControlMultiplier;
     [HideInInspector] public int jumpsRemaining = 2, totalJumps = 2;
-    [HideInInspector] public bool canJump = true;
+    [HideInInspector] public bool canJump = true, grounded;
+    public MovementState movementState;
+    public bool isSliding = false;
 
     public Spell primarySpell, secondarySpell, mobilitySpell, currentSpellBeingCast;
     public Transform primaryFirePosition, secondaryFirePosition;
-    [HideInInspector] public Vector3 moveDirection, inputDirection;
+    public Vector3 moveDirection, inputDirection, velocity;
     [HideInInspector] public RaycastHit slidingHit;
 
 
@@ -114,113 +127,90 @@ public class PlayerPuppet : MonoBehaviour
         }
     }
 
-    // OnTriggerEnter currently is used to gather the list of interactable Objects
-    void OnTriggerEnter(Collider col)
+
+    //Functions that handle movement
+    public void Movement()
     {
-        if (col.gameObject.tag == "Interactable" && col.GetComponent<Interactable>())
+        grounded = charController.isGrounded;// || velocity.y == 0);
+        isSliding = Sliding();
+        inputDirection = HorizontalMovement();
+
+        if (!grounded)//, charController.height))
         {
-            // Setting up variables to check fo the closest interactable object
-            RaycastHit hit;
-            Vector3 checkingRaycastDirection = col.bounds.center - cameraObj.transform.position;
+            Vector3 aerialVector = Vector3.zero;
 
-            //This checks if there is line of sight, and then whichever object is closest to the center
-            if (Physics.Raycast(cameraObj.transform.position, checkingRaycastDirection, out hit) 
-                    && hit.collider.gameObject == col.gameObject)
-            {
-                //If all of the above is true, it adds the gameObject to the list of possible interactable objects
-                interactableObjectList.Add(col.gameObject);
-            }
-        }
-    }
+            aerialVector = inputDirection * inAirControlMultiplier;
 
-    void OnTriggerExit(Collider col)
-    {
-        //If it's on the list of interactable objects, this removes it from the list
-        if (interactableObjectList.Contains(col.gameObject))
-        {
-            interactableObjectList.Remove(col.gameObject);
-        }
-    }
-
-    // A function to return the closest interactable object to the player
-    public GameObject GetClosestInteractableObject()
-    {
-        // If there's more than 1 gameObject in the list of interactable objects, it calculates
-        if (interactableObjectList.Count > 1)
-        {
-            // A list of variables to check against
-            GameObject tempClosestItem = null; // The game object to return
-            float tempClosestDistance = Mathf.Infinity; // The closest distance to check against
-            float tempDistance; // The distance to calculate against tempClosestDistance
-
-            for (int i = 0; i < interactableObjectList.Count; i++)
-            {
-                // This calculates distance then checks if it is closer or if the object is null
-                tempDistance = Vector3.Distance(cameraObj.transform.position, interactableObjectList[i].transform.position);
-                if (tempDistance < tempClosestDistance || tempClosestItem == null)
-                {
-                    //if all of the above are true, it sets the tempClosest object and tempClosestDistance
-                    tempClosestItem = interactableObjectList[i].gameObject;
-                    tempClosestDistance = tempDistance;
-                    Debug.Log(tempClosestItem.name + " Temp"); // A debug log to check that we did hit something
-                }
-            }
+            float maxSpeed = playerStats.stat[StatType.speed] * Time.deltaTime;
             
-            return tempClosestItem;
-        }
-        else if (interactableObjectList.Count > 0)
-        {
-            // If there's only 1 item, then it returns the only object in the list
-            return interactableObjectList[0];
+            moveDirection += new Vector3(aerialVector.x, 0, aerialVector.z) * Time.deltaTime;
+
+            // moveDirection = Vector3.ClampMagnitude(moveDirection, maxSpeed);
+            moveDirection.x = Mathf.Clamp(moveDirection.x, -maxSpeed, maxSpeed);
+            moveDirection.z = Mathf.Clamp(moveDirection.z, -maxSpeed, maxSpeed);
+            
+            movementState = MovementState.inAir;
         }
         else
         {
-            // If the list is empty, then it returns null
-            return null;
-        }
-    }
-
-    // The function that handles movement itself
-    public void Movement()
-    {
-        // Changing the move axis to a Vector3
-        inputDirection = new Vector3(ourPlayer.moveAxis.x, 0f, ourPlayer.moveAxis.y).normalized;
-
-        // Checking if it's not empty
-        if (inputDirection != Vector3.zero)
-        {
-            // If the sprint key is held down, it multiplies the speed by the sprint multiplier
-            // If not, it multiplies it by time and the player's speed stat
-            if (PlayerController.instance.sprintHeldDown && inputDirection.z > 0)
+            if (isSliding)
             {
-                inputDirection *= ourPlayer.playerStats.stat[StatType.speed] * sprintMultiplier;
+                moveDirection += new Vector3(slidingHit.normal.x, 0, slidingHit.normal.z) * Time.deltaTime;
+                movementState = MovementState.sliding;
             }
             else
             {
-                inputDirection *= ourPlayer.playerStats.stat[StatType.speed];
+                moveDirection = inputDirection;
+                movementState = MovementState.sliding;
+            }
+        }
+
+        Falling();
+        Jump();
+
+        charController.Move(moveDirection);
+        velocity = charController.velocity;
+    }
+
+    public Vector3 HorizontalMovement()
+    {
+        Vector3 vectorToReturn = Vector3.zero;
+        // Checking if it's not empty
+        if (ourPlayer.moveAxis != Vector2.zero)
+        {
+            // Changing the move axis to a Vector3
+            vectorToReturn = new Vector3(ourPlayer.moveAxis.x, 0f, ourPlayer.moveAxis.y).normalized;
+
+            // If the sprint key is held down, it multiplies the speed by the sprint multiplier
+            // If not, it multiplies it by time and the player's speed stat
+            if (PlayerController.instance.sprintHeldDown && vectorToReturn.z > 0)
+            {
+                vectorToReturn *= ourPlayer.playerStats.stat[StatType.speed] * sprintMultiplier;
+            }
+            else
+            {
+                vectorToReturn *= ourPlayer.playerStats.stat[StatType.speed];
             }
 
             // After multiplying it by the speed, it will transform the direction of movement into world space
-            inputDirection = transform.TransformDirection(inputDirection);
-            // If the player is falling, the y value is set to how fast the player is falling
-            // inputDirection.y = fallingSpeed;
+            vectorToReturn = transform.TransformDirection(vectorToReturn * Time.deltaTime);
         }
-        else
-        {
+        return vectorToReturn;
+    }
 
-        }
+    public void AerialMovement()
+    {
+        
 
-        moveDirection = inputDirection;
-
-        Falling();
-        FinalMovement();
     }
 
     public void Falling()
     {
         // If the player is in the air, it will add one tenth of the gravity value to the falling speed
 
-        if (charController.isGrounded && !Sliding())
+        moveDirection.y = 0;
+
+        if (grounded && !isSliding)
         {
             if (jumpsRemaining != totalJumps)
             {
@@ -230,23 +220,25 @@ public class PlayerPuppet : MonoBehaviour
             if (fallingSpeed != 0f)
             {
                 fallingSpeed = 0f;
-                moveDirection.y = 0;
+                
             }
         }
         else
         {
             fallingSpeed -= (gravity / 10);// * Time.deltaTime;
-            moveDirection.y += fallingSpeed;
+            moveDirection.y += fallingSpeed * Time.deltaTime;
         }
+    }
 
-
+    public void Jump()
+    {
         // If not, it checks if the player is trying to jump, then adds one tenth of the jump speed to the move
         if (ourPlayer.jumpHeldDown && (canJump && jumpsRemaining > 0))
         {
             canJump = false;
             jumpsRemaining--;
             fallingSpeed = jumpSpeed; //(JumpSpeed / 10);
-            moveDirection.y = fallingSpeed;
+            moveDirection.y = fallingSpeed * Time.deltaTime;
         }
         else if (!ourPlayer.jumpHeldDown)
         {
@@ -256,7 +248,7 @@ public class PlayerPuppet : MonoBehaviour
 
     public bool Sliding()
     {
-        if (charController.isGrounded && Physics.Raycast(charController.center, -transform.up, out slidingHit, 100f))
+        if (grounded && Physics.Raycast(transform.TransformPoint(charController.center), -transform.up, out slidingHit))
         {
             return Vector3.Angle(slidingHit.normal, Vector3.up) > charController.slopeLimit;
         }
@@ -266,29 +258,11 @@ public class PlayerPuppet : MonoBehaviour
         }
     }
 
-    public void FinalMovement()
-    {
-        if (Sliding())
-        {
-            moveDirection = new Vector3(slidingHit.normal.x, -slidingHit.normal.y * gravity, slidingHit.normal.z);
-
-
-            Vector3 testDirection = transform.TransformDirection(inputDirection);
-
-
-        }
-
-        charController.Move(moveDirection * Time.deltaTime);
-    }
 
     // The function that the useObject 
     public void UseObject()
     {
-        // If there is an interactable object with code, it will interact with it
-        if (interactableObject != null && interactableObject.GetComponent<Interactable>() != null)
-        {
-            interactableObject.GetComponent<Interactable>().Interact();
-        }
+
     }
 
     public void SpellUpdater()
@@ -302,7 +276,7 @@ public class PlayerPuppet : MonoBehaviour
     // A function to take damage from, currently only has a debug log
     public void Damage(float damageTaken)
     {
-        Debug.Log(damageTaken);
+        // Debug.Log(damageTaken);
     }
 
     public void ChangeTemperature(float tempToAdd)

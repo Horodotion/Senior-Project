@@ -54,9 +54,9 @@ public class LockInteractable : Interactable
         interactableText = newInteractText;
         Debug.Log("Unlocked");
 
-        if (PlayerController.puppet.interactableObject == gameObject)
-        {
-            UIFunctionsScript.instance.SetUseItemText(newInteractText);
-        }
+        // if (PlayerController.puppet.interactableObject == gameObject)
+        // {
+        //     UIFunctionsScript.instance.SetUseItemText(newInteractText);
+        // }
     }
 }
