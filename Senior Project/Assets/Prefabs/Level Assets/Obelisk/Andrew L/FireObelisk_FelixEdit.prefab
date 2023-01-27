@@ -29,7 +29,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3074426552004750213}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1308056375
 GameObject:
@@ -55,12 +55,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1308056375}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 2, z: 0.5}
+  m_LocalPosition: {x: -0.14299998, y: 0.67999995, z: 0.016000062}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3074426552004750213}
-  m_RootOrder: 5
+  m_Father: {fileID: 1378460788}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1378460787
 GameObject:
@@ -88,10 +88,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1378460787}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.357, y: 1.32, z: 0.484}
+  m_LocalPosition: {x: -0.357, y: 1.3, z: 0.484}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1553450436}
+  - {fileID: 1308056376}
   m_Father: {fileID: 3074426552004750213}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -150,8 +152,8 @@ VisualEffect:
           ctime6: 0
           ctime7: 0
           atime0: 386
-          atime1: 14842
-          atime2: 49922
+          atime1: 11372
+          atime2: 22359
           atime3: 65535
           atime4: 0
           atime5: 0
@@ -230,12 +232,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553450435}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 2.5, z: 0.5}
+  m_LocalPosition: {x: -0.14299998, y: 1.18, z: 0.016000062}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3074426552004750213}
-  m_RootOrder: 4
+  m_Father: {fileID: 1378460788}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2441335845944684863
 GameObject:
@@ -271,8 +273,6 @@ Transform:
   - {fileID: 3954669064638921811}
   - {fileID: 8421872667690140894}
   - {fileID: 1378460788}
-  - {fileID: 1553450436}
-  - {fileID: 1308056376}
   - {fileID: 1129222179}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -293,8 +293,11 @@ MonoBehaviour:
   SpawnPointA: {fileID: 1553450435}
   SpawnPointB: {fileID: 1308056375}
   HolderEmpty: {fileID: 1129222178}
+  PillarVFX: {fileID: 1378460787}
+  target: {fileID: 0}
   fireRateA: 4
   fireRateB: 3.5
+  sliderAmount: 0
 --- !u!136 &1616042076
 CapsuleCollider:
   m_ObjectHideFlags: 0
