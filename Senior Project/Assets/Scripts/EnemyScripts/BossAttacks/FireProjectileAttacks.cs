@@ -35,8 +35,8 @@ public class FireProjectileAttacks : AttackMotion
         while (true)
         {
 
-            Physics.Raycast(enemy.transform.position, PlayerController.puppet.transform.position - enemy.transform.position, out RaycastHit hit, fireDistance, ~LayerMask.GetMask("Enemy"));
-            Debug.DrawRay(enemy.transform.position, PlayerController.puppet.transform.position - enemy.transform.position, Color.red);
+            Physics.Raycast(enemy.transform.position, PlayerController.puppet.cameraObj.transform.position - enemy.transform.position, out RaycastHit hit, fireDistance, ~LayerMask.GetMask("Enemy"));
+            Debug.DrawRay(enemy.transform.position, PlayerController.puppet.cameraObj.transform.position - enemy.transform.position, Color.red);
             enemy.navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
             if (hit.collider != null)
             {
