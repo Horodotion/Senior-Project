@@ -60,7 +60,7 @@ public class JumpingAttack : AttackMotion
         enemy.navMeshAgent.acceleration = enemy.acceleration;
         enemy.navMeshAgent.Warp(hit.position);
         enemy.navMeshAgent.enabled = true;
-        isFiredOnce = true;
+        //isFiredOnce = true;
         enemy.bossState = BossState.testState;
         
     }

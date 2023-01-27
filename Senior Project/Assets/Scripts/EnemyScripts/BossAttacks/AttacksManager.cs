@@ -143,7 +143,6 @@ public class AttacksManager : MonoBehaviour
         {
             temp.AddDicision(rangedAttackDicisionMod[3]);
         }
-        Debug.Log(temp.iceAttack + " " + temp.fireAttack);
         //Find which element for the next attack
         return temp.GiveTheNextRandomDicision(); 
     }
