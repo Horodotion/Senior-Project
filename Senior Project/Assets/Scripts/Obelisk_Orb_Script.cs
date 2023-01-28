@@ -9,7 +9,10 @@ public class Obelisk_Orb_Script : MonoBehaviour
     public GameObject SpawnPointB;
     public GameObject HolderEmpty;
 	public GameObject PillarVFX;
-    [SerializeField] private GameObject target;
+    public GameObject Idle_EmptyA;
+    public GameObject Idle_EmptyB;
+    public GameObject Idle_EmptyC;
+    private GameObject target;
     private float nextTimeToFireA;
     private float nextTimeToFireB;
     [SerializeField] private float fireRateA = 0.5f;
@@ -61,6 +64,24 @@ public class Obelisk_Orb_Script : MonoBehaviour
         if (target == null && Time.time >= nextTimeToFireA)
         {
             nextTimeToFireA = Time.time + 1 / fireRateA;
+
+            TrailRenderer trailA = Instantiate(VFX, Idle_EmptyA.transform.position, Idle_EmptyA.transform.rotation);
+            if (HolderEmpty != null)
+                trailA.transform.parent = HolderEmpty.transform;
+
+            StartCoroutine(SpawnTrail(trailA, Idle_EmptyB.gameObject));
+
+            TrailRenderer trailB = Instantiate(VFX, Idle_EmptyB.transform.position, Idle_EmptyB.transform.rotation);
+            if (HolderEmpty != null)
+                trailB.transform.parent = HolderEmpty.transform;
+
+            StartCoroutine(SpawnTrail(trailB, Idle_EmptyC.gameObject));
+
+            TrailRenderer trailC = Instantiate(VFX, Idle_EmptyC.transform.position, Idle_EmptyC.transform.rotation);
+            if (HolderEmpty != null)
+                trailC.transform.parent = HolderEmpty.transform;
+
+            StartCoroutine(SpawnTrail(trailC, Idle_EmptyA.gameObject));
 
             if (PillarVFX.transform.position.y < 1.3)
             {
