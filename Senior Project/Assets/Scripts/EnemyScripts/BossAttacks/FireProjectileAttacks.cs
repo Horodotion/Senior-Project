@@ -18,11 +18,34 @@ public class FireProjectileAttacks : AttackMotion
     }
     public override IEnumerator AttackingPlayer()
     {
-        while (!enemy.IsPlayerWithinDistance(fireDistance))
+        //RaycastHit hit;
+        /*
+        Physics.Raycast(enemy.transform.position, PlayerController.puppet.transform.position - enemy.transform.position, out hit, Mathf.Infinity, ~enemy.hidingSpotLayer);
+        Debug.Log(hit.collider.tag);
+        Debug.DrawRay(enemy.transform.position, PlayerController.puppet.transform.position - enemy.transform.position, Color.red);
+        while (!enemy.IsPlayerWithinDistance(fireDistance) || hit.collider.tag != "Player")
         {
-            Debug.Log("Am I stuck?");
+            Physics.Raycast(enemy.transform.position, PlayerController.puppet.transform.position - enemy.transform.position, out  hit, Mathf.Infinity, ~enemy.hidingSpotLayer);
+            //Debug.Log("Am I stuck?");
             enemy.navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
 
+            yield return null;
+        }
+        */
+        while (true)
+        {
+
+            Physics.Raycast(enemy.transform.position, PlayerController.puppet.cameraObj.transform.position - enemy.transform.position, out RaycastHit hit, fireDistance, ~LayerMask.GetMask("Enemy"));
+            Debug.DrawRay(enemy.transform.position, PlayerController.puppet.cameraObj.transform.position - enemy.transform.position, Color.red);
+            enemy.navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
+            if (hit.collider != null)
+            {
+                Debug.Log(hit.collider.name);
+            }
+            if (hit.collider != null && hit.collider.tag.Equals("Player"))
+            {
+                break;
+            }
             yield return null;
         }
         Debug.Log("Firing fire attack " + enemy.bossState);
@@ -31,8 +54,8 @@ public class FireProjectileAttacks : AttackMotion
         enemy.navMeshAgent.speed = 0f;
 
         //yield return new WaitForSeconds(1f);
-
-        while(true)
+        
+        while (true)
         {
             enemy.AimTowards(PlayerController.puppet.transform.position, aimSpeed);
             if (enemy.IsPlayerWithinView(100f, 4f, 100f))

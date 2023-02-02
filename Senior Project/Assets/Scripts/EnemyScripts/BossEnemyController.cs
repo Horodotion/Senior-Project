@@ -15,11 +15,40 @@ public enum BossState
     ambushed,
     taunt,
     takingCover,
-    waitingInCover
+    waitingInCover,
+    teleportBehindPlayer
 }
 
-public class Dicision : ScriptableObject
+public class Decision : ScriptableObject
 {
+    /*
+    public int[] dicisions;
+
+    public void AddDicision(Decision d)
+    {
+        for(int i = 0; i < d.dicisions.Length; i++)
+        {
+            if (this.dicisions[i] + d.dicisions[i] < 0)
+            {
+                this.dicisions[i] = 0;
+            }
+            else
+            {
+                this.dicisions[i] += d.dicisions[i];
+            }
+            
+        }
+    }
+    public int AddAllDicision()
+    {
+        int temp = 0;
+        for (int i = 0; i < this.dicisions.Length; i++)
+        {
+            temp += this.dicisions[i];
+        }
+        return temp;
+    }
+    */
 }
 
 public class BossEnemyController : MonoBehaviour
@@ -40,6 +69,7 @@ public class BossEnemyController : MonoBehaviour
     [SerializeField] public float viewRange = 10; // The distance that the enemy can see the player
 
     [Header("Boss Dicision Setting")]
+    [HideInInspector] AttacksManager attacksManager;
     [SerializeField] public MovementDecision ambushedDicision;
     [SerializeField] public MovementDecision [] ambushedDicisionMod = new MovementDecision[4];
 
@@ -50,21 +80,32 @@ public class BossEnemyController : MonoBehaviour
 
     [SerializeField] public MovementDecision meleeAtkFollowUpDicision;
 
+    [SerializeField] public float bossSize;
+
     [Header("Boss Covering System")]
-    public LayerMask coverLayers;
+    //public LayerMask coverLayers;
+    public LayerMask hidingSpotLayer;
+    public LayerMask ignoreLayer;
     public Enemy_LineOfSightChecker losChecker;
-    public AttacksManager attacksManager;
+    public float playerSpottedDistance;
+    public float minWaitTimeinCover;
+    public float maxWaitTimeInCover;
 
-    [Range(-1, 1)] [Tooltip("The further from zero, the more covered a hiding spot will have to be to get accepted")] public float coverSensitivity = -.3f;
-    [Range(0, 5)] [Tooltip("The minimum height of an object for it to be considered a hiding spot")] public float minObstacleHeight = 1f;
-    [Tooltip("Will not seek cover at any points within this range of the player")] public float playerTooCloseDistance = 4f;
+    [Tooltip("Will not seek cover at any points within this range of the player")] public float playerTooCloseDistanceToCover = 4f;
 
-    private Collider[] coverColliders = new Collider[20]; // How many potential hiding spots to seek out per cover cycle. This should be twice the number of objects you want to use as cover, since each object generates two potential spots.
     [Range(.001f, 5)] [Tooltip("Interval in seconds for the enemy to check for new hiding spots")] public float coverUpdateFrequency = .75f;
     [HideInInspector] float test = 0;
 
 
+    [SerializeField] public float coverSampleDistance;
+    
+
+    [Header("Boss Teleport System")]
+    [SerializeField] public float teleportSampleDistance;
+
+
     public BossState state = BossState.idle;
+    public float playerTooCloseDistanceToTeleport = 4f;
 
     private BossState tempState;
     public BossState bossState // Public boss state variable that can be set to trigger a clean state transition
@@ -75,13 +116,10 @@ public class BossEnemyController : MonoBehaviour
         }
         set
         {
-            //Debug.Log("Test: " + test++);
             tempState = state;
             state = value;
-            Debug.Log("3 " + bossState);
             //OnBossStateChange?.Invoke(state, value);
             OnBossStateChange?.Invoke(tempState, state);
-            Debug.Log("End of the line");
             //state = value;
         }
     }
@@ -97,8 +135,6 @@ public class BossEnemyController : MonoBehaviour
         attacksManager = GetComponent<AttacksManager>();
         //HandleStateChange(state, BossState.inCombat);
         OnBossStateChange += HandleStateChange;
-        //
-        //Debug.Log(bossState);
         //player = PlayerController.puppet;
 
         
@@ -106,19 +142,17 @@ public class BossEnemyController : MonoBehaviour
     void Start()
     {
         //StartCoroutine(InCombatState());
-        Debug.Log("1 " + bossState);
-        bossState = BossState.takingCover;
-        Debug.Log("2 " + bossState);
-        MovementDecision testDiscision = new MovementDecision(0,0,0,1);
+        //MovementDecision testDiscision = new MovementDecision(0,0,0,1);
         //for (int i = 0; i < 100; i++)
         //{
         //    Debug.Log(testDiscision.GiveTheNextRandomDicision());
         //}
+
+        bossState = BossState.takingCover;
     }
     
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
     {
-        Debug.Log(oldState + " and " + newState);
         if (MovementCoroutine != null)
         {
             //print("Stopped Coroutine");
@@ -138,7 +172,7 @@ public class BossEnemyController : MonoBehaviour
                 break;
             case BossState.taunt:
                 //MovementCoroutine = StartCoroutine(InTauntState());
-                MovementCoroutine = TakeCoverState(PlayerController.puppet.transform, true);//Take care the taunt later
+                MovementCoroutine = TakeCoverState(PlayerController.puppet.transform);//Take care the taunt later
                 break;
             case BossState.meleeAttack:
                 MovementCoroutine = attacksManager.MeleeAttack();
@@ -148,61 +182,21 @@ public class BossEnemyController : MonoBehaviour
                 MovementCoroutine = attacksManager.RangedAttack();
                 break;
             case BossState.takingCover:
-                MovementCoroutine = TakeCoverState(PlayerController.puppet.transform, true);
+                MovementCoroutine = TakeCoverState(PlayerController.puppet.transform);
                 break;
             case BossState.waitingInCover:
-                MovementCoroutine = WaitInCoverState(Random.Range(1, 4), false);
+                MovementCoroutine = WaitInCoverState(Random.Range(minWaitTimeinCover, maxWaitTimeInCover));
+                break;
+            case BossState.teleportBehindPlayer:
+                MovementCoroutine = TeleportingBehindPlayer(PlayerController.puppet.transform);
                 break;
         }
         StartCoroutine(MovementCoroutine);
-        /*
-        if (oldState != newState)
-        {
-            //Debug.Log("MovementCoroutine: " + (MovementCoroutine != null));
-            if (MovementCoroutine != null)
-            {
-                //print("Stopped Coroutine");
-                Debug.Log("Stopped Coroutine");
-                StopCoroutine(MovementCoroutine);
-            }
-            switch (newState)
-            {
-                // Spawnin probably should not be assigned with this, but putting it here just in case
-                case BossState.idle:
-                    break;
-                case BossState.testState:
-                    MovementCoroutine = TestState();
-                    break;
-                case BossState.testState2:
-                    MovementCoroutine = TestAttack();
-                    break;
-                case BossState.taunt:
-                    //MovementCoroutine = StartCoroutine(InTauntState());
-                    MovementCoroutine = TakeCoverState(PlayerController.puppet.transform, true);//Take care the taunt later
-                    break;
-                case BossState.meleeAttack:
-                    MovementCoroutine = attacksManager.MeleeAttack();
-                    break;
-                case BossState.rangedAttack:
-                    Debug.Log(bossState);
-                    MovementCoroutine = attacksManager.RangedAttack();
-                    break;
-                case BossState.takingCover:
-                    MovementCoroutine = TakeCoverState(PlayerController.puppet.transform, true);
-                    break;
-                case BossState.waitingInCover:
-                    MovementCoroutine = WaitInCoverState(Random.Range(1, 4), false);
-                    break;
-            }
-            StartCoroutine(MovementCoroutine);
-        }
-        */
-        //Debug.Log("Stupid");
     }
 
     private void Update()
     {
-        Debug.Log("Update state: " + bossState);
+        //Debug.Log("Update state: " + bossState);
     }
 
     public IEnumerator InTauntState()
@@ -254,125 +248,121 @@ public class BossEnemyController : MonoBehaviour
         //yield return null;
     }
 
-    private IEnumerator TakeCoverState(Transform target, bool stopAfterCoverFound = true)
+    private IEnumerator TakeCoverState(Transform target)
     {
-        Debug.Log("Test4");
         WaitForSeconds wait = new WaitForSeconds(coverUpdateFrequency);
-
+        Debug.Log("Test");
         while (true)
         {
-            // Clear previous cover spots
-            for (int i = 0; i < coverColliders.Length; i++)
-            {
-                coverColliders[i] = null;
-            }
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, coverSampleDistance, hidingSpotLayer);
 
-            // Check to see if boss has line of sight to player, show red line in inspector if not and green line if so
-            Vector3 direction = (PlayerController.puppet.transform.position - transform.position).normalized;
-            if (Physics.Raycast(transform.position, direction, out RaycastHit losHit, losChecker.sphereCollider.radius, losChecker.losLayers))
+            if (hitColliders.Length == 0)
             {
-                if (losHit.collider.CompareTag("Player"))
+                Debug.Log("Unable to find cover");
+                //bossState = BossState.takingCover;
+            }
+            else
+            {
+                //Find the right collider to hide
+                Collider tempCol = FindValidHidingSpot(target, hitColliders);
+                Debug.Log(tempCol.transform.position);
+                if (tempCol == null)
                 {
-                    Debug.DrawRay(transform.position, direction * losChecker.sphereCollider.radius, Color.green, .5f);
+                    Debug.Log("No valid cover spot");
+                    //bossState = BossState.takingCover;
                 }
                 else
                 {
-                    Debug.DrawRay(transform.position, direction * losChecker.sphereCollider.radius, Color.red, .5f);
+                    navMeshAgent.SetDestination(tempCol.transform.position);
                 }
             }
 
-            // Find potential objects to take cover behind
-            int hits = Physics.OverlapSphereNonAlloc(navMeshAgent.transform.position, losChecker.sphereCollider.radius, coverColliders, coverLayers);
+            //navMeshAgent.SetDestination(hitColliders[0].transform.position);
 
-            // Remove ineligible cover spots from the array
-            int hitReduction = 0;
-            for (int i = 0; i < hits; i++)
+            if (transform.position.x == navMeshAgent.destination.x && transform.position.z == navMeshAgent.destination.z)
             {
-                // Invalidate any cover spots that are too close to the player, or are too short to hide behind, even if otherwise acceptable
-                if (Vector3.Distance(coverColliders[i].transform.position, target.position) < playerTooCloseDistance || coverColliders[i].bounds.size.y < minObstacleHeight)
-                {
-                    coverColliders[i] = null;
-                    hitReduction++;
-                }
-                // Check if a potential cover spot has line of sight to the player, and eliminate it if so
-                else if (Physics.Raycast(coverColliders[i].transform.position, target.position, out RaycastHit spotHit, losChecker.sphereCollider.radius, losChecker.losLayers))
-                {
-                    if (spotHit.collider.CompareTag("Player"))
-                    {
-                        coverColliders[i] = null;
-                        hitReduction++;
-                    }
-                }
-
-            }
-            hits -= hitReduction;
-
-
-            // Sort array of hiding spots by distance, and shift invalid (null) results to the end
-            System.Array.Sort(coverColliders, CoverColliderArraySortComparer);
-
-            for (int i = 0; i < hits; i++)
-            {
-                if (NavMesh.SamplePosition(coverColliders[i].transform.position, out NavMeshHit hit, 2f, navMeshAgent.areaMask))
-                {
-                    if (!NavMesh.FindClosestEdge(hit.position, out hit, navMeshAgent.areaMask))
-                    {
-                        Debug.LogError("Unable to find edge close to " + hit.position);
-                    }
-
-                    if (Vector3.Dot(hit.normal, (target.position - hit.position).normalized) < coverSensitivity)
-                    {
-                        navMeshAgent.SetDestination(hit.position);
-                        //Debug.Log($"{this} moving to {hit.position}");
-                        break;
-                    }
-
-                    else
-                    {
-                        // This checks a spot in a direction further away from the player if the previous hit location was not suitable, now trying the other side of the object
-                        if (NavMesh.SamplePosition(coverColliders[i].transform.position - (target.position - hit.position).normalized * 5, out NavMeshHit hit2, 2f, navMeshAgent.areaMask))
-                        {
-                            if (!NavMesh.FindClosestEdge(hit2.position, out hit2, navMeshAgent.areaMask))
-                            {
-                                Debug.LogError("Unable to find edge close to " + hit2.position + " (second attempt)");
-                            }
-
-                            if (Vector3.Dot(hit2.normal, (target.position - hit2.position).normalized) < coverSensitivity)
-                            {
-                                navMeshAgent.SetDestination(hit2.position);
-                                //Debug.Log($"{this} moving to {hit.position}");
-                                break;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    Debug.LogError($"Unable to find NavMesh near object {coverColliders[i]} at {coverColliders[i].transform.position}");
-                }
-            }
-
-            // If the boss is set to stop taking cover after reaching its intended position, it moves to the waiting in cover state
-            if (stopAfterCoverFound)
-            {
-                if (transform.position.x == navMeshAgent.destination.x && transform.position.z == navMeshAgent.destination.z)
-                {
-                    Debug.Log("Test3");
-                    bossState = BossState.waitingInCover;
-                }
+                //Debug.Log("Test3");
+                bossState = BossState.waitingInCover;
             }
 
             yield return wait;
         }
     }
 
-    private IEnumerator WaitInCoverState(float secondsToWait = 0, bool breakWhenSpotted = true) // Either breakWhenSpotted should be true, or secondsToWait should be >0, or both. If not this would go forever
+    public Collider FindValidHidingSpot(Transform target, Collider[] colliders)
+    {
+        Collider tempCol = null;
+        foreach (Collider thisCol in colliders)
+        {
+
+            if (!IsItAValidhidingPoint(bossSize, thisCol.transform.position))
+            {
+                continue;
+            }
+
+            //Vector3 vectorToColloder = target.position - thisCol.transform.position;
+            if (Vector3.Distance(target.position, thisCol.transform.position) < playerTooCloseDistanceToCover)
+            {
+                continue;
+            }
+            //Debug.Log(thisCol.name);
+            //Debug.Log(hit.collider.tag);
+            //Debug.Log(hit2.collider.tag);
+
+            if (tempCol == null)
+            {
+                tempCol = thisCol;
+            }
+            else if (Vector3.Distance(thisCol.transform.position, target.position) < Vector3.Distance(tempCol.transform.position, target.position))
+            {
+                tempCol = thisCol;
+            }
+        }
+        return tempCol;
+    }
+
+    //Check if a point is a valid hiding Spot. Size is the current object size. Position is the current position that is tried to hide.
+    public bool IsItAValidhidingPoint(float size, Vector3 position)
+    {
+        Vector3 vectorToColloder = Camera.main.transform.position - position;
+        Vector3 perVectorToColloder = vectorToColloder;
+        perVectorToColloder.y = perVectorToColloder.x;
+        perVectorToColloder.x = perVectorToColloder.z;
+        perVectorToColloder.z = -perVectorToColloder.y;
+        perVectorToColloder.y = 0;
+        perVectorToColloder = perVectorToColloder.normalized;
+
+        Vector3 checkForPlayerPoint1 = position + (perVectorToColloder * bossSize / 2);
+        Vector3 checkForPlayerPoint2 = position - (perVectorToColloder * bossSize / 2);
+
+        Debug.DrawRay(checkForPlayerPoint1, Camera.main.transform.position - checkForPlayerPoint1, Color.red);
+        Debug.DrawRay(checkForPlayerPoint2, Camera.main.transform.position - checkForPlayerPoint2, Color.green);
+
+        Physics.Raycast(checkForPlayerPoint1, Camera.main.transform.position - checkForPlayerPoint1, out RaycastHit hit, Mathf.Infinity, ~ignoreLayer);
+        Physics.Raycast(checkForPlayerPoint2, Camera.main.transform.position - checkForPlayerPoint2, out RaycastHit hit2, Mathf.Infinity, ~ignoreLayer);
+
+
+        //Check the two corner for player
+        if (hit.collider != null && hit.collider.tag.Equals("Player"))
+        {
+            return false;
+        }
+
+        if (hit2.collider != null && hit2.collider.tag.Equals("Player"))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    private IEnumerator WaitInCoverState(float secondsToWait) // Either breakWhenSpotted should be true, or secondsToWait should be >0, or both. If not this would go forever
     {
         // Check to see if this call is actually capable of ending
-        if (secondsToWait == 0 && !breakWhenSpotted)
+        if (secondsToWait == 0)
         {
-            Debug.LogError("WaitInCover called with indefinite wait, returning to cover-taking state");
-            bossState = BossState.takingCover;
+            bossState = AttackDicision();
             yield break;
         }
 
@@ -385,21 +375,13 @@ public class BossEnemyController : MonoBehaviour
 
         while (true)
         {
-            if (breakWhenSpotted)
+            Vector3 vToPlayer = PlayerController.puppet.transform.position - transform.position;
+            if (Physics.Raycast(transform.position, vToPlayer, out RaycastHit hit, playerSpottedDistance, ~hidingSpotLayer))
             {
-                // Check to see if boss has line of sight to player, and break if so
-                Vector3 direction = (PlayerController.puppet.transform.position - transform.position).normalized;
-                if (Physics.Raycast(transform.position, direction, out RaycastHit losHit, losChecker.sphereCollider.radius, losChecker.losLayers))
+                if (hit.collider.CompareTag("Player"))
                 {
-                    if (losHit.collider.CompareTag("Player"))
-                    {
-                        // INSERT: Whatever should happen once gaining LOS to player. This should be an ambushed reaction if the player finds it fast enough, and the queued action if the boss is ready for them
-                        // BossState = BossState.Ambush; or something
-                        // bossState = BossState.takingCover;
-                        Debug.Log("Test1");
-                        bossState = AmbushedDicision();
-                        yield break;
-                    }
+                    bossState = AmbushedDicision();
+                    yield break;
                 }
             }
 
@@ -483,6 +465,82 @@ public class BossEnemyController : MonoBehaviour
         temp.DisplayLog();
         // Find which bossstate to output
         return temp.GiveTheNextRandomDicision();
+    }
+
+
+
+    public IEnumerator TeleportingBehindPlayer(Transform target)
+    {
+        WaitForSeconds wait = new WaitForSeconds(coverUpdateFrequency);
+        Debug.Log("Test");
+        while (true)
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, teleportSampleDistance, hidingSpotLayer);
+
+            if (hitColliders.Length == 0)
+            {
+                Debug.Log("Unable to find point to teleport");
+            }
+            else
+            {
+                //Find the right collider to hide
+                Collider tempCol = FindValidTeleportSpot(target, hitColliders);
+                if (tempCol == null)
+                {
+                    Debug.Log("No valid teleport spot");
+                }
+                else
+                {
+                    this.transform.position = tempCol.transform.position;
+                }
+            }
+            Debug.Log(hitColliders.Length);
+
+            //navMeshAgent.SetDestination(hitColliders[0].transform.position);
+
+            if (transform.position.x == navMeshAgent.destination.x && transform.position.z == navMeshAgent.destination.z)
+            {
+                //Debug.Log("Test3");
+                yield return wait;
+                bossState = BossState.takingCover;
+            }
+
+            yield return null;
+        }
+    }
+
+    public Collider FindValidTeleportSpot(Transform target, Collider[] colliders)
+    {
+        Collider tempCol = null;
+        foreach (Collider thisCol in colliders)
+        {
+            Vector3 vectorToColloder = thisCol.transform.position - target.position;
+            if (Vector3.Dot(vectorToColloder, target.forward) > 0)
+            {
+                continue;
+            }
+
+            if (!IsItAValidhidingPoint(bossSize, thisCol.transform.position))
+            {
+                continue;
+            }
+
+            if (Mathf.Abs(vectorToColloder.magnitude) < playerTooCloseDistanceToCover)
+            {
+                continue;
+            }
+
+
+            if (tempCol == null)
+            {
+                tempCol = thisCol;
+            }
+            else if (Vector3.Distance(thisCol.transform.position, target.position) < Vector3.Distance(tempCol.transform.position, target.position))
+            {
+                tempCol = thisCol;
+            }
+        }
+        return tempCol;
     }
 
     public bool IsPlayerWithinDistance(float range)

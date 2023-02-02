@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Decision/Attack Dicision")]
-public class AttackDecision : Dicision
+public class AttackDecision : Decision
 {
     public int iceAttack;
     public int fireAttack;

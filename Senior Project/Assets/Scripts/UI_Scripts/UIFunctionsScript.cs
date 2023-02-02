@@ -39,7 +39,7 @@ public class UIFunctionsScript : MonoBehaviour
         healthbarSlider.maxValue = PlayerController.instance.playerStats.maxStat[StatType.health];
         Update_Healthbar((int)PlayerController.instance.playerStats.stat[StatType.health]);
 
-        // Debug.Log((int)PlayerController.instance.playerStats.stat[StatType.health]);
+        //Debug.Log((int)PlayerController.instance.playerStats.stat[StatType.health]);
     }
     
     public void SetUseItemText(string name)
