@@ -21,12 +21,12 @@ public class AttackMotion : ScriptableObject
     [HideInInspector] public BossEnemyController enemy;
 
     public int damage;
-    public float coolDown;
-    public float timeTaken;
-    public float minDistanceTowardPlayer;
-    public float maxDistanceTowardPlayer;
+    //public float coolDown;
+    //public float timeTaken;
+    //public float minDistanceTowardPlayer;
+    //public float maxDistanceTowardPlayer;
     protected Transform [] SP;
-    protected bool isFiredOnce; // Check if the attack has been fired
+    //protected bool isFiredOnce; // Check if the attack has been fired
 
     //[SerializeField] GameObject enemyGameObject;
 
@@ -38,7 +38,7 @@ public class AttackMotion : ScriptableObject
     public virtual void Awake()
     {
         
-        isFiredOnce = true;
+        //isFiredOnce = true;
         //attacksManager = AttacksManager.instance;
         //enemy = enemyGameObject.GetComponent<MovingEnemyController>();
     }
@@ -53,7 +53,7 @@ public class AttackMotion : ScriptableObject
     {
         yield return null;
     }
-
+    /*
     public bool AbleToAttack(float timer)
     {
 
@@ -62,6 +62,7 @@ public class AttackMotion : ScriptableObject
               timer <= 0;
 
     }
+    */
 }
 
 
