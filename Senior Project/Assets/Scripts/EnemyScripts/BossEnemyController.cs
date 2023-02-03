@@ -121,7 +121,7 @@ public class BossEnemyController : MonoBehaviour
         //    Debug.Log(testDiscision.GiveTheNextRandomDicision());
         //}
 
-        bossState = BossState.laserAttack;
+        bossState = BossState.takingCover;
     }
     
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
