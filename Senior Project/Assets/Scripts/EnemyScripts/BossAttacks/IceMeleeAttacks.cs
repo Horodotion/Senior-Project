@@ -19,7 +19,7 @@ public class IceMeleeAttacks : AttackMotion
         //yield return new WaitForSeconds(2f);
         //Debug.Log("5 " + enemy.bossState);
         //enemy.bossState = BossState.inCombat;
-        // Debug.Log("6 " + enemy.bossState);
+        //Debug.Log("6 " + enemy.bossState);
         //yield return new WaitForSeconds(5f);
         enemy.navMeshAgent.stoppingDistance = stoppingDistance;
         while (!enemy.IsPlayerWithinDistance(meleeDistance))
