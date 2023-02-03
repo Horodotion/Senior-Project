@@ -76,7 +76,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f49f9b8a0cfe7418638a210fc43461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerStats: {fileID: 11400000, guid: f75e356eabdc1f645a1e57e2154766b3, type: 2}
+  speed:
+    stat: 8.5
+    baseStat: 8.5
+    minimum: 100
+    maximum: -100
+  temperature:
+    stat: 0
+    baseStat: 0
+    minimum: -100
+    maximum: 100
   playerInput: {fileID: 0}
   onMove:
     m_Name: On Move

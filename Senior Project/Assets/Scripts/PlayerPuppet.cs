@@ -17,8 +17,8 @@ public enum MovementState
 public class PlayerPuppet : MonoBehaviour
 {
     //These references are localized for easier reading and writing of the script
-    [HideInInspector] public PlayerController ourPlayer; // A local  reference to the playerController
-    [HideInInspector] public Stats playerStats; // A reference to the stats for easier reading
+    // [HideInInspector] public PlayerController PlayerController.instance; // A local  reference to the playerController
+    // [HideInInspector] public Stats playerStats; // A reference to the stats for easier reading
     [HideInInspector] public Vector3 lookRotation; // The current lookRotation on the puppet
     [HideInInspector] public CharacterController charController; // A reference to the CharacterController
     public GameObject cameraObj; // The object that the camera is held on
@@ -38,16 +38,30 @@ public class PlayerPuppet : MonoBehaviour
         Gavity is how much gravity effects the player, while jump speed affects how high the player can jump
         spring multiplier is a speed buff to the player while running
     */
-    public float mouseSensetivity = 1.0f, lookAngles = 90f, gravity = 1, jumpSpeed = 1, sprintMultiplier = 2f,
-                 inAirControlMultiplier;
+    [Header("Camera Movement Values")]
+    public float mouseSensetivity = 1.0f;
+    public float lookAngles = 90f;
+
+    [Header("Movement Values")]
+    public float sprintMultiplier = 2f;
+    public float jumpSpeed = 1;
+    public float gravity = 1;
+    public float inAirControlMultiplier;
+
     [HideInInspector] public int jumpsRemaining = 2, totalJumps = 2;
     [HideInInspector] public bool canJump = true, grounded;
     public MovementState movementState;
-    public bool isSliding = false;
+    [HideInInspector] public bool isSliding = false;
 
-    public Spell primarySpell, secondarySpell, mobilitySpell, currentSpellBeingCast;
+    [Header("Spells")]
+    public Spell primarySpell;
+    public Spell secondarySpell;
+    public Spell mobilitySpell;
+    public Spell currentSpellBeingCast;
+
+    
     public Transform primaryFirePosition, secondaryFirePosition;
-    public Vector3 moveDirection, inputDirection, velocity;
+    [HideInInspector] public Vector3 moveDirection, inputDirection, velocity;
     [HideInInspector] public RaycastHit slidingHit;
 
 
@@ -72,8 +86,8 @@ public class PlayerPuppet : MonoBehaviour
     void Start()
     {
         // At start, it gathers the referneces of the playerController and the stats
-        ourPlayer = PlayerController.instance;
-        playerStats = PlayerController.instance.playerStats;
+        // PlayerController.instance = PlayerController.instance;
+        // playerStats = PlayerController.instance.playerStats;
 
         if (GetComponentInChildren<Animator>() != null)
         {
@@ -85,6 +99,8 @@ public class PlayerPuppet : MonoBehaviour
             ourAnimHolder = GetComponentInChildren<SpellAnimHolder>();
             ourAnimHolder.ourPuppet = this;
         }
+
+        PlayerController.instance.SetUpAllSpells();
     }
 
     void FixedUpdate()
@@ -114,13 +130,18 @@ public class PlayerPuppet : MonoBehaviour
     // Late Update is needed to have the camera's y axis function properly
     void LateUpdate()
     {
+        if (!GeneralManager.isGameRunning)
+        {
+            return;
+        }
+
         // This checks if the look axis has moved
-        if (ourPlayer.lookAxis != Vector2.zero)
+        if (PlayerController.instance.lookAxis != Vector2.zero)
         {
             // Adding to the look rotation multiplied by the mouse sensetivity and by time
-            lookRotation.y += ourPlayer.lookAxis.x * mouseSensetivity * Time.deltaTime;
+            lookRotation.y += PlayerController.instance.lookAxis.x * mouseSensetivity * Time.deltaTime;
             // Makes sure that the player cannot infinitely spin up and down
-            lookRotation.x = Mathf.Clamp((lookRotation.x - ((ourPlayer.lookAxis.y * mouseSensetivity) * Time.deltaTime)), -lookAngles, lookAngles);
+            lookRotation.x = Mathf.Clamp((lookRotation.x - ((PlayerController.instance.lookAxis.y * mouseSensetivity) * Time.deltaTime)), -lookAngles, lookAngles);
             // Converts the added look rotation to the game object's rotation and camera object's rotation
             transform.localEulerAngles = new Vector3(0, lookRotation.y, 0);
             cameraObj.transform.localEulerAngles = new Vector3(lookRotation.x, 0, 0);
@@ -141,7 +162,7 @@ public class PlayerPuppet : MonoBehaviour
 
             aerialVector = inputDirection * inAirControlMultiplier;
 
-            float maxSpeed = playerStats.stat[StatType.speed] * Time.deltaTime;
+            float maxSpeed = PlayerController.instance.speed.stat * Time.deltaTime;
             
             moveDirection += new Vector3(aerialVector.x, 0, aerialVector.z) * Time.deltaTime;
 
@@ -176,21 +197,21 @@ public class PlayerPuppet : MonoBehaviour
     {
         Vector3 vectorToReturn = Vector3.zero;
         // Checking if it's not empty
-        if (ourPlayer.moveAxis != Vector2.zero)
+        if (PlayerController.instance.moveAxis != Vector2.zero)
         {
             // Changing the move axis to a Vector3
-            vectorToReturn = new Vector3(ourPlayer.moveAxis.x, 0f, ourPlayer.moveAxis.y).normalized;
+            vectorToReturn = new Vector3(PlayerController.instance.moveAxis.x, 0f, PlayerController.instance.moveAxis.y).normalized;
 
             // If the sprint key is held down, it multiplies the speed by the sprint multiplier
             // If not, it multiplies it by time and the player's speed stat
+
+            vectorToReturn *= PlayerController.instance.speed.stat;
+
             if (PlayerController.instance.sprintHeldDown && vectorToReturn.z > 0)
             {
-                vectorToReturn *= ourPlayer.playerStats.stat[StatType.speed] * sprintMultiplier;
+                vectorToReturn *= sprintMultiplier;
             }
-            else
-            {
-                vectorToReturn *= ourPlayer.playerStats.stat[StatType.speed];
-            }
+
 
             // After multiplying it by the speed, it will transform the direction of movement into world space
             vectorToReturn = transform.TransformDirection(vectorToReturn * Time.deltaTime);
@@ -233,14 +254,14 @@ public class PlayerPuppet : MonoBehaviour
     public void Jump()
     {
         // If not, it checks if the player is trying to jump, then adds one tenth of the jump speed to the move
-        if (ourPlayer.jumpHeldDown && (canJump && jumpsRemaining > 0))
+        if (PlayerController.instance.jumpHeldDown && (canJump && jumpsRemaining > 0))
         {
             canJump = false;
             jumpsRemaining--;
             fallingSpeed = jumpSpeed; //(JumpSpeed / 10);
             moveDirection.y = fallingSpeed * Time.deltaTime;
         }
-        else if (!ourPlayer.jumpHeldDown)
+        else if (!PlayerController.instance.jumpHeldDown)
         {
             canJump = true;
         }
@@ -256,13 +277,6 @@ public class PlayerPuppet : MonoBehaviour
         {
             return false;
         }
-    }
-
-
-    // The function that the useObject 
-    public void UseObject()
-    {
-
     }
 
     public void SpellUpdater()
@@ -281,8 +295,19 @@ public class PlayerPuppet : MonoBehaviour
 
     public void ChangeTemperature(float tempToAdd)
     {
-        playerStats.AddToStat(StatType.temperature, tempToAdd);
+        PlayerController.instance.temperature.AddToStat(tempToAdd);
         PlayerUI.instance.ChangeTemperature();
         // Debug.Log(playerStats.stat[StatType.temperature]);
+
+        if (PlayerController.instance.temperature.stat >= PlayerController.instance.temperature.maximum ||
+            PlayerController.instance.temperature.stat <= PlayerController.instance.temperature.minimum)
+        {
+            CommitDie();
+        }
+    }
+
+    public void CommitDie()
+    {
+        GeneralManager.ReturnToMainMenu();
     }
 }

@@ -7,23 +7,28 @@ public enum SpellSlot
 {
     primary,
     secondary,
-    utility,
-    other
+    utility
 }
 
 public enum SpellState
 {
     charging,
     casting,
-    releasing,
-    other
+    releasing
+}
+
+public enum DamageType
+{
+    fire,
+    ice,
+    nuetral
 }
 
 public abstract class Spell : ScriptableObject
 {
 
-    [HideInInspector] public PlayerController ourPlayer; // The player Controller that this weapon is attached to
-    [HideInInspector] public PlayerPuppet puppet; // The player object that the controller is attached to
+    // [HideInInspector] public PlayerController PlayerController.instance; // The player Controller that this weapon is attached to
+    // [HideInInspector] public PlayerPuppet PlayerController.puppet; // The player object that the controller is attached to
     [HideInInspector] public Transform playerCameraTransform; // The transform for the player camera
     [HideInInspector] public bool canCast = true; // A bool to decide if the gun can fire or not
     [HideInInspector] public SpellState ourSpellState;
@@ -53,25 +58,25 @@ public abstract class Spell : ScriptableObject
     public float sphereCastRadius;
 
     public GameObject objectToSpawn;
-
     public GameObject vfxEffectObj;
+
     [HideInInspector] public VisualEffect vfx;
 
-    public virtual void InitializeSpell(PlayerController player, PlayerPuppet newPuppet)
+    public virtual void InitializeSpell()
     {
         //Getting the variables for the player itself
-        ourPlayer = player;
-        puppet = newPuppet;
-        playerCameraTransform = puppet.cameraObj.transform;
+        // PlayerController.instance = player;
+        // PlayerController.puppet = newPuppet;
+        playerCameraTransform = PlayerController.puppet.cameraObj.transform;
 
         //After gets the variables on the player, it will spawn the in game model and gather the animator if available
-        if (puppet.spellAnimObj != null)
+        if (PlayerController.puppet.spellAnimObj != null)
         {
             // Getting the animator
-            if (puppet.spellAnim != null)
+            if (PlayerController.puppet.spellAnim != null)
             {
-                spellAnim = puppet.spellAnim;
-                spellAnimHolder = puppet.ourAnimHolder;
+                spellAnim = PlayerController.puppet.spellAnim;
+                spellAnimHolder = PlayerController.puppet.ourAnimHolder;
             }
         }
 
@@ -148,11 +153,11 @@ public abstract class Spell : ScriptableObject
     {
         if (tempPerSecond)
         {
-            puppet.ChangeTemperature(temperatureChange * Time.deltaTime);
+            PlayerController.puppet.ChangeTemperature(temperatureChange * Time.deltaTime);
         }
         else
         {
-            puppet.ChangeTemperature(temperatureChange);
+            PlayerController.puppet.ChangeTemperature(temperatureChange);
         }
         
     }
@@ -160,7 +165,7 @@ public abstract class Spell : ScriptableObject
     public virtual void DamageEnemy(EnemyController enemyController)
     {
         // This simply calls a function to apply damage to the enemy at base
-        enemyController.Damage(damage + ourPlayer.playerStats.stat[StatType.damage]);
+        enemyController.Damage(damage);
     }
 
     // The default firing method, hitscan does not spawn a projectile and instead utilizes a sphereCastAll
@@ -230,7 +235,7 @@ public abstract class Spell : ScriptableObject
         GameObject newProjectile = SpawnManager.instance.GetGameObject(objectToSpawn, SpawnType.projectile);
 
         newProjectile.transform.position = GetFirePos().position;
-        newProjectile.transform.rotation = puppet.cameraObj.transform.rotation;
+        newProjectile.transform.rotation = PlayerController.puppet.cameraObj.transform.rotation;
 
         newProjectile.GetComponent<ProjectileController>().damage = damage;
         newProjectile.GetComponent<ProjectileController>().LaunchProjectile();
@@ -240,11 +245,11 @@ public abstract class Spell : ScriptableObject
     {
         if (ourhand == 2)
         {
-            return puppet.primaryFirePosition;
+            return PlayerController.puppet.primaryFirePosition;
         }
         else if (ourhand == 1)
         {
-            return puppet.secondaryFirePosition;
+            return PlayerController.puppet.secondaryFirePosition;
         }
         else
         {

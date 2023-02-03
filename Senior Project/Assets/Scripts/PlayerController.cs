@@ -21,26 +21,31 @@ public class PlayerController : MonoBehaviour
     public static PlayerPuppet puppet;
     public static PlayerState ourPlayerState;
 
-    [Header("Stats and Abilities")]
+    [Header("Stats")]
     // This is to act as the stats itself, and will carry between scenes with this setup
-    public Stats playerStats;
+    // public Stats playerStats;
+    public IndividualStat speed;
+    public IndividualStat temperature;
     
     // A lot of hidden variables for the inputs, all stored in a PlayerInput component on the gameObject
     // They're hidden to allow for a cleaner set up in the inspector
     [HideInInspector] public PlayerInput playerInput;
-    [HideInInspector] public InputAction onMove, onLook, onRun, onPrimaryFire, onSecondaryFire, onUse, onJump, onLastWeapon, onReload, onDash;
+    [HideInInspector] public InputAction onMove, onLook, onRun, onPrimaryFire, onSecondaryFire, onUse, onJump, onLastWeapon, onReload, onDash,
+                                            onPauseGame;
 
     [HideInInspector] public bool sprintHeldDown, jumpHeldDown, primaryFireHeldDown, secondaryFireHeldDown;
 
 
     // A dictionary to keep track of Keys
-    public Dictionary<KeyType, Key> keyRing = new Dictionary<KeyType, Key>(); 
+    // public Dictionary<KeyType, Key> keyRing = new Dictionary<KeyType, Key>(); 
     [HideInInspector] public Vector2 moveAxis; // A Vector 2 that holds movement values
     [HideInInspector] public Vector2 lookAxis; // A vector 2 that holds the delta of the mouse to look around
 
+    [Header("Spells")]
     // public Spell fireBasic, iceBasic, fireHeavy, iceHeavy, dash, blink;
-    public Spell currentPrimarySpell, currentSecondarySpell, currentMobilitySpell;
-
+    public Spell currentPrimarySpell;
+    public Spell currentSecondarySpell;
+    public Spell currentMobilitySpell;
 
     void Awake()
     {
@@ -52,15 +57,17 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            
             // If there isn't a playerController, this wil become the new playerController
             instance = this;
+            DontDestroyOnLoad(gameObject);
 
             // This sets the player's stats to a new copy to not override the original
             // and then initializes the stats
-            playerStats = Instantiate(playerStats);
-            playerStats.SetStats();
+            // playerStats = Instantiate(playerStats);
+            // playerStats.SetStats();
 
-            Cursor.lockState = CursorLockMode.Locked; // This sets the mouse to be locked into the center
+            // Cursor.lockState = CursorLockMode.Locked; // This sets the mouse to be locked into the center
             playerInput = GetComponent<PlayerInput>(); // This is getting the reference to the playerInput
             
             // These are simply gathering the references to all of the Input Actions to control the player
@@ -72,6 +79,7 @@ public class PlayerController : MonoBehaviour
             onUse = playerInput.currentActionMap.FindAction("Use");
             onJump = playerInput.currentActionMap.FindAction("Jump");
             onDash = playerInput.currentActionMap.FindAction("Dash");
+            onPauseGame = playerInput.currentActionMap.FindAction("PauseGame");
 
             // These however, do have held down functions, and therefore need 2 functions to turn on and off
             onRun.started += OnRunAction;
@@ -83,20 +91,22 @@ public class PlayerController : MonoBehaviour
             onJump.started += OnJumpAction;
             onJump.canceled += OffJumpAction;
             onDash.performed += OnDashAction;
+            onPauseGame.performed += OnPauseMenu;
 
             // This adds one of each type of key to the dictionary tracking them to allow easier coding later on
-            foreach (KeyType keyType in System.Enum.GetValues(typeof(KeyType)))
-            {
-                keyRing.Add(keyType, null);
-            }
+            // foreach (KeyType keyType in System.Enum.GetValues(typeof(KeyType)))
+            // {
+            //     keyRing.Add(keyType, null);
+            // }
         }
     }
 
-    void Start()
+    public void Start()
     {
-        SpellSetup(currentPrimarySpell, SpellSlot.primary);
-        SpellSetup(currentSecondarySpell, SpellSlot.secondary);
-        SpellSetup(currentMobilitySpell, SpellSlot.utility);
+        if (puppet != null)
+        {
+            SetUpAllSpells();
+        }
     }
 
     void Update()
@@ -104,6 +114,13 @@ public class PlayerController : MonoBehaviour
         //During update, it gathers the vectors for movement and looking from the inputActions
         moveAxis = onMove.ReadValue<Vector2>().normalized;
         lookAxis = onLook.ReadValue<Vector2>();
+    }
+
+    public void SetUpAllSpells()
+    {
+        SpellSetup(currentPrimarySpell, SpellSlot.primary);
+        SpellSetup(currentSecondarySpell, SpellSlot.secondary);
+        SpellSetup(currentMobilitySpell, SpellSlot.utility);
     }
 
     public Spell SpellSetup(Spell spellToSetUp, SpellSlot slot)
@@ -130,7 +147,7 @@ public class PlayerController : MonoBehaviour
                     break;
             }
 
-            spellToSetUp.InitializeSpell(this, puppet);
+            spellToSetUp.InitializeSpell();
 
             return spellToSetUp;
         }
@@ -140,7 +157,6 @@ public class PlayerController : MonoBehaviour
             return null;
         }
     }
-
 
     // The function to allow sprinting to begin
     public void OnRunAction(InputAction.CallbackContext context)
@@ -157,7 +173,12 @@ public class PlayerController : MonoBehaviour
     // The function to call for the gun to shoot
     public void OnPrimaryFireAction(InputAction.CallbackContext context)
     {
-       if (puppet.primarySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame)
+        if (puppet == null)
+        {
+            return;
+        }
+
+        if (puppet.primarySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame)
         {
             if (puppet.primarySpell.chargingSpell)
             {
@@ -177,6 +198,11 @@ public class PlayerController : MonoBehaviour
     // A function for releasing the trigger
     public void OffPrimaryFireAction(InputAction.CallbackContext context)
     {
+        if (puppet == null)
+        {
+            return;
+        }
+
        if (puppet.primarySpell != null)
         {
             if (puppet.primarySpell.chargingSpell)
@@ -194,6 +220,11 @@ public class PlayerController : MonoBehaviour
     // The function to call for the gun to shoot
     public void OnSecondaryFireAction(InputAction.CallbackContext context)
     {
+        if (puppet == null)
+        {
+            return;
+        }
+
         if (puppet.secondarySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame)
         {
             if (puppet.secondarySpell.chargingSpell)
@@ -215,6 +246,11 @@ public class PlayerController : MonoBehaviour
     // A function for releasing the trigger
     public void OffSecondaryFireAction(InputAction.CallbackContext context)
     {
+        if (puppet == null)
+        {
+            return;
+        }
+
         if (puppet.secondarySpell != null)
         {
             if (puppet.secondarySpell.chargingSpell)
@@ -257,6 +293,23 @@ public class PlayerController : MonoBehaviour
         {
             puppet.currentSpellBeingCast = puppet.mobilitySpell;
             puppet.mobilitySpell.Cast();
+        }
+    }
+
+    public void OnPauseMenu(InputAction.CallbackContext context)
+    {
+        if (!GeneralManager.hasGameStarted)
+        {
+            return;
+        }
+
+        if (GeneralManager.isGameRunning)
+        {
+            GeneralManager.instance.PauseGame();
+        }
+        else
+        {
+            GeneralManager.instance.UnPauseGame();
         }
     }
 }

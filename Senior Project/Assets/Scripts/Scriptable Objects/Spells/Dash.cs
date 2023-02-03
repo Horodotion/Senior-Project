@@ -15,32 +15,32 @@ public class Dash : Spell
     public override void Cast()
     {
         PlayerController.ourPlayerState = PlayerState.dashing;
-        dashOrigin = puppet.transform.position;
+        dashOrigin = PlayerController.puppet.transform.position;
 
         if (PlayerController.instance.moveAxis != Vector2.zero)
         {
-            dashDirection = new Vector3(ourPlayer.moveAxis.x, 0f, ourPlayer.moveAxis.y).normalized;
+            dashDirection = new Vector3(PlayerController.instance.moveAxis.x, 0f, PlayerController.instance.moveAxis.y).normalized;
         }
         else
         {
             dashDirection = Vector3.forward;
         }
 
-        dashDirection = puppet.transform.TransformDirection(dashDirection);
+        dashDirection = PlayerController.puppet.transform.TransformDirection(dashDirection);
     }
 
     public override void SpellUpdate()
     {
         Vector3 dash = Time.deltaTime * dashSpeed * dashDirection;
-        puppet.charController.Move(dash);
+        PlayerController.puppet.charController.Move(dash);
         
-        float bigD = Vector3.Distance(puppet.transform.position, dashOrigin);
+        float bigD = Vector3.Distance(PlayerController.puppet.transform.position, dashOrigin);
 
-        if (bigD >= dashDistance || puppet.charController.velocity == Vector3.zero)
+        if (bigD >= dashDistance || PlayerController.puppet.charController.velocity == Vector3.zero)
         {
             Debug.Log(bigD);
             PlayerController.ourPlayerState = PlayerState.inGame;
-            puppet.currentSpellBeingCast = null;
+            PlayerController.puppet.currentSpellBeingCast = null;
             if (vfx != null)
             {
                 vfx.Stop();

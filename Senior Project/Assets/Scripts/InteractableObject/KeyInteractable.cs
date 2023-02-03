@@ -12,6 +12,7 @@ public enum KeyType
     other
 }
 
+/*
 public class KeyInteractable : Interactable
 {
     public Key ourKey;
@@ -51,3 +52,4 @@ public class KeyInteractable : Interactable
         Destroy(gameObject);
     }
 }
+*/

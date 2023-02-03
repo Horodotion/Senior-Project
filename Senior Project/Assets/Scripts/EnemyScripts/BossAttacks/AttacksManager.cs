@@ -127,19 +127,19 @@ public class AttacksManager : MonoBehaviour
         AttackDecision temp = new AttackDecision(rangedAttackDicision);
 
         // Adds up all the modifier and calculate the weight of each elements for the ranged attack.
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 75)
+        if (PlayerController.instance.temperature.stat >= 75)
         {
             temp.AddDicision(rangedAttackDicisionMod[0]);
         }
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 60)
+        if (PlayerController.instance.temperature.stat >= 60)
         {
             temp.AddDicision(rangedAttackDicisionMod[1]);
         }
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] <= 40)
+        if (PlayerController.instance.temperature.stat <= 40)
         {
             temp.AddDicision(rangedAttackDicisionMod[2]);
         }
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] <= 25)
+        if (PlayerController.instance.temperature.stat <= 25)
         {
             temp.AddDicision(rangedAttackDicisionMod[3]);
         }
@@ -153,19 +153,19 @@ public class AttacksManager : MonoBehaviour
         AttackDecision temp = new AttackDecision(meleeAttackDicision);
 
         // Adds up all the modifier and calculate the weight of each elements for the melee attack.
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 75)
+        if (PlayerController.instance.temperature.stat >= 75)
         {
             temp.AddDicision(meleeAttackDicisionMod[0]);
         }
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 60)
+        if (PlayerController.instance.temperature.stat >= 60)
         {
             temp.AddDicision(meleeAttackDicisionMod[1]);
         }
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] <= 40)
+        if (PlayerController.instance.temperature.stat <= 40)
         {
             temp.AddDicision(meleeAttackDicisionMod[2]);
         }
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] <= 25)
+        if (PlayerController.instance.temperature.stat <= 25)
         {
             temp.AddDicision(meleeAttackDicisionMod[3]);
         }
