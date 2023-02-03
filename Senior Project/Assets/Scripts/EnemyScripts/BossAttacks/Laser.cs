@@ -51,6 +51,7 @@ public class Laser : MonoBehaviour
             if (PointsThatHit(this.transform.localScale.z, layer) == 0)
             {
                 this.transform.localScale = new Vector3(laserSize, laserSize, laserLength);
+                return;
             }
             
         }
@@ -69,7 +70,7 @@ public class Laser : MonoBehaviour
         Debug.Log(laserRayCastPoints.Length);
         foreach (GameObject thisPoint in laserRayCastPoints)
         {
-            Physics.Raycast(thisPoint.transform.position, thisPoint.transform.forward, out RaycastHit hit, isInfiniteSpeed ? Mathf.Infinity : distance, thatLayer);
+            Physics.Raycast(thisPoint.transform.position, thisPoint.transform.forward, out RaycastHit hit, isInfiniteSpeed ? laserLength : distance, thatLayer);
             //Debug.Log(hit.collider == null);
             if (hit.collider != null)
             {
@@ -84,7 +85,7 @@ public class Laser : MonoBehaviour
     {
         foreach (GameObject thisPoint in laserRayCastPoints)
         {
-            Physics.Raycast(thisPoint.transform.position, thisPoint.transform.forward, out RaycastHit hit, isInfiniteSpeed ? Mathf.Infinity : distance, thatLayer);
+            Physics.Raycast(thisPoint.transform.position, thisPoint.transform.forward, out RaycastHit hit, isInfiniteSpeed ? laserLength : distance, thatLayer);
             if (hit.collider != null)
             {
                 return true;
@@ -98,7 +99,7 @@ public class Laser : MonoBehaviour
         int temp = 0;
         foreach (GameObject thisPoint in laserRayCastPoints)
         {
-            Physics.Raycast(thisPoint.transform.position, thisPoint.transform.forward, out RaycastHit hit, isInfiniteSpeed ? Mathf.Infinity : distance, thatLayer);
+            Physics.Raycast(thisPoint.transform.position, thisPoint.transform.forward, out RaycastHit hit, isInfiniteSpeed ? laserLength : distance, thatLayer);
             if (hit.collider != null)
             {
                 temp++;
@@ -115,7 +116,7 @@ public class Laser : MonoBehaviour
     {
         foreach (GameObject thisPoint in laserRayCastPoints)
         {
-            Physics.Raycast(thisPoint.transform.position, thisPoint.transform.forward, out RaycastHit hit, isInfiniteSpeed ? Mathf.Infinity : distance, thatLayer);
+            Physics.Raycast(thisPoint.transform.position, thisPoint.transform.forward, out RaycastHit hit, isInfiniteSpeed ? laserLength : distance, thatLayer);
             if (hit.collider == null)
             {
                 return false;
@@ -129,7 +130,7 @@ public class Laser : MonoBehaviour
         float temp = 0;
         foreach (GameObject thisPoint in laserRayCastPoints)
         {
-            Physics.Raycast(thisPoint.transform.position, thisPoint.transform.forward, out RaycastHit hit,isInfiniteSpeed? Mathf.Infinity : distance, thatLayer);
+            Physics.Raycast(thisPoint.transform.position, thisPoint.transform.forward, out RaycastHit hit,isInfiniteSpeed? laserLength : distance, thatLayer);
             if (hit.collider != null)
             {
                 //Debug.Log(hit.collider.name);
