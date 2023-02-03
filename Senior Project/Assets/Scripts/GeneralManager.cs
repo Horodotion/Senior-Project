@@ -97,6 +97,8 @@ public class GeneralManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         isGameRunning = false;
         hasGameStarted = false;
+
+        PlayerController.instance.temperature.ResetStat();
     }
 
     public void PauseGame()

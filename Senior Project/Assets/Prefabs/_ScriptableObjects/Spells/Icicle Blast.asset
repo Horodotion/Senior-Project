@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd7355939c1eccc4f9a006e3aaad26c8, type: 3}
   m_Name: Icicle Blast
   m_EditorClassIdentifier: 
-  ourPlayer: {fileID: 0}
-  puppet: {fileID: 0}
   playerCameraTransform: {fileID: 0}
   canCast: 1
   ourSpellState: 0
@@ -30,11 +28,10 @@ MonoBehaviour:
   damage: 10
   effectiveRange: 10
   sphereCastRadius: 0.01
-  objectToSpawn: {fileID: 2365351995808669214, guid: 2ce1513dc8647114baef7e0fedb61eaf,
+  objectToSpawn: {fileID: 1589265112113988226, guid: ebaef2a7a512d6b4e93a20bbbf9dcf14,
     type: 3}
-  vfxEffectObj: {fileID: 2212470434278275995, guid: 44b27de345e9b2548a4c466c618b8e17,
-    type: 3}
+  vfxEffectObj: {fileID: 0}
   vfx: {fileID: 0}
-  pelletsPerShot: 10
+  pelletsPerShot: 3
   minimumSpreadRange: 3
-  spreadAngle: 95
+  spreadAngle: 20
