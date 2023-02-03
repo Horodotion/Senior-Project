@@ -11,6 +11,7 @@ public class IceMeleeAttacks : AttackMotion
     [SerializeField] float turnSpeed = 1.5f;
     [SerializeField] float stoppingDistance = 1;
     [SerializeField] float hitboxSpawnTime = 0.5f;
+    [SerializeField] float waitTimeAfterMelee = 0.5f;
 
 
     public override IEnumerator AttackingPlayer()
@@ -24,7 +25,6 @@ public class IceMeleeAttacks : AttackMotion
         while (!enemy.IsPlayerWithinDistance(meleeDistance))
         {
             enemy.navMeshAgent.speed = chargeSpeed;
-            Debug.Log("Am I stuck?");
             enemy.navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
 
             yield return null;
@@ -49,8 +49,10 @@ public class IceMeleeAttacks : AttackMotion
         SP[0].gameObject.SetActive(true);
         yield return new WaitForSeconds(hitboxSpawnTime);
         SP[0].gameObject.SetActive(false);
-        enemy.navMeshAgent.stoppingDistance = 0;
+        
+        yield return new WaitForSeconds(waitTimeAfterMelee);
         enemy.navMeshAgent.speed = enemy.speed;
+        enemy.navMeshAgent.stoppingDistance = 0;
         enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
         //enemy.bossState = BossState.inCombat;
     }

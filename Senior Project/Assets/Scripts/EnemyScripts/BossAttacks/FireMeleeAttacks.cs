@@ -11,6 +11,7 @@ public class FireMeleeAttacks : AttackMotion
     [SerializeField] float turnSpeed = 1.5f;
     [SerializeField] float stoppingDistance = 1f;
     [SerializeField] float hitboxSpawnTime = 0.5f;
+    [SerializeField] float waitTimeAfterMelee = 0.5f;
 
 
     public override IEnumerator AttackingPlayer()
@@ -48,8 +49,10 @@ public class FireMeleeAttacks : AttackMotion
         SP[0].gameObject.SetActive(true);
         yield return new WaitForSeconds(hitboxSpawnTime);
         SP[0].gameObject.SetActive(false);
-        enemy.navMeshAgent.stoppingDistance = 0;
+        
+        yield return new WaitForSeconds(waitTimeAfterMelee);
         enemy.navMeshAgent.speed = enemy.speed;
+        enemy.navMeshAgent.stoppingDistance = 0;
         enemy.bossState = enemy.meleeAtkFollowUpDicision.GiveTheNextRandomDicision();
         //enemy.bossState = BossState.inCombat;
     }
