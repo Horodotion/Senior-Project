@@ -54,10 +54,11 @@ public class BossEnemyController : MonoBehaviour
 
     [SerializeField] public MovementDecision meleeAtkFollowUpDicision;
 
-    [SerializeField] public float bossSize;
+    
 
     [Header("Boss Covering System")]
     //public LayerMask coverLayers;
+    [SerializeField] public float widthOfTheBoss;
     public LayerMask hidingSpotLayer;
     public LayerMask ignoreLayer;
     //public Enemy_LineOfSightChecker losChecker;
@@ -252,7 +253,7 @@ public class BossEnemyController : MonoBehaviour
         foreach (Collider thisCol in colliders)
         {
 
-            if (!IsItAValidhidingPoint(bossSize, thisCol.transform.position))
+            if (!IsItAValidhidingPoint(widthOfTheBoss, thisCol.transform.position))
             {
                 continue;
             }
@@ -285,8 +286,8 @@ public class BossEnemyController : MonoBehaviour
         perVectorToColloder.y = 0;
         perVectorToColloder = perVectorToColloder.normalized;
 
-        Vector3 checkForPlayerPoint1 = position + (perVectorToColloder * bossSize / 2);
-        Vector3 checkForPlayerPoint2 = position - (perVectorToColloder * bossSize / 2);
+        Vector3 checkForPlayerPoint1 = position + (perVectorToColloder * widthOfTheBoss / 2);
+        Vector3 checkForPlayerPoint2 = position - (perVectorToColloder * widthOfTheBoss / 2);
 
         Debug.DrawRay(checkForPlayerPoint1, Camera.main.transform.position - checkForPlayerPoint1, Color.red);
         Debug.DrawRay(checkForPlayerPoint2, Camera.main.transform.position - checkForPlayerPoint2, Color.green);
@@ -468,7 +469,7 @@ public class BossEnemyController : MonoBehaviour
                 continue;
             }
 
-            if (!IsItAValidhidingPoint(bossSize, thisCol.transform.position))
+            if (!IsItAValidhidingPoint(widthOfTheBoss, thisCol.transform.position))
             {
                 continue;
             }

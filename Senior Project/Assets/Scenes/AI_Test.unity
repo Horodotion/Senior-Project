@@ -234,8 +234,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8790068993202273301, guid: 5bf3800863491aa489d1bd268339a408,
         type: 3}
+      propertyPath: test3
+      value: 
+      objectReference: {fileID: 1656407942}
+    - target: {fileID: 8790068993202273301, guid: 5bf3800863491aa489d1bd268339a408,
+        type: 3}
+      propertyPath: test4
+      value: 
+      objectReference: {fileID: 1390670338}
+    - target: {fileID: 8790068993202273301, guid: 5bf3800863491aa489d1bd268339a408,
+        type: 3}
       propertyPath: laserSpeed
-      value: 50
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8790068993202273301, guid: 5bf3800863491aa489d1bd268339a408,
         type: 3}
@@ -244,8 +254,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8790068993202273301, guid: 5bf3800863491aa489d1bd268339a408,
         type: 3}
+      propertyPath: maxLaserLength
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8790068993202273301, guid: 5bf3800863491aa489d1bd268339a408,
+        type: 3}
+      propertyPath: maxlaserLength
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8790068993202273301, guid: 5bf3800863491aa489d1bd268339a408,
+        type: 3}
       propertyPath: isInfiniteSpeed
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9112506425678246147, guid: 5bf3800863491aa489d1bd268339a408,
         type: 3}
@@ -255,7 +275,7 @@ PrefabInstance:
     - target: {fileID: 9112506425678246147, guid: 5bf3800863491aa489d1bd268339a408,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.54
       objectReference: {fileID: 0}
     - target: {fileID: 9112506425678246147, guid: 5bf3800863491aa489d1bd268339a408,
         type: 3}
@@ -470,7 +490,7 @@ MonoBehaviour:
     type: 2}
   meleeAtkFollowUpDicision: {fileID: 11400000, guid: 62ff0637c23a45240ba420d0db600f2e,
     type: 2}
-  bossSize: 1
+  widthOfTheBoss: 1
   hidingSpotLayer:
     serializedVersion: 2
     m_Bits: 1024
