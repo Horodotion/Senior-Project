@@ -27,6 +27,7 @@ public class AttacksManager : MonoBehaviour
     [SerializeField] public EnemyAttack fireMeleeAttack;
     [SerializeField] public EnemyAttack iceRangedAttack;
     [SerializeField] public EnemyAttack fireRangedAttack;
+    [SerializeField] public EnemyAttack laserAttack;
 
     //All the attack decision and modifer
     [SerializeField] public AttackDecision rangedAttackDicision;
@@ -47,6 +48,7 @@ public class AttacksManager : MonoBehaviour
         fireMeleeAttack.attackMotion.InitializeAttacks(enemy, fireMeleeAttack.spawnPoiont);
         iceRangedAttack.attackMotion.InitializeAttacks(enemy, iceRangedAttack.spawnPoiont);
         fireRangedAttack.attackMotion.InitializeAttacks(enemy, fireRangedAttack.spawnPoiont);
+        laserAttack.attackMotion.InitializeAttacks(enemy, laserAttack.spawnPoiont);
         /*
         currentAttack = RandomAttack();
         timer = currentAttack.coolDown;
@@ -90,7 +92,7 @@ public class AttacksManager : MonoBehaviour
         if (RangedAttackDicision())
         {
             //Use Ice
-            Debug.Log("Use ice projectile " + enemy.bossState);
+            Debug.Log("Use ice projectile");
             return iceRangedAttack.attackMotion.AttackingPlayer();
         }
         else
@@ -101,7 +103,11 @@ public class AttacksManager : MonoBehaviour
         }
         //StartCoroutine(enemy.MovementCoroutine);
     }
+    public IEnumerator LaserAttack()
+    {
+        return laserAttack.attackMotion.AttackingPlayer();
 
+    }
     //Decide which element for the melee attack
     public IEnumerator MeleeAttack()
     {

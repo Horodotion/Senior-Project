@@ -16,39 +16,13 @@ public enum BossState
     taunt,
     takingCover,
     waitingInCover,
-    teleportBehindPlayer
+    teleportBehindPlayer,
+    laserAttack
 }
 
 public class Decision : ScriptableObject
 {
-    /*
-    public int[] dicisions;
-
-    public void AddDicision(Decision d)
-    {
-        for(int i = 0; i < d.dicisions.Length; i++)
-        {
-            if (this.dicisions[i] + d.dicisions[i] < 0)
-            {
-                this.dicisions[i] = 0;
-            }
-            else
-            {
-                this.dicisions[i] += d.dicisions[i];
-            }
-            
-        }
-    }
-    public int AddAllDicision()
-    {
-        int temp = 0;
-        for (int i = 0; i < this.dicisions.Length; i++)
-        {
-            temp += this.dicisions[i];
-        }
-        return temp;
-    }
-    */
+    //protected Decision [] decisions;
 }
 
 public class BossEnemyController : MonoBehaviour
@@ -80,13 +54,14 @@ public class BossEnemyController : MonoBehaviour
 
     [SerializeField] public MovementDecision meleeAtkFollowUpDicision;
 
-    [SerializeField] public float bossSize;
+    
 
     [Header("Boss Covering System")]
     //public LayerMask coverLayers;
+    [SerializeField] public float widthOfTheBoss;
     public LayerMask hidingSpotLayer;
     public LayerMask ignoreLayer;
-    public Enemy_LineOfSightChecker losChecker;
+    //public Enemy_LineOfSightChecker losChecker;
     public float playerSpottedDistance;
     public float minWaitTimeinCover;
     public float maxWaitTimeInCover;
@@ -102,11 +77,10 @@ public class BossEnemyController : MonoBehaviour
 
     [Header("Boss Teleport System")]
     [SerializeField] public float teleportSampleDistance;
-
-
-    public BossState state = BossState.idle;
     public float playerTooCloseDistanceToTeleport = 4f;
 
+    public BossState state = BossState.idle;
+    
     private BossState tempState;
     public BossState bossState // Public boss state variable that can be set to trigger a clean state transition
     {
@@ -155,8 +129,6 @@ public class BossEnemyController : MonoBehaviour
     {
         if (MovementCoroutine != null)
         {
-            //print("Stopped Coroutine");
-            Debug.Log("Stopped Coroutine");
             StopCoroutine(MovementCoroutine);
         }
         switch (newState)
@@ -171,14 +143,12 @@ public class BossEnemyController : MonoBehaviour
                 MovementCoroutine = TestAttack();
                 break;
             case BossState.taunt:
-                //MovementCoroutine = StartCoroutine(InTauntState());
                 MovementCoroutine = TakeCoverState(PlayerController.puppet.transform);//Take care the taunt later
                 break;
             case BossState.meleeAttack:
                 MovementCoroutine = attacksManager.MeleeAttack();
                 break;
             case BossState.rangedAttack:
-                Debug.Log(bossState);
                 MovementCoroutine = attacksManager.RangedAttack();
                 break;
             case BossState.takingCover:
@@ -189,6 +159,9 @@ public class BossEnemyController : MonoBehaviour
                 break;
             case BossState.teleportBehindPlayer:
                 MovementCoroutine = TeleportingBehindPlayer(PlayerController.puppet.transform);
+                break;
+            case BossState.laserAttack:
+                MovementCoroutine = attacksManager.LaserAttack();
                 break;
         }
         StartCoroutine(MovementCoroutine);
@@ -232,26 +205,11 @@ public class BossEnemyController : MonoBehaviour
         yield return null;
         Debug.Log("Set");
         bossState = BossState.meleeAttack;
-        //Debug.LogError("Nothing should pass here");
-        /*
-        for (float timer = 0; true; timer += Time.deltaTime)
-        {
-            navMeshAgent.destination = PlayerController.puppet.transform.position;
-            if (timer > 4)
-            {
-                bossState = BossState.rangedAttack;
-                break;
-            }
-            yield return null;
-        }
-        */
-        //yield return null;
     }
 
     private IEnumerator TakeCoverState(Transform target)
     {
         WaitForSeconds wait = new WaitForSeconds(coverUpdateFrequency);
-        Debug.Log("Test");
         while (true)
         {
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, coverSampleDistance, hidingSpotLayer);
@@ -265,7 +223,7 @@ public class BossEnemyController : MonoBehaviour
             {
                 //Find the right collider to hide
                 Collider tempCol = FindValidHidingSpot(target, hitColliders);
-                Debug.Log(tempCol.transform.position);
+                //Debug.Log(tempCol.transform.position);
                 if (tempCol == null)
                 {
                     Debug.Log("No valid cover spot");
@@ -295,19 +253,15 @@ public class BossEnemyController : MonoBehaviour
         foreach (Collider thisCol in colliders)
         {
 
-            if (!IsItAValidhidingPoint(bossSize, thisCol.transform.position))
+            if (!IsItAValidhidingPoint(widthOfTheBoss, thisCol.transform.position))
             {
                 continue;
             }
 
-            //Vector3 vectorToColloder = target.position - thisCol.transform.position;
             if (Vector3.Distance(target.position, thisCol.transform.position) < playerTooCloseDistanceToCover)
             {
                 continue;
             }
-            //Debug.Log(thisCol.name);
-            //Debug.Log(hit.collider.tag);
-            //Debug.Log(hit2.collider.tag);
 
             if (tempCol == null)
             {
@@ -332,8 +286,8 @@ public class BossEnemyController : MonoBehaviour
         perVectorToColloder.y = 0;
         perVectorToColloder = perVectorToColloder.normalized;
 
-        Vector3 checkForPlayerPoint1 = position + (perVectorToColloder * bossSize / 2);
-        Vector3 checkForPlayerPoint2 = position - (perVectorToColloder * bossSize / 2);
+        Vector3 checkForPlayerPoint1 = position + (perVectorToColloder * widthOfTheBoss / 2);
+        Vector3 checkForPlayerPoint2 = position - (perVectorToColloder * widthOfTheBoss / 2);
 
         Debug.DrawRay(checkForPlayerPoint1, Camera.main.transform.position - checkForPlayerPoint1, Color.red);
         Debug.DrawRay(checkForPlayerPoint2, Camera.main.transform.position - checkForPlayerPoint2, Color.green);
@@ -355,7 +309,6 @@ public class BossEnemyController : MonoBehaviour
 
         return true;
     }
-
 
     private IEnumerator WaitInCoverState(float secondsToWait) // Either breakWhenSpotted should be true, or secondsToWait should be >0, or both. If not this would go forever
     {
@@ -381,15 +334,14 @@ public class BossEnemyController : MonoBehaviour
                 if (hit.collider.CompareTag("Player"))
                 {
                     bossState = AmbushedDicision();
-                    yield break;
+                    //yield break;
                 }
             }
 
             yield return wait;
             //bossState = BossState.takingCover;
-            Debug.Log("Test2");
             bossState = AttackDicision();
-            yield break;
+            //yield break;
         }
     }
 
@@ -435,7 +387,6 @@ public class BossEnemyController : MonoBehaviour
         {
             temp.AddDicision(ambushedDicisionMod[3]);
         }
-        temp.DisplayLog();
         // Find which bossstate to output
         return temp.GiveTheNextRandomDicision();
     }
@@ -466,8 +417,6 @@ public class BossEnemyController : MonoBehaviour
         // Find which bossstate to output
         return temp.GiveTheNextRandomDicision();
     }
-
-
 
     public IEnumerator TeleportingBehindPlayer(Transform target)
     {
@@ -520,7 +469,7 @@ public class BossEnemyController : MonoBehaviour
                 continue;
             }
 
-            if (!IsItAValidhidingPoint(bossSize, thisCol.transform.position))
+            if (!IsItAValidhidingPoint(widthOfTheBoss, thisCol.transform.position))
             {
                 continue;
             }
@@ -560,7 +509,7 @@ public class BossEnemyController : MonoBehaviour
     {
         RaycastHit hit;
         Vector3 veiwToPlayerMesh = PlayerController.puppet.cameraObj.transform.position - viewPoint.transform.position;
-        Physics.Raycast(viewPoint.transform.position, veiwToPlayerMesh, out hit, range);
+        Physics.Raycast(viewPoint.transform.position, veiwToPlayerMesh, out hit, range, ~hidingSpotLayer);
         if (hit.collider != null && hit.collider.tag == "Player")
         {
             float angleH = Vector3.Angle(new Vector3(veiwToPlayerMesh.x, 0, veiwToPlayerMesh.z), viewPoint.transform.forward);
@@ -579,6 +528,14 @@ public class BossEnemyController : MonoBehaviour
         veiwToPlayerMesh.y = 0;
         transform.forward = Vector3.RotateTowards(transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
         Debug.DrawRay(viewPoint.transform.position, veiwToPlayerMesh, Color.blue);
+    }
+
+    public virtual void AimTowardsWithY(GameObject gameObject, Vector3 position, float aimSpeed)
+    {
+        Vector3 veiwToPlayerMesh = position - gameObject.transform.position;
+        //veiwToPlayerMesh.x = 0;
+        transform.forward = Vector3.RotateTowards(gameObject.transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
+        Debug.DrawRay(gameObject.transform.position, veiwToPlayerMesh, Color.red);
     }
 
     public void Damage(float damageAmount)
