@@ -5,6 +5,9 @@ using UnityEngine;
 public class ExplosiveObject : EnemyController
 {
     public GameObject destroyEffectPrefab;
+    //GameObject to help in case the model does not have perfect transforms
+    //put an empty game object in the following variable so the explosion effect can find it - Matt
+    public GameObject customTransform;
     // On fresh prefabs I set health to 10 by default, but feel free to change if we have a global damage scale
     public float health, explosionRadius, baseDamageDealt, baseTempChange, secondsUntilParticlesAreDestroyed;
 
@@ -28,8 +31,18 @@ public class ExplosiveObject : EnemyController
     {
         if (destroyEffectPrefab != null)
         {
-            GameObject destructionParticles = Instantiate(destroyEffectPrefab, transform.position, Quaternion.Euler(0, 0, 0));
-            Destroy(destructionParticles, secondsUntilParticlesAreDestroyed);
+            // Checks if there is a custom transform - Matt
+            if (customTransform != null)
+            {
+                // If there is use the custom transform to spawn the particles - Matt
+                GameObject destructionParticles = Instantiate(destroyEffectPrefab, customTransform.transform.position, Quaternion.Euler(0, 0, 0));
+                Destroy(destructionParticles, secondsUntilParticlesAreDestroyed);
+            }
+            else
+            {
+                GameObject destructionParticles = Instantiate(destroyEffectPrefab, transform.position, Quaternion.Euler(0, 0, 0));
+                Destroy(destructionParticles, secondsUntilParticlesAreDestroyed);
+            }
         }
 
 

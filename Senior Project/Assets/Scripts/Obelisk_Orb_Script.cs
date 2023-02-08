@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Obelisk_Orb_Script : MonoBehaviour
 {
@@ -18,6 +19,10 @@ public class Obelisk_Orb_Script : MonoBehaviour
     [SerializeField] private float fireRateA = 0.5f;
     [SerializeField] private float fireRateB = 0.5f;
 	[SerializeField] private float sliderAmount = 0;
+    private void Start()
+    {
+        
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -36,6 +41,13 @@ public class Obelisk_Orb_Script : MonoBehaviour
 	
 	private void FixedUpdate()
 	{
+        if(Time.time >= nextTimeToFireB)
+        {
+            //Debug.Log("Sent");
+            nextTimeToFireB = Time.time + 10 / fireRateA;
+            PillarVFX.GetComponent<VisualEffect>().SendEvent("Send");
+        }
+
         if (target != null && Time.time >= nextTimeToFireA)
         {
             nextTimeToFireA = Time.time + 1 / fireRateA;
