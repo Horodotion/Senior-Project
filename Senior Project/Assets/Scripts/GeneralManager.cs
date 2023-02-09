@@ -69,8 +69,10 @@ public class GeneralManager : MonoBehaviour
     // Loads a scene by its build index
     public static void LoadLevel(int levelToLoad)
     {
+        SpawnManager.instance.TurnOffEverything();
         SceneManager.LoadScene(levelToLoad);
         GeneralManager.instance.UnPauseGame();
+        PathLight.ClearPath();
 
         if (levelToLoad >= 0)
         {
@@ -98,6 +100,7 @@ public class GeneralManager : MonoBehaviour
         isGameRunning = false;
         hasGameStarted = false;
 
+        PlayerController.ourPlayerState = PlayerState.inMenu;
         PlayerController.instance.temperature.ResetStat();
     }
 
@@ -105,6 +108,7 @@ public class GeneralManager : MonoBehaviour
     {
         MenuScript.SwapToMenu(pauseMenu, playerHud);
 
+        PlayerController.ourPlayerState = PlayerState.inMenu;
         Cursor.lockState = CursorLockMode.None;
         isGameRunning = false;
         Time.timeScale = 0f;
@@ -118,6 +122,7 @@ public class GeneralManager : MonoBehaviour
         textBoxText = null;
         textBoxObject.SetActive(false);
 
+        PlayerController.ourPlayerState = PlayerState.inGame;
         Cursor.lockState = CursorLockMode.Locked;
         isGameRunning = true;
         Time.timeScale = 1f;

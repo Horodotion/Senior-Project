@@ -27,13 +27,11 @@ public enum DamageType
 public abstract class Spell : ScriptableObject
 {
 
-    // [HideInInspector] public PlayerController PlayerController.instance; // The player Controller that this weapon is attached to
-    // [HideInInspector] public PlayerPuppet PlayerController.puppet; // The player object that the controller is attached to
     [HideInInspector] public Transform playerCameraTransform; // The transform for the player camera
     [HideInInspector] public bool canCast = true; // A bool to decide if the gun can fire or not
     [HideInInspector] public SpellState ourSpellState;
 
-    [Header("All Spells Variables")]
+    [Header("Spells Variables")]
     public SpellSlot ourSpellSlot;
 
     public Animator spellAnim; // An animator on the player hands
@@ -50,9 +48,7 @@ public abstract class Spell : ScriptableObject
     public float temperatureChange;
 
     [Header("Attack Spells Variables")]
-
-
-    public GameObject testPositionMarker; // This is a testing market to spawn on hit for testing purposes
+    public DamageType damageType;
     public float damage;
     public float effectiveRange;
     public float sphereCastRadius;
@@ -65,8 +61,6 @@ public abstract class Spell : ScriptableObject
     public virtual void InitializeSpell()
     {
         //Getting the variables for the player itself
-        // PlayerController.instance = player;
-        // PlayerController.puppet = newPuppet;
         playerCameraTransform = PlayerController.puppet.cameraObj.transform;
 
         //After gets the variables on the player, it will spawn the in game model and gather the animator if available
@@ -165,7 +159,7 @@ public abstract class Spell : ScriptableObject
     public virtual void DamageEnemy(EnemyController enemyController)
     {
         // This simply calls a function to apply damage to the enemy at base
-        enemyController.Damage(damage);
+        enemyController.Damage(damage, damageType);
     }
 
     // The default firing method, hitscan does not spawn a projectile and instead utilizes a sphereCastAll
@@ -237,8 +231,12 @@ public abstract class Spell : ScriptableObject
         newProjectile.transform.position = GetFirePos().position;
         newProjectile.transform.rotation = PlayerController.puppet.cameraObj.transform.rotation;
 
-        newProjectile.GetComponent<ProjectileController>().damage = damage;
-        newProjectile.GetComponent<ProjectileController>().LaunchProjectile();
+        ProjectileController newProjectileScript = newProjectile.GetComponent<ProjectileController>();
+
+        newProjectileScript.damage = damage;
+        newProjectileScript.damageType = damageType;
+        newProjectileScript.hostileFaction = Faction.Enemy;
+        newProjectileScript.LaunchProjectile();
     }
 
     public virtual Transform GetFirePos()
