@@ -39,6 +39,6 @@ public class ShotgunSpell : Spell
 
     public virtual void DamageEnemy(EnemyController enemyController, float pelletsThatHit)
     {
-        enemyController.Damage((damage) * pelletsThatHit);
+        enemyController.Damage((damage) * pelletsThatHit, damageType);
     }
 }

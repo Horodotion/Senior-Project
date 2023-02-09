@@ -28,6 +28,8 @@ public class GeneralManager : MonoBehaviour
 {
     //A static reference to the GeneralManager
     public static GeneralManager instance;
+    public static bool isGameRunning = false;
+    public static bool hasGameStarted = true;
 
     // Variables for the event flags
     public Dictionary<int, EventFlag> eventFlags = new Dictionary<int, EventFlag>(); // The dictionary of event flagss that will be referenced by game objects
@@ -38,6 +40,9 @@ public class GeneralManager : MonoBehaviour
     public TMP_Text textToDisplay;
     [HideInInspector] public TextBoxText textBoxText;
     [HideInInspector] public bool typing = false;
+
+    public GameObject pauseMenu;
+    public GameObject playerHud;
 
     void Awake()
     {
@@ -61,25 +66,67 @@ public class GeneralManager : MonoBehaviour
         UnPauseGame();
     }
 
-    public static void LoadZone(int levelToLoad)
+    // Loads a scene by its build index
+    public static void LoadLevel(int levelToLoad)
     {
+        SpawnManager.instance.TurnOffEverything();
         SceneManager.LoadScene(levelToLoad);
+        GeneralManager.instance.UnPauseGame();
+        PathLight.ClearPath();
+
+        if (levelToLoad >= 0)
+        {
+            hasGameStarted = true;
+        }
+    }
+
+    public static void LoadNextLevel()
+    {
+        LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public static void ReloadLevel()
+    {
+        LoadLevel(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public static void ReturnToMainMenu()
+    {
+        LoadLevel(0);
+        GeneralManager.instance.pauseMenu.SetActive(false);
+        GeneralManager.instance.playerHud.SetActive(false);
+
+        Cursor.lockState = CursorLockMode.None;
+        isGameRunning = false;
+        hasGameStarted = false;
+
+        PlayerController.ourPlayerState = PlayerState.inMenu;
+        PlayerController.instance.temperature.ResetStat();
     }
 
     public void PauseGame()
     {
+        MenuScript.SwapToMenu(pauseMenu, playerHud);
+
+        PlayerController.ourPlayerState = PlayerState.inMenu;
+        Cursor.lockState = CursorLockMode.None;
+        isGameRunning = false;
         Time.timeScale = 0f;
     }
 
     public void UnPauseGame()
     {
+        MenuScript.SwapToMenu(playerHud, pauseMenu);
+
+        
         textBoxText = null;
         textBoxObject.SetActive(false);
 
+        PlayerController.ourPlayerState = PlayerState.inGame;
+        Cursor.lockState = CursorLockMode.Locked;
+        isGameRunning = true;
         Time.timeScale = 1f;
     }
-
-
 
     // This checks off the flag for an event, and triggers other events to be active if it's able to be
     public void SetEventFlag(int flagToTrigger)
@@ -107,6 +154,10 @@ public class GeneralManager : MonoBehaviour
             eventFlags[flagToTrigger].eventTriggered = true;
         }
     }
+
+
+    // A text system, currently unused
+    /*---------------------------------------------------------------------------------------------------
 
     public void ActivateTextBox(TextBoxText newText)
     {
@@ -176,4 +227,5 @@ public class GeneralManager : MonoBehaviour
         string newText = inputText.Replace(";", System.Environment.NewLine);
         return newText;
     }
+    ---------------------------------------------------------------------------------------------------*/
 }

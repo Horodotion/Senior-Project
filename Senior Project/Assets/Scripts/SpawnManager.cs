@@ -110,4 +110,18 @@ public class SpawnManager : MonoBehaviour
                 return null;
         }
     }
+
+    public void TurnOffEverything()
+    {
+        foreach(GameObject objectType in currentlySpawnedGameObjects.Keys)
+        {
+            for (int i = 0; i < currentlySpawnedGameObjects[objectType].Count; i++)
+            {
+                if (currentlySpawnedGameObjects[objectType][i].GetComponent<ProjectileController>() != null)
+                {
+                    currentlySpawnedGameObjects[objectType][i].GetComponent<ProjectileController>().Deactivate();
+                }
+            }
+        }
+    }
 }

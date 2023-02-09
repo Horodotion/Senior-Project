@@ -38,10 +38,6 @@ public class FireProjectileAttacks : AttackMotion
             Physics.Raycast(enemy.transform.position, PlayerController.puppet.cameraObj.transform.position - enemy.transform.position, out RaycastHit hit, fireDistance, ~LayerMask.GetMask("Enemy"));
             Debug.DrawRay(enemy.transform.position, PlayerController.puppet.cameraObj.transform.position - enemy.transform.position, Color.red);
             enemy.navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
-            if (hit.collider != null)
-            {
-                Debug.Log(hit.collider.name);
-            }
             if (hit.collider != null && hit.collider.tag.Equals("Player"))
             {
                 break;

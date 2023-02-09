@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class GeneratorInteractable : LockInteractable
 {
     public GameObject keyHoleGameObject;
@@ -12,3 +12,4 @@ public class GeneratorInteractable : LockInteractable
         keyHoleGameObject.SetActive(true);
     }
 }
+*/

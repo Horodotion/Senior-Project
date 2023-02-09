@@ -15,7 +15,7 @@ public class HealthPackScript : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             //Adds health to Stats
-            PlayerController.instance.playerStats.AddToStat(StatType.health, healValue);
+
             // Calls the placeholder method to update the UI in health. Probably a placeholder
             // UIFunctionsScript.instance.UpdateHealth();
             //SELF DESTRUCT ACTIVATED

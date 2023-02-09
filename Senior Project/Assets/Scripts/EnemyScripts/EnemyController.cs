@@ -6,13 +6,14 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     public Stats stats;
+    public IndividualStat health;
     [HideInInspector] public bool inInvicibilityFrames = false;
     [HideInInspector] public bool dead = false;
 
-    public virtual void Damage(float damageAmount)
+    public virtual void Damage(float damageAmount, DamageType damageType)
     {
-        stats.AddToStat(StatType.health, -damageAmount);
-        if (stats.stat[StatType.health] <= 0)
+        health.AddToStat(-damageAmount);
+        if (health.stat <= health.minimum)
         {
             CommitDie();
         }

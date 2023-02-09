@@ -199,7 +199,7 @@ public class MovingEnemyController : EnemyController
     }
 
 
-    public override void Damage(float damageAmount)
+    public override void Damage(float damageAmount, DamageType damageType)
     {
         stats.AddToStat(StatType.health, -damageAmount);
         if (stats.stat[StatType.health] <= 0)

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 public class LockInteractable : Interactable
 {
     public EventFlag ourEvent = null;
@@ -60,3 +61,4 @@ public class LockInteractable : Interactable
         // }
     }
 }
+*/

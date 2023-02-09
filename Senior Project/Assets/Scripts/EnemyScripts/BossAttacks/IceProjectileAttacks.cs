@@ -18,12 +18,6 @@ public class IceProjectileAttacks : AttackMotion
     }
     public override IEnumerator AttackingPlayer()
     {
-        //yield return new WaitForSeconds(2f);
-        //Debug.Log("5 " + enemy.bossState);
-        //enemy.bossState = BossState.inCombat;
-        // Debug.Log("6 " + enemy.bossState);
-        //yield return new WaitForSeconds(5f);
-        Debug.Log("Walking towards player with ice ranged attack");
         
         while (true)
         {
@@ -32,7 +26,7 @@ public class IceProjectileAttacks : AttackMotion
             //Debug.Log(hit.collider.tag);
             if (hit.collider != null)
             {
-                Debug.Log(hit.collider.name);
+                //Debug.Log(hit.collider.name);
             }
             enemy.navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
             if (hit.collider != null && hit.collider.tag.Equals("Player"))
@@ -41,7 +35,6 @@ public class IceProjectileAttacks : AttackMotion
             }
             yield return null;
         }
-        //enemy.bossState = BossState.inCombat;
 
         enemy.navMeshAgent.speed = 0f;
 
@@ -54,17 +47,6 @@ public class IceProjectileAttacks : AttackMotion
             enemy.AimTowards(PlayerController.puppet.transform.position, aimSpeed);
             yield return null;
         }
-        /*
-        for (float timer = 0; true; timer += Time.deltaTime)
-        {
-            enemy.AimTowards(PlayerController.puppet.transform.position, aimSpeed);
-            if (timer > 2)
-            {
-                break;
-            }
-            yield return null;
-        }
-        */
         
         GameObject thisProjectile = Instantiate(projectile, SP[0].position, SP[0].rotation);
         thisProjectile.GetComponent<Rigidbody>().AddForce(SP[0].transform.forward * projectileForce, ForceMode.Impulse);
