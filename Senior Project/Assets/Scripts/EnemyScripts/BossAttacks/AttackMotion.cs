@@ -25,7 +25,7 @@ public class AttackMotion : ScriptableObject
     //public float timeTaken;
     //public float minDistanceTowardPlayer;
     //public float maxDistanceTowardPlayer;
-    protected Transform [] SP;
+    protected GameObject [] SP;
     //protected bool isFiredOnce; // Check if the attack has been fired
 
     //[SerializeField] GameObject enemyGameObject;
@@ -43,7 +43,7 @@ public class AttackMotion : ScriptableObject
         //enemy = enemyGameObject.GetComponent<MovingEnemyController>();
     }
 
-    public virtual void InitializeAttacks(BossEnemyController enemyController, Transform[] SP)
+    public virtual void InitializeAttacks(BossEnemyController enemyController, GameObject[] SP)
     {
         enemy = enemyController;
         this.SP = SP;
