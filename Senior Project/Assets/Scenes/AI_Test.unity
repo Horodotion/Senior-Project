@@ -360,6 +360,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f88c53b80ec57444bde08cd06d21a5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 0}
+  inInvicibilityFrames: 0
+  dead: 0
   maxHealth: 1000
   health: 1000
   speed: 8
@@ -420,23 +423,23 @@ MonoBehaviour:
   iceMeleeAttack:
     attackMotion: {fileID: 11400000, guid: 8b1c351134043ad48bc4876463c212b2, type: 2}
     spawnPoiont:
-    - {fileID: 95105096}
+    - {fileID: 95105095}
   fireMeleeAttack:
     attackMotion: {fileID: 11400000, guid: 5b63a0b224a1a8d49949c1b179cdc96f, type: 2}
     spawnPoiont:
-    - {fileID: 281725549}
+    - {fileID: 281725548}
   iceRangedAttack:
     attackMotion: {fileID: 11400000, guid: c69271cd835c02d4ba89559b5f4aa1e2, type: 2}
     spawnPoiont:
-    - {fileID: 709742768}
+    - {fileID: 709742767}
   fireRangedAttack:
     attackMotion: {fileID: 11400000, guid: 0a67adcccb456f741bb5905cb460993a, type: 2}
     spawnPoiont:
-    - {fileID: 709742768}
+    - {fileID: 709742767}
   laserAttack:
     attackMotion: {fileID: 11400000, guid: cf7da83412e4d79488e8659c753aa351, type: 2}
     spawnPoiont:
-    - {fileID: 0}
+    - {fileID: 1622728768}
   rangedAttackDicision: {fileID: 11400000, guid: 4beb446b46c9731448c43581dfb83bd1,
     type: 2}
   rangedAttackDicisionMod:
@@ -3224,6 +3227,12 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1622728768 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 200097968162235941, guid: 5bf3800863491aa489d1bd268339a408,
+    type: 3}
+  m_PrefabInstance: {fileID: 8790068991817307376}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1656407942
 GameObject:
   m_ObjectHideFlags: 0
@@ -3961,6 +3970,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 200097968162235941, guid: 5bf3800863491aa489d1bd268339a408,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 200097968162235967, guid: 5bf3800863491aa489d1bd268339a408,
         type: 3}
