@@ -27,6 +27,7 @@ public class AttacksManager : MonoBehaviour
     [SerializeField] public EnemyAttack fireMeleeAttack;
     [SerializeField] public EnemyAttack iceRangedAttack;
     [SerializeField] public EnemyAttack fireRangedAttack;
+    [SerializeField] public EnemyAttack laserAttack;
 
     //All the attack decision and modifer
     [SerializeField] public AttackDecision rangedAttackDicision;
@@ -47,6 +48,7 @@ public class AttacksManager : MonoBehaviour
         fireMeleeAttack.attackMotion.InitializeAttacks(enemy, fireMeleeAttack.spawnPoiont);
         iceRangedAttack.attackMotion.InitializeAttacks(enemy, iceRangedAttack.spawnPoiont);
         fireRangedAttack.attackMotion.InitializeAttacks(enemy, fireRangedAttack.spawnPoiont);
+        laserAttack.attackMotion.InitializeAttacks(enemy, laserAttack.spawnPoiont);
         /*
         currentAttack = RandomAttack();
         timer = currentAttack.coolDown;
@@ -90,7 +92,7 @@ public class AttacksManager : MonoBehaviour
         if (RangedAttackDicision())
         {
             //Use Ice
-            Debug.Log("Use ice projectile " + enemy.bossState);
+            Debug.Log("Use ice projectile");
             return iceRangedAttack.attackMotion.AttackingPlayer();
         }
         else
@@ -101,7 +103,11 @@ public class AttacksManager : MonoBehaviour
         }
         //StartCoroutine(enemy.MovementCoroutine);
     }
+    public IEnumerator LaserAttack()
+    {
+        return laserAttack.attackMotion.AttackingPlayer();
 
+    }
     //Decide which element for the melee attack
     public IEnumerator MeleeAttack()
     {
@@ -127,19 +133,19 @@ public class AttacksManager : MonoBehaviour
         AttackDecision temp = new AttackDecision(rangedAttackDicision);
 
         // Adds up all the modifier and calculate the weight of each elements for the ranged attack.
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 75)
+        if (PlayerController.instance.temperature.stat >= 75)
         {
             temp.AddDicision(rangedAttackDicisionMod[0]);
         }
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 60)
+        if (PlayerController.instance.temperature.stat >= 60)
         {
             temp.AddDicision(rangedAttackDicisionMod[1]);
         }
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] <= 40)
+        if (PlayerController.instance.temperature.stat <= 40)
         {
             temp.AddDicision(rangedAttackDicisionMod[2]);
         }
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] <= 25)
+        if (PlayerController.instance.temperature.stat <= 25)
         {
             temp.AddDicision(rangedAttackDicisionMod[3]);
         }
@@ -153,19 +159,19 @@ public class AttacksManager : MonoBehaviour
         AttackDecision temp = new AttackDecision(meleeAttackDicision);
 
         // Adds up all the modifier and calculate the weight of each elements for the melee attack.
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 75)
+        if (PlayerController.instance.temperature.stat >= 75)
         {
             temp.AddDicision(meleeAttackDicisionMod[0]);
         }
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] >= 60)
+        if (PlayerController.instance.temperature.stat >= 60)
         {
             temp.AddDicision(meleeAttackDicisionMod[1]);
         }
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] <= 40)
+        if (PlayerController.instance.temperature.stat <= 40)
         {
             temp.AddDicision(meleeAttackDicisionMod[2]);
         }
-        if (PlayerController.instance.playerStats.stat[StatType.temperature] <= 25)
+        if (PlayerController.instance.temperature.stat <= 25)
         {
             temp.AddDicision(meleeAttackDicisionMod[3]);
         }
