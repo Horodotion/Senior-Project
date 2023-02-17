@@ -65,14 +65,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   hostileFaction: 0
-  projectileSpeed: 0
+  projectileSpeed: 15
   lifeSpan: 10
+  range: 100
+  origin: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  damageType: 0
   damage: 10
+  launched: 0
   destroyEffectPrefab: {fileID: 50376443962348799, guid: c9a24ebdfe72e6b4b89d1faa3efe71ea,
     type: 3}
-  explosionRadius: 3
-  baseDamageDealt: 10
-  secondsUntilParticlesAreDestroyed: 4
 --- !u!136 &314620141425248933
 CapsuleCollider:
   m_ObjectHideFlags: 0

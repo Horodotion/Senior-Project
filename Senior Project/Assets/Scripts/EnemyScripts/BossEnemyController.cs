@@ -122,7 +122,7 @@ public class BossEnemyController : MonoBehaviour
         //    Debug.Log(testDiscision.GiveTheNextRandomDicision());
         //}
 
-        bossState = BossState.takingCover;
+        bossState = BossState.laserAttack;
     }
     
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
@@ -278,6 +278,7 @@ public class BossEnemyController : MonoBehaviour
     //Check if a point is a valid hiding Spot. Size is the current object size. Position is the current position that is tried to hide.
     public bool IsItAValidhidingPoint(float size, Vector3 position)
     {
+        //Find the two points that is between the boss while also perpendicular to the player
         Vector3 vectorToColloder = Camera.main.transform.position - position;
         Vector3 perVectorToColloder = vectorToColloder;
         perVectorToColloder.y = perVectorToColloder.x;
@@ -292,11 +293,12 @@ public class BossEnemyController : MonoBehaviour
         Debug.DrawRay(checkForPlayerPoint1, Camera.main.transform.position - checkForPlayerPoint1, Color.red);
         Debug.DrawRay(checkForPlayerPoint2, Camera.main.transform.position - checkForPlayerPoint2, Color.green);
 
+        //Fires raycast to check if both of the points hit a wall or the boss itself.
         Physics.Raycast(checkForPlayerPoint1, Camera.main.transform.position - checkForPlayerPoint1, out RaycastHit hit, Mathf.Infinity, ~ignoreLayer);
         Physics.Raycast(checkForPlayerPoint2, Camera.main.transform.position - checkForPlayerPoint2, out RaycastHit hit2, Mathf.Infinity, ~ignoreLayer);
 
 
-        //Check the two corner for player
+        //If either one of the raycasts hit the player, return false
         if (hit.collider != null && hit.collider.tag.Equals("Player"))
         {
             return false;
@@ -534,7 +536,7 @@ public class BossEnemyController : MonoBehaviour
     {
         Vector3 veiwToPlayerMesh = position - gameObject.transform.position;
         //veiwToPlayerMesh.x = 0;
-        transform.forward = Vector3.RotateTowards(gameObject.transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
+        gameObject.transform.forward = Vector3.RotateTowards(gameObject.transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
         Debug.DrawRay(gameObject.transform.position, veiwToPlayerMesh, Color.red);
     }
 
