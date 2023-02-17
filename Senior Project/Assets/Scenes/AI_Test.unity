@@ -372,12 +372,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f88c53b80ec57444bde08cd06d21a5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1000
-  health: 1000
+  stats: {fileID: 0}
+  health:
+    stat: 100
+    baseStat: 0
+    minimum: 0
+    maximum: 100
+  inInvicibilityFrames: 0
+  dead: 0
   speed: 8
   acceleration: 8
   navMeshAgent: {fileID: 0}
-  dead: 0
   viewPoint: {fileID: 709742767}
   viewDegreeH: 100
   viewDegreeV: 50

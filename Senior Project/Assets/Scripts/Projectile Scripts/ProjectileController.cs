@@ -68,9 +68,9 @@ public class ProjectileController : MonoBehaviour
 
     public virtual void LaunchProjectile()
     {
-        //origin = gameObject.transform.position;
-        gameObject.transform.position = origin;
-        gameObject.transform.rotation = rotation;
+        origin = gameObject.transform.position;
+        // gameObject.transform.position = origin;
+        // gameObject.transform.rotation = rotation;
         rb.AddForce(transform.forward * projectileSpeed, ForceMode.VelocityChange);
         launched = true;
     }

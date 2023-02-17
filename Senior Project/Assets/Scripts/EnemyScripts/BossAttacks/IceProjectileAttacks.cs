@@ -55,8 +55,8 @@ public class IceProjectileAttacks : AttackMotion
         //Debug.Log(thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController testController));
         if (thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController projectileController))
         {
-            projectileController.origin = SP[0].transform.position;
-            projectileController.rotation = SP[0].transform.rotation;
+            projectileController.transform.position = SP[0].transform.position;
+            projectileController.transform.rotation = SP[0].transform.rotation;
             //SpawnManager.instance.GetGameObject(projectile, SpawnType.projectile);
             projectileController.LaunchProjectile();
         }

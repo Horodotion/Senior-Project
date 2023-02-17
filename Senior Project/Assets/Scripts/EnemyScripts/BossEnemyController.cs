@@ -25,17 +25,13 @@ public class Decision : ScriptableObject
     //protected Decision [] decisions;
 }
 
-public class BossEnemyController : MonoBehaviour
+public class BossEnemyController : EnemyController
 {
     [Header("Boss Stats")]
-    [SerializeField] public float maxHealth = 1000;
-    [SerializeField] public float health = 1000;
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float acceleration = 8f;
 
     [HideInInspector] public NavMeshAgent navMeshAgent;
-    //[HideInInspector] PlayerPuppet player;
-    [HideInInspector] public bool dead = false;
     
     [SerializeField] public GameObject viewPoint; // The starting point of the enemy view point
     [SerializeField] public float viewDegreeH = 100; // The Horizontal angle where the enemy can see the player
@@ -122,7 +118,7 @@ public class BossEnemyController : MonoBehaviour
         //    Debug.Log(testDiscision.GiveTheNextRandomDicision());
         //}
 
-        bossState = BossState.laserAttack;
+        bossState = BossState.takingCover;
     }
     
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
@@ -373,11 +369,11 @@ public class BossEnemyController : MonoBehaviour
         MovementDecision temp = new MovementDecision(ambushedDicision);
 
         // Adding all the decision modifers into the decision
-        if (health / maxHealth > 0.5)
+        if (health.stat / health.maximum > 0.5)
         {
             temp.AddDicision(ambushedDicisionMod[0]);
         }
-        if (health / maxHealth > 0.3)
+        if (health.stat / health.maximum > 0.3)
         {
             temp.AddDicision(ambushedDicisionMod[1]);
         }
@@ -538,31 +534,5 @@ public class BossEnemyController : MonoBehaviour
         //veiwToPlayerMesh.x = 0;
         gameObject.transform.forward = Vector3.RotateTowards(gameObject.transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
         Debug.DrawRay(gameObject.transform.position, veiwToPlayerMesh, Color.red);
-    }
-
-    public void Damage(float damageAmount)
-    {
-        health -= damageAmount;
-        if (health <= 0)
-        {
-            CommitDie();
-        }
-        else
-        {
-            /*
-            if ((enemyState != EnemyState.aggroToPlayer || enemyState != EnemyState.attacking) && enemyState != EnemyState.jumping)
-            {
-                //Debug.Log(enemyState != EnemyState.jumping);
-                enemyState = EnemyState.aggroToPlayer;
-            }
-            */
-        }
-    }
-
-
-    public void CommitDie()
-    {
-        dead = true;
-        Destroy(this.gameObject);
     }
 }
