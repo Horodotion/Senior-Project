@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
+    [HideInInspector] public float laserFrequency;
+    [HideInInspector] public float laserDamage;
+    [HideInInspector] private float timer;
     [SerializeField] float maxlaserLength;
     [SerializeField] bool isInfiniteSpeed;
     [SerializeField] float laserSpeed;
@@ -59,16 +62,35 @@ public class Laser : MonoBehaviour
             }
         }
 
-
-        
-        
     }
 
+    //Damage value is been change in the attacks
+    private void OnTriggerStay(Collider other)
+    {
+        
+        timer -= Time.deltaTime;
+        Debug.Log(timer <= 0);
+        if (timer <= 0)
+        {
+            
+            if (other.tag.Equals("Player"))
+            {
+                
+                PlayerController.puppet.ChangeTemperature(laserDamage);
+                timer = laserFrequency;
+            }
+        }
+        else
+        {
+            timer = 0;
+        }
+        
+    }
 
     private int PointsThatHit(float rayCastDistance, LayerMask thatLayer)
     {
         int temp = 0;
-        Debug.Log(laserRayCastPoints.Length);
+        //Debug.Log(laserRayCastPoints.Length);
         foreach (GameObject thisPoint in laserRayCastPoints)
         {
             Physics.Raycast(thisPoint.transform.position, thisPoint.transform.forward, out RaycastHit hit, isInfiniteSpeed ? maxlaserLength : rayCastDistance, thatLayer);
@@ -78,7 +100,7 @@ public class Laser : MonoBehaviour
                 temp++;
             }
         }
-        Debug.Log(temp);
+        //Debug.Log(temp);
         return temp;
     }
 

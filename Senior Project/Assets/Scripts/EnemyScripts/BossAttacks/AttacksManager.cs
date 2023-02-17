@@ -20,7 +20,7 @@ public class AttacksManager : MonoBehaviour
     public float timer;
 
     //[SerializeField] public AttackWithSP[] attacksList;
-    //[SerializeField] public EnemyAttacks currentAttack;
+    //[SerializeField] public EnemyAttack currentAttack;
 
     //All the boss attack
     [SerializeField] public EnemyAttack iceMeleeAttack;
@@ -42,6 +42,7 @@ public class AttacksManager : MonoBehaviour
     public void Awake()
     {
         enemy = GetComponent<BossEnemyController>();
+        //instance = GetComponent<AttacksManager>();
 
         // Initialize the attacks so that the attackmotion class contain their spawn point
         iceMeleeAttack.attackMotion.InitializeAttacks(enemy, iceMeleeAttack.spawnPoiont);

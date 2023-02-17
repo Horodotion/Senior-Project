@@ -11,6 +11,7 @@ public class ProjectileController : MonoBehaviour
     public float lifeSpan;
     public float range;
     [HideInInspector] public Vector3 origin;
+    [HideInInspector] public Quaternion rotation;
     public DamageType damageType;
     public float damage;
     [HideInInspector] public bool launched = false;
@@ -47,14 +48,14 @@ public class ProjectileController : MonoBehaviour
         {
             return;
         }
-
+        Debug.Log(hostileFaction == Faction.Player);
         if (hostileFaction == Faction.Enemy && col.gameObject.GetComponent<EnemyController>() != null)
         {
             col.gameObject.GetComponent<EnemyController>().Damage(damage, damageType);
         }
         else if (hostileFaction == Faction.Player && col.gameObject.GetComponent<PlayerPuppet>() != null)
         {
-            col.gameObject.GetComponent<PlayerPuppet>().ChangeTemperature(damage);
+            col.gameObject.GetComponent<PlayerPuppet>().ChangeTemperature(damageToTemperature() * damage);
         }
 
         Deactivate();
@@ -68,6 +69,8 @@ public class ProjectileController : MonoBehaviour
     public virtual void LaunchProjectile()
     {
         origin = gameObject.transform.position;
+        // gameObject.transform.position = origin;
+        // gameObject.transform.rotation = rotation;
         rb.AddForce(transform.forward * projectileSpeed, ForceMode.VelocityChange);
         launched = true;
     }

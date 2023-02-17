@@ -48,8 +48,18 @@ public class IceProjectileAttacks : AttackMotion
             yield return null;
         }
         
-        GameObject thisProjectile = Instantiate(projectile, SP[0].position, SP[0].rotation);
-        thisProjectile.GetComponent<Rigidbody>().AddForce(SP[0].transform.forward * projectileForce, ForceMode.Impulse);
+        //GameObject thisProjectile = Instantiate(projectile, SP[0].position, SP[0].rotation);
+        //thisProjectile.GetComponent<Rigidbody>().AddForce(SP[0].transform.forward * projectileForce, ForceMode.Impulse);
+
+        GameObject thisProjectile1 = SpawnManager.instance.GetGameObject(projectile, SpawnType.projectile);
+        //Debug.Log(thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController testController));
+        if (thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController projectileController))
+        {
+            projectileController.transform.position = SP[0].transform.position;
+            projectileController.transform.rotation = SP[0].transform.rotation;
+            //SpawnManager.instance.GetGameObject(projectile, SpawnType.projectile);
+            projectileController.LaunchProjectile();
+        }
 
         yield return new WaitForSeconds(waitTimeAfterFire);
         enemy.navMeshAgent.speed = enemy.speed;
