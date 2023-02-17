@@ -20,6 +20,31 @@ public enum StatType
     public float statValue;
 }
 
+[System.Serializable] public class IndividualStat
+{
+    [Tooltip("Stat is what is used by the player")]
+    public float stat;
+    [Tooltip("Stat is what is used to reset the player's original Stat")]
+    public float baseStat;
+    [Tooltip("The lowest value a stat can be.")]
+    public float minimum = -Mathf.Infinity;
+    [Tooltip("The highest value a stat can be.")]
+    public float maximum = Mathf.Infinity;
+
+
+    // This function simply sets stat to its baseStat counterpart
+    public void ResetStat()
+    {
+        stat = baseStat;
+    }
+
+    // This function changes the stat to be called, up to the maximum set by the Maximum Stat
+    public void AddToStat(float amountToAdd)
+    {
+        stat = Mathf.Clamp(stat + amountToAdd, minimum, maximum);
+    }
+}
+
 [System.Serializable]
 [CreateAssetMenu(menuName = "Stat set")]
 public class Stats : ScriptableObject
@@ -111,5 +136,4 @@ public class Stats : ScriptableObject
             }
         }
     }
-
 }

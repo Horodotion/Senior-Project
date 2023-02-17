@@ -18,22 +18,23 @@ public class IceProjectileAttacks : AttackMotion
     }
     public override IEnumerator AttackingPlayer()
     {
-        //yield return new WaitForSeconds(2f);
-        //Debug.Log("5 " + enemy.bossState);
-        //enemy.bossState = BossState.inCombat;
-        // Debug.Log("6 " + enemy.bossState);
-        //yield return new WaitForSeconds(5f);
-        Debug.Log("Walking towards player with ice ranged attack");
-
-        while (!enemy.IsPlayerWithinDistance(fireDistance))
+        
+        while (true)
         {
-            Debug.Log("Am I stuck?");
+            Physics.Raycast(enemy.transform.position, PlayerController.puppet.cameraObj.transform.position - enemy.transform.position, out RaycastHit hit, fireDistance, ~LayerMask.GetMask("Enemy"));
+            Debug.DrawRay(enemy.transform.position, PlayerController.puppet.cameraObj.transform.position - enemy.transform.position, Color.red);
+            //Debug.Log(hit.collider.tag);
+            if (hit.collider != null)
+            {
+                //Debug.Log(hit.collider.name);
+            }
             enemy.navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
-            
+            if (hit.collider != null && hit.collider.tag.Equals("Player"))
+            {
+                break;
+            }
             yield return null;
         }
-        Debug.Log("Firing ice attack " + enemy.bossState);
-        //enemy.bossState = BossState.inCombat;
 
         enemy.navMeshAgent.speed = 0f;
 
@@ -46,17 +47,6 @@ public class IceProjectileAttacks : AttackMotion
             enemy.AimTowards(PlayerController.puppet.transform.position, aimSpeed);
             yield return null;
         }
-        /*
-        for (float timer = 0; true; timer += Time.deltaTime)
-        {
-            enemy.AimTowards(PlayerController.puppet.transform.position, aimSpeed);
-            if (timer > 2)
-            {
-                break;
-            }
-            yield return null;
-        }
-        */
         
         GameObject thisProjectile = Instantiate(projectile, SP[0].position, SP[0].rotation);
         thisProjectile.GetComponent<Rigidbody>().AddForce(SP[0].transform.forward * projectileForce, ForceMode.Impulse);

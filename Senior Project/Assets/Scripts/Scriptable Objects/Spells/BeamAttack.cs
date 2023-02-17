@@ -16,8 +16,8 @@ public class BeamAttack : Spell
             Debug.Log(hit.collider.gameObject.name);
             DamageEnemy(hit.collider.gameObject.GetComponent<EnemyController>());
 
-            GameObject marker = Instantiate(testPositionMarker, hit.point, playerCameraTransform.rotation);
-            Destroy(marker, 1f); // Destroying the marker to not have an infinite amount on screen
+            // GameObject marker = Instantiate(testPositionMarker, hit.point, playerCameraTransform.rotation);
+            // Destroy(marker, 1f); // Destroying the marker to not have an infinite amount on screen
         }
     }
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 //This code is used for the collider that is open doors
 public class DoorInteractable : LockInteractable
 {
@@ -106,5 +107,6 @@ public class DoorInteractable : LockInteractable
             doorClosed = true;
         }
     }
-    */
+    
 }
+*/
