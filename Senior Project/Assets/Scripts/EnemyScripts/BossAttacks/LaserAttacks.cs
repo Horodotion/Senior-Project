@@ -41,7 +41,7 @@ public class LaserAttacks : AttackMotion
             Vector3 veiwToPlayerMesh = PlayerController.puppet.cameraObj.transform.position - SP[0].transform.position;
             if (Physics.Raycast(SP[0].transform.position, veiwToPlayerMesh, out RaycastHit hit, Mathf.Infinity, ~enemy.hidingSpotLayer))
             {
-                enemy.AimTowardsVertical(SP[0].gameObject, PlayerController.puppet.cameraObj.transform.position, turnSpeed);
+                enemy.AimTowardsWithY(SP[0].gameObject, PlayerController.puppet.cameraObj.transform.position, turnSpeed);
                 if (hit.collider != null && hit.collider.tag.Equals("Player"))
                 {
                     SP[0].gameObject.SetActive(true);

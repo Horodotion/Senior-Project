@@ -25,7 +25,7 @@ public class Decision : ScriptableObject
     //protected Decision [] decisions;
 }
 
-public class BossEnemyController : EnemyController
+public class BossEnemyController : MonoBehaviour
 {
     [Header("Boss Stats")]
     [SerializeField] public float maxHealth = 1000;
@@ -122,7 +122,7 @@ public class BossEnemyController : EnemyController
         //    Debug.Log(testDiscision.GiveTheNextRandomDicision());
         //}
 
-        bossState = BossState.laserAttack;
+        bossState = BossState.takingCover;
     }
     
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
@@ -530,19 +530,15 @@ public class BossEnemyController : EnemyController
         Debug.DrawRay(viewPoint.transform.position, veiwToPlayerMesh, Color.blue);
     }
 
-    public virtual void AimTowardsVertical(GameObject thatGameObject, Vector3 thatPosition, float aimSpeed)
+    public virtual void AimTowardsWithY(GameObject gameObject, Vector3 position, float aimSpeed)
     {
-        Vector3 veiwToPlayerMesh = thatPosition - viewPoint.transform.position;
-        //veiwToPlayerMesh.x = gameObject.transform.position.x;
-        //Vector3 tempRotation = thatGameObject.transform.forward + new Vector3(gameObject.transform.rotation.x, 0, 0);
-        //veiwToPlayerMesh.x = viewPoint.transform.rotation.x;
-        Debug.Log(thatGameObject.transform.position);
-        Debug.Log(viewPoint.transform.position);
-        thatGameObject.transform.forward = Vector3.RotateTowards(thatGameObject.transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
-        Debug.DrawRay(thatGameObject.transform.position, veiwToPlayerMesh, Color.yellow);
+        Vector3 veiwToPlayerMesh = position - gameObject.transform.position;
+        //veiwToPlayerMesh.x = 0;
+        transform.forward = Vector3.RotateTowards(gameObject.transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
+        Debug.DrawRay(gameObject.transform.position, veiwToPlayerMesh, Color.red);
     }
 
-    public override void Damage(float damageAmount)
+    public void Damage(float damageAmount)
     {
         health -= damageAmount;
         if (health <= 0)
@@ -562,7 +558,7 @@ public class BossEnemyController : EnemyController
     }
 
 
-    public override void CommitDie()
+    public void CommitDie()
     {
         dead = true;
         Destroy(this.gameObject);

@@ -11,7 +11,7 @@ public class FireProjectileAttacks : AttackMotion
     [SerializeField] float aimSpeed = 0.5f;
     [SerializeField] float waitTimeAfterFire = 0.5f;
 
-    public FireProjectileAttacks(BossEnemyController enemyController, GameObject[] SP)
+    public FireProjectileAttacks(BossEnemyController enemyController, Transform[] SP)
     {
         enemy = enemyController;
         this.SP = SP;
@@ -56,13 +56,13 @@ public class FireProjectileAttacks : AttackMotion
             enemy.AimTowards(PlayerController.puppet.transform.position, aimSpeed);
             if (enemy.IsPlayerWithinView(100f, 4f, 100f))
             {
-                GameObject thisProjectile1 = Instantiate(projectile, SP[0].transform.position, SP[0].transform.rotation);
+                GameObject thisProjectile1 = Instantiate(projectile, SP[0].position, SP[0].rotation);
                 thisProjectile1.GetComponent<Rigidbody>().AddForce(SP[0].transform.forward * projectileForce, ForceMode.Impulse);
                 yield return new WaitForSeconds(0.5f);
-                GameObject thisProjectile2 = Instantiate(projectile, SP[0].transform.position, SP[0].transform.rotation);
+                GameObject thisProjectile2 = Instantiate(projectile, SP[0].position, SP[0].rotation);
                 thisProjectile2.GetComponent<Rigidbody>().AddForce(SP[0].transform.forward * projectileForce, ForceMode.Impulse);
                 yield return new WaitForSeconds(0.5f);
-                GameObject thisProjectile3 = Instantiate(projectile, SP[0].transform.position, SP[0].transform.rotation);
+                GameObject thisProjectile3 = Instantiate(projectile, SP[0].position, SP[0].rotation);
                 thisProjectile3.GetComponent<Rigidbody>().AddForce(SP[0].transform.forward * projectileForce, ForceMode.Impulse);
                 break;
             }

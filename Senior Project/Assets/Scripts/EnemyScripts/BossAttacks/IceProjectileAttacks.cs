@@ -11,7 +11,7 @@ public class IceProjectileAttacks : AttackMotion
     [SerializeField] float aimSpeed = 0.5f;
     [SerializeField] float waitTimeAfterFire = 0.5f;
 
-    public IceProjectileAttacks(BossEnemyController enemyController, GameObject[] SP)
+    public IceProjectileAttacks(BossEnemyController enemyController, Transform[] SP)
     {
         enemy = enemyController;
         this.SP = SP;
@@ -48,7 +48,7 @@ public class IceProjectileAttacks : AttackMotion
             yield return null;
         }
         
-        GameObject thisProjectile = Instantiate(projectile, SP[0].transform.position, SP[0].transform.rotation);
+        GameObject thisProjectile = Instantiate(projectile, SP[0].position, SP[0].rotation);
         thisProjectile.GetComponent<Rigidbody>().AddForce(SP[0].transform.forward * projectileForce, ForceMode.Impulse);
 
         yield return new WaitForSeconds(waitTimeAfterFire);

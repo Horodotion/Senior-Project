@@ -8,7 +8,7 @@ using UnityEngine;
 public struct EnemyAttack
 {
     public AttackMotion attackMotion;
-    public GameObject[] spawnPoiont;
+    public Transform[] spawnPoiont;
 }
 
 public class AttacksManager : MonoBehaviour
