@@ -25,17 +25,13 @@ public class Decision : ScriptableObject
     //protected Decision [] decisions;
 }
 
-public class BossEnemyController : MonoBehaviour
+public class BossEnemyController : EnemyController
 {
     [Header("Boss Stats")]
-    [SerializeField] public float maxHealth = 1000;
-    [SerializeField] public float health = 1000;
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float acceleration = 8f;
 
     [HideInInspector] public NavMeshAgent navMeshAgent;
-    //[HideInInspector] PlayerPuppet player;
-    [HideInInspector] public bool dead = false;
     
     [SerializeField] public GameObject viewPoint; // The starting point of the enemy view point
     [SerializeField] public float viewDegreeH = 100; // The Horizontal angle where the enemy can see the player
@@ -278,6 +274,7 @@ public class BossEnemyController : MonoBehaviour
     //Check if a point is a valid hiding Spot. Size is the current object size. Position is the current position that is tried to hide.
     public bool IsItAValidhidingPoint(float size, Vector3 position)
     {
+        //Find the two points that is between the boss while also perpendicular to the player
         Vector3 vectorToColloder = Camera.main.transform.position - position;
         Vector3 perVectorToColloder = vectorToColloder;
         perVectorToColloder.y = perVectorToColloder.x;
@@ -292,11 +289,12 @@ public class BossEnemyController : MonoBehaviour
         Debug.DrawRay(checkForPlayerPoint1, Camera.main.transform.position - checkForPlayerPoint1, Color.red);
         Debug.DrawRay(checkForPlayerPoint2, Camera.main.transform.position - checkForPlayerPoint2, Color.green);
 
+        //Fires raycast to check if both of the points hit a wall or the boss itself.
         Physics.Raycast(checkForPlayerPoint1, Camera.main.transform.position - checkForPlayerPoint1, out RaycastHit hit, Mathf.Infinity, ~ignoreLayer);
         Physics.Raycast(checkForPlayerPoint2, Camera.main.transform.position - checkForPlayerPoint2, out RaycastHit hit2, Mathf.Infinity, ~ignoreLayer);
 
 
-        //Check the two corner for player
+        //If either one of the raycasts hit the player, return false
         if (hit.collider != null && hit.collider.tag.Equals("Player"))
         {
             return false;
@@ -371,11 +369,11 @@ public class BossEnemyController : MonoBehaviour
         MovementDecision temp = new MovementDecision(ambushedDicision);
 
         // Adding all the decision modifers into the decision
-        if (health / maxHealth > 0.5)
+        if (health.stat / health.maximum > 0.5)
         {
             temp.AddDicision(ambushedDicisionMod[0]);
         }
-        if (health / maxHealth > 0.3)
+        if (health.stat / health.maximum > 0.3)
         {
             temp.AddDicision(ambushedDicisionMod[1]);
         }
@@ -534,33 +532,7 @@ public class BossEnemyController : MonoBehaviour
     {
         Vector3 veiwToPlayerMesh = position - gameObject.transform.position;
         //veiwToPlayerMesh.x = 0;
-        transform.forward = Vector3.RotateTowards(gameObject.transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
+        gameObject.transform.forward = Vector3.RotateTowards(gameObject.transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
         Debug.DrawRay(gameObject.transform.position, veiwToPlayerMesh, Color.red);
-    }
-
-    public void Damage(float damageAmount)
-    {
-        health -= damageAmount;
-        if (health <= 0)
-        {
-            CommitDie();
-        }
-        else
-        {
-            /*
-            if ((enemyState != EnemyState.aggroToPlayer || enemyState != EnemyState.attacking) && enemyState != EnemyState.jumping)
-            {
-                //Debug.Log(enemyState != EnemyState.jumping);
-                enemyState = EnemyState.aggroToPlayer;
-            }
-            */
-        }
-    }
-
-
-    public void CommitDie()
-    {
-        dead = true;
-        Destroy(this.gameObject);
     }
 }

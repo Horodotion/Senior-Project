@@ -232,6 +232,8 @@ public abstract class Spell : ScriptableObject
         newProjectile.transform.rotation = PlayerController.puppet.cameraObj.transform.rotation;
 
         ProjectileController newProjectileScript = newProjectile.GetComponent<ProjectileController>();
+        // newProjectileScript.origin = GetFirePos().position;
+        // newProjectileScript.rotation = PlayerController.puppet.cameraObj.transform.rotation;
 
         newProjectileScript.damage = damage;
         newProjectileScript.damageType = damageType;
