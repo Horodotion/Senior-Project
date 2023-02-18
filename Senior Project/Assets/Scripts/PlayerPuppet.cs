@@ -295,6 +295,7 @@ public class PlayerPuppet : MonoBehaviour
 
     public void ChangeTemperature(float tempToAdd)
     {
+        Debug.Log(tempToAdd);
         PlayerController.instance.temperature.AddToStat(tempToAdd);
         PlayerUI.instance.ChangeTemperature();
         // Debug.Log(playerStats.stat[StatType.temperature]);
