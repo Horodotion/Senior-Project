@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class Spore_Spout_Script : MonoBehaviour
+public class Spore_Spout_Script : TriggerScript
 {
     public GameObject spoutEffect;
     private GameObject target;
 
-    private void OnTriggerEnter(Collider other)
+    public override void ActionToTrigger()
     {
-        if (other.gameObject.tag == "Player")
-        {
-            spoutEffect.GetComponent<VisualEffect>().Play();
-        }
+        spoutEffect.GetComponent<VisualEffect>().Play();
+    }
+
+    public override void ActionToStop()
+    {
+        spoutEffect.GetComponent<VisualEffect>().Stop();
     }
 }
