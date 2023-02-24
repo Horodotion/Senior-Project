@@ -57,7 +57,7 @@ public class JumpingAttack : AttackMotion
 
         NavMesh.SamplePosition(enemy.gameObject.transform.position, out NavMeshHit hit, 0.5f, NavMesh.AllAreas);
         verticalSpeed = jumpSpeed;
-        enemy.navMeshAgent.acceleration = enemy.acceleration;
+        //enemy.navMeshAgent.acceleration = enemy.acceleration;
         enemy.navMeshAgent.Warp(hit.position);
         enemy.navMeshAgent.enabled = true;
         //isFiredOnce = true;

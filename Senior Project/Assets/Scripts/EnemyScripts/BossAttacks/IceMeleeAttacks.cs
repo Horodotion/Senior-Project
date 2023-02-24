@@ -47,6 +47,11 @@ public class IceMeleeAttacks : AttackMotion
         }
 
         SP[0].gameObject.SetActive(true);
+        if (SP[0].gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
+        {
+            hitbox.damage = -damage;
+        }
+        //SP[0].gameObject.GetComponent<HitBoxController>().damage = -damage;
         yield return new WaitForSeconds(hitboxSpawnTime);
         SP[0].gameObject.SetActive(false);
         

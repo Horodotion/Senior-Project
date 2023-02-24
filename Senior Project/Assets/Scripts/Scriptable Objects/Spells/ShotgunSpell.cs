@@ -11,6 +11,22 @@ public class ShotgunSpell : Spell
     public float minimumSpreadRange;
     public float spreadAngle;
 
+    public override void SecondarySpellUpdate()
+    {
+        if (usesCharges && charges < maximumCharges)
+        {
+            if (rechargeTimer <= 0)
+            {
+                charges++;
+                rechargeTimer = rechargeRate;
+            }
+            else
+            {
+                rechargeTimer -= Time.deltaTime;
+            }
+        }
+    }
+
     public override void Fire()
     {
         ProjectileFire();
@@ -19,7 +35,7 @@ public class ShotgunSpell : Spell
 
     public override void ProjectileFire()
     {
-        Vector3 pos = GetFirePos().TransformPoint(Vector3.zero);
+        Vector3 pos = GetFirePos().position;
 
         for (int i = 0; i < pelletsPerShot; i++)
         {
@@ -27,12 +43,16 @@ public class ShotgunSpell : Spell
 
             if (objectToSpawn != null)
             {
-                // GameObject iceParticle = Instantiate(objectToSpawn, pos, Quaternion.LookRotation(shotDirection, Vector3.up));
                 GameObject iceParticle = SpawnManager.instance.GetGameObject(objectToSpawn, SpawnType.projectile);
                 iceParticle.transform.position = pos;
                 iceParticle.transform.rotation = Quaternion.LookRotation(shotDirection, Vector3.up);
 
-                iceParticle.GetComponent<ProjectileController>().LaunchProjectile();
+                ProjectileController newProjectileScript = iceParticle.GetComponent<ProjectileController>();
+
+                newProjectileScript.damage = damage;
+                newProjectileScript.damageType = damageType;
+                newProjectileScript.hostileFaction = Faction.Enemy;
+                newProjectileScript.LaunchProjectile();
             }
         }
     }

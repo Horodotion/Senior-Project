@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Enemy Attack Value/Laser Attack")]
 public class LaserAttacks : AttackMotion
 {
+    [SerializeField] float laserFrequency = 0.2f;
     [SerializeField] float firingTime = 5;
     [SerializeField] float firingDistance = 8;
     [SerializeField] float turnSpeed = 2;
@@ -44,7 +45,13 @@ public class LaserAttacks : AttackMotion
                 enemy.AimTowardsWithY(SP[0].gameObject, PlayerController.puppet.cameraObj.transform.position, turnSpeed);
                 if (hit.collider != null && hit.collider.tag.Equals("Player"))
                 {
+                    //Debug.Log(SP[0].gameObject.TryGetComponent<Laser>(out Laser laserTest));
                     SP[0].gameObject.SetActive(true);
+                    if (SP[0].gameObject.TryGetComponent<Laser>(out Laser laser))
+                    {
+                        laser.laserFrequency = laserFrequency;
+                        laser.laserDamage = damage;
+                    }
                 }
             }
             if (timer > firingTime)

@@ -7,17 +7,24 @@ using UnityEngine.AI;
 
 public enum BossState
 {
-    idle,
+    idle = 0,
+    takingCover = 1,
+    meleeAttack = 2,
+    rangedAttack = 3,
+    taunt = 4,
+    teleportBehindPlayer = 5,
+    waitingInCover = 6,
+    laserAttack = 7,
+    ambushed,
+
     testState,
     testState2,
-    meleeAttack,
-    rangedAttack,
-    ambushed,
-    taunt,
-    takingCover,
-    waitingInCover,
-    teleportBehindPlayer,
-    laserAttack
+    
+    
+    
+    
+    
+    
 }
 
 public class Decision : ScriptableObject
@@ -25,17 +32,16 @@ public class Decision : ScriptableObject
     //protected Decision [] decisions;
 }
 
-public class BossEnemyController : MonoBehaviour
+public class BossEnemyController : EnemyController
 {
     [Header("Boss Stats")]
-    [SerializeField] public float maxHealth = 1000;
-    [SerializeField] public float health = 1000;
+    [HideInInspector] public NavMeshAgent navMeshAgent;
+
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float acceleration = 8f;
+    [SerializeField] public float angularSpeed = 120f;
 
-    [HideInInspector] public NavMeshAgent navMeshAgent;
-    //[HideInInspector] PlayerPuppet player;
-    [HideInInspector] public bool dead = false;
+    
     
     [SerializeField] public GameObject viewPoint; // The starting point of the enemy view point
     [SerializeField] public float viewDegreeH = 100; // The Horizontal angle where the enemy can see the player
@@ -44,6 +50,9 @@ public class BossEnemyController : MonoBehaviour
 
     [Header("Boss Dicision Setting")]
     [HideInInspector] AttacksManager attacksManager;
+    [SerializeField] public MovementDecision coverActionDicision;
+    [SerializeField] public MovementDecision [] coverActionDicisionMod;
+
     [SerializeField] public MovementDecision ambushedDicision;
     [SerializeField] public MovementDecision [] ambushedDicisionMod = new MovementDecision[4];
 
@@ -106,6 +115,8 @@ public class BossEnemyController : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.speed = speed;
+        navMeshAgent.angularSpeed = angularSpeed;
+        navMeshAgent.acceleration = acceleration;
         attacksManager = GetComponent<AttacksManager>();
         //HandleStateChange(state, BossState.inCombat);
         OnBossStateChange += HandleStateChange;
@@ -240,7 +251,7 @@ public class BossEnemyController : MonoBehaviour
             if (transform.position.x == navMeshAgent.destination.x && transform.position.z == navMeshAgent.destination.z)
             {
                 //Debug.Log("Test3");
-                bossState = BossState.waitingInCover;
+                bossState = CoverActionDicision();
             }
 
             yield return wait;
@@ -278,6 +289,7 @@ public class BossEnemyController : MonoBehaviour
     //Check if a point is a valid hiding Spot. Size is the current object size. Position is the current position that is tried to hide.
     public bool IsItAValidhidingPoint(float size, Vector3 position)
     {
+        //Find the two points that is between the boss while also perpendicular to the player
         Vector3 vectorToColloder = Camera.main.transform.position - position;
         Vector3 perVectorToColloder = vectorToColloder;
         perVectorToColloder.y = perVectorToColloder.x;
@@ -292,11 +304,12 @@ public class BossEnemyController : MonoBehaviour
         Debug.DrawRay(checkForPlayerPoint1, Camera.main.transform.position - checkForPlayerPoint1, Color.red);
         Debug.DrawRay(checkForPlayerPoint2, Camera.main.transform.position - checkForPlayerPoint2, Color.green);
 
+        //Fires raycast to check if both of the points hit a wall or the boss itself.
         Physics.Raycast(checkForPlayerPoint1, Camera.main.transform.position - checkForPlayerPoint1, out RaycastHit hit, Mathf.Infinity, ~ignoreLayer);
         Physics.Raycast(checkForPlayerPoint2, Camera.main.transform.position - checkForPlayerPoint2, out RaycastHit hit2, Mathf.Infinity, ~ignoreLayer);
 
 
-        //Check the two corner for player
+        //If either one of the raycasts hit the player, return false
         if (hit.collider != null && hit.collider.tag.Equals("Player"))
         {
             return false;
@@ -364,6 +377,24 @@ public class BossEnemyController : MonoBehaviour
             return Vector3.Distance(navMeshAgent.transform.position, A.transform.position).CompareTo(Vector3.Distance(navMeshAgent.transform.position, B.transform.position));
         }
     }
+    //This output a bossstate by calculate the bossstate using the decision and decision modifier during CoverAction decision.
+    public BossState CoverActionDicision()
+    {
+        MovementDecision temp = new MovementDecision(coverActionDicision);
+
+        // Adding all the decision modifers into the decision
+        if (!IsPlayerWithinDistance(25))
+        {
+            temp.AddDicision(coverActionDicisionMod[0]);
+        }
+        if (health.stat / health.maximum <= 0.5)
+        {
+            temp.AddDicision(coverActionDicisionMod[1]);
+        }
+        // Find which bossstate to output
+        return temp.GiveTheNextRandomDicision();
+    }
+
 
     //This output a bossstate by calculate the bossstate using the decision and decision modifier during ambushed decision.
     public BossState AmbushedDicision()
@@ -371,11 +402,11 @@ public class BossEnemyController : MonoBehaviour
         MovementDecision temp = new MovementDecision(ambushedDicision);
 
         // Adding all the decision modifers into the decision
-        if (health / maxHealth > 0.5)
+        if (health.stat / health.maximum > 0.5)
         {
             temp.AddDicision(ambushedDicisionMod[0]);
         }
-        if (health / maxHealth > 0.3)
+        if (health.stat / health.maximum > 0.3)
         {
             temp.AddDicision(ambushedDicisionMod[1]);
         }
@@ -434,25 +465,42 @@ public class BossEnemyController : MonoBehaviour
             {
                 //Find the right collider to hide
                 Collider tempCol = FindValidTeleportSpot(target, hitColliders);
+                // If null, then boss is unable to find a spot to teleport behind
                 if (tempCol == null)
                 {
-                    Debug.Log("No valid teleport spot");
+
+                    tempCol = FindValidHidingSpot(target, hitColliders);
+
+                    // If null, then boss is unable to find a spot to teleport
+                    if (tempCol == null)
+                    {
+                        Debug.Log("No valid teleport spot");
+                        bossState = BossState.takingCover;
+                    }
+                    else
+                    {
+                        this.transform.position = tempCol.transform.position;
+                        bossState = BossState.meleeAttack;
+                    }
+                    //hitColliders
                 }
                 else
                 {
                     this.transform.position = tempCol.transform.position;
+                    bossState = BossState.meleeAttack;
                 }
             }
-            Debug.Log(hitColliders.Length);
+            //Debug.Log(hitColliders.Length);
 
             //navMeshAgent.SetDestination(hitColliders[0].transform.position);
-
+            /*
             if (transform.position.x == navMeshAgent.destination.x && transform.position.z == navMeshAgent.destination.z)
             {
                 //Debug.Log("Test3");
                 yield return wait;
-                bossState = BossState.takingCover;
+                bossState = BossState.meleeAttack;
             }
+            */
 
             yield return null;
         }
@@ -534,33 +582,14 @@ public class BossEnemyController : MonoBehaviour
     {
         Vector3 veiwToPlayerMesh = position - gameObject.transform.position;
         //veiwToPlayerMesh.x = 0;
-        transform.forward = Vector3.RotateTowards(gameObject.transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
+        gameObject.transform.forward = Vector3.RotateTowards(gameObject.transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
         Debug.DrawRay(gameObject.transform.position, veiwToPlayerMesh, Color.red);
     }
 
-    public void Damage(float damageAmount)
+    public override void CommitDie()
     {
-        health -= damageAmount;
-        if (health <= 0)
-        {
-            CommitDie();
-        }
-        else
-        {
-            /*
-            if ((enemyState != EnemyState.aggroToPlayer || enemyState != EnemyState.attacking) && enemyState != EnemyState.jumping)
-            {
-                //Debug.Log(enemyState != EnemyState.jumping);
-                enemyState = EnemyState.aggroToPlayer;
-            }
-            */
-        }
-    }
+        base.CommitDie();
 
-
-    public void CommitDie()
-    {
-        dead = true;
-        Destroy(this.gameObject);
+        GeneralManager.instance.WinGame();
     }
 }
