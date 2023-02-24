@@ -94,4 +94,35 @@ public class SpellAnimHolder : MonoBehaviour
             }
         }
     }
+
+    public void CheckToRelease()
+    {
+        if (ourPuppet.currentSpellBeingCast == null || ourPuppet.currentSpellBeingCast.ourSpellState == SpellState.releasing)
+        {
+            return;
+        }
+
+        if (ourPuppet.currentSpellBeingCast == ourPuppet.primarySpell)
+        {
+            if (PlayerController.instance.onPrimaryFire.ReadValue<float>() <= 0.125)
+            {
+                if (ourPuppet.primarySpell.chargingSpell)
+                {
+                    PlayerController.instance.primaryFireHeldDown = false;
+                    ReleaseSpell();
+                }
+            }
+        }
+        else if (ourPuppet.currentSpellBeingCast == ourPuppet.secondarySpell)
+        {
+            if (PlayerController.instance.onSecondaryFire.ReadValue<float>() <= 0.125)
+            {
+                if (ourPuppet.secondarySpell.chargingSpell)
+                {
+                    PlayerController.instance.secondaryFireHeldDown = false;
+                    ReleaseSpell();
+                }
+            }
+        }
+    }
 }

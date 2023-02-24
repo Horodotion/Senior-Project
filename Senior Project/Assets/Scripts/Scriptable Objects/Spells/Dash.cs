@@ -14,6 +14,7 @@ public class Dash : Spell
 
     public override void Cast()
     {
+        PlayerController.puppet.currentSpellBeingCast = this;
         PlayerController.ourPlayerState = PlayerState.dashing;
         dashOrigin = PlayerController.puppet.transform.position;
 
