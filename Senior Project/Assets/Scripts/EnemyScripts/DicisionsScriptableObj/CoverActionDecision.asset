@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7589a33adbaf7e1408eee92bf59fa112, type: 3}
-  m_Name: Laser Attack
+  m_Script: {fileID: 11500000, guid: e0d510b5dde4e284eb16f3ce6d2c62ae, type: 3}
+  m_Name: CoverActionDecision
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  damage: -2
-  laserFrequency: 0.5
-  firingTime: 3
-  firingDistance: 8
-  turnSpeed: 0.5
-  waitTimeAfterLaser: 1
+  decisions: 000000000000000000000000000000000a0000001400000000000000
+  takingCover: 0
+  meleeAttack: 0
+  rangedAttack: 0
+  taunt: 0
+  teleport: 10
+  wait: 20
+  laser: 0

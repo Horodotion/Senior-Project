@@ -7,17 +7,24 @@ using UnityEngine.AI;
 
 public enum BossState
 {
-    idle,
+    idle = 0,
+    takingCover = 1,
+    meleeAttack = 2,
+    rangedAttack = 3,
+    taunt = 4,
+    teleportBehindPlayer = 5,
+    waitingInCover = 6,
+    laserAttack = 7,
+    ambushed,
+
     testState,
     testState2,
-    meleeAttack,
-    rangedAttack,
-    ambushed,
-    taunt,
-    takingCover,
-    waitingInCover,
-    teleportBehindPlayer,
-    laserAttack
+    
+    
+    
+    
+    
+    
 }
 
 public class Decision : ScriptableObject
@@ -28,10 +35,13 @@ public class Decision : ScriptableObject
 public class BossEnemyController : EnemyController
 {
     [Header("Boss Stats")]
+    [HideInInspector] public NavMeshAgent navMeshAgent;
+
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float acceleration = 8f;
+    [SerializeField] public float angularSpeed = 120f;
 
-    [HideInInspector] public NavMeshAgent navMeshAgent;
+    
     
     [SerializeField] public GameObject viewPoint; // The starting point of the enemy view point
     [SerializeField] public float viewDegreeH = 100; // The Horizontal angle where the enemy can see the player
@@ -40,6 +50,9 @@ public class BossEnemyController : EnemyController
 
     [Header("Boss Dicision Setting")]
     [HideInInspector] AttacksManager attacksManager;
+    [SerializeField] public MovementDecision coverActionDicision;
+    [SerializeField] public MovementDecision [] coverActionDicisionMod;
+
     [SerializeField] public MovementDecision ambushedDicision;
     [SerializeField] public MovementDecision [] ambushedDicisionMod = new MovementDecision[4];
 
@@ -102,6 +115,8 @@ public class BossEnemyController : EnemyController
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.speed = speed;
+        navMeshAgent.angularSpeed = angularSpeed;
+        navMeshAgent.acceleration = acceleration;
         attacksManager = GetComponent<AttacksManager>();
         //HandleStateChange(state, BossState.inCombat);
         OnBossStateChange += HandleStateChange;
@@ -236,7 +251,7 @@ public class BossEnemyController : EnemyController
             if (transform.position.x == navMeshAgent.destination.x && transform.position.z == navMeshAgent.destination.z)
             {
                 //Debug.Log("Test3");
-                bossState = BossState.waitingInCover;
+                bossState = CoverActionDicision();
             }
 
             yield return wait;
@@ -362,6 +377,24 @@ public class BossEnemyController : EnemyController
             return Vector3.Distance(navMeshAgent.transform.position, A.transform.position).CompareTo(Vector3.Distance(navMeshAgent.transform.position, B.transform.position));
         }
     }
+    //This output a bossstate by calculate the bossstate using the decision and decision modifier during CoverAction decision.
+    public BossState CoverActionDicision()
+    {
+        MovementDecision temp = new MovementDecision(coverActionDicision);
+
+        // Adding all the decision modifers into the decision
+        if (!IsPlayerWithinDistance(25))
+        {
+            temp.AddDicision(coverActionDicisionMod[0]);
+        }
+        if (health.stat / health.maximum <= 0.5)
+        {
+            temp.AddDicision(coverActionDicisionMod[1]);
+        }
+        // Find which bossstate to output
+        return temp.GiveTheNextRandomDicision();
+    }
+
 
     //This output a bossstate by calculate the bossstate using the decision and decision modifier during ambushed decision.
     public BossState AmbushedDicision()
@@ -432,25 +465,42 @@ public class BossEnemyController : EnemyController
             {
                 //Find the right collider to hide
                 Collider tempCol = FindValidTeleportSpot(target, hitColliders);
+                // If null, then boss is unable to find a spot to teleport behind
                 if (tempCol == null)
                 {
-                    Debug.Log("No valid teleport spot");
+
+                    tempCol = FindValidHidingSpot(target, hitColliders);
+
+                    // If null, then boss is unable to find a spot to teleport
+                    if (tempCol == null)
+                    {
+                        Debug.Log("No valid teleport spot");
+                        bossState = BossState.takingCover;
+                    }
+                    else
+                    {
+                        this.transform.position = tempCol.transform.position;
+                        bossState = BossState.meleeAttack;
+                    }
+                    //hitColliders
                 }
                 else
                 {
                     this.transform.position = tempCol.transform.position;
+                    bossState = BossState.meleeAttack;
                 }
             }
-            Debug.Log(hitColliders.Length);
+            //Debug.Log(hitColliders.Length);
 
             //navMeshAgent.SetDestination(hitColliders[0].transform.position);
-
+            /*
             if (transform.position.x == navMeshAgent.destination.x && transform.position.z == navMeshAgent.destination.z)
             {
                 //Debug.Log("Test3");
                 yield return wait;
-                bossState = BossState.takingCover;
+                bossState = BossState.meleeAttack;
             }
+            */
 
             yield return null;
         }
