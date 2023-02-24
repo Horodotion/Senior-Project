@@ -52,11 +52,16 @@ public abstract class Spell : ScriptableObject
     public float damage;
     public float effectiveRange;
     public float sphereCastRadius;
-
     public GameObject objectToSpawn;
     public GameObject vfxEffectObj;
-
     [HideInInspector] public VisualEffect vfx;
+
+    [Header("Charges")]
+    public bool usesCharges;
+    public int charges;
+    public int maximumCharges;
+    public float rechargeRate;
+    [HideInInspector] public float rechargeTimer;
 
     public virtual void InitializeSpell()
     {
@@ -109,13 +114,57 @@ public abstract class Spell : ScriptableObject
         }
     }
 
+    public virtual void SecondarySpellUpdate()
+    {
+
+    }
+
     public virtual void Charging()
     {
 
     }
 
+    public bool CastSpell()
+    {
+        if (usesCharges)
+        {
+            if (charges <= 0)
+            {
+                return false;
+            }
+
+            charges--;
+            rechargeTimer = rechargeRate;
+
+            if (chargingSpell)
+            {
+                Cast();
+                PlayerController.puppet.currentSpellBeingCast = this;
+                return true;
+            }
+            else
+            {
+                Cast();
+                PlayerController.puppet.currentSpellBeingCast = this;
+            }
+        } 
+        else if (chargingSpell)
+        {
+            Cast();
+            PlayerController.puppet.currentSpellBeingCast = this;
+        }
+        else
+        {
+            Cast();
+            PlayerController.puppet.currentSpellBeingCast = this;
+        }
+        return false;
+    }
+
     public virtual void Cast()
     {
+        PlayerController.puppet.currentSpellBeingCast = this;
+
         // Checks if the gun can be fired and if there is ammo in the magazine
         if (canCast)
         {
@@ -232,8 +281,6 @@ public abstract class Spell : ScriptableObject
         newProjectile.transform.rotation = PlayerController.puppet.cameraObj.transform.rotation;
 
         ProjectileController newProjectileScript = newProjectile.GetComponent<ProjectileController>();
-        // newProjectileScript.origin = GetFirePos().position;
-        // newProjectileScript.rotation = PlayerController.puppet.cameraObj.transform.rotation;
 
         newProjectileScript.damage = damage;
         newProjectileScript.damageType = damageType;

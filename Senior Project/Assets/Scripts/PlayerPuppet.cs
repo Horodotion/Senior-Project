@@ -108,6 +108,7 @@ public class PlayerPuppet : MonoBehaviour
         switch(PlayerController.ourPlayerState)
         {  
             case PlayerState.inGame:
+                SecondarySpellUpdate();
                 Movement();
                 break;
 
@@ -121,6 +122,7 @@ public class PlayerPuppet : MonoBehaviour
                 break;
 
             default:
+                SecondarySpellUpdate();
                 //Calling the function for movement for easier reading of the FixedUpdate
                 Movement();
                 break;
@@ -284,6 +286,24 @@ public class PlayerPuppet : MonoBehaviour
         if (currentSpellBeingCast != null)
         {
             currentSpellBeingCast.SpellUpdate();
+        }
+    }
+
+    public void SecondarySpellUpdate()
+    {
+        if (primarySpell != null)
+        {
+            primarySpell.SecondarySpellUpdate();
+        }
+
+        if (secondarySpell != null)
+        {
+            secondarySpell.SecondarySpellUpdate();
+        }
+
+        if (mobilitySpell != null)
+        {
+            mobilitySpell.SecondarySpellUpdate();
         }
     }
 

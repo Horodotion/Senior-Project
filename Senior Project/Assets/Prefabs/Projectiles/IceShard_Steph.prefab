@@ -78,12 +78,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  hostileFaction: 0
+  hostileFaction: 1
   projectileSpeed: 20
   lifeSpan: 0.5
   range: 10
   origin: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  damageType: 0
   damage: 5
+  launched: 0
   destroyEffectPrefab: {fileID: 0}
 --- !u!1001 &6746289572107134106
 PrefabInstance:

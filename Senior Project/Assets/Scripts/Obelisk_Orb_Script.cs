@@ -17,7 +17,7 @@ public class Obelisk_Orb_Script : MonoBehaviour
     private float nextTimeToFireA;
     private float nextTimeToFireB;
     [SerializeField] private float fireRateA = 0.5f;
-    [SerializeField] private float fireRateB = 0.5f;
+    // [SerializeField] private float fireRateB = 0.5f;
 	[SerializeField] private float sliderAmount = 0;
     private void Start()
     {
