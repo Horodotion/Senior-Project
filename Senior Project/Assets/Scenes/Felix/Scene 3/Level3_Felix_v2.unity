@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.009011012, g: 0.013101594, b: 0.020505378, a: 1}
+  m_IndirectSpecularColor: {r: 0.009012707, g: 0.013102867, b: 0.020503506, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7345,7 +7345,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh32404
+  m_Name: pb_Mesh111600
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13519,6 +13519,9 @@ MonoBehaviour:
     attackMotion: {fileID: 11400000, guid: 0a67adcccb456f741bb5905cb460993a, type: 2}
     spawnPoiont:
     - {fileID: 1941204893}
+  laserAttack:
+    attackMotion: {fileID: 0}
+    spawnPoiont: []
   rangedAttackDicision: {fileID: 11400000, guid: 4beb446b46c9731448c43581dfb83bd1,
     type: 2}
   rangedAttackDicisionMod:
@@ -13571,14 +13574,13 @@ MonoBehaviour:
     type: 2}
   meleeAtkFollowUpDicision: {fileID: 11400000, guid: ae19224f10197734fa4d4b067d0dc3ad,
     type: 2}
-  bossSize: 1
+  widthOfTheBoss: 0
   hidingSpotLayer:
     serializedVersion: 2
     m_Bits: 1024
   ignoreLayer:
     serializedVersion: 2
     m_Bits: 1536
-  losChecker: {fileID: 0}
   playerSpottedDistance: 10
   minWaitTimeinCover: 1
   maxWaitTimeInCover: 2
@@ -13586,8 +13588,8 @@ MonoBehaviour:
   coverUpdateFrequency: 1
   coverSampleDistance: 100
   teleportSampleDistance: 100
-  state: 0
   playerTooCloseDistanceToTeleport: 4
+  state: 0
 --- !u!195 &485189412
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -19680,6 +19682,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1907347924}
     m_Modifications:
+    - target: {fileID: 373500648, guid: 3a5d7017fe9a06743b3854aa1cd39d9e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 373500648, guid: 3a5d7017fe9a06743b3854aa1cd39d9e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 373500648, guid: 3a5d7017fe9a06743b3854aa1cd39d9e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.94
+      objectReference: {fileID: 0}
     - target: {fileID: 1313628562759171540, guid: 3a5d7017fe9a06743b3854aa1cd39d9e,
         type: 3}
       propertyPath: m_Layer

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Ice 2
-  m_Shader: {fileID: -6465566751694194690, guid: bbbd22ba0a7296442a5669fb3ad4cd04,
+  m_Shader: {fileID: -6465566751694194690, guid: 97c846ad6c240e049971194bc186ab15,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -25,6 +25,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: 24515600b731e6048aa59e9ab7ae3f22, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _IceVolumeTex:
+        m_Texture: {fileID: 2800000, guid: 9314aabc07ac5444cb603fcef13cd626, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 0d97a118a7c063348b6cf9a499dafe80, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -39,17 +47,27 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Alpha: 0.7
     - _FresnelPower: 2.62
+    - _InsideTexDepth2: 50
     - _Metalic: 0
+    - _NormalStrength: 0.1
     - _Normals: -0.8
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RefractionAmount: 0.34
     - _Smoothness: 0.993
+    - _TextureResolution: 1800
+    - _blur: 0
+    - _insideTexDepth: 200
+    - _refractionPower: 0.05
+    - _smoothness: 1
     m_Colors:
     - _Color: {r: 0.18912424, g: 0.44312322, b: 0.4716981, a: 0}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 0}
     - _IceTiling: {r: 2, g: 2, b: 0, a: 0}
+    - _insideColor: {r: 0.16998926, g: 0.20291916, b: 0.23584905, a: 0}
+    - _surfaceColor: {r: 0.3056604, g: 1, b: 0.9794776, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7318700453740827752
 MonoBehaviour:
