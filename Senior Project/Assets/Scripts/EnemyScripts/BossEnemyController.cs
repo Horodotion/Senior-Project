@@ -585,4 +585,11 @@ public class BossEnemyController : EnemyController
         gameObject.transform.forward = Vector3.RotateTowards(gameObject.transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
         Debug.DrawRay(gameObject.transform.position, veiwToPlayerMesh, Color.red);
     }
+
+    public override void CommitDie()
+    {
+        base.CommitDie();
+
+        GeneralManager.instance.WinGame();
+    }
 }
