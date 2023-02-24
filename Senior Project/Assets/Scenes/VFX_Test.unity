@@ -258,6 +258,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1716293548, guid: 40e9fc0b4f862a3459e925d4976cc1a7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072391946, guid: 40e9fc0b4f862a3459e925d4976cc1a7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2714556939658399872, guid: 40e9fc0b4f862a3459e925d4976cc1a7,
         type: 3}
       propertyPath: m_RootOrder
@@ -271,12 +279,12 @@ PrefabInstance:
     - target: {fileID: 2714556939658399872, guid: 40e9fc0b4f862a3459e925d4976cc1a7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -4.29
       objectReference: {fileID: 0}
     - target: {fileID: 2714556939658399872, guid: 40e9fc0b4f862a3459e925d4976cc1a7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 6.77
       objectReference: {fileID: 0}
     - target: {fileID: 2714556939658399872, guid: 40e9fc0b4f862a3459e925d4976cc1a7,
         type: 3}
@@ -317,6 +325,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: mushroom_large_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379911439242840634, guid: 40e9fc0b4f862a3459e925d4976cc1a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40e9fc0b4f862a3459e925d4976cc1a7, type: 3}
@@ -2225,6 +2238,85 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c55800a1401d51f4e8bce77a053bb18e, type: 3}
+--- !u!1001 &6805127986615643691
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2396789287163572584, guid: 75450dce8a1cbc94eb8348705094f1b5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396789287163572584, guid: 75450dce8a1cbc94eb8348705094f1b5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396789287163572584, guid: 75450dce8a1cbc94eb8348705094f1b5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396789287163572584, guid: 75450dce8a1cbc94eb8348705094f1b5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396789287163572584, guid: 75450dce8a1cbc94eb8348705094f1b5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396789287163572584, guid: 75450dce8a1cbc94eb8348705094f1b5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396789287163572584, guid: 75450dce8a1cbc94eb8348705094f1b5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396789287163572584, guid: 75450dce8a1cbc94eb8348705094f1b5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396789287163572584, guid: 75450dce8a1cbc94eb8348705094f1b5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396789287163572584, guid: 75450dce8a1cbc94eb8348705094f1b5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396789287163572584, guid: 75450dce8a1cbc94eb8348705094f1b5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420165376600757285, guid: 75450dce8a1cbc94eb8348705094f1b5,
+        type: 3}
+      propertyPath: m_Name
+      value: Snow_Effect
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420165376600757285, guid: 75450dce8a1cbc94eb8348705094f1b5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869281812979138074, guid: 75450dce8a1cbc94eb8348705094f1b5,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 75450dce8a1cbc94eb8348705094f1b5, type: 3}
 --- !u!1001 &7147876826956433839
 PrefabInstance:
   m_ObjectHideFlags: 0
