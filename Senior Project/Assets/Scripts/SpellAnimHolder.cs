@@ -67,7 +67,12 @@ public class SpellAnimHolder : MonoBehaviour
 
     public void ChargeSpell()
     {
-        if (ourPuppet.currentSpellBeingCast != null && ourPuppet.currentSpellBeingCast.ourSpellState != SpellState.charging)
+        if (ourPuppet.currentSpellBeingCast == null)
+        {
+            return;
+        }
+    
+        if (ourPuppet.currentSpellBeingCast.ourSpellState != SpellState.charging)
         {
             ourPuppet.currentSpellBeingCast.ourSpellState = SpellState.charging;
         }
@@ -75,7 +80,12 @@ public class SpellAnimHolder : MonoBehaviour
 
     public void ActivateChargedSpell()
     {
-        if (ourPuppet.currentSpellBeingCast && ourPuppet.currentSpellBeingCast.ourSpellState != SpellState.casting)
+        if (ourPuppet.currentSpellBeingCast == null)
+        {
+            return;
+        }
+
+        if (ourPuppet.currentSpellBeingCast.ourSpellState != SpellState.casting)
         {
             ourPuppet.currentSpellBeingCast.ourSpellState = SpellState.casting;
             ourPuppet.currentSpellBeingCast.PlayVFX();
@@ -84,7 +94,12 @@ public class SpellAnimHolder : MonoBehaviour
 
     public void ReleaseSpell()
     {
-        if (ourPuppet.currentSpellBeingCast != null && ourPuppet.currentSpellBeingCast.ourSpellState != SpellState.releasing)
+        if (ourPuppet.currentSpellBeingCast == null)
+        {
+            return;
+        }
+
+        if (ourPuppet.currentSpellBeingCast.ourSpellState != SpellState.releasing)
         {
             ourPuppet.currentSpellBeingCast.ourSpellState = SpellState.releasing;
             ourPuppet.spellAnim.SetBool(releaseSpell, true);

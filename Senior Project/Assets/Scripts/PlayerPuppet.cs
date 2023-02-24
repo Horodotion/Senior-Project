@@ -329,6 +329,7 @@ public class PlayerPuppet : MonoBehaviour
 
     public void CommitDie()
     {
-        GeneralManager.ReturnToMainMenu();
+        // GeneralManager.ReturnToMainMenu();
+        GeneralManager.instance.LoseGame();
     }
 }
