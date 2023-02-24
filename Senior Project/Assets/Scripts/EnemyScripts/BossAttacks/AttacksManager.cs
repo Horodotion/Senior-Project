@@ -102,6 +102,7 @@ public class AttacksManager : MonoBehaviour
             Debug.Log("Use fire projectile");
             return fireRangedAttack.attackMotion.AttackingPlayer();
         }
+        
         //StartCoroutine(enemy.MovementCoroutine);
     }
     public IEnumerator LaserAttack()

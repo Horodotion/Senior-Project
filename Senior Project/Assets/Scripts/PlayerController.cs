@@ -57,15 +57,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            
             // If there isn't a playerController, this wil become the new playerController
             instance = this;
             DontDestroyOnLoad(gameObject);
-
-            // This sets the player's stats to a new copy to not override the original
-            // and then initializes the stats
-            // playerStats = Instantiate(playerStats);
-            // playerStats.SetStats();
 
             // Cursor.lockState = CursorLockMode.Locked; // This sets the mouse to be locked into the center
             playerInput = GetComponent<PlayerInput>(); // This is getting the reference to the playerInput
@@ -188,18 +182,15 @@ public class PlayerController : MonoBehaviour
     // A function for releasing the trigger
     public void OffPrimaryFireAction(InputAction.CallbackContext context)
     {
-        if (puppet == null)
+        if (puppet == null || puppet.primarySpell == null)
         {
             return;
         }
 
-       if (puppet.primarySpell != null)
+        if (puppet.primarySpell.chargingSpell)
         {
-            if (puppet.primarySpell.chargingSpell)
-            {
-                primaryFireHeldDown = false;
-                puppet.ourAnimHolder.ReleaseSpell();
-            }
+            primaryFireHeldDown = false;
+            puppet.ourAnimHolder.ReleaseSpell();
         }
     }
 
@@ -221,18 +212,15 @@ public class PlayerController : MonoBehaviour
     // A function for releasing the trigger
     public void OffSecondaryFireAction(InputAction.CallbackContext context)
     {
-        if (puppet == null)
+        if (puppet == null || puppet.secondarySpell == null)
         {
             return;
         }
 
-        if (puppet.secondarySpell != null)
+        if (puppet.secondarySpell.chargingSpell)
         {
-            if (puppet.secondarySpell.chargingSpell)
-            {
-                secondaryFireHeldDown = false;
-                puppet.ourAnimHolder.ReleaseSpell();
-            }
+            secondaryFireHeldDown = false;
+            puppet.ourAnimHolder.ReleaseSpell();
         }
     }
 
