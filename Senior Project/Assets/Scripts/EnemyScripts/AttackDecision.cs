@@ -3,47 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Decision/Attack Dicision")]
-public class AttackDecision : Decision
+public class AttackDecision : WeightedDecision
 {
     public int iceAttack;
     public int fireAttack;
+
+    //public int[] decisions = new int[2];
+    private void OnValidate()
+    {
+        decisions = new int[] { iceAttack, fireAttack };
+    }
+
+    //StateDecistion[] movementDecistion = new StateDecistion[5];
     public AttackDecision()
     {
+        decisions = new int[2];
     }
     public AttackDecision(AttackDecision aD)
     {
-        iceAttack = aD.iceAttack;
-        fireAttack = aD.fireAttack;
+        decisions = new int[2];
+        for (int i = 0; i < decisions.Length; i++)
+        {
+            decisions[i] = aD.decisions[i];
+        }
     }
-    public AttackDecision(int iA, int fA)
+
+    public AttackDecision(int iA,int fA)
     {
-        iceAttack = iA;
-        fireAttack = fA;
+        decisions = new int[] { iA, fA };
     }
-    public void AddDicision(AttackDecision d)
-    {
-        this.iceAttack += d.iceAttack;
-        this.fireAttack += d.fireAttack;
-    }
-    public int AddAllDicision()
-    {
-        return iceAttack + fireAttack;
-    }
+
+
     public bool GiveTheNextRandomDicision() //Return true if the output is ice, and false if it's fire.
     {
-        if (iceAttack < 0) iceAttack = 0;
-        if (fireAttack < 0) fireAttack = 0;
-        int index = Random.Range(1, AddAllDicision());
-        switch (index)
-        {
-            case int x when x > 0 && x <= iceAttack:
-                return true;
-            case int x when x > iceAttack && x <= AddAllDicision():
-                return false;
-        }
-        Debug.Log("Out of bounds in GiveTheNextRandomDicision() for attack type");
-        return false;
+        return GetRandomIndex() == 0;
     }
+
     public void DisplayLog()
     {
         Debug.Log("Ice Attack: " + iceAttack + "Fire Attack: " + fireAttack);
