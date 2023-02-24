@@ -173,25 +173,15 @@ public class PlayerController : MonoBehaviour
     // The function to call for the gun to shoot
     public void OnPrimaryFireAction(InputAction.CallbackContext context)
     {
-        if (puppet == null)
+        if (puppet == null || puppet.primarySpell == null || ourPlayerState != PlayerState.inGame || puppet.currentSpellBeingCast != null)
         {
             return;
         }
 
-        if (puppet.primarySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame)
+        if (puppet.primarySpell.CastSpell())
         {
-            if (puppet.primarySpell.chargingSpell)
-            {
-                primaryFireHeldDown = true;
-                ourPlayerState = PlayerState.casting;
-                puppet.primarySpell.Cast();
-                puppet.currentSpellBeingCast = puppet.primarySpell;
-            }
-            else
-            {
-                puppet.primarySpell.Cast();
-                puppet.currentSpellBeingCast = puppet.primarySpell;
-            }
+            primaryFireHeldDown = true;
+            ourPlayerState = PlayerState.casting;
         }
     }
 
@@ -210,37 +200,22 @@ public class PlayerController : MonoBehaviour
                 primaryFireHeldDown = false;
                 puppet.ourAnimHolder.ReleaseSpell();
             }
-            else
-            {
-                
-            }
         }
     }
 
     // The function to call for the gun to shoot
     public void OnSecondaryFireAction(InputAction.CallbackContext context)
     {
-        if (puppet == null)
+        if (puppet == null || puppet.secondarySpell == null || ourPlayerState != PlayerState.inGame || puppet.currentSpellBeingCast != null)
         {
             return;
         }
 
-        if (puppet.secondarySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame)
+        if (puppet.secondarySpell.CastSpell())
         {
-            if (puppet.secondarySpell.chargingSpell)
-            {
-                secondaryFireHeldDown = true;
-                ourPlayerState = PlayerState.casting;
-                puppet.secondarySpell.Cast();
-                puppet.currentSpellBeingCast = puppet.secondarySpell;
-            }
-            else
-            {
-                puppet.secondarySpell.Cast();
-                puppet.currentSpellBeingCast = puppet.secondarySpell;
-            }
+            secondaryFireHeldDown = true;
+            ourPlayerState = PlayerState.casting;
         }
-
     }
 
     // A function for releasing the trigger
@@ -257,10 +232,6 @@ public class PlayerController : MonoBehaviour
             {
                 secondaryFireHeldDown = false;
                 puppet.ourAnimHolder.ReleaseSpell();
-            }
-            else
-            {
-
             }
         }
     }
@@ -291,7 +262,6 @@ public class PlayerController : MonoBehaviour
     {
         if (puppet.mobilitySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame)
         {
-            puppet.currentSpellBeingCast = puppet.mobilitySpell;
             puppet.mobilitySpell.Cast();
         }
     }

@@ -175,8 +175,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 292a4fc249962434a90b19c2f09b635a, type: 2}
-  - {fileID: 2100000, guid: 7a02782ddae367d48b5ca46f153dd888, type: 2}
+  - {fileID: 2100000, guid: e671e5797bc97c74694e38a0b48d44ab, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -225,12 +224,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
+  health:
+    stat: 0
+    baseStat: 0
+    minimum: -Infinity
+    maximum: Infinity
   inInvicibilityFrames: 0
   dead: 0
   destroyEffectPrefab: {fileID: 4473927184254439432, guid: 58483bf54dafe104c857257b7164971d,
     type: 3}
   customTransform: {fileID: 2102826297010177457}
-  health: 0
   explosionRadius: 0
   baseDamageDealt: 0
   baseTempChange: 0
