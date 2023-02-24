@@ -10,7 +10,7 @@ public class PauseMenuScript : MenuScript
     {
         exitGameButton.onPointerDownEvent.AddListener(() => Application.Quit());
         resumeGameButton.onPointerDownEvent.AddListener(() => GeneralManager.instance.UnPauseGame());
-        mainMenuButton.onPointerDownEvent.AddListener(() => GeneralManager.LoadLevel(0));
+        mainMenuButton.onPointerDownEvent.AddListener(() => GeneralManager.ReturnToMainMenu());
         retryLevelButton.onPointerDownEvent.AddListener(() => GeneralManager.ReloadLevel());
     }
 
@@ -20,5 +20,5 @@ public class PauseMenuScript : MenuScript
     //     {
     //         gameObject.SetActive(false);
     //     }
-    // }   
+    // }
 }

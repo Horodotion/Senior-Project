@@ -74,7 +74,7 @@ public class GeneralManager : MonoBehaviour
         GeneralManager.instance.UnPauseGame();
         PathLight.ClearPath();
 
-        if (levelToLoad >= 0)
+        if (levelToLoad > 0)
         {
             hasGameStarted = true;
         }
@@ -87,6 +87,8 @@ public class GeneralManager : MonoBehaviour
 
     public static void ReloadLevel()
     {
+        PlayerController.instance.temperature.ResetStat();
+
         LoadLevel(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -118,6 +120,10 @@ public class GeneralManager : MonoBehaviour
     {
         MenuScript.SwapToMenu(playerHud, pauseMenu);
 
+        if (GameOverMenuScript.instance != null)
+        {
+            GameOverMenuScript.instance.gameObject.SetActive(false);
+        }
         
         textBoxText = null;
         textBoxObject.SetActive(false);
@@ -126,6 +132,40 @@ public class GeneralManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         isGameRunning = true;
         Time.timeScale = 1f;
+    }
+
+    public void WinGame()
+    {
+        if (GameOverMenuScript.instance == null)
+        {
+            return;
+        }
+
+        MenuScript.SwapToMenu(GameOverMenuScript.instance.gameObject, playerHud);
+        MenuScript.SwapToMenu(GameOverMenuScript.instance.winPanel, GameOverMenuScript.instance.losePanel);
+
+        PlayerController.ourPlayerState = PlayerState.inMenu;
+        Cursor.lockState = CursorLockMode.None;
+        isGameRunning = false;
+        hasGameStarted = false;
+        Time.timeScale = 0f;
+    }
+
+    public void LoseGame()
+    {
+        if (GameOverMenuScript.instance == null)
+        {
+            return;
+        }
+
+        MenuScript.SwapToMenu(GameOverMenuScript.instance.gameObject, playerHud);
+        MenuScript.SwapToMenu(GameOverMenuScript.instance.losePanel, GameOverMenuScript.instance.winPanel);
+
+        PlayerController.ourPlayerState = PlayerState.inMenu;
+        Cursor.lockState = CursorLockMode.None;
+        isGameRunning = false;
+        hasGameStarted = false;
+        Time.timeScale = 0f;
     }
 
     // This checks off the flag for an event, and triggers other events to be active if it's able to be
