@@ -139,24 +139,21 @@ public abstract class Spell : ScriptableObject
             if (chargingSpell)
             {
                 Cast();
-                PlayerController.puppet.currentSpellBeingCast = this;
                 return true;
             }
             else
             {
                 Cast();
-                PlayerController.puppet.currentSpellBeingCast = this;
             }
         } 
         else if (chargingSpell)
         {
             Cast();
-            PlayerController.puppet.currentSpellBeingCast = this;
+            return true;
         }
         else
         {
             Cast();
-            PlayerController.puppet.currentSpellBeingCast = this;
         }
         return false;
     }
