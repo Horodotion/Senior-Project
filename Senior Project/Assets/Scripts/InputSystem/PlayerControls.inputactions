@@ -24,15 +24,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Run",
-                    "type": "Button",
-                    "id": "e27f0743-055f-4c3d-95d6-a8a2e8a9fff0",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "PrimaryFire",
                     "type": "Button",
                     "id": "e4d5b6d3-5d59-4ce3-bbc2-c892ef701ff4",
@@ -45,6 +36,15 @@
                     "name": "SecondaryFire",
                     "type": "Button",
                     "id": "b8cccc50-9987-43c0-a4ed-239b54406d6f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "23529ea2-5dca-4ac5-8cdd-d32a33d2f6dc",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -96,18 +96,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Dash",
+                    "name": "PauseGame",
                     "type": "Button",
-                    "id": "23529ea2-5dca-4ac5-8cdd-d32a33d2f6dc",
+                    "id": "4a844e40-0cf5-4a6b-b6c6-cdbfb1d68c31",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "PauseGame",
+                    "name": "Run",
                     "type": "Button",
-                    "id": "4a844e40-0cf5-4a6b-b6c6-cdbfb1d68c31",
+                    "id": "e27f0743-055f-4c3d-95d6-a8a2e8a9fff0",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -178,28 +178,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "MoveAxis",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4cf2dc64-146d-48c8-aaad-9394b25b1a76",
-                    "path": "<Keyboard>/v",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Run",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c2fd3a50-3b1d-4e67-b854-c12f6d10a744",
-                    "path": "<Gamepad>/rightStickPress",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -348,17 +326,6 @@
                 },
                 {
                     "name": "",
-                    "id": "f5d4377b-3d57-49ca-9389-a46c54eae851",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "aca160e9-4632-45e9-8624-014334caceb3",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
@@ -376,6 +343,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "PauseGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f5d4377b-3d57-49ca-9389-a46c54eae851",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4cf2dc64-146d-48c8-aaad-9394b25b1a76",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c2fd3a50-3b1d-4e67-b854-c12f6d10a744",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

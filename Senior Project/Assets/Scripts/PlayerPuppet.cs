@@ -59,8 +59,9 @@ public class PlayerPuppet : MonoBehaviour
     public Spell mobilitySpell;
     public Spell currentSpellBeingCast;
 
-    
-    public Transform primaryFirePosition, secondaryFirePosition;
+    [Header("Fire Positions")]
+    public Transform primaryFirePosition;
+    public Transform secondaryFirePosition;
     [HideInInspector] public Vector3 moveDirection, inputDirection, velocity;
     [HideInInspector] public RaycastHit slidingHit;
 

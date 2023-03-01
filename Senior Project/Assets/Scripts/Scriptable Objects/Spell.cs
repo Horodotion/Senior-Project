@@ -34,17 +34,20 @@ public abstract class Spell : ScriptableObject
     [Header("Spells Variables")]
     public SpellSlot ourSpellSlot;
 
+    [Header("Animation Variables")]
     public Animator spellAnim; // An animator on the player hands
     [HideInInspector] public SpellAnimHolder spellAnimHolder;
     public int animationLocation = -1;
     [Tooltip("1 for the left hand, 2 for right, 0 for neither")]
     public int ourhand;
 
+    [Header("Single shot, or continuous")]
     [Tooltip("Check true if the spell needs to be held down/charged up before releasing.")]
     public bool chargingSpell;
 
+    [Header("Temperature")]
     [Tooltip("Check true if the spell applies its temperature over time rather than in a burst.")]
-    public bool tempPerSecond;
+    [ToggleableVarable("chargingSpell", true)] public bool tempPerSecond;
     public float temperatureChange;
 
     [Header("Attack Spells Variables")]
@@ -52,15 +55,17 @@ public abstract class Spell : ScriptableObject
     public float damage;
     public float effectiveRange;
     public float sphereCastRadius;
+
+    [Header("Projectile and VFX")]
     public GameObject objectToSpawn;
     public GameObject vfxEffectObj;
     [HideInInspector] public VisualEffect vfx;
 
-    [Header("Charges")]
+    [Header("Charges (Aka Ammo)")]
     public bool usesCharges;
-    public int charges;
-    public int maximumCharges;
-    public float rechargeRate;
+    [ToggleableVarable("usesCharges", true)] public int charges;
+    [ToggleableVarable("usesCharges", true)] public int maximumCharges;
+    [ToggleableVarable("usesCharges", true)] public float rechargeRate;
     [HideInInspector] public float rechargeTimer;
 
     public virtual void InitializeSpell()

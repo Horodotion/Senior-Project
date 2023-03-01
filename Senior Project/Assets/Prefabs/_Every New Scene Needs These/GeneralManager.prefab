@@ -116,6 +116,7 @@ GameObject:
   - component: {fileID: 2504652902868251273}
   - component: {fileID: 8337350406062443321}
   - component: {fileID: 6429390477804958087}
+  - component: {fileID: 1538511676681138215}
   - component: {fileID: 1024785991729036401}
   m_Layer: 5
   m_Name: Game Over Screen
@@ -185,6 +186,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1538511676681138215
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3286493234204896278}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!114 &1024785991729036401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +227,6 @@ GameObject:
   - component: {fileID: 3571226798276624488}
   - component: {fileID: 3571226798276624489}
   - component: {fileID: 3571226798276624490}
-  - component: {fileID: 8872118119709876094}
   m_Layer: 5
   m_Name: UI Canvas
   m_TagString: Untagged
@@ -307,27 +319,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8872118119709876094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3571226798276624491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa02d8700f13d8c4fa732af92390c3cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthbarSlider: {fileID: 0}
-  ammoSliderPrimary: {fileID: 0}
-  ammoSliderSecondary: {fileID: 0}
-  ammoSliderHeavy: {fileID: 0}
-  ammoSliderActive: {fileID: 0}
-  ammoReserveSecondary: {fileID: 0}
-  ammoReserveHeavy: {fileID: 0}
-  reticle: {fileID: 5942947936214460918}
-  useItemText: {fileID: 4069329367771896446}
 --- !u!1 &3571226798405868833
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,12 +367,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e94635692a8ba44aab4bebc03932c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textBoxObject: {fileID: 3571226799226010090}
-  textToDisplay: {fileID: 3571226799258828710}
-  textBoxText: {fileID: 0}
-  typing: 0
-  pauseMenu: {fileID: 4646736162495036802}
-  playerHud: {fileID: 9108802520681379846}
 --- !u!114 &3232147327816928521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -739,6 +724,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5441048486147342651}
   - component: {fileID: 759642425014952060}
+  - component: {fileID: 4539614448234664001}
   - component: {fileID: 1975119289100400200}
   - component: {fileID: 3830179429635044816}
   m_Layer: 5
@@ -777,6 +763,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4646736162495036802}
   m_CullTransparentMesh: 1
+--- !u!225 &4539614448234664001
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4646736162495036802}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!114 &1975119289100400200
 MonoBehaviour:
   m_ObjectHideFlags: 0
