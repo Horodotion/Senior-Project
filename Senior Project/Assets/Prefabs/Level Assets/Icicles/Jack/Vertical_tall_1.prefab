@@ -120,8 +120,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2277443192868981908}
   - component: {fileID: 5912719293348649027}
-  - component: {fileID: 8441740275257216104}
   - component: {fileID: 5241580173634124049}
+  - component: {fileID: 3373012700555173346}
   m_Layer: 0
   m_Name: Vertical_tall_1
   m_TagString: Enemy
@@ -189,20 +189,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8441740275257216104
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 347767533899096665}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -6436108383699968401, guid: d00c8e3a02b8072418fe087c14ae05f7, type: 3}
 --- !u!114 &5241580173634124049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,6 +217,20 @@ MonoBehaviour:
   baseDamageDealt: 0
   baseTempChange: 0
   secondsUntilParticlesAreDestroyed: 2
+--- !u!64 &3373012700555173346
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347767533899096665}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &2102826297010177457
 GameObject:
   m_ObjectHideFlags: 0
