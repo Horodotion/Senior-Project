@@ -20,30 +20,28 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: transparentIce
+  m_Name: VerticalSmall2_Mat
   m_Shader: {fileID: -6465566751694194690, guid: 97c846ad6c240e049971194bc186ab15,
     type: 3}
-  m_ValidKeywords:
-  - _SURFACE_TYPE_TRANSPARENT
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap:
-    RenderType: Transparent
-  disabledShaderPasses:
-  - DepthOnly
+    RenderType: Opaque
+  disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _IceVolumeTex:
-        m_Texture: {fileID: 2800000, guid: 6f4b82b40af3b744eb813c3a1f7b5e40, type: 3}
-        m_Scale: {x: 0.2, y: 0.2}
+        m_Texture: {fileID: 2800000, guid: c50b5fd7255e0b749b13d74c81d264a2, type: 3}
+        m_Scale: {x: 2, y: 1.5}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 87b656f6725fd4c4ca9756fc0d8766cc, type: 3}
-        m_Scale: {x: 0.2, y: 0.2}
+        m_Texture: {fileID: 2800000, guid: 1d728cb0d9806894fbdacd9258755d4a, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_2dc7f83191dd4e0ba7d66ba524584583_Texture_1:
         m_Texture: {fileID: 2800000, guid: 0d97a118a7c063348b6cf9a499dafe80, type: 3}
@@ -84,16 +82,16 @@ Material:
     - _Blend: 0
     - _CastShadows: 1
     - _Cull: 2
-    - _DstBlend: 10
+    - _DstBlend: 0
     - _InsideTexDepth2: 300
-    - _NormalStrength: 0.2
+    - _NormalStrength: 0.8
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SrcBlend: 5
-    - _Surface: 1
+    - _SrcBlend: 1
+    - _Surface: 0
     - _TextureResolution: 2048
     - _ZTest: 4
-    - _ZWrite: 0
+    - _ZWrite: 1
     - _ZWriteControl: 0
     - _blur: 0
     - _insideTexDepth: 300
@@ -101,6 +99,6 @@ Material:
     - _smoothness: 2
     - _transparency: 1
     m_Colors:
-    - _insideColor: {r: 0, g: 0.16290243, b: 0.5566038, a: 0}
-    - _surfaceColor: {r: 0.23923102, g: 0.5177845, b: 0.6603774, a: 1}
+    - _insideColor: {r: 0, g: 0, b: 0, a: 0}
+    - _surfaceColor: {r: 0.38314345, g: 0.5615703, b: 0.7735849, a: 1}
   m_BuildTextureStacks: []
