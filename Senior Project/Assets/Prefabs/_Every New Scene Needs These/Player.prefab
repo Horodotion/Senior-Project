@@ -382,7 +382,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 566221583}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -1130,7 +1130,7 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 1.8
+  m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
@@ -1264,6 +1264,7 @@ MonoBehaviour:
   grounded: 0
   movementState: 0
   isSliding: 0
+  spellsSetUp: 0
   primarySpell: {fileID: 0}
   secondarySpell: {fileID: 0}
   mobilitySpell: {fileID: 0}
