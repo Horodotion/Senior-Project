@@ -156,27 +156,11 @@ public class PlayerPuppet : MonoBehaviour
     //Functions that handle movement
     public void Movement()
     {
-        grounded = charController.isGrounded;// || velocity.y == 0);
+        grounded = IsGrounded(); //charController.isGrounded;// || velocity.y == 0);
         isSliding = Sliding();
         inputDirection = HorizontalMovement();
 
-        if (!grounded)//, charController.height))
-        {
-            Vector3 aerialVector = Vector3.zero;
-
-            aerialVector = inputDirection * inAirControlMultiplier;
-
-            float maxSpeed = PlayerController.instance.speed.stat * Time.deltaTime;
-            
-            moveDirection += new Vector3(aerialVector.x, 0, aerialVector.z) * Time.deltaTime;
-
-            // moveDirection = Vector3.ClampMagnitude(moveDirection, maxSpeed);
-            moveDirection.x = Mathf.Clamp(moveDirection.x, -maxSpeed, maxSpeed);
-            moveDirection.z = Mathf.Clamp(moveDirection.z, -maxSpeed, maxSpeed);
-            
-            movementState = MovementState.inAir;
-        }
-        else
+        if (charController.isGrounded || grounded)
         {
             if (isSliding)
             {
@@ -189,6 +173,28 @@ public class PlayerPuppet : MonoBehaviour
                 movementState = MovementState.grounded;
             }
         }
+        else
+        {
+            Vector3 aerialVector = Vector3.zero;
+
+            if (isSliding && charController.velocity.y == 0)
+            {
+                moveDirection += new Vector3(slidingHit.normal.x, 0, slidingHit.normal.z) * Time.deltaTime;
+                movementState = MovementState.sliding;
+            }
+            else
+            {
+                aerialVector = inputDirection * inAirControlMultiplier;
+                float maxSpeed = PlayerController.instance.speed.stat * Time.deltaTime;
+                moveDirection += new Vector3(aerialVector.x, 0, aerialVector.z) * Time.deltaTime;
+
+                moveDirection.x = Mathf.Clamp(moveDirection.x, -maxSpeed, maxSpeed);
+                moveDirection.z = Mathf.Clamp(moveDirection.z, -maxSpeed, maxSpeed);
+            }
+
+            movementState = MovementState.inAir;
+        }
+
 
         Falling();
         Jump();
@@ -223,10 +229,34 @@ public class PlayerPuppet : MonoBehaviour
         return vectorToReturn;
     }
 
-    public void AerialMovement()
+    public bool IsGrounded()
     {
-        
+        RaycastHit groundHit;
 
+        if (Physics.Raycast(transform.TransformPoint(charController.center), -transform.up, out groundHit, charController.height * 0.6f)
+            && !groundHit.collider.isTrigger)
+            // && groundHit.distance <= charController.height * 0.6 && groundHit.distance != 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool Sliding()
+    {
+        if (grounded && Physics.Raycast(transform.TransformPoint(charController.center), -transform.up, out slidingHit) && !slidingHit.collider.isTrigger)
+        {
+            Debug.Log(slidingHit.collider.gameObject.name);
+
+            return Vector3.Angle(slidingHit.normal, Vector3.up) > charController.slopeLimit;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void Falling()
@@ -270,19 +300,7 @@ public class PlayerPuppet : MonoBehaviour
         }
     }
 
-    public bool Sliding()
-    {
-        if (grounded && Physics.Raycast(transform.TransformPoint(charController.center), -transform.up, out slidingHit))
-        {
-            Debug.Log(slidingHit.collider.gameObject.name);
 
-            return Vector3.Angle(slidingHit.normal, Vector3.up) > charController.slopeLimit;
-        }
-        else
-        {
-            return false;
-        }
-    }
 
     public void SpellUpdater()
     {
@@ -318,7 +336,7 @@ public class PlayerPuppet : MonoBehaviour
 
     public void ChangeTemperature(float tempToAdd)
     {
-        Debug.Log(tempToAdd);
+        // Debug.Log(tempToAdd);
         PlayerController.instance.temperature.AddToStat(tempToAdd);
         PlayerUI.instance.ChangeTemperature();
         // Debug.Log(playerStats.stat[StatType.temperature]);
