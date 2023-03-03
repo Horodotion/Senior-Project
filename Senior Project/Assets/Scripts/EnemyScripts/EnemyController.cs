@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public Stats stats;
+    // public Stats stats;
     public IndividualStat health;
     [HideInInspector] public bool inInvicibilityFrames = false;
     [HideInInspector] public bool dead = false;

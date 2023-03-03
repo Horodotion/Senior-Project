@@ -54,13 +54,15 @@ public class PlayerPuppet : MonoBehaviour
     [HideInInspector] public bool isSliding = false;
 
     [Header("Spells")]
+    [HideInInspector] public bool spellsSetUp;
     public Spell primarySpell;
     public Spell secondarySpell;
     public Spell mobilitySpell;
     public Spell currentSpellBeingCast;
 
-    
-    public Transform primaryFirePosition, secondaryFirePosition;
+    [Header("Fire Positions")]
+    public Transform primaryFirePosition;
+    public Transform secondaryFirePosition;
     [HideInInspector] public Vector3 moveDirection, inputDirection, velocity;
     [HideInInspector] public RaycastHit slidingHit;
 
@@ -141,9 +143,9 @@ public class PlayerPuppet : MonoBehaviour
         if (PlayerController.instance.lookAxis != Vector2.zero)
         {
             // Adding to the look rotation multiplied by the mouse sensetivity and by time
-            lookRotation.y += PlayerController.instance.lookAxis.x * mouseSensetivity * Time.deltaTime;
+            lookRotation.y += PlayerController.instance.lookAxis.x * mouseSensetivity * Time.fixedDeltaTime;
             // Makes sure that the player cannot infinitely spin up and down
-            lookRotation.x = Mathf.Clamp((lookRotation.x - ((PlayerController.instance.lookAxis.y * mouseSensetivity) * Time.deltaTime)), -lookAngles, lookAngles);
+            lookRotation.x = Mathf.Clamp((lookRotation.x - ((PlayerController.instance.lookAxis.y * mouseSensetivity) * Time.fixedDeltaTime)), -lookAngles, lookAngles);
             // Converts the added look rotation to the game object's rotation and camera object's rotation
             transform.localEulerAngles = new Vector3(0, lookRotation.y, 0);
             cameraObj.transform.localEulerAngles = new Vector3(lookRotation.x, 0, 0);
@@ -184,7 +186,7 @@ public class PlayerPuppet : MonoBehaviour
             else
             {
                 moveDirection = inputDirection;
-                movementState = MovementState.sliding;
+                movementState = MovementState.grounded;
             }
         }
 
@@ -240,10 +242,9 @@ public class PlayerPuppet : MonoBehaviour
                 jumpsRemaining = totalJumps;
             }
             
-            if (fallingSpeed != 0f)
+            if (fallingSpeed != -0.1f)
             {
-                fallingSpeed = 0f;
-                
+                fallingSpeed = -0.1f;
             }
         }
         else
@@ -273,6 +274,8 @@ public class PlayerPuppet : MonoBehaviour
     {
         if (grounded && Physics.Raycast(transform.TransformPoint(charController.center), -transform.up, out slidingHit))
         {
+            Debug.Log(slidingHit.collider.gameObject.name);
+
             return Vector3.Angle(slidingHit.normal, Vector3.up) > charController.slopeLimit;
         }
         else

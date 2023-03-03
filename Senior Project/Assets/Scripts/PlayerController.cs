@@ -112,6 +112,13 @@ public class PlayerController : MonoBehaviour
 
     public void SetUpAllSpells()
     {
+        if (puppet.spellsSetUp)
+        {
+            return;
+        }
+        
+        puppet.spellsSetUp = true;
+
         SpellSetup(currentPrimarySpell, SpellSlot.primary);
         SpellSetup(currentSecondarySpell, SpellSlot.secondary);
         SpellSetup(currentMobilitySpell, SpellSlot.utility);

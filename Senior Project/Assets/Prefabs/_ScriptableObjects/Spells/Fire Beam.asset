@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efdd7307783712d45aa288cdef6574bd, type: 3}
   m_Name: Fire Beam
   m_EditorClassIdentifier: 
-  ourPlayer: {fileID: 0}
-  puppet: {fileID: 0}
   playerCameraTransform: {fileID: 0}
   canCast: 1
   ourSpellState: 0
@@ -25,9 +23,17 @@ MonoBehaviour:
   chargingSpell: 1
   tempPerSecond: 1
   temperatureChange: 10
-  testPositionMarker: {fileID: 4869646674359422768, guid: 417cee157325748408436d338ac6b284,
-    type: 3}
+  damageType: 0
   damage: 1
   effectiveRange: 30
   sphereCastRadius: 0.01
   objectToSpawn: {fileID: 0}
+  vfxEffectObj: {fileID: 1825884365860083250, guid: 159626a465b748c499c86821e214c11f,
+    type: 3}
+  vfx: {fileID: 0}
+  usesCharges: 0
+  charges: 0
+  maximumCharges: 0
+  rechargeRate: 0
+  rechargeTimer: 0
+  beamPos: {x: 0, y: 0, z: 0}

@@ -35,14 +35,10 @@ public class GeneralManager : MonoBehaviour
     public Dictionary<int, EventFlag> eventFlags = new Dictionary<int, EventFlag>(); // The dictionary of event flagss that will be referenced by game objects
 
     // Variables solely for the text box in the game
-    // public GameObject uiPanel;
-    public GameObject textBoxObject;
-    public TMP_Text textToDisplay;
-    [HideInInspector] public TextBoxText textBoxText;
-    [HideInInspector] public bool typing = false;
-
-    public GameObject pauseMenu;
-    public GameObject playerHud;
+    // public GameObject textBoxObject;
+    // public TMP_Text textToDisplay;
+    // [HideInInspector] public TextBoxText textBoxText;
+    // [HideInInspector] public bool typing = false;
 
     void Awake()
     {
@@ -95,8 +91,16 @@ public class GeneralManager : MonoBehaviour
     public static void ReturnToMainMenu()
     {
         LoadLevel(0);
-        GeneralManager.instance.pauseMenu.SetActive(false);
-        GeneralManager.instance.playerHud.SetActive(false);
+
+        if (PauseMenuScript.instance != null)
+        {
+            PauseMenuScript.instance.gameObject.SetActive(false);
+        }        
+
+        if (PlayerUI.instance != null)
+        {
+            PlayerUI.instance.gameObject.SetActive(false);
+        }  
 
         Cursor.lockState = CursorLockMode.None;
         isGameRunning = false;
@@ -108,7 +112,15 @@ public class GeneralManager : MonoBehaviour
 
     public void PauseGame()
     {
-        MenuScript.SwapToMenu(pauseMenu, playerHud);
+        if (PlayerUI.instance != null)
+        {
+            PlayerUI.instance.gameObject.SetActive(false);
+        }  
+
+        if (PauseMenuScript.instance != null)
+        {
+            PauseMenuScript.instance.gameObject.SetActive(true);
+        }  
 
         PlayerController.ourPlayerState = PlayerState.inMenu;
         Cursor.lockState = CursorLockMode.None;
@@ -118,15 +130,23 @@ public class GeneralManager : MonoBehaviour
 
     public void UnPauseGame()
     {
-        MenuScript.SwapToMenu(playerHud, pauseMenu);
+        if (PlayerUI.instance != null)
+        {
+            PlayerUI.instance.gameObject.SetActive(true);
+        } 
+
+        if (PauseMenuScript.instance != null)
+        {
+            PauseMenuScript.instance.gameObject.SetActive(false);
+        }  
 
         if (GameOverMenuScript.instance != null)
         {
             GameOverMenuScript.instance.gameObject.SetActive(false);
         }
         
-        textBoxText = null;
-        textBoxObject.SetActive(false);
+        // textBoxText = null;
+        // textBoxObject.SetActive(false);
 
         PlayerController.ourPlayerState = PlayerState.inGame;
         Cursor.lockState = CursorLockMode.Locked;
@@ -141,7 +161,7 @@ public class GeneralManager : MonoBehaviour
             return;
         }
 
-        MenuScript.SwapToMenu(GameOverMenuScript.instance.gameObject, playerHud);
+        MenuScript.SwapToMenu(GameOverMenuScript.instance.gameObject, PlayerUI.instance.gameObject);
         MenuScript.SwapToMenu(GameOverMenuScript.instance.winPanel, GameOverMenuScript.instance.losePanel);
 
         PlayerController.ourPlayerState = PlayerState.inMenu;
@@ -158,7 +178,7 @@ public class GeneralManager : MonoBehaviour
             return;
         }
 
-        MenuScript.SwapToMenu(GameOverMenuScript.instance.gameObject, playerHud);
+        MenuScript.SwapToMenu(GameOverMenuScript.instance.gameObject, PlayerUI.instance.gameObject);
         MenuScript.SwapToMenu(GameOverMenuScript.instance.losePanel, GameOverMenuScript.instance.winPanel);
 
         PlayerController.ourPlayerState = PlayerState.inMenu;
