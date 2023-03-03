@@ -7,6 +7,7 @@ public enum MovementState
     grounded,
     inAir,
     sliding,
+    jumping,
     dashing,
     knockback,
     other
@@ -54,17 +55,17 @@ public class PlayerPuppet : MonoBehaviour
     [HideInInspector] public bool isSliding = false;
 
     [Header("Spells")]
-    [HideInInspector] public bool spellsSetUp;
     public Spell primarySpell;
     public Spell secondarySpell;
     public Spell mobilitySpell;
     public Spell currentSpellBeingCast;
+    [HideInInspector] public bool spellsSetUp;
 
     [Header("Fire Positions")]
     public Transform primaryFirePosition;
     public Transform secondaryFirePosition;
     [HideInInspector] public Vector3 moveDirection, inputDirection, velocity;
-    [HideInInspector] public RaycastHit slidingHit;
+    [HideInInspector] public RaycastHit groundedHit;
 
 
     void Awake()
@@ -156,45 +157,42 @@ public class PlayerPuppet : MonoBehaviour
     //Functions that handle movement
     public void Movement()
     {
-        grounded = IsGrounded(); //charController.isGrounded;// || velocity.y == 0);
-        isSliding = Sliding();
         inputDirection = HorizontalMovement();
+        movementState = CheckMoveState();
 
-        if (charController.isGrounded || grounded)
+        switch (movementState)
         {
-            if (isSliding)
-            {
-                moveDirection += new Vector3(slidingHit.normal.x, 0, slidingHit.normal.z) * Time.deltaTime;
-                movementState = MovementState.sliding;
-            }
-            else
-            {
+            case MovementState.grounded:
                 moveDirection = inputDirection;
-                movementState = MovementState.grounded;
-            }
-        }
-        else
-        {
-            Vector3 aerialVector = Vector3.zero;
+                break;
 
-            if (isSliding && charController.velocity.y == 0)
-            {
-                moveDirection += new Vector3(slidingHit.normal.x, 0, slidingHit.normal.z) * Time.deltaTime;
-                movementState = MovementState.sliding;
-            }
-            else
-            {
+            case MovementState.sliding:
+                // if (Mathf.Sign(groundedHit.normal.x) != Mathf.Sign(moveDirection.x))
+                // {
+                //     moveDirection.x = 0f; // groundedHit.normal.x * Time.deltaTime;
+                // }
+                // if (Mathf.Sign(groundedHit.normal.z) != Mathf.Sign(moveDirection.z))
+                // {
+                //     moveDirection.z = 0f; // groundedHit.normal.z * Time.deltaTime;
+                // }
+
+                moveDirection += new Vector3(groundedHit.normal.x, 0, groundedHit.normal.z) * Time.deltaTime;
+                break;
+
+            case MovementState.inAir:
+                Vector3 aerialVector = Vector3.zero;
+
                 aerialVector = inputDirection * inAirControlMultiplier;
                 float maxSpeed = PlayerController.instance.speed.stat * Time.deltaTime;
                 moveDirection += new Vector3(aerialVector.x, 0, aerialVector.z) * Time.deltaTime;
 
                 moveDirection.x = Mathf.Clamp(moveDirection.x, -maxSpeed, maxSpeed);
                 moveDirection.z = Mathf.Clamp(moveDirection.z, -maxSpeed, maxSpeed);
-            }
+                break;
 
-            movementState = MovementState.inAir;
+            case MovementState.other:
+                break;
         }
-
 
         Falling();
         Jump();
@@ -222,40 +220,34 @@ public class PlayerPuppet : MonoBehaviour
                 vectorToReturn *= sprintMultiplier;
             }
 
-
             // After multiplying it by the speed, it will transform the direction of movement into world space
             vectorToReturn = transform.TransformDirection(vectorToReturn * Time.deltaTime);
         }
         return vectorToReturn;
     }
 
-    public bool IsGrounded()
+    public MovementState CheckMoveState()
     {
-        RaycastHit groundHit;
+        float adjustedHeight = (charController.height * 0.51f);
+        bool groundDetected = Physics.SphereCast(transform.TransformPoint(charController.center), charController.radius, -transform.up, 
+            out groundedHit, adjustedHeight) && !groundedHit.collider.isTrigger;
 
-        if (Physics.Raycast(transform.TransformPoint(charController.center), -transform.up, out groundHit, charController.height * 0.6f)
-            && !groundHit.collider.isTrigger)
-            // && groundHit.distance <= charController.height * 0.6 && groundHit.distance != 0)
+
+        if (groundDetected && fallingSpeed <= 0)
         {
-            return true;
+            // Debug.Log(groundedHit.collider.gameObject.name + " + " + groundedHit.distance);
+            if (Vector3.Angle(groundedHit.normal, Vector3.up) > charController.slopeLimit)
+            {
+                return MovementState.sliding;
+            }
+            else
+            {
+                return MovementState.grounded;
+            }
         }
         else
         {
-            return false;
-        }
-    }
-
-    public bool Sliding()
-    {
-        if (grounded && Physics.Raycast(transform.TransformPoint(charController.center), -transform.up, out slidingHit) && !slidingHit.collider.isTrigger)
-        {
-            Debug.Log(slidingHit.collider.gameObject.name);
-
-            return Vector3.Angle(slidingHit.normal, Vector3.up) > charController.slopeLimit;
-        }
-        else
-        {
-            return false;
+            return MovementState.inAir;
         }
     }
 
@@ -265,16 +257,16 @@ public class PlayerPuppet : MonoBehaviour
 
         moveDirection.y = 0;
 
-        if (grounded && !isSliding)
+        if (movementState == MovementState.grounded)
         {
             if (jumpsRemaining != totalJumps)
             {
                 jumpsRemaining = totalJumps;
             }
             
-            if (fallingSpeed != -0.1f)
+            if (fallingSpeed != 0)
             {
-                fallingSpeed = -0.1f;
+                fallingSpeed = 0;
             }
         }
         else

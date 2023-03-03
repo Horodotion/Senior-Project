@@ -41,9 +41,12 @@ public abstract class Spell : ScriptableObject
     [Tooltip("1 for the left hand, 2 for right, 0 for neither")]
     public int ourhand;
 
-    [Header("Single shot, or continuous")]
+    [Header("Continuous spell")]
     [Tooltip("Check true if the spell needs to be held down/charged up before releasing.")]
     public bool chargingSpell;
+
+    [Tooltip("Check true if the spell uses raycasts rather than projectiles.")]
+    public bool hitscanSpell;
 
     [Header("Temperature")]
     [Tooltip("Check true if the spell applies its temperature over time rather than in a burst.")]
@@ -53,8 +56,8 @@ public abstract class Spell : ScriptableObject
     [Header("Attack Spells Variables")]
     public DamageType damageType;
     public float damage;
-    public float effectiveRange;
-    public float sphereCastRadius;
+    [ToggleableVarable("hitscanSpell", true)] public float effectiveRange;
+    [ToggleableVarable("hitscanSpell", true)] public float sphereCastRadius;
 
     [Header("Projectile and VFX")]
     public GameObject objectToSpawn;
