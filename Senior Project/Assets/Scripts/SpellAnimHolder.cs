@@ -103,10 +103,7 @@ public class SpellAnimHolder : MonoBehaviour
         {
             ourPuppet.currentSpellBeingCast.ourSpellState = SpellState.releasing;
             ourPuppet.spellAnim.SetBool(releaseSpell, true);
-            if (ourPuppet.currentSpellBeingCast.vfx != null)
-            {
-                ourPuppet.currentSpellBeingCast.vfx.Stop();
-            }
+            ourPuppet.currentSpellBeingCast.StopVFX();
         }
     }
 
