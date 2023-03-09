@@ -45,9 +45,6 @@ public abstract class Spell : ScriptableObject
     [Tooltip("Check true if the spell needs to be held down/charged up before releasing.")]
     public bool chargingSpell;
 
-    [Tooltip("Check true if the spell uses raycasts rather than projectiles.")]
-    public bool hitscanSpell;
-
     [Header("Temperature")]
     [Tooltip("Check true if the spell applies its temperature over time rather than in a burst.")]
     [ToggleableVarable("chargingSpell", true)] public bool tempPerSecond;
@@ -56,8 +53,13 @@ public abstract class Spell : ScriptableObject
     [Header("Attack Spells Variables")]
     public DamageType damageType;
     public float damage;
+
+    [Tooltip("Check true if the spell uses raycasts rather than projectiles.")]
+    public bool hitscanSpell;
     [ToggleableVarable("hitscanSpell", true)] public float effectiveRange;
     [ToggleableVarable("hitscanSpell", true)] public float sphereCastRadius;
+    [ToggleableVarable("chargingSpell", true)] public float timeBetweenProjectiles;
+    [HideInInspector] public float timeBetweenProjectilesRemaining;
 
     [Header("Projectile and VFX")]
     public GameObject objectToSpawn;
@@ -255,7 +257,15 @@ public abstract class Spell : ScriptableObject
 
         ProjectileController newProjectileScript = newProjectile.GetComponent<ProjectileController>();
 
-        newProjectileScript.damage = damage;
+        if (chargingSpell)
+        {
+            newProjectileScript.damage = damage * timeBetweenProjectiles;
+        }
+        else
+        {
+            newProjectileScript.damage = damage;
+        }
+        
         newProjectileScript.damageType = damageType;
         newProjectileScript.hostileFaction = Faction.Enemy;
         newProjectileScript.LaunchProjectile();

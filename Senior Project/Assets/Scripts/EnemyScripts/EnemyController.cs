@@ -7,7 +7,7 @@ public enum DamageInteraction
     immune,
     vulnerable,
     resistant,
-    other
+    nuetral
 }
 
 public class EnemyController : MonoBehaviour
@@ -35,6 +35,9 @@ public class EnemyController : MonoBehaviour
             {
                 enemyHitboxes.Add(hitbox);
                 hitbox.enemy = this;
+
+                hitbox.vulnerabilityMultiplier = vulnerabilityMultiplier;
+                hitbox.resistanceMultiplier = resistanceMultiplier;
             }
         }
     }
@@ -48,7 +51,7 @@ public class EnemyController : MonoBehaviour
 
         float damage = DamageCalculation(damageAmount, damageType);
 
-        StartCoroutine(InvincibilityFrames());
+        // StartCoroutine(InvincibilityFrames());
 
         health.AddToStat(-damage);
         if (health.stat <= health.minimum)
@@ -105,29 +108,45 @@ public class EnemyController : MonoBehaviour
     {
         if (enemyController.damageImmunities.Contains(damageType))
         {
-            AddOrRemoveDamageType(enemyController.damageImmunities, damageType, interaction == DamageInteraction.immune);
+            RemoveDamageType(enemyController.damageImmunities, damageType, interaction == DamageInteraction.immune);
+        }
+        else
+        {
+            AddDamageType(enemyController.damageImmunities, damageType, interaction == DamageInteraction.immune);
         }
 
         if (enemyController.damageResistances.Contains(damageType))
         {
-            AddOrRemoveDamageType(enemyController.damageImmunities, damageType, interaction == DamageInteraction.resistant);
+            RemoveDamageType(enemyController.damageResistances, damageType, interaction == DamageInteraction.resistant);
+        }
+        else
+        {
+            AddDamageType(enemyController.damageResistances, damageType, interaction == DamageInteraction.resistant);
         }
 
         if (enemyController.damageVulnerabilities.Contains(damageType))
         {
-            AddOrRemoveDamageType(enemyController.damageImmunities, damageType, interaction == DamageInteraction.vulnerable);
+            RemoveDamageType(enemyController.damageVulnerabilities, damageType, interaction == DamageInteraction.vulnerable);
+        }
+        else
+        {
+            AddDamageType(enemyController.damageVulnerabilities, damageType, interaction == DamageInteraction.vulnerable);
         }
     }
 
-    public static void AddOrRemoveDamageType(List<DamageType> list, DamageType damageType, bool matchesDamageType = false)
+    public static void RemoveDamageType(List<DamageType> list, DamageType damageType, bool matchesDamageType = false)
+    {
+        if (!matchesDamageType)
+        {
+            list.Remove(damageType);
+        }
+    }
+
+    public static void AddDamageType(List<DamageType> list, DamageType damageType, bool matchesDamageType = false)
     {
         if (matchesDamageType)
         {
             list.Add(damageType);
-        }
-        else
-        {
-            list.Remove(damageType);
         }
     }
 }
