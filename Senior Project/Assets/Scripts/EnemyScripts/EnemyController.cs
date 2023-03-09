@@ -2,23 +2,55 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DamageInteraction
+{
+    immune,
+    vulnerable,
+    resistant,
+    other
+}
 
 public class EnemyController : MonoBehaviour
 {
-    // public Stats stats;
+    [Header("Enemy Stats")]
     public IndividualStat health;
-    [HideInInspector] public bool inInvicibilityFrames = false;
+    [HideInInspector] public bool inInvincibilityFrames = false;
     [HideInInspector] public bool dead = false;
-    public List<DamageType> damageImmunities;
 
-    public virtual void Damage(float damageAmount, DamageType damageType)
+    [Header("Damage Variations")]
+    public List<DamageType> damageImmunities;
+    public List<DamageType> damageResistances;
+    public List<DamageType> damageVulnerabilities;
+    public float vulnerabilityMultiplier;
+    public float resistanceMultiplier;
+
+    [Header("Hitbox List")]
+    public List<EnemyHitbox> enemyHitboxes;
+
+    public virtual void OnEnable()
+    {
+        if (enemyHitboxes.Count == 0)
+        {
+            foreach(EnemyHitbox hitbox in GetComponentsInChildren<EnemyHitbox>())
+            {
+                enemyHitboxes.Add(hitbox);
+                hitbox.enemy = this;
+            }
+        }
+    }
+
+    public virtual void Damage(float damageAmount, DamageType damageType = DamageType.nuetral)
     {
         if (damageImmunities.Contains(damageType))
         {
             return;
         }
 
-        health.AddToStat(-damageAmount);
+        float damage = DamageCalculation(damageAmount, damageType);
+
+        StartCoroutine(InvincibilityFrames());
+
+        health.AddToStat(-damage);
         if (health.stat <= health.minimum)
         {
             CommitDie();
@@ -34,5 +66,68 @@ public class EnemyController : MonoBehaviour
     public virtual void Explode()
     {
         Debug.Log("Boom");
+    }
+
+    public virtual float DamageCalculation(float damage, DamageType damageType)
+    {
+        if (damageVulnerabilities.Contains(damageType))
+        {
+            return damage * vulnerabilityMultiplier;
+        }
+        else if (damageResistances.Contains(damageType))
+        {
+            return damage * resistanceMultiplier;
+        }
+
+        return damage;
+    }
+
+    public IEnumerator InvincibilityFrames()
+    {
+        inInvincibilityFrames = true;
+
+        yield return new WaitForFixedUpdate();
+
+        inInvincibilityFrames = false;
+    }
+
+    public virtual void ChangeDamageInteraction(DamageType damageType, DamageInteraction interaction)
+    {
+        EnemyController.ChangeDamageLists(this, damageType, interaction);
+
+        foreach(EnemyHitbox hitbox in enemyHitboxes)
+        {
+            EnemyController.ChangeDamageLists(hitbox, damageType, interaction);
+        }
+    }
+
+    public static void ChangeDamageLists(EnemyController enemyController, DamageType damageType, DamageInteraction interaction)
+    {
+        if (enemyController.damageImmunities.Contains(damageType))
+        {
+            AddOrRemoveDamageType(enemyController.damageImmunities, damageType, interaction == DamageInteraction.immune);
+        }
+
+        if (enemyController.damageResistances.Contains(damageType))
+        {
+            AddOrRemoveDamageType(enemyController.damageImmunities, damageType, interaction == DamageInteraction.resistant);
+        }
+
+        if (enemyController.damageVulnerabilities.Contains(damageType))
+        {
+            AddOrRemoveDamageType(enemyController.damageImmunities, damageType, interaction == DamageInteraction.vulnerable);
+        }
+    }
+
+    public static void AddOrRemoveDamageType(List<DamageType> list, DamageType damageType, bool matchesDamageType = false)
+    {
+        if (matchesDamageType)
+        {
+            list.Add(damageType);
+        }
+        else
+        {
+            list.Remove(damageType);
+        }
     }
 }

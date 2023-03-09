@@ -1,0 +1,190 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1347257589704652110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1347257589704652109}
+  - component: {fileID: 1347257589704652108}
+  - component: {fileID: 1347257589704652111}
+  m_Layer: 0
+  m_Name: Turret Test
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1347257589704652109
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347257589704652110}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5, y: 3, z: -57}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1347257590366799354}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1347257589704652108
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347257589704652110}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1347257589704652111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347257589704652110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1953544bec0a662439cd490fba6176af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health:
+    stat: 30
+    baseStat: 30
+    minimum: 0
+    maximum: Infinity
+  inInvincibilityFrames: 0
+  dead: 0
+  damageImmunities: 
+  damageResistances: 
+  damageVulnerabilities: 
+  vulnerabilityMultiplier: 0
+  resistanceMultiplier: 0
+  enemyHitboxes: []
+  turretHinge: {fileID: 1347257590366799354}
+  iceBeam: {fileID: 5813145559260143028, guid: b7976f6378b1c2d44b02bc15a18ce338, type: 3}
+  fireBeam: {fileID: 1825884365860083250, guid: 159626a465b748c499c86821e214c11f,
+    type: 3}
+  rotationSpeed: 1
+  damagePerSecond: 5
+  detectionRadius: 15
+  attackRange: 6
+  beamPos: {x: 0, y: 0, z: 0}
+--- !u!1 &1347257590366799357
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1347257590366799354}
+  m_Layer: 0
+  m_Name: Hinge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1347257590366799354
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347257590366799357}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1696106986480142282}
+  m_Father: {fileID: 1347257589704652109}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1347257588530065820
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1347257590366799354}
+    m_Modifications:
+    - target: {fileID: 377075257342539350, guid: b2a379fd87d5dae4794eda2c28883c5c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 377075257342539350, guid: b2a379fd87d5dae4794eda2c28883c5c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 377075257342539350, guid: b2a379fd87d5dae4794eda2c28883c5c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 377075257342539350, guid: b2a379fd87d5dae4794eda2c28883c5c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 377075257342539350, guid: b2a379fd87d5dae4794eda2c28883c5c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 377075257342539350, guid: b2a379fd87d5dae4794eda2c28883c5c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 377075257342539350, guid: b2a379fd87d5dae4794eda2c28883c5c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 377075257342539350, guid: b2a379fd87d5dae4794eda2c28883c5c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 377075257342539350, guid: b2a379fd87d5dae4794eda2c28883c5c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 377075257342539350, guid: b2a379fd87d5dae4794eda2c28883c5c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 377075257342539350, guid: b2a379fd87d5dae4794eda2c28883c5c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 377075257342539351, guid: b2a379fd87d5dae4794eda2c28883c5c,
+        type: 3}
+      propertyPath: m_Name
+      value: Ice_Totem_FelixEdit
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b2a379fd87d5dae4794eda2c28883c5c, type: 3}
+--- !u!4 &1696106986480142282 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 377075257342539350, guid: b2a379fd87d5dae4794eda2c28883c5c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1347257588530065820}
+  m_PrefabAsset: {fileID: 0}
