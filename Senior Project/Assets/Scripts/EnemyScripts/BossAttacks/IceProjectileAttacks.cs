@@ -18,7 +18,7 @@ public class IceProjectileAttacks : AttackMotion
     }
     public override IEnumerator AttackingPlayer()
     {
-        
+        enemy.navMeshAgent.speed = enemy.speed;
         while (true)
         {
             Physics.Raycast(enemy.transform.position, PlayerController.puppet.cameraObj.transform.position - enemy.transform.position, out RaycastHit hit, fireDistance, ~LayerMask.GetMask("Enemy"));
@@ -37,7 +37,7 @@ public class IceProjectileAttacks : AttackMotion
         }
 
         enemy.navMeshAgent.speed = 0f;
-
+        yield return null;
 
         //yield return new WaitForSeconds(1f);
 

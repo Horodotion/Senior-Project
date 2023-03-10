@@ -11,22 +11,6 @@ public class ShotgunSpell : Spell
     public float minimumSpreadRange;
     public float spreadAngle;
 
-    public override void SecondarySpellUpdate()
-    {
-        if (usesCharges && charges < maximumCharges)
-        {
-            if (rechargeTimer <= 0)
-            {
-                charges++;
-                rechargeTimer = rechargeRate;
-            }
-            else
-            {
-                rechargeTimer -= Time.deltaTime;
-            }
-        }
-    }
-
     public override void Fire()
     {
         ProjectileFire();

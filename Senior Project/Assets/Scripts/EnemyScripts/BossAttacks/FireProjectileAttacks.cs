@@ -18,6 +18,7 @@ public class FireProjectileAttacks : AttackMotion
     }
     public override IEnumerator AttackingPlayer()
     {
+        enemy.navMeshAgent.speed = enemy.speed;
         //RaycastHit hit;
         /*
         Physics.Raycast(enemy.transform.position, PlayerController.puppet.transform.position - enemy.transform.position, out hit, Mathf.Infinity, ~enemy.hidingSpotLayer);
@@ -48,9 +49,10 @@ public class FireProjectileAttacks : AttackMotion
         //enemy.bossState = BossState.inCombat;
 
         enemy.navMeshAgent.speed = 0f;
+        yield return null;
 
         //yield return new WaitForSeconds(1f);
-        
+
         while (true)
         {
             enemy.AimTowards(PlayerController.puppet.transform.position, aimSpeed);
