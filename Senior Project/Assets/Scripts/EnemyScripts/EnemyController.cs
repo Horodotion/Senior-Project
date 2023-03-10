@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour
         // StartCoroutine(InvincibilityFrames());
 
         health.AddToStat(-damage);
-        if (health.stat <= health.minimum)
+        if (health.stat <= health.minimum && !dead)
         {
             CommitDie();
         }
