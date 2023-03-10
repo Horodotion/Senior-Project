@@ -18,6 +18,7 @@ public class Laser : MonoBehaviour
     private float currentLaserLegth;
     void OnEnable()
     {
+        laserSize = laserSize * transform.localScale.z;
         this.transform.localScale = new Vector3(laserSize, laserSize, .1f);
     }
 
@@ -63,6 +64,7 @@ public class Laser : MonoBehaviour
         }
 
     }
+
 
     //Damage value is been change in the attacks
     private void OnTriggerStay(Collider other)
