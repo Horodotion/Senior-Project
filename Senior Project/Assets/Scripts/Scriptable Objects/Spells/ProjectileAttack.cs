@@ -5,9 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Spell/ProjectileAttack")]
 public class ProjectileAttack : Spell
 {
-    [Header("Projectile Spell Variables")]
-    [ToggleableVarable("chargingSpell", true)] public float timeBetweenProjectiles;
-    [HideInInspector] public float timeBetweenProjectilesRemaining;
+
 
     public override void SpellUpdate()
     {
