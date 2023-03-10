@@ -7,6 +7,7 @@ public enum MovementState
     grounded,
     inAir,
     sliding,
+    jumping,
     dashing,
     knockback,
     other
@@ -58,11 +59,13 @@ public class PlayerPuppet : MonoBehaviour
     public Spell secondarySpell;
     public Spell mobilitySpell;
     public Spell currentSpellBeingCast;
+    [HideInInspector] public bool spellsSetUp;
 
-    
-    public Transform primaryFirePosition, secondaryFirePosition;
+    [Header("Fire Positions")]
+    public Transform primaryFirePosition;
+    public Transform secondaryFirePosition;
     [HideInInspector] public Vector3 moveDirection, inputDirection, velocity;
-    [HideInInspector] public RaycastHit slidingHit;
+    [HideInInspector] public RaycastHit groundedHit;
 
 
     void Awake()
@@ -141,9 +144,9 @@ public class PlayerPuppet : MonoBehaviour
         if (PlayerController.instance.lookAxis != Vector2.zero)
         {
             // Adding to the look rotation multiplied by the mouse sensetivity and by time
-            lookRotation.y += PlayerController.instance.lookAxis.x * mouseSensetivity * Time.deltaTime;
+            lookRotation.y += PlayerController.instance.lookAxis.x * mouseSensetivity * Time.fixedDeltaTime;
             // Makes sure that the player cannot infinitely spin up and down
-            lookRotation.x = Mathf.Clamp((lookRotation.x - ((PlayerController.instance.lookAxis.y * mouseSensetivity) * Time.deltaTime)), -lookAngles, lookAngles);
+            lookRotation.x = Mathf.Clamp((lookRotation.x - ((PlayerController.instance.lookAxis.y * mouseSensetivity) * Time.fixedDeltaTime)), -lookAngles, lookAngles);
             // Converts the added look rotation to the game object's rotation and camera object's rotation
             transform.localEulerAngles = new Vector3(0, lookRotation.y, 0);
             cameraObj.transform.localEulerAngles = new Vector3(lookRotation.x, 0, 0);
@@ -154,38 +157,41 @@ public class PlayerPuppet : MonoBehaviour
     //Functions that handle movement
     public void Movement()
     {
-        grounded = charController.isGrounded;// || velocity.y == 0);
-        isSliding = Sliding();
         inputDirection = HorizontalMovement();
+        movementState = CheckMoveState();
 
-        if (!grounded)//, charController.height))
+        switch (movementState)
         {
-            Vector3 aerialVector = Vector3.zero;
-
-            aerialVector = inputDirection * inAirControlMultiplier;
-
-            float maxSpeed = PlayerController.instance.speed.stat * Time.deltaTime;
-            
-            moveDirection += new Vector3(aerialVector.x, 0, aerialVector.z) * Time.deltaTime;
-
-            // moveDirection = Vector3.ClampMagnitude(moveDirection, maxSpeed);
-            moveDirection.x = Mathf.Clamp(moveDirection.x, -maxSpeed, maxSpeed);
-            moveDirection.z = Mathf.Clamp(moveDirection.z, -maxSpeed, maxSpeed);
-            
-            movementState = MovementState.inAir;
-        }
-        else
-        {
-            if (isSliding)
-            {
-                moveDirection += new Vector3(slidingHit.normal.x, 0, slidingHit.normal.z) * Time.deltaTime;
-                movementState = MovementState.sliding;
-            }
-            else
-            {
+            case MovementState.grounded:
                 moveDirection = inputDirection;
-                movementState = MovementState.sliding;
-            }
+                break;
+
+            case MovementState.sliding:
+                // if (Mathf.Sign(groundedHit.normal.x) != Mathf.Sign(moveDirection.x))
+                // {
+                //     moveDirection.x = 0f; // groundedHit.normal.x * Time.deltaTime;
+                // }
+                // if (Mathf.Sign(groundedHit.normal.z) != Mathf.Sign(moveDirection.z))
+                // {
+                //     moveDirection.z = 0f; // groundedHit.normal.z * Time.deltaTime;
+                // }
+
+                moveDirection += new Vector3(groundedHit.normal.x, 0, groundedHit.normal.z) * Time.deltaTime;
+                break;
+
+            case MovementState.inAir:
+                Vector3 aerialVector = Vector3.zero;
+
+                aerialVector = inputDirection * inAirControlMultiplier;
+                float maxSpeed = PlayerController.instance.speed.stat * Time.deltaTime;
+                moveDirection += new Vector3(aerialVector.x, 0, aerialVector.z) * Time.deltaTime;
+
+                moveDirection.x = Mathf.Clamp(moveDirection.x, -maxSpeed, maxSpeed);
+                moveDirection.z = Mathf.Clamp(moveDirection.z, -maxSpeed, maxSpeed);
+                break;
+
+            case MovementState.other:
+                break;
         }
 
         Falling();
@@ -214,17 +220,35 @@ public class PlayerPuppet : MonoBehaviour
                 vectorToReturn *= sprintMultiplier;
             }
 
-
             // After multiplying it by the speed, it will transform the direction of movement into world space
             vectorToReturn = transform.TransformDirection(vectorToReturn * Time.deltaTime);
         }
         return vectorToReturn;
     }
 
-    public void AerialMovement()
+    public MovementState CheckMoveState()
     {
-        
+        float adjustedHeight = (charController.height * 0.51f);
+        bool groundDetected = Physics.SphereCast(transform.TransformPoint(charController.center), charController.radius, -transform.up, 
+            out groundedHit, adjustedHeight) && !groundedHit.collider.isTrigger;
 
+
+        if (groundDetected && fallingSpeed <= 0)
+        {
+            // Debug.Log(groundedHit.collider.gameObject.name + " + " + groundedHit.distance);
+            if (Vector3.Angle(groundedHit.normal, Vector3.up) > charController.slopeLimit)
+            {
+                return MovementState.sliding;
+            }
+            else
+            {
+                return MovementState.grounded;
+            }
+        }
+        else
+        {
+            return MovementState.inAir;
+        }
     }
 
     public void Falling()
@@ -233,17 +257,16 @@ public class PlayerPuppet : MonoBehaviour
 
         moveDirection.y = 0;
 
-        if (grounded && !isSliding)
+        if (movementState == MovementState.grounded)
         {
             if (jumpsRemaining != totalJumps)
             {
                 jumpsRemaining = totalJumps;
             }
             
-            if (fallingSpeed != 0f)
+            if (fallingSpeed != 0)
             {
-                fallingSpeed = 0f;
-                
+                fallingSpeed = 0;
             }
         }
         else
@@ -269,17 +292,7 @@ public class PlayerPuppet : MonoBehaviour
         }
     }
 
-    public bool Sliding()
-    {
-        if (grounded && Physics.Raycast(transform.TransformPoint(charController.center), -transform.up, out slidingHit))
-        {
-            return Vector3.Angle(slidingHit.normal, Vector3.up) > charController.slopeLimit;
-        }
-        else
-        {
-            return false;
-        }
-    }
+
 
     public void SpellUpdater()
     {
@@ -315,6 +328,7 @@ public class PlayerPuppet : MonoBehaviour
 
     public void ChangeTemperature(float tempToAdd)
     {
+        // Debug.Log(tempToAdd);
         PlayerController.instance.temperature.AddToStat(tempToAdd);
         PlayerUI.instance.ChangeTemperature();
         // Debug.Log(playerStats.stat[StatType.temperature]);

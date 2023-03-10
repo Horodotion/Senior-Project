@@ -48,7 +48,7 @@ public class ProjectileController : MonoBehaviour
         {
             return;
         }
-        Debug.Log(hostileFaction == Faction.Player);
+        // Debug.Log(hostileFaction == Faction.Player);
         if (hostileFaction == Faction.Enemy && col.gameObject.GetComponent<EnemyController>() != null)
         {
             col.gameObject.GetComponent<EnemyController>().Damage(damage, damageType);

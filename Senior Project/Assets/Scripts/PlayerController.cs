@@ -112,6 +112,13 @@ public class PlayerController : MonoBehaviour
 
     public void SetUpAllSpells()
     {
+        if (puppet.spellsSetUp)
+        {
+            return;
+        }
+        
+        puppet.spellsSetUp = true;
+
         SpellSetup(currentPrimarySpell, SpellSlot.primary);
         SpellSetup(currentSecondarySpell, SpellSlot.secondary);
         SpellSetup(currentMobilitySpell, SpellSlot.utility);
@@ -248,7 +255,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnDashAction(InputAction.CallbackContext context)
     {
-        if (puppet.mobilitySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame)
+        if (puppet.mobilitySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame
+            && puppet.movementState == MovementState.inAir)
         {
             puppet.mobilitySpell.Cast();
         }
