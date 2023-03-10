@@ -32,7 +32,7 @@ public class IceMeleeAttacks : AttackMotion
         //enemy.bossState = BossState.inCombat;
 
         enemy.navMeshAgent.speed = 0f;
-
+        yield return null;
 
         //yield return new WaitForSeconds(1f);
 
