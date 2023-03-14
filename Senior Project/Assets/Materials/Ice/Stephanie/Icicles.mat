@@ -37,12 +37,12 @@ Material:
     m_TexEnvs:
     - _IceVolumeTex:
         m_Texture: {fileID: 2800000, guid: 6f4b82b40af3b744eb813c3a1f7b5e40, type: 3}
-        m_Scale: {x: 0.2, y: 0.2}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 87b656f6725fd4c4ca9756fc0d8766cc, type: 3}
-        m_Scale: {x: 0.2, y: 0.2}
-        m_Offset: {x: 0, y: 0}
+        m_Texture: {fileID: 2800000, guid: d39a1b9e5d5c7b9499f579fa5c70a2a3, type: 3}
+        m_Scale: {x: 0.5, y: 0.5}
+        m_Offset: {x: 0.5, y: 0}
     - _SampleTexture2D_2dc7f83191dd4e0ba7d66ba524584583_Texture_1:
         m_Texture: {fileID: 2800000, guid: 0d97a118a7c063348b6cf9a499dafe80, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -98,9 +98,9 @@ Material:
     - _blur: 0
     - _insideTexDepth: 300
     - _refractionPower: 0
-    - _smoothness: 0.8
+    - _smoothness: 0.7
     - _transparency: 1
     m_Colors:
-    - _insideColor: {r: 0.013433413, g: 0, b: 0.5176471, a: 0}
-    - _surfaceColor: {r: 0.3246747, g: 0.28488788, b: 0.6226415, a: 1}
+    - _insideColor: {r: 0, g: 0, b: 0, a: 0}
+    - _surfaceColor: {r: 0.1647251, g: 0.1496529, b: 0.5566038, a: 1}
   m_BuildTextureStacks: []
