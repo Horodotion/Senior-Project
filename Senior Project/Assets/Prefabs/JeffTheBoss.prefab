@@ -2941,15 +2941,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f88c53b80ec57444bde08cd06d21a5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
   health:
     stat: 100
     baseStat: 0
     minimum: 0
     maximum: 100
-  inInvicibilityFrames: 0
+  inInvincibilityFrames: 0
   dead: 0
   damageImmunities: 
+  damageResistances: 
+  damageVulnerabilities: 
+  vulnerabilityMultiplier: 0
+  resistanceMultiplier: 0
+  enemyHitboxes: []
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
   speed: 8
@@ -2990,7 +2994,7 @@ MonoBehaviour:
   playerSpottedDistance: 10
   minWaitTimeinCover: 1
   maxWaitTimeInCover: 2
-  playerTooCloseDistanceToCover: 8
+  playerTooCloseDistanceToCover: 4
   coverUpdateFrequency: 0.44
   coverSampleDistance: 100
   teleportSampleDistance: 100
