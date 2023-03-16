@@ -25,11 +25,19 @@ MonoBehaviour:
   temperatureChange: 0
   damageType: 2
   damage: 0
+  hitscanSpell: 0
   effectiveRange: 0
   sphereCastRadius: 0
+  timeBetweenProjectiles: 0
+  timeBetweenProjectilesRemaining: 0
   objectToSpawn: {fileID: 0}
   vfxEffectObj: {fileID: 0}
   vfx: {fileID: 0}
+  usesCharges: 1
+  charges: 1
+  maximumCharges: 1
+  rechargeRate: 5
+  rechargeTimer: 0
   dashDirection: {x: 0, y: 0, z: 0}
   dashOrigin: {x: 0, y: 0, z: 0}
   dashSpeed: 20
