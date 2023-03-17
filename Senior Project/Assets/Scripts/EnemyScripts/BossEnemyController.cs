@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,6 +37,7 @@ public class BossEnemyController : EnemyController
 {
     [Header("Boss Stats")]
     [HideInInspector] public NavMeshAgent navMeshAgent;
+    [HideInInspector] public Animator animator;
 
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float acceleration = 8f;
@@ -78,11 +80,14 @@ public class BossEnemyController : EnemyController
     [Tooltip("Will not seek cover at any points within this range of the player")] public float playerTooCloseDistanceToCover = 4f;
 
     [Range(.001f, 5)] [Tooltip("Interval in seconds for the enemy to check for new hiding spots")] public float coverUpdateFrequency = .75f;
-    [HideInInspector] float test = 0;
-
 
     [SerializeField] public float coverSampleDistance;
-    
+
+    private bool isCoverPointResetNeeded = true;
+
+    private Collider nextCol;
+    private Vector3 prevousCoverPoint;
+
 
     [Header("Boss Teleport System")]
     [SerializeField] public float teleportSampleDistance;
@@ -118,6 +123,10 @@ public class BossEnemyController : EnemyController
         navMeshAgent.angularSpeed = angularSpeed;
         navMeshAgent.acceleration = acceleration;
         attacksManager = GetComponent<AttacksManager>();
+        if (TryGetComponent<Animator>(out Animator thatAnimator))
+        {
+            animator = thatAnimator;
+        }
         //HandleStateChange(state, BossState.inCombat);
         OnBossStateChange += HandleStateChange;
         //player = PlayerController.puppet;
@@ -135,7 +144,6 @@ public class BossEnemyController : EnemyController
 
         bossState = BossState.takingCover;
     }
-    
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
     {
         if (MovementCoroutine != null)
@@ -154,7 +162,7 @@ public class BossEnemyController : EnemyController
                 MovementCoroutine = TestAttack();
                 break;
             case BossState.taunt:
-                MovementCoroutine = TakeCoverState(PlayerController.puppet.transform);//Take care the taunt later
+                MovementCoroutine = TakeCoverState(PlayerController.puppet.transform); //Take care the taunt later
                 break;
             case BossState.meleeAttack:
                 MovementCoroutine = attacksManager.MeleeAttack();
@@ -166,7 +174,7 @@ public class BossEnemyController : EnemyController
                 MovementCoroutine = TakeCoverState(PlayerController.puppet.transform);
                 break;
             case BossState.waitingInCover:
-                MovementCoroutine = WaitInCoverState(Random.Range(minWaitTimeinCover, maxWaitTimeInCover));
+                MovementCoroutine = WaitInCoverState(UnityEngine.Random.Range(minWaitTimeinCover, maxWaitTimeInCover));
                 break;
             case BossState.teleportBehindPlayer:
                 MovementCoroutine = TeleportingBehindPlayer(PlayerController.puppet.transform);
@@ -176,11 +184,26 @@ public class BossEnemyController : EnemyController
                 break;
         }
         StartCoroutine(MovementCoroutine);
+        
     }
 
     private void Update()
     {
-        //Debug.Log("Update state: " + bossState);
+        Ani();
+        
+    }
+    private void Ani()
+    {
+        Debug.Log(navMeshAgent.speed);
+        if (animator == null) return;
+        if (navMeshAgent.speed > 0)
+        {
+            animator.SetBool("isRunning", true);
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
+        }
     }
 
     public IEnumerator InTauntState()
@@ -220,7 +243,9 @@ public class BossEnemyController : EnemyController
 
     private IEnumerator TakeCoverState(Transform target)
     {
+        navMeshAgent.speed = speed;
         WaitForSeconds wait = new WaitForSeconds(coverUpdateFrequency);
+        
         while (true)
         {
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, coverSampleDistance, hidingSpotLayer);
@@ -232,17 +257,38 @@ public class BossEnemyController : EnemyController
             }
             else
             {
+                
+                if (nextCol != null)
+                {
+                    if (isCoverPointResetNeeded)
+                    {
+                        //Debug.Log("Hey");
+                        prevousCoverPoint = nextCol.transform.position;
+                        isCoverPointResetNeeded = false;
+                    }
+                }
+                
                 //Find the right collider to hide
-                Collider tempCol = FindValidHidingSpot(target, hitColliders);
+                nextCol = FindValidHidingSpot(target, hitColliders);
                 //Debug.Log(tempCol.transform.position);
-                if (tempCol == null)
+                if (nextCol == null)
                 {
                     Debug.Log("No valid cover spot");
                     //bossState = BossState.takingCover;
                 }
                 else
                 {
-                    navMeshAgent.SetDestination(tempCol.transform.position);
+                    //Debug.Log(prevousCoverPoint + " "+ nextCol.transform.position);
+                    
+                    navMeshAgent.SetDestination(nextCol.transform.position);
+
+                    
+                    if (prevousCoverPoint != nextCol.transform.position)
+                    {
+                        //Debug.Log("Hey2");
+                        isCoverPointResetNeeded = true;
+                    }
+                    
                 }
             }
 
@@ -251,7 +297,8 @@ public class BossEnemyController : EnemyController
             if (transform.position.x == navMeshAgent.destination.x && transform.position.z == navMeshAgent.destination.z)
             {
                 //Debug.Log("Test3");
-                bossState = CoverActionDicision();
+                isCoverPointResetNeeded = true;
+                bossState = BossState.waitingInCover;// CoverActionDicision();
             }
 
             yield return wait;
@@ -263,8 +310,38 @@ public class BossEnemyController : EnemyController
         Collider tempCol = null;
         foreach (Collider thisCol in colliders)
         {
+            /*
+            Vector3 playerToBossVector = transform.position - target.position;
+            //Checked if it's in front of the boss 
+            
+            if (Vector3.Dot(playerToBossVector, target.forward) > 0)
+            {
+                Vector3 playerToColloderVector = thisCol.transform.position - target.position;
+                if (Vector3.Dot(playerToBossVector, target.right) > 0)
+                {
+                    if (Vector3.Dot(playerToColloderVector, target.right) < 0)
+                    {
+                        continue;
+                    }
 
-            if (!IsItAValidhidingPoint(widthOfTheBoss, thisCol.transform.position))
+                }
+                else
+                {
+                    if (Vector3.Dot(playerToColloderVector, target.right) > 0)
+                    {
+                        continue;
+                    }
+                }
+            }
+            */
+            if (prevousCoverPoint == thisCol.transform.position && isCoverPointResetNeeded)
+            {
+                continue;
+            }
+            
+
+
+            if (!IsItAValidHidingPoint(widthOfTheBoss, thisCol.transform.position))
             {
                 continue;
             }
@@ -287,7 +364,7 @@ public class BossEnemyController : EnemyController
     }
 
     //Check if a point is a valid hiding Spot. Size is the current object size. Position is the current position that is tried to hide.
-    public bool IsItAValidhidingPoint(float size, Vector3 position)
+    public bool IsItAValidHidingPoint(float size, Vector3 position)
     {
         //Find the two points that is between the boss while also perpendicular to the player
         Vector3 vectorToColloder = Camera.main.transform.position - position;
@@ -325,6 +402,7 @@ public class BossEnemyController : EnemyController
 
     private IEnumerator WaitInCoverState(float secondsToWait) // Either breakWhenSpotted should be true, or secondsToWait should be >0, or both. If not this would go forever
     {
+        navMeshAgent.speed = 0;
         // Check to see if this call is actually capable of ending
         if (secondsToWait == 0)
         {
@@ -347,7 +425,8 @@ public class BossEnemyController : EnemyController
                 if (hit.collider.CompareTag("Player"))
                 {
                     bossState = AmbushedDicision();
-                    //yield break;
+                    //bossState = BossState.takingCover;
+                    yield break;
                 }
             }
 
@@ -490,17 +569,7 @@ public class BossEnemyController : EnemyController
                     bossState = BossState.meleeAttack;
                 }
             }
-            //Debug.Log(hitColliders.Length);
-
-            //navMeshAgent.SetDestination(hitColliders[0].transform.position);
-            /*
-            if (transform.position.x == navMeshAgent.destination.x && transform.position.z == navMeshAgent.destination.z)
-            {
-                //Debug.Log("Test3");
-                yield return wait;
-                bossState = BossState.meleeAttack;
-            }
-            */
+            
 
             yield return null;
         }
@@ -517,7 +586,7 @@ public class BossEnemyController : EnemyController
                 continue;
             }
 
-            if (!IsItAValidhidingPoint(widthOfTheBoss, thisCol.transform.position))
+            if (!IsItAValidHidingPoint(widthOfTheBoss, thisCol.transform.position))
             {
                 continue;
             }

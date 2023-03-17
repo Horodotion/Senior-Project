@@ -11,13 +11,18 @@ public class ExplosiveObject : EnemyController
     public GameObject customTransform;
     
     // On fresh prefabs I set health to 10 by default, but feel free to change if we have a global damage scale
-    public float explosionRadius, baseDamageDealt, baseTempChange, secondsUntilParticlesAreDestroyed;
+    public float explosionRadius, baseDamageDealt, secondsUntilParticlesAreDestroyed;
 
 
     // Not sure exactly how we're assigning damage from the player controller or wherever,
     // but this should be simple enough to replace with whatever function gets called
     public override void CommitDie()
     {
+        if (dead)
+        {
+            return;
+        }       
+
         base.CommitDie();
         Explode();
     }
@@ -44,17 +49,24 @@ public class ExplosiveObject : EnemyController
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (var hC in hitColliders)
         {
-            float damageFallOff = Mathf.Cos(Vector3.Distance(transform.position, hC.transform.position) / explosionRadius); 
-            float explosionDamage = Mathf.Clamp(damageFallOff * baseDamageDealt, 0, baseDamageDealt);
+            // float damageFallOff = Mathf.Abs(Mathf.Cos(Vector3.Distance(transform.position, hC.transform.position) / explosionRadius)); 
 
+            // float distance = Vector3.Distance(transform.position, hC.transform.position);
+            // float minDamage = baseDamageDealt / 2;
+            // float damageFallOff = (explosionRadius - distance) / explosionRadius;
+
+            // float explosionDamage = Mathf.Clamp(damageFallOff * baseDamageDealt, -baseDamageDealt, baseDamageDealt);
+            // Debug.Log(explosionDamage + " " + damageFallOff);
+            // Debug.Log(explox x   sionDamage + " " + damageFallOff);
             // INSERT HERE: Function or however damage is assigned, pass each object returned in hitColliders the damage variable above
             if (hC.gameObject.tag == "Player" && hC.GetComponent<PlayerPuppet>() != null)
             {
-                hC.GetComponent<PlayerPuppet>().ChangeTemperature(explosionDamage);
+                Debug.Log(hC.gameObject.name);
+                hC.GetComponent<PlayerPuppet>().ChangeTemperature(baseDamageDealt);
             }
             if (hC.gameObject.tag == "Enemy" && hC.GetComponent<EnemyController>() != null && !hC.GetComponent<EnemyController>().dead)
             {
-                hC.GetComponent<EnemyController>().Damage(explosionDamage, DamageType.nuetral);
+                hC.GetComponent<EnemyController>().Damage(baseDamageDealt, DamageType.nuetral);
             }
 
         }
