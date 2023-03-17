@@ -2942,10 +2942,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health:
-    stat: 100
+    stat: 5000
     baseStat: 0
     minimum: 0
-    maximum: 100
+    maximum: 5000
   inInvincibilityFrames: 0
   dead: 0
   damageImmunities: 
@@ -2956,7 +2956,7 @@ MonoBehaviour:
   enemyHitboxes: []
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
-  speed: 8
+  speed: 8.5
   acceleration: 50
   angularSpeed: 360
   viewPoint: {fileID: 1456991578378097365}
@@ -2994,7 +2994,7 @@ MonoBehaviour:
   playerSpottedDistance: 10
   minWaitTimeinCover: 1
   maxWaitTimeInCover: 2
-  playerTooCloseDistanceToCover: 4
+  playerTooCloseDistanceToCover: 8
   coverUpdateFrequency: 0.44
   coverSampleDistance: 100
   teleportSampleDistance: 100
