@@ -258,7 +258,7 @@ public class PlayerController : MonoBehaviour
         if (puppet.mobilitySpell != null && puppet.currentSpellBeingCast == null && ourPlayerState == PlayerState.inGame
             && puppet.movementState == MovementState.inAir)
         {
-            puppet.mobilitySpell.Cast();
+            puppet.mobilitySpell.CastSpell();
         }
     }
 
