@@ -10,14 +10,17 @@ Material:
   m_Name: Ice
   m_Shader: {fileID: -6465566751694194690, guid: 97c846ad6c240e049971194bc186ab15,
     type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - DepthOnly
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -48,6 +51,11 @@ Material:
     m_Ints: []
     m_Floats:
     - _Alpha: 0.7
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _CastShadows: 1
+    - _Cull: 2
+    - _DstBlend: 10
     - _FresnelPower: 2
     - _InsideTexDepth2: 50
     - _Metalic: 0
@@ -57,7 +65,12 @@ Material:
     - _QueueOffset: 0
     - _RefractionAmount: 1
     - _Smoothness: 0.993
+    - _SrcBlend: 5
+    - _Surface: 1
     - _TextureResolution: 1800
+    - _ZTest: 4
+    - _ZWrite: 0
+    - _ZWriteControl: 0
     - _blur: 0
     - _insideTexDepth: 200
     - _refractionPower: 0.05

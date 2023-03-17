@@ -18,6 +18,7 @@ public class LaserAttacks : AttackMotion
         //enemy.bossState = BossState.inCombat;
         //Debug.Log("6 " + enemy.bossState);
         //yield return new WaitForSeconds(5f);
+        enemy.navMeshAgent.speed = enemy.speed;
         while (true)
         {
             enemy.navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
@@ -32,7 +33,7 @@ public class LaserAttacks : AttackMotion
         //enemy.bossState = BossState.inCombat;
 
         enemy.navMeshAgent.speed = 0f;
-
+        yield return null;
 
         //yield return new WaitForSeconds(1f);
 

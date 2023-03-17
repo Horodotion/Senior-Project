@@ -22,8 +22,10 @@ public class MainMenuScript : MenuScript
         }
     }
 
-    public void Start()
+    public override void Start()
     {
+        base.Start();
+
         GeneralManager.hasGameStarted = false;
         Cursor.lockState = CursorLockMode.None;
     }

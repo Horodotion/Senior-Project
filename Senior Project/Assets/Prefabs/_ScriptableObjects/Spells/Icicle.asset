@@ -21,6 +21,7 @@ MonoBehaviour:
   animationLocation: 3
   ourhand: 1
   chargingSpell: 0
+  hitscanSpell: 0
   tempPerSecond: 0
   temperatureChange: -20
   damageType: 1
@@ -31,5 +32,10 @@ MonoBehaviour:
     type: 3}
   vfxEffectObj: {fileID: 0}
   vfx: {fileID: 0}
+  usesCharges: 0
+  charges: 0
+  maximumCharges: 0
+  rechargeRate: 0
+  rechargeTimer: 0
   timeBetweenProjectiles: 0
   timeBetweenProjectilesRemaining: 0
