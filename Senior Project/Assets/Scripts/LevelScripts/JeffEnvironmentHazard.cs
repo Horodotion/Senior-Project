@@ -3,6 +3,14 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+public enum HazardType
+{
+    projectile,
+    turret,
+    mine,
+    other
+}
+
 public class JeffEnvironmentHazard : MonoBehaviour
 {
     [Header("References")]
@@ -16,14 +24,14 @@ public class JeffEnvironmentHazard : MonoBehaviour
     public Transform shootPoint;
     public Transform turretDropPoint;
     public LayerMask whatIsPlayer;
-    public bool rangedAttack;
-    public bool dropTurret;
-    public bool fireElem;
+    // public bool rangedAttack;
+    // public bool dropTurret;
+    // public bool fireElem;
 
 
     [Header("State Checks")]
+    public HazardType hazardType;
     public float attackRange;
-    public bool playerInAttackRange;
     public bool playerFound;
     public bool hasAttacked;
 
@@ -34,34 +42,40 @@ public class JeffEnvironmentHazard : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    private void Update()
+    public void FixedUpdate()
     {
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-
-
-        if (playerInAttackRange && !playerFound)
+        if (!playerFound && Vector3.Distance(transform.position, PlayerController.puppet.transform.position) <= attackRange)
         {
-            if (rangedAttack && !playerFound)
-            {
-                Debug.Log("Found You!");
-                playerFound = true;
-                Attack();
-            }
-            else if(dropTurret && !playerFound)
-            {
-                Debug.Log("Dropping Turret");
-                playerFound = true;
-                SpawnTurret();
-            }
-            else if (!rangedAttack && !dropTurret && !playerFound)
-            {
-                Debug.Log("Running");
-                playerFound = true;
-                Invoke(nameof(RunAway), 1f);
-            }
+            PlayerHasBeenFound();
         }
     }
 
+    public void PlayerHasBeenFound()
+    {
+        playerFound = true;
+
+        switch(hazardType)
+        {
+            case HazardType.projectile:
+                Attack();
+                break;
+
+            case HazardType.turret:
+            case HazardType.mine:
+                SpawnTurret();
+                break;
+
+            default:
+                Invoke(nameof(RunAway), 1f);
+                break;
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(transform.position, 1);
+    }
 
     private void Attack()
     {
@@ -72,7 +86,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
         {
             Debug.Log("I attacked!");
 
-            if(fireElem)
+            if(PlayerController.instance.temperature.stat >= 0)
             {
                 GameObject thisProjectile1 = SpawnManager.instance.GetGameObject(fireProjectile, SpawnType.projectile);
                 //Debug.Log(thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController testController));
