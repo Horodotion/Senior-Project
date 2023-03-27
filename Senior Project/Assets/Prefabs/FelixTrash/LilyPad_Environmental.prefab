@@ -48,7 +48,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 819926329}
-  m_Material: {fileID: 13400000, guid: 995fe3871aea84941808736069f27821, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -185,6 +185,7 @@ MonoBehaviour:
   liveMaterial: {fileID: 2100000, guid: 315af59bb166c314ba4df5bc845019f1, type: 2}
   frozenMaterial: {fileID: 2100000, guid: 6dd39e89e65731f45b3272999e614100, type: 2}
   colliderBox: {fileID: 819926329}
+  speed: 0.1
 --- !u!1 &8297747333518087317
 GameObject:
   m_ObjectHideFlags: 0
