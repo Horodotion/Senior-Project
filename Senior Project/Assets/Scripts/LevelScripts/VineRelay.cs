@@ -2,18 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VineRelay : EnemyController
+public class VineRelay : EnemyHitbox
 {
-    [Header("References")]
-    public LogColliders logScript;
-
     public override void CommitDie()
     {
         base.CommitDie();
-        logScript.vinesLeft = logScript.vinesLeft - 1;
+        enemy.enemyHitboxes.Remove(this);
+        enemy.Damage(0);
         Destroy(gameObject);
     }
 
+    public override void Damage(float damageAmount, DamageType damageType = DamageType.nuetral)
+    {
+        if (damageImmunities.Contains(damageType))
+        {
+            return;
+        }
 
+        float damage = DamageCalculation(damageAmount, damageType);
+
+        // StartCoroutine(InvincibilityFrames());
+
+        health.AddToStat(-damage);
+        if (health.stat <= health.minimum && !dead)
+        {
+            CommitDie();
+        }
+    }
+
+    public override void OnEnable()
+    {
+
+    }
 }
 

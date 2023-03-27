@@ -29,7 +29,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8719970963337069012}
-  - {fileID: 9117878403678291060}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -387,7 +386,9 @@ MonoBehaviour:
   vulnerabilityMultiplier: 0
   resistanceMultiplier: 0
   enemyHitboxes: []
-  logScript: {fileID: 8719970963337069011}
+  critSpot: 0
+  critMultiplier: 0
+  enemy: {fileID: 0}
 --- !u!1 &5826194615837509334
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,13 +507,15 @@ MonoBehaviour:
     maximum: 10
   inInvincibilityFrames: 0
   dead: 0
-  damageImmunities: 01000000
+  damageImmunities: 
   damageResistances: 
   damageVulnerabilities: 
   vulnerabilityMultiplier: 0
   resistanceMultiplier: 0
   enemyHitboxes: []
-  logScript: {fileID: 8719970963337069011}
+  critSpot: 0
+  critMultiplier: 0
+  enemy: {fileID: 0}
 --- !u!1 &8485598316854451918
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,8 +539,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8485598316854451918}
-  m_LocalRotation: {x: -0.00000021606684, y: 0.00000590086, z: 0.07135294, w: -0.9974512}
-  m_LocalPosition: {x: 8.63, y: 3.67, z: -3.56}
+  m_LocalRotation: {x: -0.00000021606681, y: 0.000005900859, z: 0.07135294, w: -0.9974512}
+  m_LocalPosition: {x: 8.63, y: 3.67, z: -3.5599995}
   m_LocalScale: {x: 2, y: 3.186, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -547,8 +550,8 @@ Transform:
   - {fileID: 8719970964029447821}
   - {fileID: 8719970963731640986}
   - {fileID: 8719970964776078707}
-  m_Father: {fileID: 1414081194855783585}
-  m_RootOrder: 1
+  m_Father: {fileID: 8719970963337069012}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -0.001, z: -8.183}
 --- !u!1 &8719970963337069010
 GameObject:
@@ -581,6 +584,7 @@ Transform:
   m_Children:
   - {fileID: 3280425477150544602}
   - {fileID: 8719970963373991909}
+  - {fileID: 9117878403678291060}
   m_Father: {fileID: 1414081194855783585}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -596,9 +600,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c38754cc458ce4394a24a5ccfd21c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health:
+    stat: 0
+    baseStat: 0
+    minimum: -Infinity
+    maximum: Infinity
+  inInvincibilityFrames: 0
+  dead: 0
+  damageImmunities: 
+  damageResistances: 
+  damageVulnerabilities: 
+  vulnerabilityMultiplier: 0
+  resistanceMultiplier: 0
+  enemyHitboxes: []
   boxCol: {fileID: 8719970963373991904}
   meshCol: {fileID: 2796094610328471648}
-  falling: 0
   vinesLeft: 6
 --- !u!1 &8719970963373991904
 GameObject:
@@ -839,7 +855,9 @@ MonoBehaviour:
   vulnerabilityMultiplier: 0
   resistanceMultiplier: 0
   enemyHitboxes: []
-  logScript: {fileID: 8719970963337069011}
+  critSpot: 0
+  critMultiplier: 0
+  enemy: {fileID: 0}
 --- !u!1 &8719970964029447820
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,7 +982,9 @@ MonoBehaviour:
   vulnerabilityMultiplier: 0
   resistanceMultiplier: 0
   enemyHitboxes: []
-  logScript: {fileID: 8719970963337069011}
+  critSpot: 0
+  critMultiplier: 0
+  enemy: {fileID: 0}
 --- !u!1 &8719970964420871429
 GameObject:
   m_ObjectHideFlags: 0
@@ -1203,7 +1223,9 @@ MonoBehaviour:
   vulnerabilityMultiplier: 0
   resistanceMultiplier: 0
   enemyHitboxes: []
-  logScript: {fileID: 8719970963337069011}
+  critSpot: 0
+  critMultiplier: 0
+  enemy: {fileID: 0}
 --- !u!1 &8719970965256523066
 GameObject:
   m_ObjectHideFlags: 0
@@ -1328,4 +1350,6 @@ MonoBehaviour:
   vulnerabilityMultiplier: 0
   resistanceMultiplier: 0
   enemyHitboxes: []
-  logScript: {fileID: 8719970963337069011}
+  critSpot: 0
+  critMultiplier: 0
+  enemy: {fileID: 0}

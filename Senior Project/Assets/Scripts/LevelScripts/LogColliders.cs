@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LogColliders : MonoBehaviour
+public class LogColliders : EnemyController
 {
     public GameObject boxCol;
     public GameObject meshCol;
-    public bool falling = false;
     public int vinesLeft;
     
     // Start is called before the first frame update
@@ -15,15 +14,9 @@ public class LogColliders : MonoBehaviour
         boxCol.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Damage(float damageAmount, DamageType damageType = DamageType.nuetral)
     {
-        if(vinesLeft <= 0)
-        {
-            falling = true;
-        }
-        
-        if(falling)
+        if(enemyHitboxes.Count <= 0)
         {
             meshCol.SetActive(false);
             boxCol.SetActive(true);
