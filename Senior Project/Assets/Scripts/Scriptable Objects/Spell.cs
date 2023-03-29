@@ -300,7 +300,7 @@ public abstract class Spell : ScriptableObject
         Vector3 newDirection = forwardDirection;
 
         Vector2 spread = Random.insideUnitCircle;
-        newDirection += new Vector3(spread.x, spread.y, 0f) * variance; 
+        newDirection += new Vector3(0f, spread.y, spread.x) * variance; 
 
         return newDirection;
     }
