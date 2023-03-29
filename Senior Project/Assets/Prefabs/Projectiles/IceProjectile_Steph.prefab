@@ -83,6 +83,7 @@ MonoBehaviour:
   lifeSpan: 5
   range: 30
   origin: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0, w: 0}
   damageType: 0
   damage: 10
   launched: 0
@@ -97,7 +98,7 @@ PrefabInstance:
     - target: {fileID: 6793233928631691632, guid: 93f5b87aa0cffb345a535950f9574d7b,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6793233928996094248, guid: 93f5b87aa0cffb345a535950f9574d7b,
         type: 3}
@@ -162,17 +163,17 @@ PrefabInstance:
     - target: {fileID: 6793233929602024805, guid: 93f5b87aa0cffb345a535950f9574d7b,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6793233929955672752, guid: 93f5b87aa0cffb345a535950f9574d7b,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6793233929966043504, guid: 93f5b87aa0cffb345a535950f9574d7b,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93f5b87aa0cffb345a535950f9574d7b, type: 3}
