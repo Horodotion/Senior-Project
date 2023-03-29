@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum MovementState
 {
@@ -64,7 +65,7 @@ public class PlayerPuppet : MonoBehaviour
     [Header("Fire Positions")]
     public Transform primaryFirePosition;
     public Transform secondaryFirePosition;
-    [HideInInspector] public Vector3 moveDirection, inputDirection, velocity;
+    [HideInInspector] public Vector3 moveDirection, inputDirection;
     [HideInInspector] public RaycastHit groundedHit;
 
 
@@ -163,31 +164,15 @@ public class PlayerPuppet : MonoBehaviour
         switch (movementState)
         {
             case MovementState.grounded:
-                moveDirection = inputDirection;
+                moveDirection = transform.TransformDirection(inputDirection * PlayerController.instance.speed.stat * Time.deltaTime);
                 break;
 
             case MovementState.sliding:
-                // if (Mathf.Sign(groundedHit.normal.x) != Mathf.Sign(moveDirection.x))
-                // {
-                //     moveDirection.x = 0f; // groundedHit.normal.x * Time.deltaTime;
-                // }
-                // if (Mathf.Sign(groundedHit.normal.z) != Mathf.Sign(moveDirection.z))
-                // {
-                //     moveDirection.z = 0f; // groundedHit.normal.z * Time.deltaTime;
-                // }
-
                 moveDirection += new Vector3(groundedHit.normal.x, 0, groundedHit.normal.z) * Time.deltaTime;
                 break;
 
             case MovementState.inAir:
-                Vector3 aerialVector = Vector3.zero;
-
-                aerialVector = inputDirection * inAirControlMultiplier;
-                float maxSpeed = PlayerController.instance.speed.stat * Time.deltaTime;
-                moveDirection += new Vector3(aerialVector.x, 0, aerialVector.z) * Time.deltaTime;
-
-                moveDirection.x = Mathf.Clamp(moveDirection.x, -maxSpeed, maxSpeed);
-                moveDirection.z = Mathf.Clamp(moveDirection.z, -maxSpeed, maxSpeed);
+                AerialMovement();
                 break;
 
             case MovementState.other:
@@ -198,7 +183,7 @@ public class PlayerPuppet : MonoBehaviour
         Jump();
 
         charController.Move(moveDirection);
-        velocity = charController.velocity;
+        // velocity = charController.velocity;
     }
 
     public Vector3 HorizontalMovement()
@@ -207,22 +192,24 @@ public class PlayerPuppet : MonoBehaviour
         // Checking if it's not empty
         if (PlayerController.instance.moveAxis != Vector2.zero)
         {
-            // Changing the move axis to a Vector3
-            vectorToReturn = new Vector3(PlayerController.instance.moveAxis.x, 0f, PlayerController.instance.moveAxis.y).normalized;
-
-            // If the sprint key is held down, it multiplies the speed by the sprint multiplier
-            // If not, it multiplies it by time and the player's speed stat
-
-            vectorToReturn *= PlayerController.instance.speed.stat;
-
-            if (PlayerController.instance.sprintHeldDown && vectorToReturn.z > 0)
+            if (Mathf.Abs(PlayerController.instance.moveAxis.x) >= 0.125f)
             {
-                vectorToReturn *= sprintMultiplier;
+                vectorToReturn.x = PlayerController.instance.moveAxis.x;
             }
 
-            // After multiplying it by the speed, it will transform the direction of movement into world space
-            vectorToReturn = transform.TransformDirection(vectorToReturn * Time.deltaTime);
+            if (Mathf.Abs(PlayerController.instance.moveAxis.y) >= 0.125f)
+            {
+                vectorToReturn.z = PlayerController.instance.moveAxis.y;
+            }
+
+            vectorToReturn = vectorToReturn.normalized;
+
+            // if (PlayerController.instance.sprintHeldDown && vectorToReturn.z > 0)
+            // {
+            //     vectorToReturn *= sprintMultiplier;
+            // }
         }
+        
         return vectorToReturn;
     }
 
@@ -281,6 +268,8 @@ public class PlayerPuppet : MonoBehaviour
         // If not, it checks if the player is trying to jump, then adds one tenth of the jump speed to the move
         if (PlayerController.instance.jumpHeldDown && (canJump && jumpsRemaining > 0))
         {
+            // if ()
+
             canJump = false;
             jumpsRemaining--;
             fallingSpeed = jumpSpeed; //(JumpSpeed / 10);
@@ -292,7 +281,19 @@ public class PlayerPuppet : MonoBehaviour
         }
     }
 
+    public void AerialMovement()
+    {
+        Vector3 aerialVector = Vector3.zero;
+        float maxSpeed = PlayerController.instance.speed.stat * Time.deltaTime;
 
+        aerialVector = transform.TransformDirection(inputDirection * PlayerController.instance.speed.stat * Time.deltaTime) * inAirControlMultiplier;
+        moveDirection += new Vector3(aerialVector.x, 0, aerialVector.z) * Time.deltaTime;
+
+        Vector3 horizontalVector = Vector3.ClampMagnitude(new Vector3(moveDirection.x, 0, moveDirection.z), maxSpeed);
+    
+        moveDirection.x = horizontalVector.x;
+        moveDirection.z = horizontalVector.z;
+    }
 
     public void SpellUpdater()
     {
