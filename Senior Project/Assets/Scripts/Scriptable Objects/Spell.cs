@@ -159,8 +159,11 @@ public abstract class Spell : ScriptableObject
             }
 
             charges--;
-            rechargeTimer = rechargeRate;
-
+            if (rechargeTimer <= 0)
+            {
+                rechargeTimer = rechargeRate;
+            }
+            
             if (chargingSpell)
             {
                 Cast();

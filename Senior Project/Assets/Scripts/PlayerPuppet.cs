@@ -117,6 +117,7 @@ public class PlayerPuppet : MonoBehaviour
                 break;
 
             case PlayerState.casting:
+                SecondarySpellUpdate();
                 SpellUpdater();
                 Movement();
                 break;
