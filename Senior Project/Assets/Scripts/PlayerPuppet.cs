@@ -21,7 +21,7 @@ public class PlayerPuppet : MonoBehaviour
     //These references are localized for easier reading and writing of the script
     // [HideInInspector] public PlayerController PlayerController.instance; // A local  reference to the playerController
     // [HideInInspector] public Stats playerStats; // A reference to the stats for easier reading
-    [HideInInspector] public Vector3 lookRotation; // The current lookRotation on the puppet
+    public Vector3 lookRotation; // The current lookRotation on the puppet
     [HideInInspector] public CharacterController charController; // A reference to the CharacterController
     public GameObject cameraObj; // The object that the camera is held on
     
@@ -54,6 +54,14 @@ public class PlayerPuppet : MonoBehaviour
     [HideInInspector] public bool canJump = true, grounded;
     public MovementState movementState;
     [HideInInspector] public bool isSliding = false;
+
+    [Header("Temperature Multipliers")]
+    public float escalationMultiplier;
+    public float deescalationMultiplier;
+    [Range(0f, 1f)] public float tempThreshold;
+    public float tempMultiplier;
+    [HideInInspector] public float fireMultiplier;
+    [HideInInspector] public float iceMultiplier;
 
     [Header("Spells")]
     public Spell primarySpell;
@@ -328,18 +336,61 @@ public class PlayerPuppet : MonoBehaviour
         // Debug.Log(damageTaken);
     }
 
+    public void ResetStats()
+    {
+        PlayerController.instance.temperature.ResetStat();
+        
+        fireMultiplier = 0;
+        iceMultiplier = 0;
+        tempMultiplier = 0;
+
+        ChangeTemperature(0);
+    }
+
     public void ChangeTemperature(float tempToAdd)
     {
-        // Debug.Log(tempToAdd);
-        PlayerController.instance.temperature.AddToStat(tempToAdd);
-        PlayerUI.instance.ChangeTemperature();
-        // Debug.Log(playerStats.stat[StatType.temperature]);
+        IndividualStat temp = PlayerController.instance.temperature;
 
+        if (tempMultiplier != 0)
+        {
+            if (Mathf.Sign(tempToAdd) == Mathf.Sign(temp.stat))
+            {
+                tempToAdd *= 1 + (tempMultiplier * escalationMultiplier);
+            }
+            else
+            {
+                tempToAdd *= 1 + (tempMultiplier * deescalationMultiplier);
+            }
+        }
+
+        PlayerController.instance.temperature.AddToStat(tempToAdd);
         if (PlayerController.instance.temperature.stat >= PlayerController.instance.temperature.maximum ||
             PlayerController.instance.temperature.stat <= PlayerController.instance.temperature.minimum)
         {
             CommitDie();
+            return;
         }
+
+        if (temp.stat >= temp.maximum * tempThreshold)
+        {
+            fireMultiplier = (temp.stat - (temp.maximum * tempThreshold)) / (temp.maximum - (temp.maximum * tempThreshold));
+            tempMultiplier = fireMultiplier;
+            iceMultiplier = 0;
+        }
+        else if (temp.stat <= temp.minimum * tempThreshold)
+        {
+            iceMultiplier = (temp.stat - (temp.minimum * tempThreshold)) / (temp.minimum - (temp.minimum * tempThreshold));
+            tempMultiplier = iceMultiplier;
+            fireMultiplier = 0;
+        }
+        else if (fireMultiplier != 0 || iceMultiplier != 0)
+        {
+            fireMultiplier = 0;
+            iceMultiplier = 0;
+            tempMultiplier = 0;
+        }
+
+        PlayerUI.instance.ChangeTemperature();
     }
 
     public void CommitDie()
