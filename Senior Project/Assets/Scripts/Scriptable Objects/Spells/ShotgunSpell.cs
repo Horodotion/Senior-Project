@@ -20,10 +20,11 @@ public class ShotgunSpell : Spell
     public override void ProjectileFire()
     {
         Vector3 pos = GetFirePos().position;
+        Vector3 targetDirection = FindTargetLocation() - pos;
 
         for (int i = 0; i < pelletsPerShot; i++)
         {
-            Vector3 shotDirection = Accuracy(playerCameraTransform.forward, spreadAngle);
+            Vector3 shotDirection = Accuracy(targetDirection.normalized, spreadAngle);
 
             if (objectToSpawn != null)
             {
