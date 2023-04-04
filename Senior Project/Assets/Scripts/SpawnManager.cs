@@ -5,7 +5,8 @@ using UnityEngine;
 public enum SpawnType
 {
     projectile,
-    vfx
+    vfx,
+    damageText
 }
 
 public class SpawnManager : MonoBehaviour
@@ -18,6 +19,13 @@ public class SpawnManager : MonoBehaviour
     // Transforms to sort out the hierarchy
     public Transform projectileTransform;
     public Transform vfxTransform;
+
+    public Color fireDamageColor;
+    public Color fireVulnerableColor;
+    public Color fireResistantColor;
+    public Color iceDamageColor;
+    public Color iceVulnerableColor;
+    public Color iceResistantColor;
 
 
     void Awake()
@@ -100,11 +108,14 @@ public class SpawnManager : MonoBehaviour
     {
         switch(typeOfObject)
         {
-            case (SpawnType.projectile):
+            case SpawnType.projectile:
                 return projectileTransform;
 
-            case (SpawnType.vfx):
+            case SpawnType.vfx:
                 return vfxTransform;
+
+            case SpawnType.damageText:
+                return PlayerUI.instance.damageTextParent;
 
             default:
                 return null;
