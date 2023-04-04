@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     // A dictionary to keep track of Keys
     // public Dictionary<KeyType, Key> keyRing = new Dictionary<KeyType, Key>(); 
     [HideInInspector] public Vector2 moveAxis; // A Vector 2 that holds movement values
-    [HideInInspector] public Vector2 lookAxis; // A vector 2 that holds the delta of the mouse to look around
+    public Vector2 lookAxis; // A vector 2 that holds the delta of the mouse to look around
 
     [Header("Spells")]
     // public Spell fireBasic, iceBasic, fireHeavy, iceHeavy, dash, blink;

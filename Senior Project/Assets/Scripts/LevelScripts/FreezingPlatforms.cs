@@ -4,31 +4,35 @@ using UnityEngine;
 
 public class FreezingPlatforms : EnemyController
 {
-
-    //Adjust this to change speed
-    [SerializeField] float speed = 5f;
-    //Adjust this to change how high it goes
-    [SerializeField] float height = 0.5f;
+    [Header("References")]
     private float recoveryTimer;
     public float recoveryRate;
-    //public float startDelay;
-    //private float startTimer = 0f;
-    
+    public float startDelay; 
+    [SerializeField] private Transform targetA, targetB;
+    public Material liveMaterial;
+    public Material frozenMaterial;
+    public GameObject colliderBox;
 
-    Vector3 pos;
+
+    private float startTimer = 0f;
+    public float speed = 0.1f; //Change this to suit your game.
+    private bool switching = false;
 
     private void Start()
     {
-        pos = transform.position;
+        if(colliderBox != null)
+        {
+            colliderBox.SetActive(false);
+        }
     }
 
     void FixedUpdate()
     {
-       //if(startTimer < startDelay)
-       // {
-            //startTimer += Time.deltaTime;
-            //return;
-       // }
+       if(startTimer < startDelay)
+        {
+            startTimer += Time.deltaTime;
+            return;
+        }
         
         if(dead)
         {
@@ -42,21 +46,46 @@ public class FreezingPlatforms : EnemyController
             }
             return;
         }
-        //calculate what the new Y position will be
-        float newY = Mathf.Sin(Time.time * speed) * height + pos.y;
-        //set the object's Y to the new calculated Y
-        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+
+        if (!switching)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetB.position, speed * Time.deltaTime);
+        }
+        else if (switching)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetA.position, speed * Time.deltaTime);
+        }
+        if (transform.position == targetB.position)
+        {
+            switching = true;
+        }
+        else if (transform.position == targetA.position)
+        {
+            switching = false;
+        }
+
     }
 
     public override void CommitDie()
     {
         base.CommitDie();
+        GetComponent<MeshRenderer>().material = frozenMaterial;
+        
+        if (colliderBox != null)
+        {
+            colliderBox.SetActive(true);
+        }
         recoveryTimer = 0;
     }
 
     public void Recover()
     {
         health.ResetStat();
+        GetComponent<MeshRenderer>().material = liveMaterial;
+        if (colliderBox != null)
+        {
+            colliderBox.SetActive(false);
+        }
         dead = false;
     }
 

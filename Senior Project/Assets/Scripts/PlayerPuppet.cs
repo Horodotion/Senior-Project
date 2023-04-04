@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum MovementState
 {
@@ -20,7 +21,7 @@ public class PlayerPuppet : MonoBehaviour
     //These references are localized for easier reading and writing of the script
     // [HideInInspector] public PlayerController PlayerController.instance; // A local  reference to the playerController
     // [HideInInspector] public Stats playerStats; // A reference to the stats for easier reading
-    [HideInInspector] public Vector3 lookRotation; // The current lookRotation on the puppet
+    public Vector3 lookRotation; // The current lookRotation on the puppet
     [HideInInspector] public CharacterController charController; // A reference to the CharacterController
     public GameObject cameraObj; // The object that the camera is held on
     
@@ -54,6 +55,14 @@ public class PlayerPuppet : MonoBehaviour
     public MovementState movementState;
     [HideInInspector] public bool isSliding = false;
 
+    [Header("Temperature Multipliers")]
+    public float escalationMultiplier;
+    public float deescalationMultiplier;
+    [Range(0f, 1f)] public float tempThreshold;
+    public float tempMultiplier;
+    [HideInInspector] public float fireMultiplier;
+    [HideInInspector] public float iceMultiplier;
+
     [Header("Spells")]
     public Spell primarySpell;
     public Spell secondarySpell;
@@ -64,7 +73,7 @@ public class PlayerPuppet : MonoBehaviour
     [Header("Fire Positions")]
     public Transform primaryFirePosition;
     public Transform secondaryFirePosition;
-    [HideInInspector] public Vector3 moveDirection, inputDirection, velocity;
+    [HideInInspector] public Vector3 moveDirection, inputDirection;
     [HideInInspector] public RaycastHit groundedHit;
 
 
@@ -116,6 +125,7 @@ public class PlayerPuppet : MonoBehaviour
                 break;
 
             case PlayerState.casting:
+                SecondarySpellUpdate();
                 SpellUpdater();
                 Movement();
                 break;
@@ -163,31 +173,15 @@ public class PlayerPuppet : MonoBehaviour
         switch (movementState)
         {
             case MovementState.grounded:
-                moveDirection = inputDirection;
+                moveDirection = transform.TransformDirection(inputDirection * PlayerController.instance.speed.stat * Time.deltaTime);
                 break;
 
             case MovementState.sliding:
-                // if (Mathf.Sign(groundedHit.normal.x) != Mathf.Sign(moveDirection.x))
-                // {
-                //     moveDirection.x = 0f; // groundedHit.normal.x * Time.deltaTime;
-                // }
-                // if (Mathf.Sign(groundedHit.normal.z) != Mathf.Sign(moveDirection.z))
-                // {
-                //     moveDirection.z = 0f; // groundedHit.normal.z * Time.deltaTime;
-                // }
-
                 moveDirection += new Vector3(groundedHit.normal.x, 0, groundedHit.normal.z) * Time.deltaTime;
                 break;
 
             case MovementState.inAir:
-                Vector3 aerialVector = Vector3.zero;
-
-                aerialVector = inputDirection * inAirControlMultiplier;
-                float maxSpeed = PlayerController.instance.speed.stat * Time.deltaTime;
-                moveDirection += new Vector3(aerialVector.x, 0, aerialVector.z) * Time.deltaTime;
-
-                moveDirection.x = Mathf.Clamp(moveDirection.x, -maxSpeed, maxSpeed);
-                moveDirection.z = Mathf.Clamp(moveDirection.z, -maxSpeed, maxSpeed);
+                AerialMovement();
                 break;
 
             case MovementState.other:
@@ -198,7 +192,7 @@ public class PlayerPuppet : MonoBehaviour
         Jump();
 
         charController.Move(moveDirection);
-        velocity = charController.velocity;
+        // velocity = charController.velocity;
     }
 
     public Vector3 HorizontalMovement()
@@ -207,22 +201,24 @@ public class PlayerPuppet : MonoBehaviour
         // Checking if it's not empty
         if (PlayerController.instance.moveAxis != Vector2.zero)
         {
-            // Changing the move axis to a Vector3
-            vectorToReturn = new Vector3(PlayerController.instance.moveAxis.x, 0f, PlayerController.instance.moveAxis.y).normalized;
-
-            // If the sprint key is held down, it multiplies the speed by the sprint multiplier
-            // If not, it multiplies it by time and the player's speed stat
-
-            vectorToReturn *= PlayerController.instance.speed.stat;
-
-            if (PlayerController.instance.sprintHeldDown && vectorToReturn.z > 0)
+            if (Mathf.Abs(PlayerController.instance.moveAxis.x) >= 0.125f)
             {
-                vectorToReturn *= sprintMultiplier;
+                vectorToReturn.x = PlayerController.instance.moveAxis.x;
             }
 
-            // After multiplying it by the speed, it will transform the direction of movement into world space
-            vectorToReturn = transform.TransformDirection(vectorToReturn * Time.deltaTime);
+            if (Mathf.Abs(PlayerController.instance.moveAxis.y) >= 0.125f)
+            {
+                vectorToReturn.z = PlayerController.instance.moveAxis.y;
+            }
+
+            vectorToReturn = vectorToReturn.normalized;
+
+            // if (PlayerController.instance.sprintHeldDown && vectorToReturn.z > 0)
+            // {
+            //     vectorToReturn *= sprintMultiplier;
+            // }
         }
+        
         return vectorToReturn;
     }
 
@@ -281,6 +277,8 @@ public class PlayerPuppet : MonoBehaviour
         // If not, it checks if the player is trying to jump, then adds one tenth of the jump speed to the move
         if (PlayerController.instance.jumpHeldDown && (canJump && jumpsRemaining > 0))
         {
+            // if ()
+
             canJump = false;
             jumpsRemaining--;
             fallingSpeed = jumpSpeed; //(JumpSpeed / 10);
@@ -292,7 +290,19 @@ public class PlayerPuppet : MonoBehaviour
         }
     }
 
+    public void AerialMovement()
+    {
+        Vector3 aerialVector = Vector3.zero;
+        float maxSpeed = PlayerController.instance.speed.stat * Time.deltaTime;
 
+        aerialVector = transform.TransformDirection(inputDirection * PlayerController.instance.speed.stat * Time.deltaTime) * inAirControlMultiplier;
+        moveDirection += new Vector3(aerialVector.x, 0, aerialVector.z) * Time.deltaTime;
+
+        Vector3 horizontalVector = Vector3.ClampMagnitude(new Vector3(moveDirection.x, 0, moveDirection.z), maxSpeed);
+    
+        moveDirection.x = horizontalVector.x;
+        moveDirection.z = horizontalVector.z;
+    }
 
     public void SpellUpdater()
     {
@@ -326,18 +336,61 @@ public class PlayerPuppet : MonoBehaviour
         // Debug.Log(damageTaken);
     }
 
+    public void ResetStats()
+    {
+        PlayerController.instance.temperature.ResetStat();
+        
+        fireMultiplier = 0;
+        iceMultiplier = 0;
+        tempMultiplier = 0;
+
+        ChangeTemperature(0);
+    }
+
     public void ChangeTemperature(float tempToAdd)
     {
-        // Debug.Log(tempToAdd);
-        PlayerController.instance.temperature.AddToStat(tempToAdd);
-        PlayerUI.instance.ChangeTemperature();
-        // Debug.Log(playerStats.stat[StatType.temperature]);
+        IndividualStat temp = PlayerController.instance.temperature;
 
+        if (tempMultiplier != 0)
+        {
+            if (Mathf.Sign(tempToAdd) == Mathf.Sign(temp.stat))
+            {
+                tempToAdd *= 1 + (tempMultiplier * escalationMultiplier);
+            }
+            else
+            {
+                tempToAdd *= 1 + (tempMultiplier * deescalationMultiplier);
+            }
+        }
+
+        PlayerController.instance.temperature.AddToStat(tempToAdd);
         if (PlayerController.instance.temperature.stat >= PlayerController.instance.temperature.maximum ||
             PlayerController.instance.temperature.stat <= PlayerController.instance.temperature.minimum)
         {
             CommitDie();
+            return;
         }
+
+        if (temp.stat >= temp.maximum * tempThreshold)
+        {
+            fireMultiplier = (temp.stat - (temp.maximum * tempThreshold)) / (temp.maximum - (temp.maximum * tempThreshold));
+            tempMultiplier = fireMultiplier;
+            iceMultiplier = 0;
+        }
+        else if (temp.stat <= temp.minimum * tempThreshold)
+        {
+            iceMultiplier = (temp.stat - (temp.minimum * tempThreshold)) / (temp.minimum - (temp.minimum * tempThreshold));
+            tempMultiplier = iceMultiplier;
+            fireMultiplier = 0;
+        }
+        else if (fireMultiplier != 0 || iceMultiplier != 0)
+        {
+            fireMultiplier = 0;
+            iceMultiplier = 0;
+            tempMultiplier = 0;
+        }
+
+        PlayerUI.instance.ChangeTemperature();
     }
 
     public void CommitDie()

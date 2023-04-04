@@ -21,13 +21,15 @@ MonoBehaviour:
   animationLocation: 1
   ourhand: 2
   chargingSpell: 1
-  hitscanSpell: 1
   tempPerSecond: 1
   temperatureChange: 10
   damageType: 0
-  damage: 1
-  effectiveRange: 30
+  damage: 150
+  hitscanSpell: 1
+  effectiveRange: 50
   sphereCastRadius: 0.01
+  timeBetweenProjectiles: 0
+  timeBetweenProjectilesRemaining: 0
   objectToSpawn: {fileID: 0}
   vfxEffectObj: {fileID: 1825884365860083250, guid: 159626a465b748c499c86821e214c11f,
     type: 3}

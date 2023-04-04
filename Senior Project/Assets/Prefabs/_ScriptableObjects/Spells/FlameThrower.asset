@@ -22,11 +22,14 @@ MonoBehaviour:
   ourhand: 2
   chargingSpell: 1
   tempPerSecond: 1
-  temperatureChange: 5
+  temperatureChange: 10
   damageType: 0
-  damage: 20
+  damage: 150
+  hitscanSpell: 0
   effectiveRange: 0
   sphereCastRadius: 0
+  timeBetweenProjectiles: 0.05
+  timeBetweenProjectilesRemaining: 0
   objectToSpawn: {fileID: 3681444908055668832, guid: cc2c24c4fdafd9e44af32fa0a1486e96,
     type: 3}
   vfxEffectObj: {fileID: 5267170268050952336, guid: 2bf3698b2326be94cb7f9943e84fcad6,
@@ -37,5 +40,3 @@ MonoBehaviour:
   maximumCharges: 0
   rechargeRate: 0
   rechargeTimer: 0
-  timeBetweenProjectiles: 0.05
-  timeBetweenProjectilesRemaining: 0
