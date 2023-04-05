@@ -34,7 +34,7 @@ public class ShotgunSpell : Spell
 
                 ProjectileController newProjectileScript = iceParticle.GetComponent<ProjectileController>();
 
-                newProjectileScript.damage = damage;
+                newProjectileScript.damage = AssignDamage();
                 newProjectileScript.damageType = damageType;
                 newProjectileScript.hostileFaction = Faction.Enemy;
                 newProjectileScript.LaunchProjectile();

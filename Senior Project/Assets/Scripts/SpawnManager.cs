@@ -20,6 +20,7 @@ public class SpawnManager : MonoBehaviour
     public Transform projectileTransform;
     public Transform vfxTransform;
 
+    public GameObject damageTextPrefab;
     public Color fireDamageColor;
     public Color fireVulnerableColor;
     public Color fireResistantColor;
@@ -102,6 +103,8 @@ public class SpawnManager : MonoBehaviour
 
         return gathered;
     }
+
+
 
     // this returns the transform of the child object selected, based on the SpawnType
     public Transform NewSpawnParent(SpawnType typeOfObject)

@@ -267,18 +267,37 @@ public abstract class Spell : ScriptableObject
 
         ProjectileController newProjectileScript = newProjectile.GetComponent<ProjectileController>();
 
-        if (chargingSpell)
-        {
-            newProjectileScript.damage = damage * timeBetweenProjectiles;
-        }
-        else
-        {
-            newProjectileScript.damage = damage;
-        }
+        newProjectileScript.damage = AssignDamage();
         
         newProjectileScript.damageType = damageType;
         newProjectileScript.hostileFaction = Faction.Enemy;
         newProjectileScript.LaunchProjectile();
+    }
+
+    public virtual float AssignDamage()
+    {
+        float damageToReturn;
+        if (chargingSpell)
+        {
+            damageToReturn = damage * timeBetweenProjectiles;
+        }
+        else
+        {
+            damageToReturn = damage;
+        }
+
+        if (damageType == DamageType.fire)
+        {
+            damageToReturn *= (1 + (PlayerController.puppet.damageMultiplier * PlayerController.puppet.fireMultiplier));
+        }
+        else if (damageType == DamageType.ice)
+        {
+            damageToReturn *= (1 + (PlayerController.puppet.damageMultiplier * PlayerController.puppet.iceMultiplier));
+        }
+
+        Debug.Log(System.Math.Round(damageToReturn));
+
+        return damageToReturn;
     }
 
     public virtual Transform GetFirePos()

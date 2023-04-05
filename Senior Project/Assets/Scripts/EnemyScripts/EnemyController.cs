@@ -26,6 +26,10 @@ public class EnemyController : MonoBehaviour
 
     [Header("Hitbox List")]
     public List<EnemyHitbox> enemyHitboxes;
+    public Transform damageTextSpawn;
+    [HideInInspector] public DamageText fireDamageText;
+    [HideInInspector] public DamageText iceDamageText;
+
 
     public virtual void OnEnable()
     {
@@ -46,12 +50,14 @@ public class EnemyController : MonoBehaviour
     {
         if (damageImmunities.Contains(damageType))
         {
+            GetDamageText(0);
             return;
         }
 
         float damage = DamageCalculation(damageAmount, damageType);
 
         // StartCoroutine(InvincibilityFrames());
+        GetDamageText(damage);
 
         health.AddToStat(-damage);
         if (health.stat <= health.minimum && !dead)
@@ -93,6 +99,26 @@ public class EnemyController : MonoBehaviour
 
         inInvincibilityFrames = false;
     }
+
+    public void GetDamageText(float damage, DamageType damageType = DamageType.nuetral, Transform worldPositionTransform = null)
+    {
+        Vector3 worldPosition = Vector3.zero;
+        GameObject damageText = SpawnManager.instance.GetGameObject(SpawnManager.instance.damageTextPrefab, SpawnType.damageText);
+
+        if (worldPositionTransform == null)
+        {
+            worldPosition = GetComponent<Collider>().bounds.center;
+        }
+        else
+        {
+            worldPosition = worldPositionTransform.position;
+        }
+
+        worldPosition = Camera.main.WorldToScreenPoint(worldPosition);
+        damageText.GetComponent<DamageText>().UpdateDamage(worldPosition, damage);
+    }
+
+    //-------------------------------------------------------------------------------------------//
 
     public virtual void ChangeDamageInteraction(DamageType damageType, DamageInteraction interaction)
     {

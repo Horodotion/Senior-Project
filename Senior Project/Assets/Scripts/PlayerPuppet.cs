@@ -58,6 +58,7 @@ public class PlayerPuppet : MonoBehaviour
     [Header("Temperature Multipliers")]
     public float escalationMultiplier;
     public float deescalationMultiplier;
+    public float damageMultiplier;
     [Range(0f, 1f)] public float tempThreshold;
     public float tempMultiplier;
     [HideInInspector] public float fireMultiplier;
