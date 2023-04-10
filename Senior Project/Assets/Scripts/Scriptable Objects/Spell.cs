@@ -235,7 +235,7 @@ public abstract class Spell : ScriptableObject
     public virtual void DamageEnemy(EnemyController enemyController)
     {
         // This simply calls a function to apply damage to the enemy at base
-        enemyController.Damage(damage * Time.deltaTime, damageType);
+        // enemyController.Damage(damage * Time.deltaTime, damageType);
     }
 
     // The default firing method, hitscan does not spawn a projectile and instead utilizes a sphereCastAll
@@ -249,7 +249,9 @@ public abstract class Spell : ScriptableObject
             && hit.collider.gameObject != null && hit.collider.gameObject.GetComponent<EnemyController>() != null)
         {
             Debug.Log(hit.collider.gameObject.name);
-            DamageEnemy(hit.collider.gameObject.GetComponent<EnemyController>());
+                
+            float damageToAssign = AssignDamage();
+            hit.collider.gameObject.GetComponent<EnemyController>().Damage(damageToAssign, hit.point, damageType);
         }
     }
 

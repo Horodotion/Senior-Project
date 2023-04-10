@@ -6,7 +6,8 @@ using TMPro;
 public class DamageText : MonoBehaviour
 {
     public TMP_Text damageTextMesh;
-    public Material ourMaterial;
+    public Vector3 worldPosition;
+    public EnemyController ourEnemy;
     public Animator damageTextAnimator;
     public float damageAmount;
 
@@ -16,19 +17,36 @@ public class DamageText : MonoBehaviour
         damageTextAnimator = GetComponent<Animator>();
     }
 
-    public void UpdateDamage(Vector3 screenPosition, float damage)
+    void LateUpdate()
+    {
+        transform.position = Camera.main.WorldToScreenPoint(worldPosition);
+    }
+
+    public void UpdateDamage(Vector3 screenPosition, float damage, DamageType damageType = DamageType.nuetral)
     {
         damageAmount += damage;
-
-        if (damage > 0)
+        damageTextAnimator.ResetTrigger("Activate");
+        damageTextAnimator.SetTrigger("Activate");
+        
+        if (damageAmount >= 0)
         {
-            damageTextMesh.text = damage.ToString();
+            damageTextMesh.text = System.Math.Round(damageAmount).ToString();
         }
         else
         {
             damageTextMesh.text = "immune";
         }
+
+        if (damageType == DamageType.fire)
+        {
+            damageTextMesh.color = SpawnManager.instance.fireDamageColor;
+        }
+        else if (damageType == DamageType.ice)
+        {
+            damageTextMesh.color = SpawnManager.instance.iceDamageColor;
+        }
         
+        worldPosition = screenPosition;
     }
 
     public void TurnOffDamageText()
@@ -36,5 +54,19 @@ public class DamageText : MonoBehaviour
         damageAmount = 0;
         damageTextMesh.text = "immune";
         gameObject.SetActive(false);
+
+        if (ourEnemy != null)
+        {
+            if (ourEnemy.fireDamageText != null && ourEnemy.fireDamageText == gameObject)
+            {
+                ourEnemy.fireDamageText = null;
+            }
+            else if (ourEnemy.iceDamageText != null && ourEnemy.iceDamageText == gameObject)
+            {
+                ourEnemy.iceDamageText = null;
+            }
+            
+            ourEnemy = null;
+        }
     }
 }

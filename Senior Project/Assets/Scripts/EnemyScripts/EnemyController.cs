@@ -26,9 +26,8 @@ public class EnemyController : MonoBehaviour
 
     [Header("Hitbox List")]
     public List<EnemyHitbox> enemyHitboxes;
-    public Transform damageTextSpawn;
-    [HideInInspector] public DamageText fireDamageText;
-    [HideInInspector] public DamageText iceDamageText;
+    [HideInInspector] public GameObject fireDamageText;
+    [HideInInspector] public GameObject iceDamageText;
 
 
     public virtual void OnEnable()
@@ -46,18 +45,18 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public virtual void Damage(float damageAmount, DamageType damageType = DamageType.nuetral)
+    public virtual void Damage(float damageAmount, Vector3 hitPosition, DamageType damageType = DamageType.nuetral)
     {
+        GameObject damageText = GetDamageText(damageType);
+        
         if (damageImmunities.Contains(damageType))
         {
-            GetDamageText(0);
+            damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, 0, damageType);
             return;
         }
 
         float damage = DamageCalculation(damageAmount, damageType);
-
-        // StartCoroutine(InvincibilityFrames());
-        GetDamageText(damage);
+        damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, damage, damageType);
 
         health.AddToStat(-damage);
         if (health.stat <= health.minimum && !dead)
@@ -100,22 +99,30 @@ public class EnemyController : MonoBehaviour
         inInvincibilityFrames = false;
     }
 
-    public void GetDamageText(float damage, DamageType damageType = DamageType.nuetral, Transform worldPositionTransform = null)
+    public GameObject GetDamageText(DamageType damageType = DamageType.nuetral)
     {
-        Vector3 worldPosition = Vector3.zero;
-        GameObject damageText = SpawnManager.instance.GetGameObject(SpawnManager.instance.damageTextPrefab, SpawnType.damageText);
-
-        if (worldPositionTransform == null)
+        if (damageType == DamageType.fire)
         {
-            worldPosition = GetComponent<Collider>().bounds.center;
+            if (fireDamageText == null)
+            {
+                fireDamageText = SpawnManager.instance.GetGameObject(SpawnManager.instance.damageTextPrefab, SpawnType.damageText);
+                fireDamageText.GetComponent<DamageText>().ourEnemy = this;
+            }
+            
+            return fireDamageText;
         }
-        else
+        else if (damageType == DamageType.ice)
         {
-            worldPosition = worldPositionTransform.position;
+            if (iceDamageText == null)
+            {
+                iceDamageText = SpawnManager.instance.GetGameObject(SpawnManager.instance.damageTextPrefab, SpawnType.damageText);
+                iceDamageText.GetComponent<DamageText>().ourEnemy = this;
+            }
+            
+            return iceDamageText.gameObject;
         }
 
-        worldPosition = Camera.main.WorldToScreenPoint(worldPosition);
-        damageText.GetComponent<DamageText>().UpdateDamage(worldPosition, damage);
+        return null;
     }
 
     //-------------------------------------------------------------------------------------------//
