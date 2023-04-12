@@ -28,7 +28,7 @@ public class BeamAttack : Spell
             if (hit.collider.tag == "Enemy" && hit.collider.gameObject.GetComponent<EnemyController>() != null)
             {
                 float damageToAssign = AssignDamage();
-                hit.collider.gameObject.GetComponent<EnemyController>().Damage(damageToAssign, hit.point, damageType);
+                hit.collider.gameObject.GetComponent<EnemyController>().Damage(damageToAssign * Time.deltaTime, hit.point, damageType);
             }
 
             beamPos = hit.point;

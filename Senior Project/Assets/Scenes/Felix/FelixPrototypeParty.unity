@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.114642195, g: 0.33011943, b: 0.71255326, a: 1}
+  m_IndirectSpecularColor: {r: 0.11463831, g: 0.33009696, b: 0.71256566, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3509,6 +3509,8 @@ MonoBehaviour:
   vulnerabilityMultiplier: 0
   resistanceMultiplier: 0
   enemyHitboxes: []
+  fireDamageText: {fileID: 0}
+  iceDamageText: {fileID: 0}
   destroyEffectPrefab: {fileID: 0}
   customTransform: {fileID: 0}
   explosionRadius: 0
@@ -4082,6 +4084,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3232147327816928521, guid: e9f111476ad71e24d89ba81471e25894,
+        type: 3}
+      propertyPath: iceDamageColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3232147327816928521, guid: e9f111476ad71e24d89ba81471e25894,
+        type: 3}
+      propertyPath: iceDamageColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3232147327816928521, guid: e9f111476ad71e24d89ba81471e25894,
+        type: 3}
+      propertyPath: iceDamageColor.g
+      value: 0.627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 3232147327816928521, guid: e9f111476ad71e24d89ba81471e25894,
+        type: 3}
+      propertyPath: iceDamageColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3232147327816928521, guid: e9f111476ad71e24d89ba81471e25894,
+        type: 3}
+      propertyPath: fireDamageColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3232147327816928521, guid: e9f111476ad71e24d89ba81471e25894,
+        type: 3}
+      propertyPath: fireDamageColor.b
+      value: 0.11764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 3232147327816928521, guid: e9f111476ad71e24d89ba81471e25894,
+        type: 3}
+      propertyPath: fireDamageColor.g
+      value: 0.47058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 3232147327816928521, guid: e9f111476ad71e24d89ba81471e25894,
+        type: 3}
+      propertyPath: fireDamageColor.r
+      value: 0.9019608
       objectReference: {fileID: 0}
     - target: {fileID: 3301236665348555294, guid: e9f111476ad71e24d89ba81471e25894,
         type: 3}
@@ -15905,6 +15947,8 @@ MonoBehaviour:
   vulnerabilityMultiplier: 0
   resistanceMultiplier: 0
   enemyHitboxes: []
+  fireDamageText: {fileID: 0}
+  iceDamageText: {fileID: 0}
   destroyEffectPrefab: {fileID: 0}
   customTransform: {fileID: 0}
   explosionRadius: 0
@@ -23479,7 +23523,7 @@ PrefabInstance:
         type: 3}
       propertyPath: currentSecondarySpell
       value: 
-      objectReference: {fileID: 11400000, guid: 28498a1214ac06c459bb39da03c78629,
+      objectReference: {fileID: 11400000, guid: f402f886c126af745bd6156c57b180f4,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73ebf3f6bcd11244bab73bce4ac833ff, type: 3}
@@ -24317,26 +24361,6 @@ Transform:
   m_Father: {fileID: 1388599918}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1018131971 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1799522092324479054, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1771075154}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &1018131977
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018131971}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 4.479443
-  m_Height: 22.20124
-  m_Direction: 1
-  m_Center: {x: 0, y: 10.81252, z: 2}
 --- !u!1 &1020984715
 GameObject:
   m_ObjectHideFlags: 0
@@ -39118,6 +39142,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1212541232835892979, guid: 59135bc463a0d4148b3ae058066dd503,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 480bc6ecd4e2d80459baedce8a756969,
+        type: 3}
+    - target: {fileID: 2312389552178266046, guid: 59135bc463a0d4148b3ae058066dd503,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 480bc6ecd4e2d80459baedce8a756969,
+        type: 3}
     - target: {fileID: 3872006033997436090, guid: 59135bc463a0d4148b3ae058066dd503,
         type: 3}
       propertyPath: tempThreshold
@@ -40451,16 +40487,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1456991576604559661, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
-        type: 3}
-      propertyPath: playerTooCloseDistanceToCover
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1456991577085134721, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1799522092324479054, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
         type: 3}
       propertyPath: m_Name
@@ -40469,12 +40495,7 @@ PrefabInstance:
     - target: {fileID: 1799522092324479054, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1799522092324479054, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
-        type: 3}
-      propertyPath: m_TagString
-      value: Enemy
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9222ae1a1190ad044ad4fa857e3a60c7, type: 3}
@@ -41082,6 +41103,8 @@ MonoBehaviour:
   vulnerabilityMultiplier: 0
   resistanceMultiplier: 0
   enemyHitboxes: []
+  fireDamageText: {fileID: 0}
+  iceDamageText: {fileID: 0}
   destroyEffectPrefab: {fileID: 0}
   customTransform: {fileID: 0}
   explosionRadius: 0
@@ -45106,6 +45129,8 @@ MonoBehaviour:
   vulnerabilityMultiplier: 0
   resistanceMultiplier: 0
   enemyHitboxes: []
+  fireDamageText: {fileID: 0}
+  iceDamageText: {fileID: 0}
   destroyEffectPrefab: {fileID: 0}
   customTransform: {fileID: 0}
   explosionRadius: 0
@@ -47980,6 +48005,8 @@ MonoBehaviour:
   vulnerabilityMultiplier: 0
   resistanceMultiplier: 0
   enemyHitboxes: []
+  fireDamageText: {fileID: 0}
+  iceDamageText: {fileID: 0}
   destroyEffectPrefab: {fileID: 0}
   customTransform: {fileID: 0}
   explosionRadius: 0
