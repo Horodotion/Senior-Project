@@ -49,19 +49,19 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.5
   contrast:
     m_OverrideState: 0
-    m_Value: 46
+    m_Value: 90
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 0.5, g: 0, b: 0, a: 1}
   hueShift:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: -5
   saturation:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 100
 --- !u!114 &5080479734921746058
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -76,32 +76,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   threshold:
-    m_OverrideState: 1
-    m_Value: 1.2
+    m_OverrideState: 0
+    m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.58
+    m_Value: 1.25
   scatter:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0.7
   clamp:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 65472
   tint:
     m_OverrideState: 0
     m_Value: {r: 0.012949424, g: 0.059212293, b: 0.9150943, a: 1}
   highQualityFiltering:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   skipIterations:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   dirtTexture:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: {fileID: 0}
     dimension: 1
   dirtIntensity:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
 --- !u!114 &7726895001566669955
 MonoBehaviour:
