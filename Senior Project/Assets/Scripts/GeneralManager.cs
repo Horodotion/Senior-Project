@@ -47,7 +47,7 @@ public class GeneralManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
 
             // eventFlags = NewEventDictionary(eventList); // Wires up the dictionary of event flags.
         }
@@ -79,6 +79,32 @@ public class GeneralManager : MonoBehaviour
     public static void LoadNextLevel()
     {
         LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public static void LoadCheckPoint()
+    {
+        SpawnManager.instance.TurnOffEverything();
+        PlayerPuppet puppet = PlayerController.puppet;
+
+        puppet.ResetStats();
+        puppet.charController.enabled = false;
+
+        if (Checkpoint.currentCheckpoint != null)
+        {
+            puppet.transform.position = Checkpoint.currentCheckpoint.transform.position;
+        }
+        else
+        {
+            puppet.transform.position = Checkpoint.playerSpawn;
+        }
+
+        puppet.transform.localEulerAngles = Checkpoint.playerLookDirection;
+        puppet.cameraObj.transform.localEulerAngles = new Vector3(puppet.transform.forward.x, 0f, 0f);
+        puppet.lookRotation = new Vector3(0f, puppet.transform.localEulerAngles.y, 0f);
+        PlayerController.instance.lookAxis = Vector2.zero;
+
+        puppet.charController.enabled = true;
+        GeneralManager.instance.UnPauseGame();
     }
 
     public static void ReloadLevel()

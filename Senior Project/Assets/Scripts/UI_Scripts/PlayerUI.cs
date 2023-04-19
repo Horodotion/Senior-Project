@@ -35,20 +35,25 @@ public class PlayerUI : MonoBehaviour
     {
         temperatureSlider.value = PlayerController.instance.temperature.stat;
 
-        IndividualStat temp = PlayerController.instance.temperature;
-
-        if (temp.stat > temp.maximum / 2)
+        if (PlayerController.puppet.fireMultiplier != 0)
         {
-            fireVingette.alpha = (temp.stat - (temp.maximum / 2)) / (temp.maximum / 2);
+            fireVingette.alpha = PlayerController.puppet.fireMultiplier;
         }
-        else if (temp.stat < temp.minimum / 2)
+        else if (PlayerController.puppet.iceMultiplier != 0)
         {
-            iceVingette.alpha = (temp.stat - (temp.minimum / 2)) / (temp.minimum / 2);
+            iceVingette.alpha = PlayerController.puppet.iceMultiplier;
         }
         else if (fireVingette.alpha != 0 || iceVingette.alpha != 0)
         {
             fireVingette.alpha = 0;
             iceVingette.alpha = 0;
         }
+    }
+
+    public void ResetUI()
+    {
+        temperatureSlider.value = 0;
+        fireVingette.alpha = 0;
+        iceVingette.alpha = 0;
     }
 }

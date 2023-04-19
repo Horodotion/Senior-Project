@@ -9,7 +9,7 @@ public class GameOverMenuScript : MenuScript
     public GameObject winPanel;
     public GameObject losePanel;
 
-    public InterfaceButton retryLevelButton, mainMenuButton, exitGameButton;
+    public InterfaceButton loadCheckPointButton, retryLevelButton, mainMenuButton, exitGameButton;
 
     void Awake()
     {
@@ -19,6 +19,7 @@ public class GameOverMenuScript : MenuScript
             exitGameButton.onPointerDownEvent.AddListener(() => Application.Quit());
             mainMenuButton.onPointerDownEvent.AddListener(() => GeneralManager.ReturnToMainMenu());
             retryLevelButton.onPointerDownEvent.AddListener(() => GeneralManager.ReloadLevel());
+            loadCheckPointButton.onPointerDownEvent.AddListener(() => GeneralManager.LoadCheckPoint());
 
             gameObject.SetActive(false);
         }
