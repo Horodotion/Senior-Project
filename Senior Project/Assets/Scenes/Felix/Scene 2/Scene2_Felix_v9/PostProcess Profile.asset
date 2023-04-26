@@ -43,10 +43,10 @@ MonoBehaviour:
   active: 0
   temperature:
     m_OverrideState: 0
-    m_Value: -17
+    m_Value: 31
   tint:
     m_OverrideState: 0
-    m_Value: -45
+    m_Value: 41
 --- !u!114 &-4273002014042968685
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -101,16 +101,16 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 1
   contrast:
-    m_OverrideState: 0
-    m_Value: 3
+    m_OverrideState: 1
+    m_Value: 20
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 0.5, g: 0, b: 0, a: 1}
   hueShift:
-    m_OverrideState: 0
-    m_Value: -84
+    m_OverrideState: 1
+    m_Value: 20
   saturation:
     m_OverrideState: 1
     m_Value: 100
@@ -169,16 +169,16 @@ MonoBehaviour:
   active: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 3.3
+    m_Value: 0.5
   intensity:
     m_OverrideState: 1
-    m_Value: 1.25
+    m_Value: 0.5
   scatter:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.71
   clamp:
     m_OverrideState: 0
-    m_Value: 65472.11
+    m_Value: 8
   tint:
     m_OverrideState: 0
     m_Value: {r: 0.012949424, g: 0.059212293, b: 0.9150943, a: 1}
@@ -186,14 +186,14 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 1
   skipIterations:
-    m_OverrideState: 1
-    m_Value: 0
+    m_OverrideState: 0
+    m_Value: 16
   dirtTexture:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {fileID: 0}
     dimension: 1
   dirtIntensity:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
 --- !u!114 &5082153284370506615
 MonoBehaviour:
@@ -260,16 +260,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70afe9e12c7a7ed47911bb608a23a8ff, type: 3}
   m_Name: SplitToning
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   shadows:
-    m_OverrideState: 0
-    m_Value: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 0, g: 0.26464403, b: 0.41568628, a: 1}
   highlights:
     m_OverrideState: 1
-    m_Value: {r: 0.5447848, g: 0.2733179, b: 0.6981132, a: 1}
+    m_Value: {r: 0.5276789, g: 0.903379, b: 0.9245283, a: 1}
   balance:
     m_OverrideState: 1
-    m_Value: 21
+    m_Value: -100
 --- !u!114 &8389790574852035538
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -285,10 +285,10 @@ MonoBehaviour:
   active: 0
   shadows:
     m_OverrideState: 0
-    m_Value: {x: 0.8523194, y: 1, z: 0.801419, w: 0.00000007472266}
+    m_Value: {x: 0.86743796, y: 1, z: 0.83209175, w: 0.00000007472266}
   midtones:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.681504, z: 0.6133059, w: 0.23210815}
+    m_Value: {x: 1, y: 0.95059574, z: 0.9551351, w: 0.23210815}
   highlights:
     m_OverrideState: 1
     m_Value: {x: 0.88073856, y: 1, z: 0.65732443, w: -0.09671178}
