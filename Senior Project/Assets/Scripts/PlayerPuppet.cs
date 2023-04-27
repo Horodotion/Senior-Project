@@ -407,13 +407,13 @@ public class PlayerPuppet : MonoBehaviour
 
         if (temp.stat >= temp.maximum * tempThreshold)
         {
-            fireMultiplier = (temp.stat - (temp.maximum * tempThreshold)) / (temp.maximum - (temp.maximum * tempThreshold));
+            fireMultiplier = (temp.stat - (temp.maximum * tempThreshold)) / (temp.maximum * (1 -  tempThreshold));
             tempMultiplier = fireMultiplier;
             iceMultiplier = 0;
         }
         else if (temp.stat <= temp.minimum * tempThreshold)
         {
-            iceMultiplier = (temp.stat - (temp.minimum * tempThreshold)) / (temp.minimum - (temp.minimum * tempThreshold));
+            iceMultiplier = (temp.stat - (temp.minimum * tempThreshold)) / (temp.minimum * (1 - tempThreshold));
             tempMultiplier = iceMultiplier;
             fireMultiplier = 0;
         }
