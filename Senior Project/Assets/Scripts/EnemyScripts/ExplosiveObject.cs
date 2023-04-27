@@ -35,13 +35,13 @@ public class ExplosiveObject : EnemyController
             if (customTransform != null)
             {
                 // If there is use the custom transform to spawn the particles - Matt
-                GameObject destructionParticles = Instantiate(destroyEffectPrefab, customTransform.transform.position, Quaternion.Euler(0, 0, 0));
-                // Destroy(destructionParticles, secondsUntilParticlesAreDestroyed);
+                GameObject destructionParticles = SpawnManager.instance.GetGameObject(destroyEffectPrefab, SpawnType.vfx);
+                destructionParticles.transform.position = customTransform.transform.position;
             }
             else
             {
-                GameObject destructionParticles = Instantiate(destroyEffectPrefab, transform.position, Quaternion.Euler(0, 0, 0));
-                // Destroy(destructionParticles, secondsUntilParticlesAreDestroyed);
+                GameObject destructionParticles = SpawnManager.instance.GetGameObject(destroyEffectPrefab, SpawnType.vfx);
+                destructionParticles.transform.position = transform.transform.position;
             }
         }
 
@@ -49,16 +49,6 @@ public class ExplosiveObject : EnemyController
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (var hC in hitColliders)
         {
-            // float damageFallOff = Mathf.Abs(Mathf.Cos(Vector3.Distance(transform.position, hC.transform.position) / explosionRadius)); 
-
-            // float distance = Vector3.Distance(transform.position, hC.transform.position);
-            // float minDamage = baseDamageDealt / 2;
-            // float damageFallOff = (explosionRadius - distance) / explosionRadius;
-
-            // float explosionDamage = Mathf.Clamp(damageFallOff * baseDamageDealt, -baseDamageDealt, baseDamageDealt);
-            // Debug.Log(explosionDamage + " " + damageFallOff);
-            // Debug.Log(explox x   sionDamage + " " + damageFallOff);
-            // INSERT HERE: Function or however damage is assigned, pass each object returned in hitColliders the damage variable above
             if (hC.gameObject.tag == "Player" && hC.GetComponent<PlayerPuppet>() != null)
             {
                 Debug.Log(hC.gameObject.name);
@@ -66,7 +56,7 @@ public class ExplosiveObject : EnemyController
             }
             if (hC.gameObject.tag == "Enemy" && hC.GetComponent<EnemyController>() != null && !hC.GetComponent<EnemyController>().dead)
             {
-                hC.GetComponent<EnemyController>().Damage(baseDamageDealt, DamageType.nuetral);
+                hC.GetComponent<EnemyController>().Damage(baseDamageDealt, hC.ClosestPoint(transform.position), DamageType.nuetral);
             }
 
         }
