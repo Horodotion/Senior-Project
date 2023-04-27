@@ -32,6 +32,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
     [Header("State Checks")]
     public HazardType hazardType;
     public float attackRange;
+    public float despawnTime;
     public bool playerFound;
     public bool hasAttacked;
 
@@ -118,7 +119,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
     private void SpawnTurret()
     {
         Instantiate(myTurret, turretDropPoint.transform.position, Quaternion.identity);
-        Invoke(nameof(RunAway), 2f);
+        Invoke(nameof(RunAway), 1f);
     }
 
     private void RunAway()
@@ -126,12 +127,12 @@ public class JeffEnvironmentHazard : MonoBehaviour
         //transform.LookAt(runawayPoint);
         anim.SetBool("isRunning", true);
         agent.SetDestination(runawayPoint.position);
-        Invoke(nameof(Disappear), 2f);
+        Invoke(nameof(Disappear), despawnTime);
     }
 
 
     private void Disappear()
     {
-        Destroy(gameObject, 1f);
+        Destroy(gameObject);
     }
 }
