@@ -7359,9 +7359,11 @@ GameObject:
   - component: {fileID: 8090080305510286361}
   - component: {fileID: 8090080305510286360}
   - component: {fileID: 8090080305510286363}
+  - component: {fileID: 5875774807298688769}
+  - component: {fileID: 4644960227890025310}
   m_Layer: 0
   m_Name: JeffLevelHazard
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7461,6 +7463,52 @@ MonoBehaviour:
   despawnTime: 0
   playerFound: 0
   hasAttacked: 0
+--- !u!136 &5875774807298688769
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8090080305510286362}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 6.6175222
+  m_Height: 22.146727
+  m_Direction: 1
+  m_Center: {x: 0, y: 10.573364, z: 0}
+--- !u!114 &4644960227890025310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8090080305510286362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: babb36e4143402546840fa2665a69b1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health:
+    stat: 0
+    baseStat: 0
+    minimum: -Infinity
+    maximum: Infinity
+  inInvincibilityFrames: 0
+  dead: 0
+  damageImmunities: 
+  damageResistances: 
+  damageVulnerabilities: 
+  vulnerabilityMultiplier: 0
+  resistanceMultiplier: 0
+  enemyHitboxes: []
+  fireDamageText: {fileID: 0}
+  iceDamageText: {fileID: 0}
+  destroyEffectPrefab: {fileID: 0}
+  customTransform: {fileID: 0}
+  explosionRadius: 0
+  baseDamageDealt: 0
+  secondsUntilParticlesAreDestroyed: 0
 --- !u!1 &8090080305513039691
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,7 +24,8 @@ public class JeffEnvironmentHazard : MonoBehaviour
     public Transform shootPoint;
     public Transform turretDropPoint;
     public LayerMask whatIsPlayer;
-    // public bool rangedAttack;
+    public bool cascadingJeff;
+    public GameObject nextJeff = null;
     // public bool dropTurret;
     // public bool fireElem;
 
@@ -38,6 +39,10 @@ public class JeffEnvironmentHazard : MonoBehaviour
 
     private void Awake()
     {
+        if (nextJeff != null)
+        {
+            nextJeff.SetActive(false);
+        }
         player = GameObject.FindObjectOfType<PlayerPuppet>().transform;
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
@@ -133,6 +138,15 @@ public class JeffEnvironmentHazard : MonoBehaviour
 
     private void Disappear()
     {
-        Destroy(gameObject);
+        if(cascadingJeff)
+        {
+            nextJeff.SetActive(true);
+            Destroy(gameObject);
+
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }
