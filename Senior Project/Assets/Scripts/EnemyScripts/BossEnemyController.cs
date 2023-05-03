@@ -145,9 +145,11 @@ public class BossEnemyController : EnemyController
         //}
         ChangeRandomElementState();
 
-        //bossState = BossState.takingCover;
+        bossState = BossState.takingCover;
 
-        bossState = BossState.taunt;
+
+        bossState = BossState.meleeAttack;
+        //bossState = BossState.taunt;
     }
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
     {

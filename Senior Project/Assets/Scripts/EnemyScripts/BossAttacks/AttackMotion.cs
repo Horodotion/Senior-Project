@@ -33,21 +33,29 @@ public class AttackMotion : ScriptableObject
     //EnemyAttackValue attackValue;
 
     //public AttacksManager attacksManager;
+    protected Animator animator;
 
 
     public virtual void Awake()
     {
-        
+
         //isFiredOnce = true;
         //attacksManager = AttacksManager.instance;
         //enemy = enemyGameObject.GetComponent<MovingEnemyController>();
+        animator = enemy.animator;
     }
+    private void Start()
+    {
+        animator = enemy.animator;
+    }
+
 
     public virtual void InitializeAttacks(BossEnemyController enemyController, Transform[] SP)
     {
         enemy = enemyController;
         this.SP = SP;
     }
+
 
     public virtual IEnumerator AttackingPlayer()
     {
