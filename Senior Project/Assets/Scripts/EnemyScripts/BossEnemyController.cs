@@ -1,6 +1,6 @@
-using System;
+//using System;
 using System.Collections;
-using System.Collections.Generic;
+//using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,9 +13,10 @@ public enum BossState
     meleeAttack = 2,
     rangedAttack = 3,
     taunt = 4,
-    teleportBehindPlayer = 5,
-    waitingInCover = 6,
-    laserAttack = 7,
+    teleportToCover = 5,
+    teleportBehindPlayer = 6,
+    waitingInCover = 7,
+    laserAttack = 8,
     ambushed,
 
     testState,
@@ -35,6 +36,7 @@ public class Decision : ScriptableObject
 
 public class BossEnemyController : EnemyController
 {
+    [SerializeField] private BossSpawnerController bossSpawner;
     [Header("Boss Stats")]
     [HideInInspector] public NavMeshAgent navMeshAgent;
     [HideInInspector] public Animator animator;
@@ -42,7 +44,7 @@ public class BossEnemyController : EnemyController
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float acceleration = 8f;
     [SerializeField] public float angularSpeed = 120f;
-
+    public DamageType elementType;
     
     
     [SerializeField] public GameObject viewPoint; // The starting point of the enemy view point
@@ -65,7 +67,6 @@ public class BossEnemyController : EnemyController
 
     [SerializeField] public MovementDecision meleeAtkFollowUpDicision;
 
-    
 
     [Header("Boss Covering System")]
     //public LayerMask coverLayers;
@@ -118,6 +119,7 @@ public class BossEnemyController : EnemyController
     public IEnumerator MovementCoroutine;
     public void Awake()
     {
+        
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.speed = speed;
         navMeshAgent.angularSpeed = angularSpeed;
@@ -141,8 +143,11 @@ public class BossEnemyController : EnemyController
         //{
         //    Debug.Log(testDiscision.GiveTheNextRandomDicision());
         //}
+        ChangeRandomElementState();
 
-        bossState = BossState.takingCover;
+        //bossState = BossState.takingCover;
+
+        bossState = BossState.taunt;
     }
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
     {
@@ -162,7 +167,7 @@ public class BossEnemyController : EnemyController
                 MovementCoroutine = TestAttack();
                 break;
             case BossState.taunt:
-                MovementCoroutine = TakeCoverState(PlayerController.puppet.transform); //Take care the taunt later
+                MovementCoroutine = TauntState(); //Take care the taunt later
                 break;
             case BossState.meleeAttack:
                 MovementCoroutine = attacksManager.MeleeAttack();
@@ -176,8 +181,11 @@ public class BossEnemyController : EnemyController
             case BossState.waitingInCover:
                 MovementCoroutine = WaitInCoverState(UnityEngine.Random.Range(minWaitTimeinCover, maxWaitTimeInCover));
                 break;
+            case BossState.teleportToCover:
+                MovementCoroutine = TeleportingToCoverState(PlayerController.puppet.transform);
+                break;
             case BossState.teleportBehindPlayer:
-                MovementCoroutine = TeleportingBehindPlayer(PlayerController.puppet.transform);
+                MovementCoroutine = TeleportingBehindState(PlayerController.puppet.transform);
                 break;
             case BossState.laserAttack:
                 MovementCoroutine = attacksManager.LaserAttack();
@@ -190,7 +198,9 @@ public class BossEnemyController : EnemyController
     private void Update()
     {
         Ani();
-        
+        animator.SetFloat("melee", 1);
+        animator.SetFloat("ranged", 1);
+        animator.SetFloat("laser", 1);
     }
     private void Ani()
     {
@@ -206,11 +216,67 @@ public class BossEnemyController : EnemyController
         }
     }
 
-    public IEnumerator InTauntState()
+    public IEnumerator TauntState()
     {
+        navMeshAgent.speed = 0;
+        animator.SetBool("isTaunting", true);
+        //bossSpawner.SpawningThings();
         
+        while (animator.GetBool("isTaunting"))
+        {
+            yield return null;
+        }
+        
+        //animator.SetBool("isTaunting", false);
+        bossState = BossState.takingCover;
         yield return null;
+        //int r = Random.Range(0, 2);
     }
+
+    public void EndTauntState()
+    {
+        animator.SetBool("isTaunting", false);
+    }
+
+    public void ChangeRandomElementState()
+    {
+        //int temp = Random.Range(0, AddAllDicision());
+        if (Random.Range(0 , 2) == 0)
+        {
+            InFireState();
+        }
+        else
+        {
+            InIceState();
+        }
+    }
+
+    public void ChangeElementState()
+    {
+        Debug.Log("Change Elemental");
+        if (elementType == DamageType.ice)
+        {
+            InFireState();
+        }
+        else if (elementType == DamageType.fire)
+        {
+            InIceState();
+        }
+    }
+
+    public void InIceState()
+    {
+        elementType = DamageType.ice;
+        ChangeDamageInteraction(DamageType.ice, DamageInteraction.resistant);
+        ChangeDamageInteraction(DamageType.fire, DamageInteraction.vulnerable);
+    }
+    public void InFireState()
+    {
+        elementType = DamageType.fire;
+        ChangeDamageInteraction(DamageType.ice, DamageInteraction.vulnerable);
+        ChangeDamageInteraction(DamageType.fire, DamageInteraction.resistant);
+    }
+
     public IEnumerator TestAttack()
     {
         yield return new WaitForSeconds(1f);
@@ -528,7 +594,8 @@ public class BossEnemyController : EnemyController
         return temp.GiveTheNextRandomDicision();
     }
 
-    public IEnumerator TeleportingBehindPlayer(Transform target)
+
+    public IEnumerator TeleportingToCoverState(Transform target)
     {
         WaitForSeconds wait = new WaitForSeconds(coverUpdateFrequency);
         Debug.Log("Test");
@@ -542,12 +609,49 @@ public class BossEnemyController : EnemyController
             }
             else
             {
-                //Find the right collider to hide
-                Collider tempCol = FindValidTeleportSpot(target, hitColliders);
+                //Find the right collider that's behind the player
+                Collider tempCol = FindValidHidingSpot(target, hitColliders);
+
                 // If null, then boss is unable to find a spot to teleport behind
                 if (tempCol == null)
                 {
+                    Debug.Log("No valid teleport spot");
+                    bossState = BossState.takingCover;
 
+                }
+                else
+                {
+                    this.transform.position = tempCol.transform.position;
+                    bossState = BossState.waitingInCover;
+                }
+            }
+
+
+            yield return null;
+        }
+    }
+
+    public IEnumerator TeleportingBehindState(Transform target)
+    {
+        WaitForSeconds wait = new WaitForSeconds(coverUpdateFrequency);
+        Debug.Log("Test");
+        while (true)
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, teleportSampleDistance, hidingSpotLayer);
+
+            if (hitColliders.Length == 0)
+            {
+                Debug.Log("Unable to find point to teleport");
+            }
+            else
+            {
+                //Find the right collider that's behind the player
+                Collider tempCol = FindValidBehindPlayerSpot(target, hitColliders);
+
+                // If null, then boss is unable to find a spot to teleport behind
+                if (tempCol == null)
+                {
+                    // If there's no available spot that is behind the player, then seach all the spot
                     tempCol = FindValidHidingSpot(target, hitColliders);
 
                     // If null, then boss is unable to find a spot to teleport
@@ -575,12 +679,14 @@ public class BossEnemyController : EnemyController
         }
     }
 
-    public Collider FindValidTeleportSpot(Transform target, Collider[] colliders)
+    public Collider FindValidBehindPlayerSpot(Transform target, Collider[] colliders)
     {
         Collider tempCol = null;
         foreach (Collider thisCol in colliders)
         {
             Vector3 vectorToColloder = thisCol.transform.position - target.position;
+
+            //Check if the the spot is behind the player
             if (Vector3.Dot(vectorToColloder, target.forward) > 0)
             {
                 continue;
