@@ -200,7 +200,6 @@ public class BossEnemyController : EnemyController
         StartCoroutine(MovementCoroutine);
         
     }
-
     private void Update()
     {
         Ani();
