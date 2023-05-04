@@ -17,6 +17,7 @@ public enum BossState
     teleportBehindPlayer = 6,
     waitingInCover = 7,
     laserAttack = 8,
+    spawnMobs = 9,
     ambushed,
 
     testState,
@@ -148,7 +149,7 @@ public class BossEnemyController : EnemyController
         bossState = BossState.takingCover;
 
 
-        bossState = BossState.meleeAttack;
+        bossState = BossState.spawnMobs;
         //bossState = BossState.taunt;
     }
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
@@ -192,6 +193,9 @@ public class BossEnemyController : EnemyController
             case BossState.laserAttack:
                 MovementCoroutine = attacksManager.LaserAttack();
                 break;
+            case BossState.spawnMobs:
+                MovementCoroutine = SpawnMobsState();
+                break;
         }
         StartCoroutine(MovementCoroutine);
         
@@ -200,9 +204,6 @@ public class BossEnemyController : EnemyController
     private void Update()
     {
         Ani();
-        animator.SetFloat("melee", 1);
-        animator.SetFloat("ranged", 1);
-        animator.SetFloat("laser", 1);
     }
     private void Ani()
     {
@@ -715,6 +716,13 @@ public class BossEnemyController : EnemyController
             }
         }
         return tempCol;
+    }
+
+    public IEnumerator SpawnMobsState()
+    {
+        bossSpawner.SpawningThings();
+        yield return null;
+        bossState = BossState.takingCover;
     }
 
     public bool IsPlayerWithinDistance(float range)

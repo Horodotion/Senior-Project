@@ -21,8 +21,7 @@ public class IceMeleeAttacks : AttackMotion
         //enemy.bossState = BossState.inCombat;
         //Debug.Log("6 " + enemy.bossState);
         //yield return new WaitForSeconds(5f);
-        animator.SetBool("melee", true);
-        animator.SetFloat("melee", 0);
+        
         enemy.navMeshAgent.stoppingDistance = stoppingDistance;
         while (!enemy.IsPlayerWithinDistance(meleeDistance))
         {
@@ -33,11 +32,39 @@ public class IceMeleeAttacks : AttackMotion
         }
         //enemy.bossState = BossState.inCombat;
 
-        enemy.navMeshAgent.speed = 0f;
+        
         yield return null;
 
-        //yield return new WaitForSeconds(1f);
+        enemy.animator.SetBool("isMeleeAttacking", true);
+        enemy.animator.SetFloat("element", 0);
 
+        //enemy.navMeshAgent.speed = 0f;
+
+        enemy.navMeshAgent.isStopped = true;
+
+
+        while (enemy.animator.GetBool("isMeleeAttacking"))
+        {
+            
+            for (float timer = 0; true; timer += Time.deltaTime)
+            {
+                enemy.AimTowards(PlayerController.puppet.transform.position, turnSpeed);
+                if (timer > 0.2)
+                {
+                    break;
+                }
+                yield return null;
+            }
+
+            if (SP[0].gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
+            {
+                hitbox.damage = -damage;
+            }
+
+            yield return null;
+        }
+        //yield return new WaitForSeconds(1f);
+        /*
         for (float timer = 0; true; timer += Time.deltaTime)
         {
             enemy.AimTowards(PlayerController.puppet.transform.position, turnSpeed);
@@ -47,20 +74,39 @@ public class IceMeleeAttacks : AttackMotion
             }
             yield return null;
         }
-
-        SP[0].gameObject.SetActive(true);
+        
         if (SP[0].gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
         {
             hitbox.damage = -damage;
         }
-        //SP[0].gameObject.GetComponent<HitBoxController>().damage = -damage;
-        yield return new WaitForSeconds(hitboxSpawnTime);
-        SP[0].gameObject.SetActive(false);
         
-        yield return new WaitForSeconds(waitTimeAfterMelee);
+         */
+        //SP[0].gameObject.GetComponent<HitBoxController>().damage = -damage;
+        //yield return new WaitForSeconds(hitboxSpawnTime);
+        //SP[0].gameObject.SetActive(false);
+
+        //yield return new WaitForSeconds(waitTimeAfterMelee);
+
+        enemy.navMeshAgent.isStopped = false;
+
         enemy.navMeshAgent.speed = enemy.speed;
         enemy.navMeshAgent.stoppingDistance = 0;
         enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
         //enemy.bossState = BossState.inCombat;
+    }
+
+    public void SetHitBoxActive()
+    {
+        SP[0].gameObject.SetActive(true);
+    }
+
+    public void SetHitBoxInactive()
+    {
+        SP[0].gameObject.SetActive(false);
+    }
+
+    public void ExitAttackAnimation()
+    {
+        enemy.animator.SetBool("isMeleeAttacking", false);
     }
 }

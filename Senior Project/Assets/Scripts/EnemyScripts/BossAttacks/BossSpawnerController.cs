@@ -25,7 +25,7 @@ public class BossSpawnerController : MonoBehaviour
         //SpawnItemBaseOnData(minesData);
         for (int i = 0; i < spawnData.Length; i++)
         {
-            SpawnItemBaseOnData(spawnData[0]);
+            SpawnItemBaseOnData(spawnData[i]);
         }
     }
 

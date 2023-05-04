@@ -15,17 +15,18 @@ public class MovementDecision : WeightedDecision
     public int teleport;
     public int wait;
     public int laser;
+    public int spawnMob;
 
     //public int[] decisions = new int[6];
     private void OnValidate()
     {
-        decisions = new int[] { takingCover, meleeAttack, rangedAttack, taunt, teleport, wait, laser };
+        decisions = new int[] { takingCover, meleeAttack, rangedAttack, taunt, teleport, wait, laser, spawnMob };
     }
 
     //StateDecistion[] movementDecistion = new StateDecistion[5];
     public MovementDecision()
     {
-        decisions = new int[7];
+        decisions = new int[8];
     }
     public MovementDecision(MovementDecision mD)
     {
@@ -35,12 +36,12 @@ public class MovementDecision : WeightedDecision
             decisions[i] = mD.decisions[i];
         }
     }
-    
+    /*
     public MovementDecision(int tC, int mA, int rA, int t, int tel, int las)
     {
         decisions = new int[] { tC, mA, rA, t, tel, las };
     }
-
+    */
     
     public BossState GiveTheNextRandomDicision()
     {
