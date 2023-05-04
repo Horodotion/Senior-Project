@@ -182,7 +182,7 @@ public class GeneralManager : MonoBehaviour
 
     public void WinGame()
     {
-        if (SceneManager.GetActiveScene().buildIndex > 3)
+        if (SceneManager.GetActiveScene().buildIndex >= 3)
         {
             OpenWinMenu();
         }
@@ -198,7 +198,7 @@ public class GeneralManager : MonoBehaviour
         {
             return;
         }
-
+        
         MenuScript.SwapToMenu(GameOverMenuScript.instance.gameObject, PlayerUI.instance.gameObject);
         MenuScript.SwapToMenu(GameOverMenuScript.instance.winPanel, GameOverMenuScript.instance.losePanel);
 
