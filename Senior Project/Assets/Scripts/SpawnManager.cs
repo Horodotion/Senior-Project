@@ -17,14 +17,18 @@ public class SpawnManager : MonoBehaviour
     // A dictionary based off of gameobjects to be store all the spawned objects of various types
     public Dictionary<GameObject, List<GameObject>> currentlySpawnedGameObjects = new Dictionary<GameObject, List<GameObject>>();
 
+    [Header("Parent Transforms")]
     // Transforms to sort out the hierarchy
     public Transform projectileTransform;
     public Transform vfxTransform;
     public Transform sfxTransform;
 
-
+    [Header("Prefabs")]
     public GameObject soundEffectPrefab;
     public GameObject damageTextPrefab;
+    public GameObject selectorPrefab;
+
+    [Header("DamageInteraction Text Colors")]
     public Color fireDamageColor;
     // public Color fireVulnerableColor;
     // public Color fireResistantColor;
