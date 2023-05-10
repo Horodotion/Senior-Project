@@ -52,13 +52,13 @@ public class Obelisk_Orb_Script : MonoBehaviour
         {
             nextTimeToFireA = Time.time + 1 / fireRateA;
 
-            TrailRenderer trailA = Instantiate(VFX, new Vector3(SpawnPointA.transform.position.x + Random.Range(-0.5f, 0.5f), SpawnPointA.transform.position.y + Random.Range(-0.5f, 0.5f), SpawnPointA.transform.position.z + Random.Range(-0.5f, 0.5f)), SpawnPointA.transform.rotation);
+            TrailRenderer trailA = Instantiate(VFX, new Vector3(SpawnPointA.transform.position.x + Random.Range(-0.25f, 0.25f), SpawnPointA.transform.position.y + Random.Range(-0.25f, 0.25f), SpawnPointA.transform.position.z + Random.Range(-0.25f, 0.25f)), SpawnPointA.transform.rotation);
             if (HolderEmpty != null)
                 trailA.transform.parent = HolderEmpty.transform;
 
             StartCoroutine(SpawnTrail(trailA, target.gameObject));
 
-            TrailRenderer trailB = Instantiate(VFX, new Vector3(SpawnPointB.transform.position.x + Random.Range(-0.5f, 0.5f), SpawnPointB.transform.position.y + Random.Range(-0.5f, 0.5f), SpawnPointB.transform.position.z + Random.Range(-0.5f, 0.5f)), SpawnPointB.transform.rotation);
+            TrailRenderer trailB = Instantiate(VFX, new Vector3(SpawnPointB.transform.position.x + Random.Range(-0.2f, 0.25f), SpawnPointB.transform.position.y + Random.Range(-0.25f, 0.25f), SpawnPointB.transform.position.z + Random.Range(-0.25f, 0.25f)), SpawnPointB.transform.rotation);
             if (HolderEmpty != null)
                 trailB.transform.parent = HolderEmpty.transform;
 
@@ -112,7 +112,7 @@ public class Obelisk_Orb_Script : MonoBehaviour
 
         while (time < 1)
         {
-            trail.transform.position = Vector3.Slerp(startPosition, player.transform.position, time);
+            trail.transform.position = Vector3.Lerp(startPosition, player.transform.position, time);
             time += Time.deltaTime / trail.time;
 
             yield return null;

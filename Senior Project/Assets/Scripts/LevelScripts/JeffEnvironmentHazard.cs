@@ -24,7 +24,8 @@ public class JeffEnvironmentHazard : MonoBehaviour
     public Transform shootPoint;
     public Transform turretDropPoint;
     public LayerMask whatIsPlayer;
-    // public bool rangedAttack;
+    public bool cascadingJeff;
+    public GameObject nextJeff = null;
     // public bool dropTurret;
     // public bool fireElem;
 
@@ -32,11 +33,16 @@ public class JeffEnvironmentHazard : MonoBehaviour
     [Header("State Checks")]
     public HazardType hazardType;
     public float attackRange;
+    public float despawnTime;
     public bool playerFound;
     public bool hasAttacked;
 
     private void Awake()
     {
+        if (nextJeff != null)
+        {
+            nextJeff.SetActive(false);
+        }
         player = GameObject.FindObjectOfType<PlayerPuppet>().transform;
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
@@ -118,7 +124,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
     private void SpawnTurret()
     {
         Instantiate(myTurret, turretDropPoint.transform.position, Quaternion.identity);
-        Invoke(nameof(RunAway), 2f);
+        Invoke(nameof(RunAway), 1f);
     }
 
     private void RunAway()
@@ -126,12 +132,21 @@ public class JeffEnvironmentHazard : MonoBehaviour
         //transform.LookAt(runawayPoint);
         anim.SetBool("isRunning", true);
         agent.SetDestination(runawayPoint.position);
-        Invoke(nameof(Disappear), 2f);
+        Invoke(nameof(Disappear), despawnTime);
     }
 
 
     private void Disappear()
     {
-        Destroy(gameObject, 1f);
+        if(cascadingJeff)
+        {
+            nextJeff.SetActive(true);
+            Destroy(gameObject);
+
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

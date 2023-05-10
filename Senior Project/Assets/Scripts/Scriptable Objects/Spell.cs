@@ -55,9 +55,8 @@ public abstract class Spell : ScriptableObject
     public float damage;
 
     [Tooltip("Check true if the spell uses raycasts rather than projectiles.")]
-    public bool hitscanSpell;
-    [ToggleableVarable("hitscanSpell", true)] public float effectiveRange;
-    [ToggleableVarable("hitscanSpell", true)] public float sphereCastRadius;
+    public float effectiveRange;
+    public float sphereCastRadius;
     [ToggleableVarable("chargingSpell", true)] public float timeBetweenProjectiles;
     [HideInInspector] public float timeBetweenProjectilesRemaining;
 
@@ -71,7 +70,7 @@ public abstract class Spell : ScriptableObject
     [ToggleableVarable("usesCharges", true)] public int charges;
     [ToggleableVarable("usesCharges", true)] public int maximumCharges;
     [ToggleableVarable("usesCharges", true)] public float rechargeRate;
-    [HideInInspector] public float rechargeTimer;
+    public float rechargeTimer;
 
     public virtual void InitializeSpell()
     {
@@ -128,18 +127,21 @@ public abstract class Spell : ScriptableObject
         }
     }
 
-    public virtual void SecondarySpellUpdate()
+    public virtual void SecondarySpellUpdate(float timeHolder)
     {
         if (usesCharges && charges < maximumCharges)
         {
             if (rechargeTimer <= 0)
             {
                 charges++;
-                rechargeTimer = rechargeRate;
+                if (charges < maximumCharges)
+                {
+                    rechargeTimer = rechargeRate;
+                }
             }
             else
             {
-                rechargeTimer -= Time.deltaTime;
+                rechargeTimer -= timeHolder;
             }
         }
     }
@@ -233,7 +235,7 @@ public abstract class Spell : ScriptableObject
     public virtual void DamageEnemy(EnemyController enemyController)
     {
         // This simply calls a function to apply damage to the enemy at base
-        enemyController.Damage(damage, damageType);
+        // enemyController.Damage(damage * Time.deltaTime, damageType);
     }
 
     // The default firing method, hitscan does not spawn a projectile and instead utilizes a sphereCastAll
@@ -247,31 +249,57 @@ public abstract class Spell : ScriptableObject
             && hit.collider.gameObject != null && hit.collider.gameObject.GetComponent<EnemyController>() != null)
         {
             Debug.Log(hit.collider.gameObject.name);
-            DamageEnemy(hit.collider.gameObject.GetComponent<EnemyController>());
+                
+            float damageToAssign = AssignDamage();
+            hit.collider.gameObject.GetComponent<EnemyController>().Damage(damageToAssign, hit.point, damageType);
         }
     }
 
     public virtual void ProjectileFire()
     {
         GameObject newProjectile = SpawnManager.instance.GetGameObject(objectToSpawn, SpawnType.projectile);
+        
+        Vector3 pos = GetFirePos().position;
+        Vector3 targetDirection = (FindTargetLocation() - pos).normalized;
+        
+        newProjectile.transform.position = pos;
+        newProjectile.transform.rotation = Quaternion.LookRotation(targetDirection, Vector3.up);
 
-        newProjectile.transform.position = GetFirePos().position;
-        newProjectile.transform.rotation = PlayerController.puppet.cameraObj.transform.rotation;
+        // Debug.Log(targetDirection + " " + playerCameraTransform.forward + " " + newProjectile.transform.eulerAngles);
 
         ProjectileController newProjectileScript = newProjectile.GetComponent<ProjectileController>();
 
-        if (chargingSpell)
-        {
-            newProjectileScript.damage = damage * timeBetweenProjectiles;
-        }
-        else
-        {
-            newProjectileScript.damage = damage;
-        }
+        newProjectileScript.damage = AssignDamage();
         
         newProjectileScript.damageType = damageType;
         newProjectileScript.hostileFaction = Faction.Enemy;
         newProjectileScript.LaunchProjectile();
+    }
+
+    public virtual float AssignDamage()
+    {
+        float damageToReturn;
+        if (chargingSpell)
+        {
+            damageToReturn = damage * timeBetweenProjectiles;
+        }
+        else
+        {
+            damageToReturn = damage;
+        }
+
+        if (damageType == DamageType.fire)
+        {
+            damageToReturn *= (1 + (PlayerController.puppet.damageMultiplier * PlayerController.puppet.fireMultiplier));
+        }
+        else if (damageType == DamageType.ice)
+        {
+            damageToReturn *= (1 + (PlayerController.puppet.damageMultiplier * PlayerController.puppet.iceMultiplier));
+        }
+
+        Debug.Log(System.Math.Round(damageToReturn));
+
+        return damageToReturn;
     }
 
     public virtual Transform GetFirePos()
@@ -288,6 +316,25 @@ public abstract class Spell : ScriptableObject
         {
             return playerCameraTransform;
         }
+    }
+
+    public virtual Vector3 FindTargetLocation()
+    {
+        Vector3 targetPos = Vector3.zero;
+        Vector3 direction = playerCameraTransform.forward;
+        RaycastHit hit;
+        Transform firePos = GetFirePos();
+
+        if (Physics.Raycast(playerCameraTransform.position, direction, out hit, effectiveRange, -1, QueryTriggerInteraction.Ignore))
+        {
+            targetPos = hit.point;
+        }
+        else
+        {
+            targetPos = firePos.position + (direction * effectiveRange);
+        }
+
+        return targetPos;
     }
 
     public virtual Vector3 Accuracy(Vector3 forwardDirection, float variance)

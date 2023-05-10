@@ -8,11 +8,11 @@ public class TurretScript : EnemyController
     public Transform turretHinge;
     public GameObject iceBeam;
     public GameObject fireBeam;
-    public float toggleBetweenArmors;
-    public float timer;
-    public DamageType armorType;
-    public GameObject fireArmor;
-    public GameObject iceArmor;
+    // public float toggleBetweenArmors;
+    // public float timer;
+    // public DamageType armorType;
+    // public GameObject fireArmor;
+    // public GameObject iceArmor;
 
     [Header("Turret Attacks")]
     public float rotationSpeed;
@@ -65,38 +65,38 @@ public class TurretScript : EnemyController
         }
     }
 
-    public void ToggleArmor()
-    {
-        if (timer > 0)
-        {
-            timer -= Time.deltaTime;
-        }
-        else
-        {
-            timer = toggleBetweenArmors;
+    // public void ToggleArmor()
+    // {
+    //     if (timer > 0)
+    //     {
+    //         timer -= Time.deltaTime;
+    //     }
+    //     else
+    //     {
+    //         timer = toggleBetweenArmors;
 
-            if (armorType == DamageType.fire)
-            {
-                armorType = DamageType.ice;
+    //         if (armorType == DamageType.fire)
+    //         {
+    //             armorType = DamageType.ice;
 
-                ChangeDamageInteraction(DamageType.ice, DamageInteraction.resistant);
-                ChangeDamageInteraction(DamageType.fire, DamageInteraction.vulnerable);
+    //             ChangeDamageInteraction(DamageType.ice, DamageInteraction.resistant);
+    //             ChangeDamageInteraction(DamageType.fire, DamageInteraction.vulnerable);
 
-                fireArmor.SetActive(false);
-                iceArmor.SetActive(true);
-            }
-            else
-            {
-                armorType = DamageType.fire;
+    //             fireArmor.SetActive(false);
+    //             iceArmor.SetActive(true);
+    //         }
+    //         else
+    //         {
+    //             armorType = DamageType.fire;
 
-                fireArmor.SetActive(true);
-                iceArmor.SetActive(false);
+    //             fireArmor.SetActive(true);
+    //             iceArmor.SetActive(false);
 
-                ChangeDamageInteraction(DamageType.fire, DamageInteraction.resistant);
-                ChangeDamageInteraction(DamageType.ice, DamageInteraction.vulnerable);
-            }
-        }
-    }
+    //             ChangeDamageInteraction(DamageType.fire, DamageInteraction.resistant);
+    //             ChangeDamageInteraction(DamageType.ice, DamageInteraction.vulnerable);
+    //         }
+    //     }
+    // }
 
     public void AttackWithBeam()
     {
