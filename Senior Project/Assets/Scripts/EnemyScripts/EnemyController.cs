@@ -26,6 +26,9 @@ public class EnemyController : MonoBehaviour
 
     [Header("Hitbox List")]
     public List<EnemyHitbox> enemyHitboxes;
+    [HideInInspector] public GameObject fireDamageText;
+    [HideInInspector] public GameObject iceDamageText;
+
 
     public virtual void OnEnable()
     {
@@ -42,16 +45,18 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public virtual void Damage(float damageAmount, DamageType damageType = DamageType.nuetral)
+    public virtual void Damage(float damageAmount, Vector3 hitPosition, DamageType damageType = DamageType.nuetral)
     {
+        GameObject damageText = GetDamageText(damageType);
+        
         if (damageImmunities.Contains(damageType))
         {
+            damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, 0, damageType);
             return;
         }
 
         float damage = DamageCalculation(damageAmount, damageType);
-
-        // StartCoroutine(InvincibilityFrames());
+        damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, damage, damageType);
 
         health.AddToStat(-damage);
         if (health.stat <= health.minimum && !dead)
@@ -93,6 +98,34 @@ public class EnemyController : MonoBehaviour
 
         inInvincibilityFrames = false;
     }
+
+    public GameObject GetDamageText(DamageType damageType = DamageType.nuetral)
+    {
+        if (damageType == DamageType.fire)
+        {
+            if (fireDamageText == null)
+            {
+                fireDamageText = SpawnManager.instance.GetGameObject(SpawnManager.instance.damageTextPrefab, SpawnType.damageText);
+                fireDamageText.GetComponent<DamageText>().ourEnemy = this;
+            }
+            
+            return fireDamageText;
+        }
+        else if (damageType == DamageType.ice)
+        {
+            if (iceDamageText == null)
+            {
+                iceDamageText = SpawnManager.instance.GetGameObject(SpawnManager.instance.damageTextPrefab, SpawnType.damageText);
+                iceDamageText.GetComponent<DamageText>().ourEnemy = this;
+            }
+            
+            return iceDamageText.gameObject;
+        }
+
+        return null;
+    }
+
+    //-------------------------------------------------------------------------------------------//
 
     public virtual void ChangeDamageInteraction(DamageType damageType, DamageInteraction interaction)
     {

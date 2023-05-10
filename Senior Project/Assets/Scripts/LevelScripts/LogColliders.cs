@@ -14,7 +14,7 @@ public class LogColliders : EnemyController
         boxCol.SetActive(false);
     }
 
-    public override void Damage(float damageAmount, DamageType damageType = DamageType.nuetral)
+    public override void Damage(float damageAmount, Vector3 hitPosition, DamageType damageType = DamageType.nuetral)
     {
         if(enemyHitboxes.Count <= 0)
         {

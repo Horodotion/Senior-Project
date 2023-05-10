@@ -21,10 +21,8 @@ public class PlayerPuppet : MonoBehaviour
     //These references are localized for easier reading and writing of the script
     // [HideInInspector] public PlayerController PlayerController.instance; // A local  reference to the playerController
     // [HideInInspector] public Stats playerStats; // A reference to the stats for easier reading
-    public Vector3 lookRotation; // The current lookRotation on the puppet
     [HideInInspector] public CharacterController charController; // A reference to the CharacterController
     public GameObject cameraObj; // The object that the camera is held on
-    
     
     // [HideInInspector] public List<GameObject> interactableObjectList; // A list of objects that can be interacted with
     // public GameObject interactableObject; // A reference to what object we can currently interact with
@@ -41,8 +39,10 @@ public class PlayerPuppet : MonoBehaviour
         spring multiplier is a speed buff to the player while running
     */
     [Header("Camera Movement Values")]
+
     public float mouseSensetivity = 1.0f;
     public float lookAngles = 90f;
+    [HideInInspector] public Vector3 lookRotation; // The current lookRotation on the puppet
 
     [Header("Movement Values")]
     public float sprintMultiplier = 2f;
@@ -58,6 +58,7 @@ public class PlayerPuppet : MonoBehaviour
     [Header("Temperature Multipliers")]
     public float escalationMultiplier;
     public float deescalationMultiplier;
+    public float damageMultiplier;
     [Range(0f, 1f)] public float tempThreshold;
     public float tempMultiplier;
     [HideInInspector] public float fireMultiplier;
@@ -71,10 +72,13 @@ public class PlayerPuppet : MonoBehaviour
     [HideInInspector] public bool spellsSetUp;
 
     [Header("Fire Positions")]
+    public float highlightRange;
+    public float highlightRadius;
     public Transform primaryFirePosition;
     public Transform secondaryFirePosition;
     [HideInInspector] public Vector3 moveDirection, inputDirection;
     [HideInInspector] public RaycastHit groundedHit;
+    [HideInInspector] public RaycastHit reticalHit;
 
 
     void Awake()
@@ -117,15 +121,16 @@ public class PlayerPuppet : MonoBehaviour
 
     void FixedUpdate()
     {
+        reticalHit = FindTargetLocation(); 
+        SecondarySpellUpdate();
+
         switch(PlayerController.ourPlayerState)
         {  
             case PlayerState.inGame:
-                SecondarySpellUpdate();
                 Movement();
                 break;
 
             case PlayerState.casting:
-                SecondarySpellUpdate();
                 SpellUpdater();
                 Movement();
                 break;
@@ -135,7 +140,6 @@ public class PlayerPuppet : MonoBehaviour
                 break;
 
             default:
-                SecondarySpellUpdate();
                 //Calling the function for movement for easier reading of the FixedUpdate
                 Movement();
                 break;
@@ -316,18 +320,48 @@ public class PlayerPuppet : MonoBehaviour
     {
         if (primarySpell != null)
         {
-            primarySpell.SecondarySpellUpdate();
+            ReduceSpellTimer(primarySpell);
+            primarySpell.SecondarySpellUpdate(Time.deltaTime);
         }
 
         if (secondarySpell != null)
         {
-            secondarySpell.SecondarySpellUpdate();
+            ReduceSpellTimer(secondarySpell);
+            secondarySpell.SecondarySpellUpdate(Time.deltaTime);
         }
 
         if (mobilitySpell != null)
         {
-            mobilitySpell.SecondarySpellUpdate();
+            ReduceSpellTimer(mobilitySpell);
+            mobilitySpell.SecondarySpellUpdate(Time.deltaTime);
         }
+    }
+
+    public void ReduceSpellTimer(Spell spellToReduce)
+    {
+        if (spellToReduce.usesCharges && spellToReduce.charges < spellToReduce.maximumCharges && 
+            spellToReduce.rechargeTimer > spellToReduce.rechargeRate)
+        {
+            spellToReduce.rechargeTimer -= Time.deltaTime;
+        }
+    }
+
+    public virtual RaycastHit FindTargetLocation()
+    {
+        Vector3 targetPos = Vector3.zero;
+        Vector3 direction = cameraObj.transform.forward;
+        RaycastHit hit;
+
+        if (Physics.SphereCast(cameraObj.transform.position, highlightRadius, direction, out hit, highlightRange, -1, QueryTriggerInteraction.Ignore))
+        {
+            targetPos = hit.point;
+        }
+        else
+        {
+            targetPos = cameraObj.transform.position + (direction);
+        }
+
+        return hit;
     }
 
     // A function to take damage from, currently only has a debug log
@@ -373,13 +407,13 @@ public class PlayerPuppet : MonoBehaviour
 
         if (temp.stat >= temp.maximum * tempThreshold)
         {
-            fireMultiplier = (temp.stat - (temp.maximum * tempThreshold)) / (temp.maximum - (temp.maximum * tempThreshold));
+            fireMultiplier = (temp.stat - (temp.maximum * tempThreshold)) / (temp.maximum * (1 -  tempThreshold));
             tempMultiplier = fireMultiplier;
             iceMultiplier = 0;
         }
         else if (temp.stat <= temp.minimum * tempThreshold)
         {
-            iceMultiplier = (temp.stat - (temp.minimum * tempThreshold)) / (temp.minimum - (temp.minimum * tempThreshold));
+            iceMultiplier = (temp.stat - (temp.minimum * tempThreshold)) / (temp.minimum * (1 - tempThreshold));
             tempMultiplier = iceMultiplier;
             fireMultiplier = 0;
         }
