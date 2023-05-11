@@ -95,15 +95,18 @@ public class JeffEnvironmentHazard : MonoBehaviour
 
     private void ActivateWall()
     {
-        wallHazard.SetActive(true);
+        if(wallHazard != null)
+        {
+            wallHazard.SetActive(true);
 
-        if (extraDrop)
-        {
-            Invoke(nameof(SpawnTurret), 1f);
-        }
-        else
-        {
-            Invoke(nameof(RunAway), 1f);
+            if (extraDrop)
+            {
+                Invoke(nameof(SpawnTurret), 1f);
+            }
+            else
+            {
+                Invoke(nameof(RunAway), 1f);
+            }
         }
     }
 
