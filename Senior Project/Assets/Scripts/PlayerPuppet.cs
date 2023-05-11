@@ -26,9 +26,9 @@ public class PlayerPuppet : MonoBehaviour
     
     // [HideInInspector] public List<GameObject> interactableObjectList; // A list of objects that can be interacted with
     // public GameObject interactableObject; // A reference to what object we can currently interact with
-    [HideInInspector] public GameObject spellAnimObj;
-    [HideInInspector] public Animator spellAnim;
-    [HideInInspector] public SpellAnimHolder ourAnimHolder;
+    public GameObject spellAnimObj;
+    public Animator spellAnim;
+    public SpellAnimHolder ourAnimHolder;
 
     public float fallingSpeed = 0f; // The speed at which the player is currently falling
 
