@@ -2,12 +2,14 @@ using UnityEngine.AI;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public enum HazardType
 {
     projectile,
     turret,
     mine,
+    wall,
     other
 }
 
@@ -21,6 +23,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
     public GameObject fireProjectile;
     public GameObject iceProjectile;
     public GameObject myTurret;
+    public GameObject wallHazard; 
     public Transform shootPoint;
     public Transform turretDropPoint;
     public LayerMask whatIsPlayer;
@@ -33,9 +36,12 @@ public class JeffEnvironmentHazard : MonoBehaviour
     [Header("State Checks")]
     public HazardType hazardType;
     public float attackRange;
+    public float criticalRange;
     public float despawnTime;
-    public bool playerFound;
-    public bool hasAttacked;
+    public bool repeatingAttack;
+    private bool playerFound;
+    private bool hasAttacked;
+    public bool extraDrop;
 
     private void Awake()
     {
@@ -54,6 +60,11 @@ public class JeffEnvironmentHazard : MonoBehaviour
         {
             PlayerHasBeenFound();
         }
+
+        if (playerFound && repeatingAttack && Vector3.Distance(transform.position, PlayerController.puppet.transform.position) <= criticalRange)
+        {
+            RunAway();
+        }
     }
 
     public void PlayerHasBeenFound()
@@ -71,9 +82,28 @@ public class JeffEnvironmentHazard : MonoBehaviour
                 SpawnTurret();
                 break;
 
+            case HazardType.wall:
+                ActivateWall();
+                break;
+
             default:
                 Invoke(nameof(RunAway), 1f);
                 break;
+        }
+    }
+
+
+    private void ActivateWall()
+    {
+        wallHazard.SetActive(true);
+
+        if (extraDrop)
+        {
+            Invoke(nameof(SpawnTurret), 1f);
+        }
+        else
+        {
+            Invoke(nameof(RunAway), 1f);
         }
     }
 
@@ -115,9 +145,15 @@ public class JeffEnvironmentHazard : MonoBehaviour
                 }
             }
             
-
-            hasAttacked = true;
-            Invoke(nameof(RunAway), 1f);
+            if (repeatingAttack)
+            {
+                Invoke(nameof(Attack), 2f);
+            }
+            else
+            {
+                hasAttacked = true;
+                Invoke(nameof(RunAway), 1f);
+            }
         }
     }
 
