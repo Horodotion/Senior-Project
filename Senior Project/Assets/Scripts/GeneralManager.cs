@@ -182,11 +182,23 @@ public class GeneralManager : MonoBehaviour
 
     public void WinGame()
     {
+        if (SceneManager.GetActiveScene().buildIndex >= 3)
+        {
+            OpenWinMenu();
+        }
+        else if (LoadNextLevelScript.instance != null)
+        {
+            LoadNextLevelScript.instance.activeLoadingZone = true;
+        }
+    }
+
+    public void OpenWinMenu()
+    {
         if (GameOverMenuScript.instance == null)
         {
             return;
         }
-
+        
         MenuScript.SwapToMenu(GameOverMenuScript.instance.gameObject, PlayerUI.instance.gameObject);
         MenuScript.SwapToMenu(GameOverMenuScript.instance.winPanel, GameOverMenuScript.instance.losePanel);
 

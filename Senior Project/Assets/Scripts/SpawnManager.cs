@@ -6,7 +6,8 @@ public enum SpawnType
 {
     projectile,
     vfx,
-    damageText
+    damageText,
+    soundEffect
 }
 
 public class SpawnManager : MonoBehaviour
@@ -19,14 +20,17 @@ public class SpawnManager : MonoBehaviour
     // Transforms to sort out the hierarchy
     public Transform projectileTransform;
     public Transform vfxTransform;
+    public Transform sfxTransform;
 
+
+    public GameObject soundEffectPrefab;
     public GameObject damageTextPrefab;
     public Color fireDamageColor;
-    public Color fireVulnerableColor;
-    public Color fireResistantColor;
+    // public Color fireVulnerableColor;
+    // public Color fireResistantColor;
     public Color iceDamageColor;
-    public Color iceVulnerableColor;
-    public Color iceResistantColor;
+    // public Color iceVulnerableColor;
+    // public Color iceResistantColor;
 
 
     void Awake()
@@ -105,6 +109,11 @@ public class SpawnManager : MonoBehaviour
     }
 
 
+    public void PlaySoundAtLocation(Vector3 worldPosition, AudioClip audioToPlay)
+    {
+        
+    }
+
 
     // this returns the transform of the child object selected, based on the SpawnType
     public Transform NewSpawnParent(SpawnType typeOfObject)
@@ -119,6 +128,9 @@ public class SpawnManager : MonoBehaviour
 
             case SpawnType.damageText:
                 return PlayerUI.instance.damageTextParent;
+
+            case SpawnType.soundEffect:
+                return sfxTransform;
 
             default:
                 return null;
