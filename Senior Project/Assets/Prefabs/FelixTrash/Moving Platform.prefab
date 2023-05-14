@@ -388,9 +388,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4253280567622488715, guid: 8f17a0b2963d14a41b265746e2610b35,
         type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4253280567622488715, guid: 8f17a0b2963d14a41b265746e2610b35,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 55d9d409432c0774fa4f9965ad816027, type: 2}
+    - target: {fileID: 4253280567622488715, guid: 8f17a0b2963d14a41b265746e2610b35,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5d96930e118d068448614cb322d7616f, type: 2}
     - target: {fileID: 7750397243111347764, guid: 8f17a0b2963d14a41b265746e2610b35,
         type: 3}
       propertyPath: m_TagString
@@ -455,7 +465,7 @@ MonoBehaviour:
   startDelay: 0
   targetA: {fileID: 5399746961450759975}
   targetB: {fileID: 5399746961027549710}
-  liveMaterial: {fileID: 2100000, guid: 5160d6e9c215b9f41bb157dc54860eb9, type: 2}
+  liveMaterial: {fileID: 2100000, guid: 55d9d409432c0774fa4f9965ad816027, type: 2}
   frozenMaterial: {fileID: 2100000, guid: 715e5e319f50ab846862a06d9bd1fc71, type: 2}
   colliderBox: {fileID: 0}
   speed: 1

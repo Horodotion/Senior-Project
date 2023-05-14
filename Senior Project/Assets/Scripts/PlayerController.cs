@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour
             onPauseGame = playerInput.currentActionMap.FindAction("PauseGame");
 
             // These however, do have held down functions, and therefore need 2 functions to turn on and off
+            onMove.performed += OnMoveAction;
             onRun.started += OnRunAction;
             onRun.canceled += OffRunAction;
             onPrimaryFire.started += OnPrimaryFireAction;
@@ -156,6 +157,16 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("No Spell to set up");
             return null;
+        }
+    }
+
+    public void OnMoveAction(InputAction.CallbackContext context)
+    {
+        Debug.Log(ourPlayerState);
+
+        if (ourPlayerState == PlayerState.inMenu)
+        {
+            MenuScript.currentMenu.CycleThoughList(-(int)System.Math.Round(onMove.ReadValue<Vector2>().y, System.MidpointRounding.AwayFromZero));
         }
     }
 
@@ -245,6 +256,11 @@ public class PlayerController : MonoBehaviour
     public void OnJumpAction(InputAction.CallbackContext context)
     {
         jumpHeldDown = true;
+
+        if (ourPlayerState == PlayerState.inMenu)
+        {
+            MenuScript.currentMenu.currentlySelectedButton.onPointerDownEvent.Invoke();
+        }
     }
 
     //This calls for the player to stop jumping
