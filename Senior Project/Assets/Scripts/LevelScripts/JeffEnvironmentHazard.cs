@@ -2,12 +2,14 @@ using UnityEngine.AI;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public enum HazardType
 {
     projectile,
     turret,
     mine,
+    wall,
     other
 }
 
@@ -21,10 +23,12 @@ public class JeffEnvironmentHazard : MonoBehaviour
     public GameObject fireProjectile;
     public GameObject iceProjectile;
     public GameObject myTurret;
+    public GameObject wallHazard; 
     public Transform shootPoint;
     public Transform turretDropPoint;
     public LayerMask whatIsPlayer;
-    // public bool rangedAttack;
+    public bool cascadingJeff;
+    public GameObject nextJeff = null;
     // public bool dropTurret;
     // public bool fireElem;
 
@@ -32,11 +36,19 @@ public class JeffEnvironmentHazard : MonoBehaviour
     [Header("State Checks")]
     public HazardType hazardType;
     public float attackRange;
-    public bool playerFound;
-    public bool hasAttacked;
+    public float criticalRange;
+    public float despawnTime;
+    public bool repeatingAttack;
+    private bool playerFound;
+    private bool hasAttacked;
+    public bool extraDrop;
 
     private void Awake()
     {
+        if (nextJeff != null)
+        {
+            nextJeff.SetActive(false);
+        }
         player = GameObject.FindObjectOfType<PlayerPuppet>().transform;
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
@@ -47,6 +59,11 @@ public class JeffEnvironmentHazard : MonoBehaviour
         if (!playerFound && Vector3.Distance(transform.position, PlayerController.puppet.transform.position) <= attackRange)
         {
             PlayerHasBeenFound();
+        }
+
+        if (playerFound && repeatingAttack && Vector3.Distance(transform.position, PlayerController.puppet.transform.position) <= criticalRange)
+        {
+            RunAway();
         }
     }
 
@@ -65,9 +82,31 @@ public class JeffEnvironmentHazard : MonoBehaviour
                 SpawnTurret();
                 break;
 
+            case HazardType.wall:
+                ActivateWall();
+                break;
+
             default:
                 Invoke(nameof(RunAway), 1f);
                 break;
+        }
+    }
+
+
+    private void ActivateWall()
+    {
+        if(wallHazard != null)
+        {
+            wallHazard.SetActive(true);
+
+            if (extraDrop)
+            {
+                Invoke(nameof(SpawnTurret), 1f);
+            }
+            else
+            {
+                Invoke(nameof(RunAway), 1f);
+            }
         }
     }
 
@@ -109,16 +148,22 @@ public class JeffEnvironmentHazard : MonoBehaviour
                 }
             }
             
-
-            hasAttacked = true;
-            Invoke(nameof(RunAway), 1f);
+            if (repeatingAttack)
+            {
+                Invoke(nameof(Attack), 2f);
+            }
+            else
+            {
+                hasAttacked = true;
+                Invoke(nameof(RunAway), 1f);
+            }
         }
     }
 
     private void SpawnTurret()
     {
         Instantiate(myTurret, turretDropPoint.transform.position, Quaternion.identity);
-        Invoke(nameof(RunAway), 2f);
+        Invoke(nameof(RunAway), 1f);
     }
 
     private void RunAway()
@@ -126,12 +171,21 @@ public class JeffEnvironmentHazard : MonoBehaviour
         //transform.LookAt(runawayPoint);
         anim.SetBool("isRunning", true);
         agent.SetDestination(runawayPoint.position);
-        Invoke(nameof(Disappear), 2f);
+        Invoke(nameof(Disappear), despawnTime);
     }
 
 
     private void Disappear()
     {
-        Destroy(gameObject, 1f);
+        if(cascadingJeff)
+        {
+            nextJeff.SetActive(true);
+            Destroy(gameObject);
+
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

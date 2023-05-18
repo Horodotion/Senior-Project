@@ -20,10 +20,11 @@ public class ShotgunSpell : Spell
     public override void ProjectileFire()
     {
         Vector3 pos = GetFirePos().position;
+        Vector3 targetDirection = FindTargetLocation() - pos;
 
         for (int i = 0; i < pelletsPerShot; i++)
         {
-            Vector3 shotDirection = Accuracy(playerCameraTransform.forward, spreadAngle);
+            Vector3 shotDirection = Accuracy(targetDirection.normalized, spreadAngle);
 
             if (objectToSpawn != null)
             {
@@ -33,16 +34,11 @@ public class ShotgunSpell : Spell
 
                 ProjectileController newProjectileScript = iceParticle.GetComponent<ProjectileController>();
 
-                newProjectileScript.damage = damage;
+                newProjectileScript.damage = AssignDamage();
                 newProjectileScript.damageType = damageType;
                 newProjectileScript.hostileFaction = Faction.Enemy;
                 newProjectileScript.LaunchProjectile();
             }
         }
-    }
-
-    public virtual void DamageEnemy(EnemyController enemyController, float pelletsThatHit)
-    {
-        enemyController.Damage((damage) * pelletsThatHit, damageType);
     }
 }

@@ -10,6 +10,7 @@ public class PlayerUI : MonoBehaviour
     public Slider temperatureSlider;
     public CanvasGroup iceVingette;
     public CanvasGroup fireVingette;
+    public Transform damageTextParent;
     
     void Awake()
     {

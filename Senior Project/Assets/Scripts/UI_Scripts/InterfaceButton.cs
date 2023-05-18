@@ -26,6 +26,11 @@ public class InterfaceButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
             anim.SetBool(highlighted, true);
         }
 
+        if (MenuScript.currentMenu != null && MenuScript.currentMenu.selector != null)
+        {
+            MenuScript.currentMenu.MoveSelectorToButton(this);
+        }
+
         onPointerEnteredEvent.Invoke();
         // Debug.Log("Entered");
     }
