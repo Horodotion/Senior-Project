@@ -56,6 +56,9 @@
         },
         {
             "m_Id": "46603e0c90924e33895e7786252bc8d6"
+        },
+        {
+            "m_Id": "ac592e99b35a447ea125d0ac024be40f"
         }
     ],
     "m_GroupDatas": [],
@@ -86,7 +89,7 @@
                 "m_Node": {
                     "m_Id": "6138ff50fbc84a93a0461115f5548a54"
                 },
-                "m_SlotId": 1
+                "m_SlotId": 0
             }
         },
         {
@@ -170,7 +173,7 @@
                 "m_Node": {
                     "m_Id": "6138ff50fbc84a93a0461115f5548a54"
                 },
-                "m_SlotId": 0
+                "m_SlotId": 1
             }
         },
         {
@@ -291,6 +294,20 @@
         "m_SerializableColors": []
     },
     "m_SerializedDescriptor": "VertexDescription.Tangent"
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.BooleanMaterialSlot",
+    "m_ObjectId": "0dd3d41cf9994697ab29fc8b27b5e33f",
+    "m_Id": 0,
+    "m_DisplayName": "Out",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 2,
+    "m_Value": true,
+    "m_DefaultValue": true
 }
 
 {
@@ -622,10 +639,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1058.4000244140625,
-            "y": -134.39999389648438,
+            "x": -1057.5999755859375,
+            "y": -156.0,
             "width": 96.79998779296875,
-            "height": 100.80001831054688
+            "height": 100.79999542236328
         }
     },
     "m_Slots": [
@@ -842,9 +859,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -336.0000305175781,
-            "y": -407.199951171875,
-            "width": 207.9999237060547,
+            "x": -394.4000244140625,
+            "y": -189.6000518798828,
+            "width": 208.00001525878907,
             "height": 301.60003662109377
         }
     },
@@ -931,6 +948,41 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.IsFrontFaceNode",
+    "m_ObjectId": "ac592e99b35a447ea125d0ac024be40f",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Is Front Face",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -554.4000244140625,
+            "y": 392.800048828125,
+            "width": 121.60003662109375,
+            "height": 76.79998779296875
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "0dd3d41cf9994697ab29fc8b27b5e33f"
+        }
+    ],
+    "synonyms": [
+        "face",
+        "side"
+    ],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DivideNode",
     "m_ObjectId": "b3871c6acd234c1aa9ffa43cbc875220",
     "m_Group": {
@@ -941,10 +993,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -910.3999633789063,
-            "y": -200.79994201660157,
+            "x": -910.4000854492188,
+            "y": -189.6000213623047,
             "width": 208.0,
-            "height": 301.5999755859375
+            "height": 301.60003662109377
         }
     },
     "m_Slots": [
@@ -1260,10 +1312,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1130.4000244140625,
-            "y": -167.99998474121095,
+            "x": -1129.5999755859375,
+            "y": -189.6000213623047,
             "width": 168.79998779296876,
-            "height": 33.59999084472656
+            "height": 33.60002136230469
         }
     },
     "m_Slots": [
@@ -1366,9 +1418,9 @@
     "m_ZTestMode": 4,
     "m_ZWriteControl": 0,
     "m_AlphaMode": 0,
-    "m_RenderFace": 1,
+    "m_RenderFace": 0,
     "m_AlphaClip": false,
-    "m_CastShadows": true,
+    "m_CastShadows": false,
     "m_ReceiveShadows": true,
     "m_CustomEditorGUI": "",
     "m_SupportVFX": false
