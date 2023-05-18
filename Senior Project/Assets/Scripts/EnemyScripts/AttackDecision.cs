@@ -15,20 +15,20 @@ public class AttackDecision : WeightedDecision
     }
 
     //StateDecistion[] movementDecistion = new StateDecistion[5];
-    public AttackDecision()
+    public AttackDecision(): base (new int[2])
     {
-        decisions = new int[2];
+        //decisions = new int[2];
     }
-    public AttackDecision(AttackDecision aD)
+    public AttackDecision(AttackDecision aD) : base(new int[2])
     {
-        decisions = new int[2];
+        //decisions = new int[2];
         for (int i = 0; i < decisions.Length; i++)
         {
             decisions[i] = aD.decisions[i];
         }
     }
 
-    public AttackDecision(int iA,int fA)
+    public AttackDecision(int iA, int fA) : base(new int[2])
     {
         decisions = new int[] { iA, fA };
     }

@@ -48,9 +48,9 @@ public class LaserAttacks : AttackMotion
                 {
                     //Debug.Log(SP[0].gameObject.TryGetComponent<Laser>(out Laser laserTest));
                     SP[0].gameObject.SetActive(true);
-                    if (SP[0].gameObject.TryGetComponent<Laser>(out Laser laser))
+                    if (SP[0].gameObject.TryGetComponent<LaserVer2>(out LaserVer2 laser))
                     {
-                        laser.laserFrequency = laserFrequency;
+                        laser.laserDamageFrequency = laserFrequency;
                         laser.laserDamage = damage;
                     }
                 }
@@ -68,7 +68,9 @@ public class LaserAttacks : AttackMotion
         yield return new WaitForSeconds(waitTimeAfterLaser);
         enemy.navMeshAgent.speed = enemy.speed;
         enemy.navMeshAgent.stoppingDistance = 0;
-        enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
+        
         //enemy.bossState = BossState.inCombat;
+
+        ExitLaserAttack();
     }
 }

@@ -18,6 +18,7 @@ public class IceProjectileAttacks : AttackMotion
     }
     public override IEnumerator AttackingPlayer()
     {
+
         enemy.navMeshAgent.speed = enemy.speed;
         while (true)
         {
@@ -36,12 +37,26 @@ public class IceProjectileAttacks : AttackMotion
             yield return null;
         }
 
-        enemy.navMeshAgent.speed = 0f;
+
+        enemy.animator.SetBool("isRangedAttacking", true);
+        enemy.animator.SetFloat("element", 0);
+
+        
         yield return null;
-
+        enemy.navMeshAgent.isStopped = true;
         //yield return new WaitForSeconds(1f);
+        while (enemy.animator.GetBool("isRangedAttacking"))
+        {
+            
+            while (!enemy.IsPlayerWithinView(100f, 4f, 100f))
+            {
+                enemy.AimTowards(PlayerController.puppet.transform.position, aimSpeed);
+                yield return null;
+            }
 
-
+            yield return null;
+        }
+        /*
         while (!enemy.IsPlayerWithinView(100f, 4f, 100f))
         {
             enemy.AimTowards(PlayerController.puppet.transform.position, aimSpeed);
@@ -62,9 +77,18 @@ public class IceProjectileAttacks : AttackMotion
         }
 
         yield return new WaitForSeconds(waitTimeAfterFire);
+
+        */
+        //enemy.animator.SetBool("isRangedAttacking", false);
+        enemy.navMeshAgent.isStopped = false;
         enemy.navMeshAgent.speed = enemy.speed;
-        enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
+
+        ExitRangedAttack();
         //enemy.bossState = BossState.inCombat;
         //yield return null;
+    }
+    public GameObject getProjectile()
+    {
+        return projectile;
     }
 }

@@ -21,6 +21,7 @@ public class FireMeleeAttacks : AttackMotion
         //enemy.bossState = BossState.inCombat;
         // Debug.Log("6 " + enemy.bossState);
         //yield return new WaitForSeconds(5f);
+
         enemy.navMeshAgent.speed = enemy.speed;
         enemy.navMeshAgent.stoppingDistance = stoppingDistance;
         while (!enemy.IsPlayerWithinDistance(meleeDistance))
@@ -32,11 +33,39 @@ public class FireMeleeAttacks : AttackMotion
         }
         //enemy.bossState = BossState.inCombat;
 
-        enemy.navMeshAgent.speed = 0f;
+
         yield return null;
 
-        //yield return new WaitForSeconds(1f);
 
+        enemy.animator.SetBool("isMeleeAttacking", true);
+        enemy.animator.SetFloat("element", 1);
+
+        //enemy.navMeshAgent.speed = 0f;
+        enemy.navMeshAgent.isStopped = true;
+
+        while (enemy.animator.GetBool("isMeleeAttacking"))
+        {
+
+            for (float timer = 0; true; timer += Time.deltaTime)
+            {
+                enemy.AimTowards(PlayerController.puppet.transform.position, turnSpeed);
+                if (timer > 0.2)
+                {
+                    break;
+                }
+                yield return null;
+            }
+
+            if (SP[0].gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
+            {
+                hitbox.damage = damage;
+            }
+
+            yield return null;
+        }
+
+        //yield return new WaitForSeconds(1f);
+        /*
         for (float timer = 0; true; timer += Time.deltaTime)
         {
             enemy.AimTowards(PlayerController.puppet.transform.position, turnSpeed);
@@ -56,9 +85,15 @@ public class FireMeleeAttacks : AttackMotion
         SP[0].gameObject.SetActive(false);
         
         yield return new WaitForSeconds(waitTimeAfterMelee);
+        */
+        //enemy.animator.SetBool("isMeleeAttacking", false);
+
+        enemy.navMeshAgent.isStopped = false;
         enemy.navMeshAgent.speed = enemy.speed;
         enemy.navMeshAgent.stoppingDistance = 0;
-        enemy.bossState = enemy.meleeAtkFollowUpDicision.GiveTheNextRandomDicision();
+        
+
+        ExitMeleeAttack();
         //enemy.bossState = BossState.inCombat;
     }
 }
