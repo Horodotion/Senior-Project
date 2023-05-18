@@ -3477,7 +3477,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 97f8897b82cc2d04cb5af94b40028b3c, type: 2}
+  - {fileID: 2100000, guid: 2c73704c4781f544fbd7d9b0f0aca304, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4598,7 +4598,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 45552f3d282b5f644a9629e32a2c784e, type: 2}
+  - {fileID: 2100000, guid: c35261305da77804093f1e9fe5f9bc4c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7453,16 +7453,20 @@ MonoBehaviour:
     type: 3}
   myTurret: {fileID: 2051585996550476875, guid: d4728ee92469b7b4ea0021ac26d6a2eb,
     type: 3}
+  wallHazard: {fileID: 0}
   shootPoint: {fileID: 8090080305606602442}
   turretDropPoint: {fileID: 8090080305423219863}
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
+  cascadingJeff: 0
+  nextJeff: {fileID: 0}
   hazardType: 3
   attackRange: 10
+  criticalRange: 0
   despawnTime: 0
-  playerFound: 0
-  hasAttacked: 0
+  repeatingAttack: 0
+  extraDrop: 0
 --- !u!136 &5875774807298688769
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9806,7 +9810,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3aa575cc54ea24f428c7581f5a7ab29b, type: 2}
+  - {fileID: 2100000, guid: b2a1cf2a41379f14686d9e1046f92b72, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
