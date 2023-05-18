@@ -4,11 +4,15 @@
 
 
 // Decision based on weight. The index of the decisions array is the dicision, and the integers within each index is the weight.
+[System.Serializable]
 public class WeightedDecision : ScriptableObject
 {
     [HideInInspector] public int[] decisions;
     //public Decision
-
+    public WeightedDecision(int[] d)
+    {
+        decisions = d;
+    }
     public void AddDicision(WeightedDecision d)
     {
         if (this.GetType() == d.GetType())

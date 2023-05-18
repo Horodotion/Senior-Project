@@ -82,7 +82,8 @@ public class IceProjectileAttacks : AttackMotion
         //enemy.animator.SetBool("isRangedAttacking", false);
         enemy.navMeshAgent.isStopped = false;
         enemy.navMeshAgent.speed = enemy.speed;
-        enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
+
+        ExitRangedAttack();
         //enemy.bossState = BossState.inCombat;
         //yield return null;
     }

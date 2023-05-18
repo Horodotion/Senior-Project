@@ -91,7 +91,9 @@ public class FireMeleeAttacks : AttackMotion
         enemy.navMeshAgent.isStopped = false;
         enemy.navMeshAgent.speed = enemy.speed;
         enemy.navMeshAgent.stoppingDistance = 0;
-        enemy.bossState = enemy.meleeAtkFollowUpDicision.GiveTheNextRandomDicision();
+        
+
+        ExitMeleeAttack();
         //enemy.bossState = BossState.inCombat;
     }
 }

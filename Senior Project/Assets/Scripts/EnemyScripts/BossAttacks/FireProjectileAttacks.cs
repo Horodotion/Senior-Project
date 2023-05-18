@@ -55,9 +55,10 @@ public class FireProjectileAttacks : AttackMotion
 
         enemy.navMeshAgent.isStopped = false;
         enemy.navMeshAgent.speed = enemy.speed;
-        enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
         //enemy.bossState = BossState.inCombat;
         //yield return null;
+
+        ExitRangedAttack();
     }
 
     public GameObject getProjectile()

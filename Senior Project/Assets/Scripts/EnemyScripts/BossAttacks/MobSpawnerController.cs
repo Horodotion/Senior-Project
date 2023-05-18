@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 
-public class BossSpawnerController : MonoBehaviour
+public class MobSpawnerController : MonoBehaviour
 {
     [System.Serializable]
     public struct SpawnData
@@ -28,6 +28,11 @@ public class BossSpawnerController : MonoBehaviour
             SpawnItemBaseOnData(spawnData[i]);
         }
     }
+    public void SpawningBaseOnIndex(int i)
+    {
+        SpawnItemBaseOnData(spawnData[i]);
+    }
+
 
     public void SpawnItemBaseOnData(SpawnData spawndata)
     {

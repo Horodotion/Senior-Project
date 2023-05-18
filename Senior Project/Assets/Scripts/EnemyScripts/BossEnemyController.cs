@@ -9,19 +9,21 @@ using UnityEngine.AI;
 public enum BossState
 {
     idle = 0,
-    takingCover = 1,
+    taunt = 1,
     meleeAttack = 2,
     rangedAttack = 3,
-    taunt = 4,
-    teleportToCover = 5,
-    teleportBehindPlayer = 6,
-    waitingInCover = 7,
+    takingCover = 4,
+    waitingInCover = 5,
+    teleportToCover = 6,
+    teleportBehindPlayer = 7,
     laserAttack = 8,
-    spawnMobs = 9,
-    ambushed,
+    spawnTurrets = 9,
+    spawnMines = 10,
+    orbWalking = 11,
+    ambushed = 12,
 
-    testState,
-    testState2,
+    //testState,
+   // testState2,
     
     
     
@@ -37,7 +39,9 @@ public class Decision : ScriptableObject
 
 public class BossEnemyController : EnemyController
 {
-    [SerializeField] private BossSpawnerController bossSpawner;
+    [SerializeField] private GameObject mobSpawner;
+    private MobSpawnerController mobSpawnerController;
+    //[SerializeField] private BossSpawnerController turretSpawner;
     [Header("Boss Stats")]
     [HideInInspector] public NavMeshAgent navMeshAgent;
     [HideInInspector] public Animator animator;
@@ -55,18 +59,65 @@ public class BossEnemyController : EnemyController
 
     [Header("Boss Dicision Setting")]
     [HideInInspector] AttacksManager attacksManager;
-    [SerializeField] public MovementDecision coverActionDicision;
-    [SerializeField] public MovementDecision [] coverActionDicisionMod;
+    [SerializeField] public MovementDecision coverActionDecision;
+    [SerializeField] public MovementDecision [] coverActionDecisionMod;
 
-    [SerializeField] public MovementDecision ambushedDicision;
-    [SerializeField] public MovementDecision [] ambushedDicisionMod = new MovementDecision[4];
+    [SerializeField] public MovementDecision ambushedDecision;
+    [SerializeField] public MovementDecision [] ambushedDecisionMod = new MovementDecision[4];
 
-    [SerializeField] public MovementDecision attackDicision;
-    [SerializeField] public MovementDecision[] attackDicisionMod = new MovementDecision[4];
+    [SerializeField] public MovementDecision attackDecision;
+    [SerializeField] public MovementDecision[] attackDecisionMod = new MovementDecision[4];
 
-    [SerializeField] public MovementDecision rangedAtkFollowUpDicision;
+    [SerializeField] public MovementDecision rangedAtkFollowUpDecision;
 
-    [SerializeField] public MovementDecision meleeAtkFollowUpDicision;
+    [SerializeField] public MovementDecision meleeAtkFollowUpDecision;
+
+    [Header("Boss Dicision Setting 2.0")]
+    [SerializeField] public MovementDecision meleeAttackDecision;
+    [SerializeField] public MovementDecision orbwalkDecision;
+    [SerializeField] public MovementDecision rangedAttackDecision;
+    [SerializeField] public MovementDecision coverDecision;
+    [SerializeField] public MovementDecision coverDecisionMod;
+    [SerializeField] public MovementDecision teleportDecision;
+    [SerializeField] public MovementDecision teleportDecisionMod;
+    [SerializeField] public MovementDecision dropMinesDecision;
+    [SerializeField] public MovementDecision dropTurretDecision;
+    [SerializeField] public MovementDecision laserAttackDecision;
+
+    //public OrbWalkController orbWalkController = new OrbWalkController();
+
+    [Header("Orbwalk System")]
+
+    [SerializeField] private GameObject meshObject;
+
+    private Vector3 destination;
+    public float orbWalkSpeed;
+    public float orbWalkAcceleration;
+    public float turnSpeed;
+    private Quaternion rotateGoalWithOutY;
+
+    [Range(0.1f, 10)] public float navMeshDetactionRadius;
+    [Range(0.1f, 10)] public float navMeshDetactionDistance;
+
+    //public float lostPlayerRange;
+    public float closestStoppingDistance;
+    public float farthestStoppingDistance;
+    //public float maxChangeDirectionTime;
+    public float minEndOrbWalkingTime;
+    public float maxEndOrbWalkingTime;
+    private float orbWalkingTime;
+
+    public float minDodgeTime;
+    public float maxDodgeTime;
+    private float dodgeTime;
+
+    [SerializeField] WeightedDecision dodgeDecision;// = new WeightedDecision(new int[2]);
+
+    private float endOrbWalkingTimer;
+    public Vector3 moveForwardVector;
+    public Vector3 moveMidRangeVector;
+    public Vector3 moveBackwardVector;
+    public Vector3 moveVector;
 
 
     [Header("Boss Covering System")]
@@ -126,6 +177,7 @@ public class BossEnemyController : EnemyController
         navMeshAgent.angularSpeed = angularSpeed;
         navMeshAgent.acceleration = acceleration;
         attacksManager = GetComponent<AttacksManager>();
+        mobSpawnerController = GetComponent<MobSpawnerController>();
         if (TryGetComponent<Animator>(out Animator thatAnimator))
         {
             animator = thatAnimator;
@@ -146,10 +198,10 @@ public class BossEnemyController : EnemyController
         //}
         ChangeRandomElementState();
 
-        bossState = BossState.takingCover;
+        bossState = BossState.idle;
 
-
-        bossState = BossState.spawnMobs;
+        bossState = BossState.meleeAttack;
+        //bossState = BossState.laserAttack;
         //bossState = BossState.taunt;
     }
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
@@ -162,12 +214,6 @@ public class BossEnemyController : EnemyController
         {
             // Spawnin probably should not be assigned with this, but putting it here just in case
             case BossState.idle:
-                break;
-            case BossState.testState:
-                MovementCoroutine = TestState();
-                break;
-            case BossState.testState2:
-                MovementCoroutine = TestAttack();
                 break;
             case BossState.taunt:
                 MovementCoroutine = TauntState(); //Take care the taunt later
@@ -191,13 +237,26 @@ public class BossEnemyController : EnemyController
                 MovementCoroutine = TeleportingBehindState(PlayerController.puppet.transform);
                 break;
             case BossState.laserAttack:
+                Debug.Log("Laser");
                 MovementCoroutine = attacksManager.LaserAttack();
                 break;
-            case BossState.spawnMobs:
-                MovementCoroutine = SpawnMobsState();
+            case BossState.spawnTurrets:
+                MovementCoroutine = SpawnTurretsState();
+                break;
+            case BossState.spawnMines:
+                MovementCoroutine = SpawnMinesState();
+                break;
+            case BossState.orbWalking:
+                MovementCoroutine = OrbWalkState();
+                break;
+            default:
                 break;
         }
-        StartCoroutine(MovementCoroutine);
+        if (MovementCoroutine != null)
+        {
+            StartCoroutine(MovementCoroutine);
+        }
+        
         
     }
     private void Update()
@@ -206,7 +265,6 @@ public class BossEnemyController : EnemyController
     }
     private void Ani()
     {
-        Debug.Log(navMeshAgent.speed);
         if (animator == null) return;
         if (navMeshAgent.speed > 0)
         {
@@ -228,12 +286,19 @@ public class BossEnemyController : EnemyController
         {
             yield return null;
         }
-        
+
         //animator.SetBool("isTaunting", false);
-        bossState = BossState.takingCover;
+        ExitTauntState();
         yield return null;
         //int r = Random.Range(0, 2);
     }
+
+    //Change the state of Taunt
+    public void ExitTauntState()
+    {
+        bossState = BossState.takingCover;
+    }
+
 
     public void EndTauntState()
     {
@@ -277,36 +342,6 @@ public class BossEnemyController : EnemyController
         elementType = DamageType.fire;
         ChangeDamageInteraction(DamageType.ice, DamageInteraction.vulnerable);
         ChangeDamageInteraction(DamageType.fire, DamageInteraction.resistant);
-    }
-
-    public IEnumerator TestAttack()
-    {
-        yield return new WaitForSeconds(1f);
-        bossState = BossState.testState;
-        yield return null;
-    }
-    public IEnumerator TestState()
-    {
-        //navMeshAgent.updatePosition = false;
-        //WaitForSeconds wait = new WaitForSeconds(4);
-        //Debug.Log(PlayerController.puppet);
-        //navMeshAgent.destination = PlayerController.puppet.transform.position;
-
-        //WaitForSeconds wait = new WaitForSeconds(4);
-        //yield return new WaitForSeconds(1f);
-        //bossState = BossState.attacking;
-        //yield return new WaitForSeconds(1f);
-        Debug.Log(MovementCoroutine);
-        //StopCoroutine(MovementCoroutine);
-        Debug.Log("4 " + bossState);
-        
-
-        navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
-        //yield return new WaitForSeconds(1f);
-        //Debug.Log("5 " + bossState);
-        yield return null;
-        Debug.Log("Set");
-        bossState = BossState.meleeAttack;
     }
 
     private IEnumerator TakeCoverState(Transform target)
@@ -474,7 +509,7 @@ public class BossEnemyController : EnemyController
         // Check to see if this call is actually capable of ending
         if (secondsToWait == 0)
         {
-            bossState = AttackDicision();
+            ExitInCoverState();
             yield break;
         }
 
@@ -490,6 +525,7 @@ public class BossEnemyController : EnemyController
             Vector3 vToPlayer = PlayerController.puppet.transform.position - transform.position;
             if (Physics.Raycast(transform.position, vToPlayer, out RaycastHit hit, playerSpottedDistance, ~hidingSpotLayer))
             {
+                //If the player detected the boss
                 if (hit.collider.CompareTag("Player"))
                 {
                     bossState = AmbushedDicision();
@@ -500,9 +536,23 @@ public class BossEnemyController : EnemyController
 
             yield return wait;
             //bossState = BossState.takingCover;
-            bossState = AttackDicision();
+            
+            ExitInCoverState();
             //yield break;
         }
+    }
+    public void ExitInCoverState()
+    {
+        //bossState = AttackDicision();
+        if (health.stat - health.minimum / health.maximum >= 60)
+        {
+            bossState = coverDecision.GiveTheNextRandomDicision();
+        }
+        else
+        {
+            bossState = coverDecisionMod.GiveTheNextRandomDicision();
+        }
+        
     }
 
     public int CoverColliderArraySortComparer(Collider A, Collider B) // Refer to documentation on System.Array.Sort
@@ -527,16 +577,16 @@ public class BossEnemyController : EnemyController
     //This output a bossstate by calculate the bossstate using the decision and decision modifier during CoverAction decision.
     public BossState CoverActionDicision()
     {
-        MovementDecision temp = new MovementDecision(coverActionDicision);
+        MovementDecision temp = new MovementDecision(coverActionDecision);
 
         // Adding all the decision modifers into the decision
         if (!IsPlayerWithinDistance(25))
         {
-            temp.AddDicision(coverActionDicisionMod[0]);
+            temp.AddDicision(coverActionDecisionMod[0]);
         }
         if (health.stat / health.maximum <= 0.5)
         {
-            temp.AddDicision(coverActionDicisionMod[1]);
+            temp.AddDicision(coverActionDecisionMod[1]);
         }
         // Find which bossstate to output
         return temp.GiveTheNextRandomDicision();
@@ -546,24 +596,24 @@ public class BossEnemyController : EnemyController
     //This output a bossstate by calculate the bossstate using the decision and decision modifier during ambushed decision.
     public BossState AmbushedDicision()
     {
-        MovementDecision temp = new MovementDecision(ambushedDicision);
+        MovementDecision temp = new MovementDecision(ambushedDecision);
 
         // Adding all the decision modifers into the decision
         if (health.stat / health.maximum > 0.5)
         {
-            temp.AddDicision(ambushedDicisionMod[0]);
+            temp.AddDicision(ambushedDecisionMod[0]);
         }
         if (health.stat / health.maximum > 0.3)
         {
-            temp.AddDicision(ambushedDicisionMod[1]);
+            temp.AddDicision(ambushedDecisionMod[1]);
         }
         if (IsPlayerWithinDistance(5))
         {
-            temp.AddDicision(ambushedDicisionMod[2]);
+            temp.AddDicision(ambushedDecisionMod[2]);
         }
         if (!IsPlayerWithinDistance(25))
         {
-            temp.AddDicision(ambushedDicisionMod[3]);
+            temp.AddDicision(ambushedDecisionMod[3]);
         }
         // Find which bossstate to output
         return temp.GiveTheNextRandomDicision();
@@ -572,24 +622,24 @@ public class BossEnemyController : EnemyController
     //This output a bossstate by calculate the bossstate using the decision and decision modifier during attack decision.
     public BossState AttackDicision()
     {
-        MovementDecision temp = new MovementDecision(attackDicision);
+        MovementDecision temp = new MovementDecision(attackDecision);
 
         // Adding all the decision modifers into the decision
         if (!IsPlayerWithinDistance(50))
         {
-            temp.AddDicision(attackDicisionMod[0]);
+            temp.AddDicision(attackDecisionMod[0]);
         }
         if (!IsPlayerWithinDistance(25))
         {
-            temp.AddDicision(attackDicisionMod[1]);
+            temp.AddDicision(attackDecisionMod[1]);
         }
         if (IsPlayerWithinDistance(25))
         {
-            temp.AddDicision(attackDicisionMod[2]);
+            temp.AddDicision(attackDecisionMod[2]);
         }
         if (IsPlayerWithinDistance(10))
         {
-            temp.AddDicision(attackDicisionMod[3]);
+            temp.AddDicision(attackDecisionMod[3]);
         }
         temp.DisplayLog();
         // Find which bossstate to output
@@ -600,7 +650,7 @@ public class BossEnemyController : EnemyController
     public IEnumerator TeleportingToCoverState(Transform target)
     {
         WaitForSeconds wait = new WaitForSeconds(coverUpdateFrequency);
-        Debug.Log("Test");
+        //Debug.Log("Test");
         while (true)
         {
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, teleportSampleDistance, hidingSpotLayer);
@@ -624,12 +674,24 @@ public class BossEnemyController : EnemyController
                 else
                 {
                     this.transform.position = tempCol.transform.position;
-                    bossState = BossState.waitingInCover;
+                    ExitTeleportingState();
                 }
             }
 
 
             yield return null;
+        }
+    }
+
+    public void ExitTeleportingState()
+    {
+        if (health.stat - health.minimum / health.maximum >= 60)
+        {
+            bossState = teleportDecision.GiveTheNextRandomDicision();
+        }
+        else
+        {
+            bossState = teleportDecisionMod.GiveTheNextRandomDicision();
         }
     }
 
@@ -717,12 +779,141 @@ public class BossEnemyController : EnemyController
         return tempCol;
     }
 
-    public IEnumerator SpawnMobsState()
+    public IEnumerator OrbWalkState()
     {
-        bossSpawner.SpawningThings();
-        yield return null;
-        bossState = BossState.takingCover;
+        EnteringOrbWalk();
+        while (true)
+        {
+            MovementSystem();
+            yield return null;
+        }
+        //yield return null;
     }
+
+    public void EnteringOrbWalk()
+    {
+        Debug.Log("Reset");
+        navMeshAgent.SetDestination(destination);
+        navMeshAgent.stoppingDistance = 0;
+        navMeshAgent.angularSpeed = 0;
+        navMeshAgent.speed = orbWalkSpeed;
+        navMeshAgent.acceleration = orbWalkAcceleration;
+        orbWalkingTime = Random.Range(minEndOrbWalkingTime, maxEndOrbWalkingTime);
+        endOrbWalkingTimer = orbWalkingTime;
+        dodgeTime = orbWalkingTime - Random.Range(minDodgeTime, maxDodgeTime);
+        if (Random.Range(0, 2) == 0)
+        {
+            ChangeDirection();
+        }
+    }
+    
+
+    // Update is called once per frame
+    public void MovementSystem()
+    {
+        if (endOrbWalkingTimer <= 0)
+        {
+            endOrbWalkingTimer = 0;
+        }
+        else
+        {
+            endOrbWalkingTimer -= Time.fixedDeltaTime;
+        }
+
+        //Vector3 veiwToPlayerMesh = transform.position - viewPoint.transform.position;
+        //transform.forward = Vector3.RotateTowards(transform.forward, veiwToPlayerMesh, turnSpeed * Time.deltaTime, 0.0f);
+
+        Vector3 lookDirection;
+        lookDirection = (PlayerController.puppet.transform.position - transform.position).normalized;
+
+        float step = turnSpeed * Time.fixedDeltaTime;
+
+
+        lookDirection.y = 0;
+        rotateGoalWithOutY = Quaternion.LookRotation(lookDirection);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateGoalWithOutY, step);
+
+        //xlookDirection.x = 0;
+        //xlookDirection.y = 0;
+
+        //p1.z -= 1;
+
+        NavMeshHit hit;
+
+        if (!IsPlayerWithinDistance(farthestStoppingDistance))
+        {
+            moveVector = moveForwardVector;
+        }
+        else if (IsPlayerWithinDistance(closestStoppingDistance))
+        {
+            moveVector = moveBackwardVector;
+        }
+        else
+        {
+            moveVector = moveMidRangeVector;
+        }
+
+        Vector3 tempMoveVector = moveVector.normalized * navMeshDetactionDistance;
+        if (NavMesh.SamplePosition(transform.position + (transform.right.normalized * tempMoveVector.x) + (transform.forward.normalized * tempMoveVector.z), out hit, navMeshDetactionRadius, NavMesh.AllAreas))
+        {
+            navMeshAgent.SetDestination(hit.position);
+        }
+        else
+        {
+            Debug.Log("Hey! YoY");
+            ChangeDirection();
+            //changeDirectionTimer = Random.Range(minChangeDirectionTime, maxChangeDirectionTime);
+            // moveSideBackwardVector.x *= -1;
+        }
+
+        if (endOrbWalkingTimer <= 0)
+        {
+            //ChangeDirection();
+            navMeshAgent.stoppingDistance = 0;
+            navMeshAgent.angularSpeed = angularSpeed;
+            navMeshAgent.speed = speed;
+            navMeshAgent.acceleration = acceleration;
+            ExitOrbWalkState();
+            //changeDirectionTimer = dodgeDecision.GetRandomIndex() == 0 ? Random.Range(minChangeDirectionTime, maxChangeDirectionTime) : dodgeTime;
+        }
+    }
+    public void ExitOrbWalkState()
+    {
+        bossState = orbwalkDecision.GiveTheNextRandomDicision();
+        //bossState = 
+    }
+    private void ChangeDirection()
+    {
+        moveForwardVector.x *= -1;
+        moveMidRangeVector.x *= -1;
+        moveBackwardVector.x *= -1;
+    }
+    public IEnumerator SpawnMinesState()
+    {
+        mobSpawnerController.SpawningBaseOnIndex(1);
+        yield return null;
+        ExitSpawnMinesState();
+        
+    }
+    public void ExitSpawnMinesState()
+    {
+        //bossState = BossState.takingCover;
+        bossState = dropMinesDecision.GiveTheNextRandomDicision();
+    }
+    public IEnumerator SpawnTurretsState()
+    {
+        mobSpawnerController.SpawningBaseOnIndex(0);
+        yield return null;
+        ExitSpawnTurretState();
+
+    }
+    public void ExitSpawnTurretState()
+    {
+        //bossState = BossState.takingCover;
+        bossState = dropTurretDecision.GiveTheNextRandomDicision();
+    }
+
+
 
     public bool IsPlayerWithinDistance(float range)
     {

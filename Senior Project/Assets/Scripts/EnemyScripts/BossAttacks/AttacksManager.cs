@@ -19,7 +19,7 @@ public class AttacksManager : MonoBehaviour
     
     public float timer;
 
-    [SerializeField] public EnemyAttack[] attacksList;
+    //[SerializeField] public EnemyAttack[] attacksList;
     //[SerializeField] public EnemyAttack currentAttack;
 
     //All the boss attack
@@ -109,6 +109,7 @@ public class AttacksManager : MonoBehaviour
         
         //StartCoroutine(enemy.MovementCoroutine);
     }
+
     public IEnumerator LaserAttack()
     {
         if (RangedAttackDicision())
@@ -125,6 +126,7 @@ public class AttacksManager : MonoBehaviour
         }
 
     }
+
     //Decide which element for the melee attack
     public IEnumerator MeleeAttack()
     {
@@ -143,7 +145,7 @@ public class AttacksManager : MonoBehaviour
         }
         //StartCoroutine(enemy.MovementCoroutine);
     }
-
+    
     //This output a bool (true is ice/ false is fire) by calculate the element needed to use using the decision and decision modifier during range attack.
     public bool RangedAttackDicision()
     {

@@ -65,6 +65,24 @@ public class AttackMotion : ScriptableObject
 
     }
     */
+
+    public void ExitMeleeAttack()
+    {
+        //enemy.bossState = enemy.meleeAtkFollowUpDicision.GiveTheNextRandomDicision();
+        enemy.bossState = enemy.meleeAttackDecision.GiveTheNextRandomDicision();
+    }
+    public void ExitRangedAttack()
+    {
+        //enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
+        enemy.bossState = enemy.rangedAttackDecision.GiveTheNextRandomDicision();
+    }
+
+    public void ExitLaserAttack()
+    {
+        //enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
+        enemy.bossState = enemy.laserAttackDecision.GiveTheNextRandomDicision();
+    }
+
 }
 
 

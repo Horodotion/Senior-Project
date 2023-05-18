@@ -91,7 +91,8 @@ public class IceMeleeAttacks : AttackMotion
 
         enemy.navMeshAgent.speed = enemy.speed;
         enemy.navMeshAgent.stoppingDistance = 0;
-        enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
+
+        ExitMeleeAttack();
         //enemy.bossState = BossState.inCombat;
     }
 

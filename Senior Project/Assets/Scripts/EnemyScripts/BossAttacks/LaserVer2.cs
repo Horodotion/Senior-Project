@@ -4,26 +4,32 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Laser : MonoBehaviour
+public class LaserVer2 : MonoBehaviour
 {
-    [HideInInspector] public float laserFrequency;
+    [HideInInspector] public float laserDamageFrequency;
     [HideInInspector] public float laserDamage;
     [HideInInspector] private float timer;
-    [SerializeField] float maxlaserLength;
-    [SerializeField] bool isInfiniteSpeed;
-    [SerializeField] float laserSpeed;
+    [SerializeField] private float maxlaserLength;
+    [SerializeField] private bool isInfiniteSpeed;
+    [SerializeField] private float laserSpeed;
     [SerializeField] private float laserSize = 1;
-    [SerializeField] GameObject[] laserRayCastPoints;
-    [SerializeField] LayerMask layer;
+    [SerializeField] private GameObject[] laserRayCastPoints;
+    [SerializeField] private LayerMask layer;
+    [SerializeField] private GameObject iceBeam;
+    [SerializeField] private GameObject fireBeam;
     private float currentLaserLegth;
-
+    private RaycastHit[] rayCastThatHit;
+    private bool isHittingPlayer = false;
+    private float beamRange;
+    private Vector3 beamEndPoint;
     private void Awake()
     {
         laserSize = laserSize * transform.localScale.z;
+        rayCastThatHit = new RaycastHit[laserRayCastPoints.Length];
     }
     void OnEnable()
     {
-        this.transform.localScale = new Vector3(laserSize, laserSize, .1f);
+        //this.transform.localScale = new Vector3(laserSize, laserSize, .1f);
     }
 
     void Update()
@@ -32,14 +38,16 @@ public class Laser : MonoBehaviour
         {
             if (PointsThatHit(this.transform.localScale.z, layer) > 0)
             {
-                this.transform.localScale = new Vector3(laserSize, laserSize, GetLongestDistanceFromPointsHit(this.transform.localScale.z, layer));
-                return;
+                beamRange = GetLongestDistanceFromPointsHit(this.transform.localScale.z, layer);
+                //this.transform.localScale = new Vector3(laserSize, laserSize, GetLongestDistanceFromPointsHit(this.transform.localScale.z, layer));
+                //return;
             }
 
             if (PointsThatHit(this.transform.localScale.z, layer) == 0)
             {
-                this.transform.localScale = new Vector3(laserSize, laserSize, maxlaserLength);
-                return;
+                beamRange = maxlaserLength;
+                //this.transform.localScale = new Vector3(laserSize, laserSize, maxlaserLength);
+                //return;
             }
 
         }
@@ -50,7 +58,8 @@ public class Laser : MonoBehaviour
                 float temp = GetLongestDistanceFromPointsHit(maxlaserLength, layer);
                 if (temp < this.transform.localScale.z)
                 {
-                    this.transform.localScale = new Vector3(laserSize, laserSize, temp);
+                    beamRange = temp;
+                    //this.transform.localScale = new Vector3(laserSize, laserSize, temp);
                 }
                 currentLaserLegth = temp;
             }
@@ -63,35 +72,74 @@ public class Laser : MonoBehaviour
 
             if (currentLaserLegth > this.transform.localScale.z)
             {
-                this.transform.localScale += new Vector3(0, 0, laserSpeed * Time.deltaTime);
+                beamRange += laserSpeed * Time.deltaTime;
+                //this.transform.localScale += new Vector3(0, 0, laserSpeed * Time.deltaTime);
             }
         }
 
-    }
+        beamEndPoint = transform.position + (transform.forward * beamRange);
 
-
-    //Damage value is been change in the attacks
-    private void OnTriggerStay(Collider other)
-    {
-        
-        timer -= Time.deltaTime;
-        Debug.Log(timer <= 0);
-        if (timer <= 0)
+        Debug.Log(beamEndPoint);
+        if (laserDamage < 0)
         {
-            
-            if (other.tag.Equals("Player"))
+            if (fireBeam.activeInHierarchy)
             {
-                
+                fireBeam.SetActive(false);
+            }
+
+            if (!iceBeam.activeInHierarchy)
+            {
+                iceBeam.SetActive(true);
+            }
+            iceBeam.GetComponent<BeamScript>().ChangeEndPosition(beamEndPoint);
+        }
+        else
+        {
+            if (!fireBeam.activeInHierarchy)
+            {
+                fireBeam.SetActive(true);
+            }
+
+            if (iceBeam.activeInHierarchy)
+            {
+                iceBeam.SetActive(false);
+            }
+            fireBeam.GetComponent<BeamScript>().ChangeEndPosition(beamEndPoint);
+        }
+
+        
+
+        isHittingPlayer = false;
+        for (int i = 0; i < rayCastThatHit.Length; i++)
+        {
+            if (rayCastThatHit[i].collider != null)
+            {
+                if (rayCastThatHit[i].collider.tag.Equals("Player"))
+                {
+                    isHittingPlayer = true;
+                }
+            }
+        }
+
+        if (isHittingPlayer)
+        {
+            Debug.Log(laserDamage);
+            if (timer <= 0)
+            {
                 PlayerController.puppet.ChangeTemperature(laserDamage);
-                timer = laserFrequency;
+                timer = laserDamageFrequency;
+            }
+            else
+            {
+                timer -= Time.deltaTime;
             }
         }
         else
         {
             timer = 0;
         }
-        
     }
+
 
     private int PointsThatHit(float rayCastDistance, LayerMask thatLayer)
     {
@@ -114,12 +162,12 @@ public class Laser : MonoBehaviour
     private float GetLongestDistanceFromPointsHit(float rayCastDistance, LayerMask thatLayer)
     {
         
-        RaycastHit[] rayCastThatHit = new RaycastHit[laserRayCastPoints.Length];
+        //RaycastHit[] rayCastThatHit = new RaycastHit[laserRayCastPoints.Length];
         
         for(int i = 0; i < laserRayCastPoints.Length; i++)
         {
-            Physics.Raycast(laserRayCastPoints[i].transform.position, laserRayCastPoints[i].transform.forward, out RaycastHit hit,isInfiniteSpeed? maxlaserLength : rayCastDistance, thatLayer);
-            rayCastThatHit[i] = hit;
+            Physics.Raycast(laserRayCastPoints[i].transform.position, laserRayCastPoints[i].transform.forward, out rayCastThatHit[i],isInfiniteSpeed? maxlaserLength : rayCastDistance, thatLayer);
+            //rayCastThatHit[i] = hit;
             
         }
 

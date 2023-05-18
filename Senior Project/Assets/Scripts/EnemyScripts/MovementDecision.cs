@@ -1,36 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
 
 [CreateAssetMenu(menuName = "Decision/Movement Dicision")]
 public class MovementDecision : WeightedDecision
 {
-    
-    public int takingCover;
-    public int meleeAttack;
-    public int rangedAttack;
-    public int taunt;
-    public int teleport;
-    public int wait;
-    public int laser;
-    public int spawnMob;
+    public int taunt, meleeAttack, rangedAttack, takingCover, wait, teleport, teleBindPlayer , laser, turrets, mines, orbWalk;
 
     //public int[] decisions = new int[6];
     private void OnValidate()
     {
-        decisions = new int[] { takingCover, meleeAttack, rangedAttack, taunt, teleport, wait, laser, spawnMob };
+        decisions = new int[] { taunt, meleeAttack, rangedAttack, takingCover, wait, teleport, teleBindPlayer, laser, turrets, mines, orbWalk };
     }
 
     //StateDecistion[] movementDecistion = new StateDecistion[5];
-    public MovementDecision()
+    public MovementDecision() : base(new int[Enum.GetValues(typeof(BossState)).Length - 1])
     {
-        decisions = new int[8];
+        //decisions = new int[8];
     }
-    public MovementDecision(MovementDecision mD)
+    public MovementDecision(MovementDecision mD): base(new int[Enum.GetValues(typeof (BossState)).Length - 1])
     {
-        decisions = new int[7];
+        //decisions = new int[7];
         for (int i = 0; i < decisions.Length; i++)
         {
             decisions[i] = mD.decisions[i];
