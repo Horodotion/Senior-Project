@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1046588175525909180
 Transform:
   m_ObjectHideFlags: 0
@@ -123,6 +123,8 @@ MonoBehaviour:
   vulnerabilityMultiplier: 1.5
   resistanceMultiplier: 0.25
   enemyHitboxes: []
+  fireDamageText: {fileID: 0}
+  iceDamageText: {fileID: 0}
   critSpot: 0
   critMultiplier: 0
   enemy: {fileID: 1046588175710384460}
@@ -188,8 +190,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health:
-    stat: 1000
-    baseStat: 1000
+    stat: 100
+    baseStat: 100
     minimum: 0
     maximum: Infinity
   inInvincibilityFrames: 0
@@ -202,15 +204,12 @@ MonoBehaviour:
   enemyHitboxes:
   - {fileID: 1046588176660057085}
   - {fileID: 1046588175525909176}
+  fireDamageText: {fileID: 0}
+  iceDamageText: {fileID: 0}
   turretHinge: {fileID: 1046588176373580281}
   iceBeam: {fileID: 5813145559260143028, guid: b7976f6378b1c2d44b02bc15a18ce338, type: 3}
   fireBeam: {fileID: 1825884365860083250, guid: 159626a465b748c499c86821e214c11f,
     type: 3}
-  toggleBetweenArmors: 5
-  timer: 0
-  armorType: 0
-  fireArmor: {fileID: 1046588176660057030}
-  iceArmor: {fileID: 1046588175525909181}
   rotationSpeed: 1
   damagePerSecond: 5
   detectionRadius: 15
@@ -371,6 +370,8 @@ MonoBehaviour:
   vulnerabilityMultiplier: 1.5
   resistanceMultiplier: 0.25
   enemyHitboxes: []
+  fireDamageText: {fileID: 0}
+  iceDamageText: {fileID: 0}
   critSpot: 1
   critMultiplier: 3
   enemy: {fileID: 1046588175710384460}

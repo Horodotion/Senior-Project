@@ -23,14 +23,15 @@ Material:
   m_Name: WallIce
   m_Shader: {fileID: -6465566751694194690, guid: 97c846ad6c240e049971194bc186ab15,
     type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 3000
   stringTagMap:
-    RenderType: Opaque
+    RenderType: Transparent
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -40,8 +41,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 7b0fae4d5e9194a4bb3c761958267dd5, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: b3e51c2d9ddf8f449bfebe0c6dff54d6, type: 3}
+        m_Scale: {x: 0.5, y: 0.5}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_2dc7f83191dd4e0ba7d66ba524584583_Texture_1:
         m_Texture: {fileID: 2800000, guid: 0d97a118a7c063348b6cf9a499dafe80, type: 3}
@@ -82,25 +83,25 @@ Material:
     - _Blend: 0
     - _CastShadows: 1
     - _Cull: 2
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _InsideTexDepth2: 300
     - _NormalStrength: 0.2
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _SrcBlend: 1
-    - _Surface: 0
+    - _SrcBlend: 5
+    - _Surface: 1
     - _TextureResolution: 2048
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
-    - _ZWriteControl: 0
+    - _ZWriteControl: 1
     - _blur: 0
     - _insideTexDepth: 300
     - _refractionPower: 0
     - _smoothness: 0.7
     - _transparency: 1
     m_Colors:
-    - _insideColor: {r: 0.04294124, g: 0, b: 0.3679245, a: 0}
+    - _insideColor: {r: 0.20959409, g: 0.17577429, b: 0.4716981, a: 1}
     - _surfaceColor: {r: 0.49261302, g: 0.61069494, b: 0.7735849, a: 1}
   m_BuildTextureStacks: []

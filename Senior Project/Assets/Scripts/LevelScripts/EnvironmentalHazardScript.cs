@@ -24,6 +24,12 @@ public class EnvironmentalHazardScript : TriggerScript
         if (playerInArea)
         {
             PlayerController.puppet.ChangeTemperature(temperaturePerSecond * Time.deltaTime);
+
+            if (PlayerController.instance.temperature.stat >= PlayerController.instance.temperature.maximum ||
+                PlayerController.instance.temperature.stat <= PlayerController.instance.temperature.minimum)
+            {
+                playerInArea = false;
+            }
         }
     }
 }

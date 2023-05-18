@@ -8,11 +8,11 @@ public class VineRelay : EnemyHitbox
     {
         base.CommitDie();
         enemy.enemyHitboxes.Remove(this);
-        enemy.Damage(0);
+        enemy.Damage(0, Vector3.zero);
         Destroy(gameObject);
     }
 
-    public override void Damage(float damageAmount, DamageType damageType = DamageType.nuetral)
+    public override void Damage(float damageAmount, Vector3 hitPosition, DamageType damageType = DamageType.nuetral)
     {
         if (damageImmunities.Contains(damageType))
         {

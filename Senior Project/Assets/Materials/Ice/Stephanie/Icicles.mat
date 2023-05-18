@@ -23,14 +23,16 @@ Material:
   m_Name: Icicles
   m_Shader: {fileID: -6465566751694194690, guid: 97c846ad6c240e049971194bc186ab15,
     type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SPECULAR_SETUP
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 3000
   stringTagMap:
-    RenderType: Opaque
+    RenderType: Transparent
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -40,8 +42,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 7b0fae4d5e9194a4bb3c761958267dd5, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: b3e51c2d9ddf8f449bfebe0c6dff54d6, type: 3}
+        m_Scale: {x: 0.5, y: 0.5}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_2dc7f83191dd4e0ba7d66ba524584583_Texture_1:
         m_Texture: {fileID: 2800000, guid: 0d97a118a7c063348b6cf9a499dafe80, type: 3}
@@ -81,26 +83,26 @@ Material:
     - _AlphaClip: 0
     - _Blend: 0
     - _CastShadows: 1
-    - _Cull: 2
-    - _DstBlend: 0
+    - _Cull: 0
+    - _DstBlend: 10
     - _InsideTexDepth2: 300
     - _NormalStrength: 0.2
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _SrcBlend: 1
-    - _Surface: 0
+    - _SrcBlend: 5
+    - _Surface: 1
     - _TextureResolution: 2048
-    - _WorkflowMode: 1
+    - _WorkflowMode: 0
     - _ZTest: 4
     - _ZWrite: 1
-    - _ZWriteControl: 0
+    - _ZWriteControl: 1
     - _blur: 0
     - _insideTexDepth: 300
-    - _refractionPower: 0
-    - _smoothness: 1
+    - _refractionPower: 1
+    - _smoothness: 0.8
     - _transparency: 1
     m_Colors:
-    - _insideColor: {r: 0.083596855, g: 0.0485938, b: 0.49056602, a: 0}
-    - _surfaceColor: {r: 0.2720109, g: 0.18823527, b: 0.74509805, a: 1}
+    - _insideColor: {r: 0.1575454, g: 0, b: 0.5566038, a: 0}
+    - _surfaceColor: {r: 0.43316126, g: 0.46763605, b: 0.5849056, a: 1}
   m_BuildTextureStacks: []
