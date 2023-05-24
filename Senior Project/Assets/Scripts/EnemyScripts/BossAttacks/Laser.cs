@@ -16,9 +16,13 @@ public class Laser : MonoBehaviour
     [SerializeField] GameObject[] laserRayCastPoints;
     [SerializeField] LayerMask layer;
     private float currentLaserLegth;
-    void OnEnable()
+
+    private void Awake()
     {
         laserSize = laserSize * transform.localScale.z;
+    }
+    void OnEnable()
+    {
         this.transform.localScale = new Vector3(laserSize, laserSize, .1f);
     }
 

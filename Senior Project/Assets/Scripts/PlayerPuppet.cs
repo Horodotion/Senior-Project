@@ -91,6 +91,17 @@ public class PlayerPuppet : MonoBehaviour
 
             // Then it gathers any local references needs, currently only on the CharacterController
             charController = GetComponent<CharacterController>();
+            
+            if (GetComponentInChildren<Animator>() != null)
+            {
+                spellAnim = GetComponentInChildren<Animator>();
+            }
+
+            if (GetComponentInChildren<SpellAnimHolder>() != null)
+            {
+                ourAnimHolder = GetComponentInChildren<SpellAnimHolder>();
+                ourAnimHolder.ourPuppet = this;
+            }
         }
         else if (PlayerController.puppet != this)
         {
@@ -105,16 +116,7 @@ public class PlayerPuppet : MonoBehaviour
         // PlayerController.instance = PlayerController.instance;
         // playerStats = PlayerController.instance.playerStats;
 
-        if (GetComponentInChildren<Animator>() != null)
-        {
-            spellAnim = GetComponentInChildren<Animator>();
-        }
 
-        if (GetComponentInChildren<SpellAnimHolder>() != null)
-        {
-            ourAnimHolder = GetComponentInChildren<SpellAnimHolder>();
-            ourAnimHolder.ourPuppet = this;
-        }
 
         PlayerController.instance.SetUpAllSpells();
     }
