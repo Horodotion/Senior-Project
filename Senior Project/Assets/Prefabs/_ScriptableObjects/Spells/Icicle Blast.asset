@@ -18,7 +18,7 @@ MonoBehaviour:
   ourSpellSlot: 0
   spellAnim: {fileID: 0}
   spellAnimHolder: {fileID: 0}
-  animationLocation: 3
+  animationLocation: 2
   ourhand: 1
   chargingSpell: 0
   tempPerSecond: 0
@@ -27,10 +27,17 @@ MonoBehaviour:
   damage: 10
   effectiveRange: 10
   sphereCastRadius: 0.01
+  timeBetweenProjectiles: 0
+  timeBetweenProjectilesRemaining: 0
   objectToSpawn: {fileID: 1589265112113988226, guid: ebaef2a7a512d6b4e93a20bbbf9dcf14,
     type: 3}
   vfxEffectObj: {fileID: 0}
   vfx: {fileID: 0}
+  usesCharges: 0
+  charges: 0
+  maximumCharges: 0
+  rechargeRate: 0
+  rechargeTimer: 0
   pelletsPerShot: 3
   minimumSpreadRange: 3
   spreadAngle: 20

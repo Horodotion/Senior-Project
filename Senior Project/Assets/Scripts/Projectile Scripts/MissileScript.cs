@@ -63,7 +63,7 @@ public class MissileScript : ProjectileController
             }
             if (hC.gameObject.tag == "Enemy" && hC.GetComponent<EnemyController>() != null && !hC.GetComponent<EnemyController>().dead)
             {
-                hC.GetComponent<EnemyController>().Damage(explosionDamage, damageType);
+                hC.GetComponent<EnemyController>().Damage(explosionDamage, Vector3.zero, damageType);
             }
 
         }

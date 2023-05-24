@@ -23,11 +23,12 @@ public class BeamAttack : Spell
         RaycastHit hit;
         Transform firePos = GetFirePos();
 
-        if (Physics.SphereCast(firePos.position, sphereCastRadius, direction, out hit, effectiveRange) && hit.collider != null)
+        if (Physics.SphereCast(playerCameraTransform.position, sphereCastRadius, direction, out hit, effectiveRange) && hit.collider != null)
         {
             if (hit.collider.tag == "Enemy" && hit.collider.gameObject.GetComponent<EnemyController>() != null)
             {
-                DamageEnemy(hit.collider.gameObject.GetComponent<EnemyController>());
+                float damageToAssign = AssignDamage();
+                hit.collider.gameObject.GetComponent<EnemyController>().Damage(damageToAssign * Time.deltaTime, hit.point, damageType);
             }
 
             beamPos = hit.point;

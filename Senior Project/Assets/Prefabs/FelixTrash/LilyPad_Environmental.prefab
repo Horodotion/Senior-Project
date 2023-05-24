@@ -119,6 +119,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 315af59bb166c314ba4df5bc845019f1, type: 2}
+  - {fileID: 2100000, guid: 5d96930e118d068448614cb322d7616f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -178,6 +179,8 @@ MonoBehaviour:
   vulnerabilityMultiplier: 0
   resistanceMultiplier: 0
   enemyHitboxes: []
+  fireDamageText: {fileID: 0}
+  iceDamageText: {fileID: 0}
   recoveryRate: 5
   startDelay: 0.1
   targetA: {fileID: 8297747333518087316}
