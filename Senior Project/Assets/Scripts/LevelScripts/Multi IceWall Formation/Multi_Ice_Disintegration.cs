@@ -28,7 +28,7 @@ public class Multi_Ice_Disintegration : MonoBehaviour
         }
         iceWallsToAppear = manager.iceToForm;
         currentIceWall = iceWallsToAppear[currentIndex];
-        //currentIceWall.SetActive(false);
+        currentIceWall.SetActive(false);
         rend = currentIceWall.GetComponent<Renderer>();
         shaderValue = rend.material.GetFloat("_Disintigration");
     }

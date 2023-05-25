@@ -47,7 +47,7 @@ public class GeneralManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(this.gameObject);
 
             // eventFlags = NewEventDictionary(eventList); // Wires up the dictionary of event flags.
         }
