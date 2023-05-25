@@ -528,7 +528,8 @@ public class BossEnemyController : EnemyController
                 //If the player detected the boss
                 if (hit.collider.CompareTag("Player"))
                 {
-                    bossState = AmbushedDicision();
+                    //bossState = AmbushedDicision();
+                    ExitInCoverState();
                     //bossState = BossState.takingCover;
                     yield break;
                 }

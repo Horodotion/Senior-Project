@@ -65,7 +65,7 @@ public class GeneralManager : MonoBehaviour
     // Loads a scene by its build index
     public static void LoadLevel(int levelToLoad)
     {
-        SpawnManager.instance.TurnOffEverything();
+        //SpawnManager.instance.TurnOffEverything();
         SceneManager.LoadScene(levelToLoad);
         GeneralManager.instance.UnPauseGame();
         PathLight.ClearPath();

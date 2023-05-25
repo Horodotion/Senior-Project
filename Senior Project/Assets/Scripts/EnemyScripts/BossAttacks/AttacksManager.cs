@@ -223,7 +223,7 @@ public class AttacksManager : MonoBehaviour
         }
         else
         {
-            fireMeleeAttack.spawnPoiont[0].gameObject.SetActive(iceMeleeAttack.spawnPoiont[0].gameObject.activeSelf ? false : true);
+            fireMeleeAttack.spawnPoiont[0].gameObject.SetActive(fireMeleeAttack.spawnPoiont[0].gameObject.activeSelf ? false : true);
         }
     }
 
