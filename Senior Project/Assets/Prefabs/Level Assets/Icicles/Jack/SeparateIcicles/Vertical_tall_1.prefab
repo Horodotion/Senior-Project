@@ -206,15 +206,21 @@ MonoBehaviour:
     baseStat: 0
     minimum: -Infinity
     maximum: Infinity
-  inInvicibilityFrames: 0
+  inInvincibilityFrames: 0
   dead: 0
   damageImmunities: 
+  damageResistances: 
+  damageVulnerabilities: 01000000
+  vulnerabilityMultiplier: 0
+  resistanceMultiplier: 0
+  enemyHitboxes: []
+  fireDamageText: {fileID: 0}
+  iceDamageText: {fileID: 0}
   destroyEffectPrefab: {fileID: 4473927184254439432, guid: 58483bf54dafe104c857257b7164971d,
     type: 3}
   customTransform: {fileID: 2102826297010177457}
   explosionRadius: 0
   baseDamageDealt: 0
-  baseTempChange: 0
   secondsUntilParticlesAreDestroyed: 2
 --- !u!64 &3373012700555173346
 MeshCollider:
