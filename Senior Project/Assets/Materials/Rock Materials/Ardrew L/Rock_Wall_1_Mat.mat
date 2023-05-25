@@ -11,6 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ValidKeywords:
   - _DETAIL_MULX2
+  - _METALLICSPECGLOSSMAP
   - _NORMALMAP
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -24,11 +25,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: e7c0703a0295d6943aa2275d9ec4d7b5, type: 3}
+        m_Texture: {fileID: 2800000, guid: e104487c355d75d46b68dd143c5b5c45, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 768b32cba2fae6e4aa6f2b006f64a02c, type: 3}
+        m_Texture: {fileID: 2800000, guid: ad79aad8da1f72047b73c51f5004c51d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ClearCoatMap:
@@ -44,7 +45,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
-        m_Texture: {fileID: 2800000, guid: 768b32cba2fae6e4aa6f2b006f64a02c, type: 3}
+        m_Texture: {fileID: 2800000, guid: ad79aad8da1f72047b73c51f5004c51d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -52,11 +53,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: e7c0703a0295d6943aa2275d9ec4d7b5, type: 3}
+        m_Texture: {fileID: 2800000, guid: e104487c355d75d46b68dd143c5b5c45, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 2c07c2b356f134741984ce2ae089c85b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -113,7 +114,7 @@ Material:
     - _ReceiveShadows: 1
     - _SampleGI: 0
     - _Shininess: 0
-    - _Smoothness: 0
+    - _Smoothness: 0.1
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
     - _SpecSource: 0
@@ -130,8 +131,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.82627153, g: 0.8396226, b: 0.7802154, a: 1}
-    - _Color: {r: 0.82627153, g: 0.8396226, b: 0.7802154, a: 1}
+    - _BaseColor: {r: 0.8962264, g: 0.8962264, b: 0.8962264, a: 1}
+    - _Color: {r: 0.8962264, g: 0.8962264, b: 0.8962264, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999993, g: 0.19999993, b: 0.19999993, a: 0}
     - _UvOffset: {r: 0, g: 0, b: 0, a: 0}
