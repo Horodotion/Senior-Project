@@ -29,6 +29,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
     public LayerMask whatIsPlayer;
     public bool cascadingJeff;
     public GameObject nextJeff = null;
+    public bool instantDisintegrate;
     // public bool dropTurret;
     // public bool fireElem;
 
@@ -43,6 +44,17 @@ public class JeffEnvironmentHazard : MonoBehaviour
     private bool hasAttacked;
     public bool extraDrop;
 
+    [Header("Disintegration")]
+    public GameObject iceMesh;
+    public GameObject boneBesh;
+    public GameObject bodyMesh;
+    private SkinnedMeshRenderer iceRend, boneRend, bodyRend;
+    private float shaderValue;
+    public float deltaRate = 2;
+    public float deltaValue = .1f;
+    private bool disintegrating = false;
+
+
     private void Awake()
     {
         if (nextJeff != null)
@@ -52,6 +64,11 @@ public class JeffEnvironmentHazard : MonoBehaviour
         player = GameObject.FindObjectOfType<PlayerPuppet>().transform;
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+
+        iceRend = iceMesh.GetComponent<SkinnedMeshRenderer>();
+        boneRend = boneBesh.GetComponent<SkinnedMeshRenderer>();
+        bodyRend = bodyMesh.GetComponent<SkinnedMeshRenderer>();
+        shaderValue = bodyRend.material.GetFloat("_Disintigration");
     }
 
     public void FixedUpdate()
@@ -64,6 +81,18 @@ public class JeffEnvironmentHazard : MonoBehaviour
         if (playerFound && repeatingAttack && Vector3.Distance(transform.position, PlayerController.puppet.transform.position) <= criticalRange)
         {
             RunAway();
+        }
+
+        if(disintegrating)
+        {
+            if(shaderValue < 1)
+            {
+                shaderValue += deltaValue * (deltaRate * Time.deltaTime);
+                Debug.Log(shaderValue);
+                iceRend.material.SetFloat("_Disintigration", shaderValue);
+                bodyRend.material.SetFloat("_Disintigration", shaderValue);
+                boneRend.material.SetFloat("_Disintigration", shaderValue);
+            }
         }
     }
 
@@ -171,9 +200,18 @@ public class JeffEnvironmentHazard : MonoBehaviour
         //transform.LookAt(runawayPoint);
         anim.SetBool("isRunning", true);
         agent.SetDestination(runawayPoint.position);
-        Invoke(nameof(Disappear), despawnTime);
+        if(instantDisintegrate)
+        {
+            disintegrating = true;
+        }
+        Invoke(nameof(Disintegrate), despawnTime);
     }
 
+    private void Disintegrate()
+    {
+        disintegrating = true;
+        Invoke(nameof(Disappear), despawnTime);
+    }
 
     private void Disappear()
     {
