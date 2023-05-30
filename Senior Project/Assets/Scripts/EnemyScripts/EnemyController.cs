@@ -18,6 +18,7 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public bool dead = false;
 
     [Header("Damage Variations")]
+    public bool usesDamageText;
     public List<DamageType> damageImmunities;
     public List<DamageType> damageResistances;
     public List<DamageType> damageVulnerabilities;
@@ -47,16 +48,27 @@ public class EnemyController : MonoBehaviour
 
     public virtual void Damage(float damageAmount, Vector3 hitPosition, DamageType damageType = DamageType.nuetral)
     {
-        GameObject damageText = GetDamageText(damageType);
+        
         
         if (damageImmunities.Contains(damageType))
         {
-            damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, 0, damageType);
+            if (usesDamageText)
+            {
+                GameObject damageText = GetDamageText(damageType);
+                damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, 0, damageType);
+            }
+            
             return;
         }
 
         float damage = DamageCalculation(damageAmount, damageType);
-        damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, damage, damageType);
+        
+
+        if (usesDamageText)
+        {
+            GameObject damageText = GetDamageText(damageType);
+            damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, damage, damageType);
+        }
 
         health.AddToStat(-damage);
         if (health.stat <= health.minimum && !dead)

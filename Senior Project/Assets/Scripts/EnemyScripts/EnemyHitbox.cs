@@ -16,15 +16,23 @@ public class EnemyHitbox : EnemyController
 
     public override void Damage(float damageAmount, Vector3 hitPosition, DamageType damageType = DamageType.nuetral)
     {
-        GameObject damageText = GetDamageText(damageType);
         if (damageImmunities.Contains(damageType))
         {
-            damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, 0, damageType);
+            if (usesDamageText)
+            {
+                GameObject damageText = GetDamageText(damageType);
+                damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, 0, damageType);
+            }
             return;
         }
 
         float damage = DamageCalculation(damageAmount, damageType);
-        damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, damage, damageType);
+
+        if (usesDamageText)
+        {
+            GameObject damageText = GetDamageText(damageType);
+            damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, damage, damageType);
+        }
 
         enemy.health.AddToStat(-damage);
         if (enemy.health.stat <= enemy.health.minimum)

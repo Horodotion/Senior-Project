@@ -1123,10 +1123,10 @@ Terrain:
   serializedVersion: 6
   m_TerrainData: {fileID: 15600000, guid: 1ca9933449d9dc549916aac812812c02, type: 2}
   m_TreeDistance: 5000
-  m_TreeBillboardDistance: 50
-  m_TreeCrossFadeLength: 5
+  m_TreeBillboardDistance: 5
+  m_TreeCrossFadeLength: 11.5
   m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 80
+  m_DetailObjectDistance: 45
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 1000
@@ -9059,8 +9059,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6085119169380210579, guid: 3a5d7017fe9a06743b3854aa1cd39d9e,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3093
+      objectReference: {fileID: 0}
+    - target: {fileID: 6085119169380210579, guid: 3a5d7017fe9a06743b3854aa1cd39d9e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3093
+      objectReference: {fileID: 0}
+    - target: {fileID: 6085119169380210579, guid: 3a5d7017fe9a06743b3854aa1cd39d9e,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3093
+      objectReference: {fileID: 0}
+    - target: {fileID: 6085119169380210579, guid: 3a5d7017fe9a06743b3854aa1cd39d9e,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: 119.95
+      value: 121.62
       objectReference: {fileID: 0}
     - target: {fileID: 6085119169380210579, guid: 3a5d7017fe9a06743b3854aa1cd39d9e,
         type: 3}
@@ -9070,12 +9085,12 @@ PrefabInstance:
     - target: {fileID: 6085119169380210579, guid: 3a5d7017fe9a06743b3854aa1cd39d9e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 376.84
+      value: 377.33
       objectReference: {fileID: 0}
     - target: {fileID: 6085119169380210579, guid: 3a5d7017fe9a06743b3854aa1cd39d9e,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99868745
+      value: 0.999966
       objectReference: {fileID: 0}
     - target: {fileID: 6085119169380210579, guid: 3a5d7017fe9a06743b3854aa1cd39d9e,
         type: 3}
@@ -9085,7 +9100,7 @@ PrefabInstance:
     - target: {fileID: 6085119169380210579, guid: 3a5d7017fe9a06743b3854aa1cd39d9e,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.05121943
+      value: 0.008249923
       objectReference: {fileID: 0}
     - target: {fileID: 6085119169380210579, guid: 3a5d7017fe9a06743b3854aa1cd39d9e,
         type: 3}
@@ -9100,7 +9115,7 @@ PrefabInstance:
     - target: {fileID: 6085119169380210579, guid: 3a5d7017fe9a06743b3854aa1cd39d9e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 5.872
+      value: 0.945
       objectReference: {fileID: 0}
     - target: {fileID: 6085119169380210579, guid: 3a5d7017fe9a06743b3854aa1cd39d9e,
         type: 3}
@@ -18590,17 +18605,29 @@ PrefabInstance:
     - target: {fileID: 1414081194855783585, guid: cb03c114bc43b68479992b77124215c5,
         type: 3}
       propertyPath: m_LocalPosition.x
+<<<<<<< HEAD:Senior Project/Assets/Scenes/Felix/Scene 1/Level 1_Dustin_New/Level 1_Dustin_New.unity
+      value: 102.75
+=======
       value: -116.41534
+>>>>>>> main:Senior Project/Assets/Scenes/Level 1/Level 1_Dustin_New.unity
       objectReference: {fileID: 0}
     - target: {fileID: 1414081194855783585, guid: cb03c114bc43b68479992b77124215c5,
         type: 3}
       propertyPath: m_LocalPosition.y
+<<<<<<< HEAD:Senior Project/Assets/Scenes/Felix/Scene 1/Level 1_Dustin_New/Level 1_Dustin_New.unity
+      value: 7.33
+=======
       value: 210.01515
+>>>>>>> main:Senior Project/Assets/Scenes/Level 1/Level 1_Dustin_New.unity
       objectReference: {fileID: 0}
     - target: {fileID: 1414081194855783585, guid: cb03c114bc43b68479992b77124215c5,
         type: 3}
       propertyPath: m_LocalPosition.z
+<<<<<<< HEAD:Senior Project/Assets/Scenes/Felix/Scene 1/Level 1_Dustin_New/Level 1_Dustin_New.unity
+      value: 381.18
+=======
       value: 33.084686
+>>>>>>> main:Senior Project/Assets/Scenes/Level 1/Level 1_Dustin_New.unity
       objectReference: {fileID: 0}
     - target: {fileID: 1414081194855783585, guid: cb03c114bc43b68479992b77124215c5,
         type: 3}
@@ -22012,16 +22039,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2.5707893
-      objectReference: {fileID: 0}
-    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 3.2690425
-      objectReference: {fileID: 0}
-    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 118.2
       objectReference: {fileID: 0}
@@ -22074,11 +22091,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WaterBlock_50m
-      objectReference: {fileID: 0}
-    - target: {fileID: 1507636620937791836, guid: 7097ba7ba649e1f41bba232312bdcbd8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7097ba7ba649e1f41bba232312bdcbd8, type: 3}
@@ -33354,6 +33366,78 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1536395675}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD:Senior Project/Assets/Scenes/Felix/Scene 1/Level 1_Dustin_New/Level 1_Dustin_New.unity
+--- !u!1001 &1537931857
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 168040982}
+    m_Modifications:
+    - target: {fileID: 5097592089280534352, guid: 5e3b2f1c53c573d4383326a7fe4fded8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097592089280534352, guid: 5e3b2f1c53c573d4383326a7fe4fded8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -97.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097592089280534352, guid: 5e3b2f1c53c573d4383326a7fe4fded8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 209.28516
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097592089280534352, guid: 5e3b2f1c53c573d4383326a7fe4fded8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 39.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097592089280534352, guid: 5e3b2f1c53c573d4383326a7fe4fded8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6080034
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097592089280534352, guid: 5e3b2f1c53c573d4383326a7fe4fded8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097592089280534352, guid: 5e3b2f1c53c573d4383326a7fe4fded8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.79393446
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097592089280534352, guid: 5e3b2f1c53c573d4383326a7fe4fded8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097592089280534352, guid: 5e3b2f1c53c573d4383326a7fe4fded8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097592089280534352, guid: 5e3b2f1c53c573d4383326a7fe4fded8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 105.109
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097592089280534352, guid: 5e3b2f1c53c573d4383326a7fe4fded8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5617563595179560426, guid: 5e3b2f1c53c573d4383326a7fe4fded8,
+        type: 3}
+      propertyPath: m_Name
+      value: CurvyTrunk_1 (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5e3b2f1c53c573d4383326a7fe4fded8, type: 3}
+=======
+>>>>>>> main:Senior Project/Assets/Scenes/Level 1/Level 1_Dustin_New.unity
 --- !u!1001 &1539583458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42638,7 +42722,108 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1956244727}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD:Senior Project/Assets/Scenes/Felix/Scene 1/Level 1_Dustin_New/Level 1_Dustin_New.unity
+--- !u!1001 &1960489627
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 875024062, guid: 7097ba7ba649e1f41bba232312bdcbd8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 875024065, guid: 7097ba7ba649e1f41bba232312bdcbd8, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.1591802
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.1237009
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 125.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 163.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791836, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_Name
+      value: WaterBlock_50m (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791836, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507636620937791839, guid: 7097ba7ba649e1f41bba232312bdcbd8,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 525516cc4ac52c54b9edb28ed8fd22a2, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7097ba7ba649e1f41bba232312bdcbd8, type: 3}
+--- !u!1 &1960697755
+=======
 --- !u!1 &1956592864
+>>>>>>> main:Senior Project/Assets/Scenes/Level 1/Level 1_Dustin_New.unity
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
