@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 254614394097568528}
   - component: {fileID: 2427353352705464605}
   - component: {fileID: 2427353352705464601}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Lilypad_FelixEdit
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -119,7 +119,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 315af59bb166c314ba4df5bc845019f1, type: 2}
-  - {fileID: 2100000, guid: 5d96930e118d068448614cb322d7616f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -173,6 +172,7 @@ MonoBehaviour:
     maximum: 10
   inInvincibilityFrames: 0
   dead: 0
+  usesDamageText: 0
   damageImmunities: 00000000
   damageResistances: 
   damageVulnerabilities: 

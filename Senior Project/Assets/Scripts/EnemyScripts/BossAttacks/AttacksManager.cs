@@ -19,10 +19,11 @@ public class AttacksManager : MonoBehaviour
     
     public float timer;
 
-    //[SerializeField] public AttackWithSP[] attacksList;
+    //[SerializeField] public EnemyAttack[] attacksList;
     //[SerializeField] public EnemyAttack currentAttack;
 
     //All the boss attack
+
     [SerializeField] public EnemyAttack iceMeleeAttack;
     [SerializeField] public EnemyAttack fireMeleeAttack;
     [SerializeField] public EnemyAttack iceRangedAttack;
@@ -44,6 +45,7 @@ public class AttacksManager : MonoBehaviour
     {
         enemy = GetComponent<BossEnemyController>();
         //instance = GetComponent<AttacksManager>();
+
 
         // Initialize the attacks so that the attackmotion class contain their spawn point
         iceMeleeAttack.attackMotion.InitializeAttacks(enemy, iceMeleeAttack.spawnPoiont);
@@ -107,6 +109,7 @@ public class AttacksManager : MonoBehaviour
         
         //StartCoroutine(enemy.MovementCoroutine);
     }
+
     public IEnumerator LaserAttack()
     {
         if (RangedAttackDicision())
@@ -123,6 +126,7 @@ public class AttacksManager : MonoBehaviour
         }
 
     }
+
     //Decide which element for the melee attack
     public IEnumerator MeleeAttack()
     {
@@ -141,7 +145,7 @@ public class AttacksManager : MonoBehaviour
         }
         //StartCoroutine(enemy.MovementCoroutine);
     }
-
+    
     //This output a bool (true is ice/ false is fire) by calculate the element needed to use using the decision and decision modifier during range attack.
     public bool RangedAttackDicision()
     {
@@ -194,7 +198,7 @@ public class AttacksManager : MonoBehaviour
         //Find which element for the next attack
         return temp.GiveTheNextRandomDicision(); 
     }
-    
+
     /*
     public bool AbleToAttack(float timer)
     {
@@ -211,5 +215,77 @@ public class AttacksManager : MonoBehaviour
     }
     */
 
+    public void SetHitBox()
+    {
+        if (enemy.animator.GetFloat("element") == 0)
+        {
+            iceMeleeAttack.spawnPoiont[0].gameObject.SetActive(iceMeleeAttack.spawnPoiont[0].gameObject.activeSelf ? false : true);
+        }
+        else
+        {
+            fireMeleeAttack.spawnPoiont[0].gameObject.SetActive(fireMeleeAttack.spawnPoiont[0].gameObject.activeSelf ? false : true);
+        }
+    }
+
+    public void FireProjectile()
+    {
+        
+        if (enemy.animator.GetFloat("element") == 0)
+        {
+            GameObject thisProjectile1 = SpawnManager.instance.GetGameObject(((IceProjectileAttacks)iceRangedAttack.attackMotion).getProjectile(), SpawnType.projectile);
+            //Debug.Log(thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController testController));
+            if (thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController projectileController))
+            {
+                projectileController.transform.position = iceRangedAttack.spawnPoiont[0].transform.position;
+                projectileController.transform.rotation = iceRangedAttack.spawnPoiont[0].transform.rotation;
+                //SpawnManager.instance.GetGameObject(projectile, SpawnType.projectile);
+                projectileController.LaunchProjectile();
+            }
+        }
+        else
+        {
+            GameObject thisProjectile1 = SpawnManager.instance.GetGameObject(((FireProjectileAttacks)fireRangedAttack.attackMotion).getProjectile(), SpawnType.projectile);
+            //Debug.Log(thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController testController));
+            if (thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController projectileController))
+            {
+                projectileController.transform.position = fireRangedAttack.spawnPoiont[0].transform.position;
+                projectileController.transform.rotation = fireRangedAttack.spawnPoiont[0].transform.rotation;
+                //SpawnManager.instance.GetGameObject(projectile, SpawnType.projectile);
+                projectileController.LaunchProjectile();
+            }
+        }
+        GameObject projectile;
+        
+    }
+
+    public void SetLaser()
+    {
+        if (enemy.animator.GetFloat("element") == 0)
+        {
+            iceMeleeAttack.spawnPoiont[0].gameObject.SetActive(iceMeleeAttack.spawnPoiont[0].gameObject.activeSelf ? false : true);
+        }
+        else
+        {
+            fireMeleeAttack.spawnPoiont[0].gameObject.SetActive(iceMeleeAttack.spawnPoiont[0].gameObject.activeSelf ? false : true);
+        }
+    }
+
+
+    public void ExitAttackAnimation(string action)
+    {
+        if (action == "melee")
+        {
+            enemy.animator.SetBool("isMeleeAttacking", false);
+        }
+        if(action == "ranged")
+        {
+            Debug.Log(action);
+            enemy.animator.SetBool("isRangedAttacking", false);
+        }
+        if (action == "laser")
+        {
+            enemy.animator.SetBool("isLaserAttacking", false);
+        }
+    }
 
 }

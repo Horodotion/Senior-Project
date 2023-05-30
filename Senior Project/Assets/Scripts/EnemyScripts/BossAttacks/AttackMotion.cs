@@ -32,22 +32,24 @@ public class AttackMotion : ScriptableObject
 
     //EnemyAttackValue attackValue;
 
-    //public AttacksManager attacksManager;
+    //public AttacksManager attacksManager;s
 
 
     public virtual void Awake()
     {
-        
+
         //isFiredOnce = true;
         //attacksManager = AttacksManager.instance;
         //enemy = enemyGameObject.GetComponent<MovingEnemyController>();
     }
+
 
     public virtual void InitializeAttacks(BossEnemyController enemyController, Transform[] SP)
     {
         enemy = enemyController;
         this.SP = SP;
     }
+
 
     public virtual IEnumerator AttackingPlayer()
     {
@@ -63,6 +65,24 @@ public class AttackMotion : ScriptableObject
 
     }
     */
+
+    public void ExitMeleeAttack()
+    {
+        //enemy.bossState = enemy.meleeAtkFollowUpDicision.GiveTheNextRandomDicision();
+        enemy.bossState = enemy.meleeAttackDecision.GiveTheNextRandomDicision();
+    }
+    public void ExitRangedAttack()
+    {
+        //enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
+        enemy.bossState = enemy.rangedAttackDecision.GiveTheNextRandomDicision();
+    }
+
+    public void ExitLaserAttack()
+    {
+        //enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
+        enemy.bossState = enemy.laserAttackDecision.GiveTheNextRandomDicision();
+    }
+
 }
 
 

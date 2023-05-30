@@ -47,7 +47,7 @@ public class GeneralManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(this.gameObject);
 
             // eventFlags = NewEventDictionary(eventList); // Wires up the dictionary of event flags.
         }
@@ -65,7 +65,7 @@ public class GeneralManager : MonoBehaviour
     // Loads a scene by its build index
     public static void LoadLevel(int levelToLoad)
     {
-        SpawnManager.instance.TurnOffEverything();
+        //SpawnManager.instance.TurnOffEverything();
         SceneManager.LoadScene(levelToLoad);
         GeneralManager.instance.UnPauseGame();
         PathLight.ClearPath();
