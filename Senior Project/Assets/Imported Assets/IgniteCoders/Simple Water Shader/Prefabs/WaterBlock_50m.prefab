@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 875024066}
   - component: {fileID: 875024065}
   - component: {fileID: 875024064}
-  - component: {fileID: 875024063}
+  - component: {fileID: 2836167529540208403}
   m_Layer: 0
   m_Name: DeathPlane
   m_TagString: Untagged
@@ -99,7 +99,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &875024063
+--- !u!114 &2836167529540208403
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,9 +108,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 875024061}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcb42ece25a833048910644988c8b29d, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c6515a3dcc54554e9332c2842d80e5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  temperaturePerSecond: 20
+  playerInArea: 0
 --- !u!1 &1507636620937791836
 GameObject:
   m_ObjectHideFlags: 0
