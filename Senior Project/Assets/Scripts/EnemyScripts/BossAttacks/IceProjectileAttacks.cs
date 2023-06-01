@@ -16,12 +16,18 @@ public class IceProjectileAttacks : AttackMotion
         enemy = enemyController;
         this.SP = SP;
     }
-    public override IEnumerator AttackingPlayer()
-    {
 
-        enemy.navMeshAgent.speed = enemy.speed;
+    public override IEnumerator AttackingPlayer(float leftRightHand)
+    {
+        Debug.Log("TEst");
+        //enemy.IdleAni();
+        //yield return null;
+        //yield return new WaitForSeconds(2f);
         while (true)
         {
+            enemy.navMeshAgent.speed = enemy.speed;
+            enemy.RunningAni();
+            //yield return null;
             Physics.Raycast(enemy.transform.position, PlayerController.puppet.cameraObj.transform.position - enemy.transform.position, out RaycastHit hit, fireDistance, ~LayerMask.GetMask("Enemy"));
             Debug.DrawRay(enemy.transform.position, PlayerController.puppet.cameraObj.transform.position - enemy.transform.position, Color.red);
             //Debug.Log(hit.collider.tag);
@@ -32,20 +38,29 @@ public class IceProjectileAttacks : AttackMotion
             enemy.navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
             if (hit.collider != null && hit.collider.tag.Equals("Player"))
             {
+                Debug.Log(enemy.animator.GetInteger(enemy.aniDecision));
+                //yield return null;
                 break;
             }
             yield return null;
+            
         }
+        //yield return null;
 
+        //enemy.IdleAni();
+        Debug.Log(enemy.animator.GetInteger(enemy.aniDecision));
+        //yield return null;
 
-        enemy.animator.SetBool("isRangedAttacking", true);
+        //enemy.animator.SetBool("isRangedAttacking", true);
+        enemy.animator.SetFloat(enemy.aniLeftRightDecision, leftRightHand);
+        enemy.animator.SetInteger(enemy.aniDecision, enemy.throwAni);
         enemy.animator.SetFloat("element", 0);
 
         
-        yield return null;
+        //yield return new WaitForSeconds(2f);
         enemy.navMeshAgent.isStopped = true;
         //yield return new WaitForSeconds(1f);
-        while (enemy.animator.GetBool("isRangedAttacking"))
+        while (enemy.animator.GetInteger(enemy.aniDecision) == enemy.throwAni)
         {
             
             while (!enemy.IsPlayerWithinView(100f, 4f, 100f))
@@ -80,6 +95,8 @@ public class IceProjectileAttacks : AttackMotion
 
         */
         //enemy.animator.SetBool("isRangedAttacking", false);
+        yield return null;
+
         enemy.navMeshAgent.isStopped = false;
         enemy.navMeshAgent.speed = enemy.speed;
 
