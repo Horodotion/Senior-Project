@@ -319,6 +319,7 @@ public class AttacksManager : MonoBehaviour
     }
     public void ExitAttackAnimation()
     {
+        Debug.Log("Why???????");
         enemy.IdleAni();
     }
 }
