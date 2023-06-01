@@ -437,11 +437,12 @@ public class BossEnemyController : EnemyController
                 }
             }
             */
+            /*
             if (prevousCoverPoint == thisCol.transform.position && isCoverPointResetNeeded)
             {
                 continue;
             }
-            
+            */
 
 
             if (!IsItAValidHidingPoint(widthOfTheBoss, thisCol.transform.position))
