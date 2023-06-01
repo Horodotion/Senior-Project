@@ -16,32 +16,45 @@ public class FireProjectileAttacks : AttackMotion
         enemy = enemyController;
         this.SP = SP;
     }
-    public override IEnumerator AttackingPlayer()
+    public override IEnumerator AttackingPlayer(float leftRightHand)
     {
-
-        enemy.navMeshAgent.speed = enemy.speed;
+        Debug.Log("Test");
+        //enemy.IdleAni();
+        //yield return null;
+        //yield return new WaitForSeconds(2f);
         while (true)
         {
-
+            enemy.navMeshAgent.speed = enemy.speed;
+            enemy.RunningAni();
+            //yield return new WaitForSeconds(2f);
+            //yield return null;
             Physics.Raycast(enemy.transform.position, PlayerController.puppet.cameraObj.transform.position - enemy.transform.position, out RaycastHit hit, fireDistance, ~LayerMask.GetMask("Enemy"));
             Debug.DrawRay(enemy.transform.position, PlayerController.puppet.cameraObj.transform.position - enemy.transform.position, Color.red);
             enemy.navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
             if (hit.collider != null && hit.collider.tag.Equals("Player"))
             {
+                //yield return null;
                 break;
             }
             yield return null;
         }
 
+        //yield return null;
 
-        enemy.animator.SetBool("isRangedAttacking", true);
+        //enemy.IdleAni();
+        
+        //yield return null;
+        //enemy.animator.SetBool("isRangedAttacking", true);
+
+        enemy.animator.SetFloat(enemy.aniLeftRightDecision, leftRightHand);
+        enemy.animator.SetInteger(enemy.aniDecision, enemy.throwAni);
         enemy.animator.SetFloat("element", 1);
 
 
-        yield return null;
+        //yield return new WaitForSeconds(2f);
         enemy.navMeshAgent.isStopped = true;
         //yield return new WaitForSeconds(1f);
-        while (enemy.animator.GetBool("isRangedAttacking"))
+        while (enemy.animator.GetInteger(enemy.aniDecision) == enemy.throwAni)
         {
 
             while (!enemy.IsPlayerWithinView(100f, 4f, 100f))
@@ -52,6 +65,8 @@ public class FireProjectileAttacks : AttackMotion
 
             yield return null;
         }
+
+        yield return null;
 
         enemy.navMeshAgent.isStopped = false;
         enemy.navMeshAgent.speed = enemy.speed;
