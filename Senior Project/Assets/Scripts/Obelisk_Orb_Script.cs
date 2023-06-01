@@ -10,6 +10,7 @@ public class Obelisk_Orb_Script : MonoBehaviour
     public GameObject SpawnPointB;
     public GameObject HolderEmpty;
 	public GameObject PillarVFX;
+    public GameObject IdleHolderEmpty;
     public GameObject Idle_EmptyA;
     public GameObject Idle_EmptyB;
     public GameObject Idle_EmptyC;
@@ -17,8 +18,9 @@ public class Obelisk_Orb_Script : MonoBehaviour
     private float nextTimeToFireA;
     private float nextTimeToFireB;
     [SerializeField] private float fireRateA = 0.5f;
+    [SerializeField] private float RotationSpeed = 0.5f;
     // [SerializeField] private float fireRateB = 0.5f;
-	[SerializeField] private float sliderAmount = 0;
+    [SerializeField] private float sliderAmount = 0;
     private void Start()
     {
         
@@ -73,7 +75,9 @@ public class Obelisk_Orb_Script : MonoBehaviour
                 sliderAmount = 0;
         }
 
-        if (target == null && Time.time >= nextTimeToFireA)
+        IdleHolderEmpty.transform.Rotate(Vector3.up * (RotationSpeed * (Time.deltaTime*100)));
+
+        /*if (target == null && Time.time >= nextTimeToFireA)
         {
             nextTimeToFireA = Time.time + 1 / fireRateA;
 
@@ -102,7 +106,7 @@ public class Obelisk_Orb_Script : MonoBehaviour
             }
             else
                 sliderAmount = 0;
-        }
+        }*/
     }
 
     private IEnumerator SpawnTrail(TrailRenderer trail, GameObject player)
@@ -112,8 +116,8 @@ public class Obelisk_Orb_Script : MonoBehaviour
 
         while (time < 1)
         {
+            time += Time.deltaTime;
             trail.transform.position = Vector3.Lerp(startPosition, player.transform.position, time);
-            time += Time.deltaTime / trail.time;
 
             yield return null;
         }
