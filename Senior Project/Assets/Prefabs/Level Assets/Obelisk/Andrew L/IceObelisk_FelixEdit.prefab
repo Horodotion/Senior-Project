@@ -105,7 +105,7 @@ VisualEffect:
       - m_Value:
           serializedVersion: 2
           key0: {r: 0.23137254, g: 1, b: 0.63664937, a: 0}
-          key1: {r: 0.7455256, g: 1, b: 0.47450984, a: 1}
+          key1: {r: 0.7455256, g: 1, b: 0.47450984, a: 0.11764706}
           key2: {r: 0, g: 0, b: 0, a: 0}
           key3: {r: 0, g: 0, b: 0, a: 0}
           key4: {r: 0, g: 0, b: 0, a: 0}
@@ -121,7 +121,7 @@ VisualEffect:
           ctime6: 0
           ctime7: 0
           atime0: 386
-          atime1: 14842
+          atime1: 15035
           atime2: 65535
           atime3: 0
           atime4: 0
@@ -326,10 +326,12 @@ MonoBehaviour:
   SpawnPointB: {fileID: 2084585378}
   HolderEmpty: {fileID: 2054217531}
   PillarVFX: {fileID: 439558362}
+  IdleHolderEmpty: {fileID: 6300947171490396575}
   Idle_EmptyA: {fileID: 5547930239991776144}
   Idle_EmptyB: {fileID: 8230229081729392156}
   Idle_EmptyC: {fileID: 2604035544949864882}
-  fireRateA: 4
+  fireRateA: 5
+  RotationSpeed: 3
   sliderAmount: 0
 --- !u!136 &8785129308231087314
 CapsuleCollider:
@@ -369,10 +371,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2604035544949864882}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.876, y: 1.0812, z: -0.604}
+  m_LocalPosition: {x: -0.276, y: 1.0812, z: -0.818}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 450607453321191757}
   m_Father: {fileID: 3943029874751771598}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -598,10 +601,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5547930239991776144}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.553, y: 0.704, z: 0.396}
+  m_LocalPosition: {x: 1.057, y: 0.704, z: 0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 450607452814114537}
   m_Father: {fileID: 3943029874751771598}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -629,7 +633,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6300947171490396575}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.576, y: 0, z: 0.183}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -663,13 +667,239 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8230229081729392156}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.207, y: 0.729, z: 1.112}
+  m_LocalPosition: {x: -0.621, y: 0.729, z: 0.867}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 450607453084899495}
   m_Father: {fileID: 3943029874751771598}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &74907697
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3365956368800966754}
+    m_Modifications:
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1036991860453455845, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_Name
+      value: Obelisk_Fire_Trail_VFX
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5f6e96310422bf3418dc84a93df17a44, type: 3}
+--- !u!4 &450607452814114537 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+    type: 3}
+  m_PrefabInstance: {fileID: 74907697}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &336799359
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1224788672365768836}
+    m_Modifications:
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1036991860453455845, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_Name
+      value: Obelisk_Fire_Trail_VFX
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5f6e96310422bf3418dc84a93df17a44, type: 3}
+--- !u!4 &450607453084899495 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+    type: 3}
+  m_PrefabInstance: {fileID: 336799359}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &638427029
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3791974280563265344}
+    m_Modifications:
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1036991860453455845, guid: 5f6e96310422bf3418dc84a93df17a44,
+        type: 3}
+      propertyPath: m_Name
+      value: Obelisk_Fire_Trail_VFX
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5f6e96310422bf3418dc84a93df17a44, type: 3}
+--- !u!4 &450607453321191757 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 450607452750610136, guid: 5f6e96310422bf3418dc84a93df17a44,
+    type: 3}
+  m_PrefabInstance: {fileID: 638427029}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8418179089039842060
 PrefabInstance:
   m_ObjectHideFlags: 0
