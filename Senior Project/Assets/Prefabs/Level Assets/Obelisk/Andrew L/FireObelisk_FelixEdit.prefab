@@ -306,6 +306,7 @@ Transform:
   - {fileID: 1378460788}
   - {fileID: 1129222179}
   - {fileID: 1644097465889297727}
+  - {fileID: 3439089510724214711}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -421,6 +422,7 @@ GameObject:
   - component: {fileID: 1003618979568384843}
   - component: {fileID: 5404720650278731416}
   - component: {fileID: 6277610856971558175}
+  - component: {fileID: 4616316467895163948}
   m_Layer: 0
   m_Name: Obelisk_5_LP1
   m_TagString: Untagged
@@ -493,6 +495,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4616316467895163948
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3938404177232123646}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.1947398, y: 2.863226, z: 0.8899834}
+  m_Center: {x: -0.43717238, y: 1.4784665, z: 0.22471559}
 --- !u!1 &4894115035983193486
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,6 +654,77 @@ Transform:
   m_Father: {fileID: 1644097465889297727}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6415385317008022466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3439089510724214711}
+  - component: {fileID: 4961714764671468824}
+  - component: {fileID: 3928583702127317968}
+  m_Layer: 0
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3439089510724214711
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6415385317008022466}
+  m_LocalRotation: {x: -0, y: 0.31192958, z: -0, w: -0.95010525}
+  m_LocalPosition: {x: 139.62218, y: -6.4540524, z: -357.41522}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3074426552004750213}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4961714764671468824
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6415385317008022466}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 3.0216293, z: 5}
+  m_Center: {x: -0.0872879, y: 0.9891854, z: 0}
+--- !u!114 &3928583702127317968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6415385317008022466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea5dc87ce4382da47867fa27626bdc51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  temperaturePerSecond: 5
+  playerInArea: 0
+  hasMaxCharge: 0
+  chargeAmount:
+    stat: 0
+    baseStat: 0
+    minimum: -Infinity
+    maximum: Infinity
+  hasReserves: 0
+  reserveAmount: 0
+  isActive: 0
+  minimumChargeToActivate: 0
+  rechargeRate: 0
 --- !u!1 &6770098421166158974
 GameObject:
   m_ObjectHideFlags: 0
