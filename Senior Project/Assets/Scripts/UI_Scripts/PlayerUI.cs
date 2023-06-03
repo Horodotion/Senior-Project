@@ -38,19 +38,23 @@ public class PlayerUI : MonoBehaviour
     {
         temperatureSlider.value = PlayerController.instance.temperature.stat;
 
-        if (PlayerController.puppet.fireMultiplier != 0)
-        {
-            fireVingette.SetVignetteIntensity(PlayerController.puppet.fireMultiplier);
-        }
-        else if (PlayerController.puppet.iceMultiplier != 0)
-        {
-            iceVingette.SetVignetteIntensity(PlayerController.puppet.iceMultiplier);
-        }
-        else if (fireVingette.intensity != 0 || iceVingette.intensity != 0)
-        {
-            fireVingette.SetVignetteIntensity(0f);
-            iceVingette.SetVignetteIntensity(0f);
-        }
+        fireVingette.SetVignetteIntensity(PlayerController.puppet.fireMultiplier);
+        iceVingette.SetVignetteIntensity(PlayerController.puppet.iceMultiplier);
+
+
+        // if (PlayerController.puppet.fireMultiplier != 0)
+        // {
+        //     fireVingette.SetVignetteIntensity(PlayerController.puppet.fireMultiplier);
+        // }
+        // else if (PlayerController.puppet.iceMultiplier != 0)
+        // {
+        //     iceVingette.SetVignetteIntensity(PlayerController.puppet.iceMultiplier);
+        // }
+        // else if (fireVingette.intensity != 0 || iceVingette.intensity != 0)
+        // {
+        //     fireVingette.SetVignetteIntensity(0f);
+        //     iceVingette.SetVignetteIntensity(0f);
+        // }
     }
 
     public void ResetUI()

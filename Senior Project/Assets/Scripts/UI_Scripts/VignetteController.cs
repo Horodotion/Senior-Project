@@ -12,15 +12,12 @@ public class VignetteController : MonoBehaviour
 
     void Awake()
     {
-        // ourMaterial = GetComponent<Image>().material;
         ourImage = GetComponent<Image>();
     }
 
     public void SetVignetteIntensity(float newIntensity)
     {
         intensity = newIntensity;
-        // ourMaterial.SetFloat(intensityName, intensity);
-
         ourImage.material.SetFloat(intensityName, intensity);
     }
 }
