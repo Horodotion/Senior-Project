@@ -28680,7 +28680,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 10
-  m_Speed: 3.5
+  m_Speed: 4
   m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -28769,20 +28769,21 @@ MonoBehaviour:
     maximum: 5000
   inInvincibilityFrames: 0
   dead: 0
-  usesDamageText: 0
+  usesDamageText: 1
   damageImmunities: 
   damageResistances: 
   damageVulnerabilities: 
-  vulnerabilityMultiplier: 0
-  resistanceMultiplier: 0
+  vulnerabilityMultiplier: 1
+  resistanceMultiplier: 1
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
-  mobSpawner: {fileID: 0}
+  mobSpawner: {fileID: 1648620211262580133, guid: 74b0f7e78645a1a49aa72b6ac8efe973,
+    type: 3}
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
-  speed: 8.5
-  acceleration: 50
+  speed: 16
+  acceleration: 60
   angularSpeed: 360
   elementType: 0
   viewPoint: {fileID: 1456991578378097365}
@@ -28826,11 +28827,11 @@ MonoBehaviour:
   playerSpottedDistance: 10
   minWaitTimeinCover: 1
   maxWaitTimeInCover: 2
-  playerTooCloseDistanceToCover: 4
-  coverUpdateFrequency: 0.44
+  playerTooCloseDistanceToCover: 0.5
+  coverUpdateFrequency: 0.2
   coverSampleDistance: 100
   teleportSampleDistance: 100
-  playerTooCloseDistanceToTeleport: 4
+  playerTooCloseDistanceToTeleport: 1
   orbWalkAniSpeed: 3
   runAniSpeed: 1.5
   isAbleToPlayDeathAni: 0
@@ -28858,7 +28859,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 1799522092324479054}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   m_Radius: 4.479443
   m_Height: 22.20124
   m_Direction: 1
