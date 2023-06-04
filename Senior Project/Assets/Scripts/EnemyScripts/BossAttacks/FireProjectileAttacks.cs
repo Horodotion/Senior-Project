@@ -6,22 +6,17 @@ using UnityEngine;
 public class FireProjectileAttacks : AttackMotion
 {
     [SerializeField] GameObject projectile;
-    [SerializeField] float projectileForce = 20;
     [SerializeField] float fireDistance = 1;
     [SerializeField] float aimSpeed = 0.5f;
-    [SerializeField] float waitTimeAfterFire = 0.5f;
 
     public FireProjectileAttacks(BossEnemyController enemyController, Transform[] SP)
     {
         enemy = enemyController;
         this.SP = SP;
     }
-    public override IEnumerator AttackingPlayer(float leftRightHand)
+    public override IEnumerator AttackingPlayer(int leftRightHand)
     {
-        Debug.Log("Test");
-        //enemy.IdleAni();
-        //yield return null;
-        //yield return new WaitForSeconds(2f);
+
         while (true)
         {
             enemy.navMeshAgent.speed = enemy.speed;
@@ -39,12 +34,6 @@ public class FireProjectileAttacks : AttackMotion
             yield return null;
         }
 
-        //yield return null;
-
-        //enemy.IdleAni();
-        
-        //yield return null;
-        //enemy.animator.SetBool("isRangedAttacking", true);
 
         enemy.animator.SetFloat(enemy.aniLeftRightDecision, leftRightHand);
         enemy.animator.SetInteger(enemy.aniDecision, enemy.throwAni);
@@ -60,6 +49,7 @@ public class FireProjectileAttacks : AttackMotion
             while (!enemy.IsPlayerWithinView(100f, 4f, 100f))
             {
                 enemy.AimTowards(PlayerController.puppet.transform.position, aimSpeed);
+                SP[leftRightHand].LookAt(PlayerController.puppet.cameraObj.transform.position);
                 yield return null;
             }
 

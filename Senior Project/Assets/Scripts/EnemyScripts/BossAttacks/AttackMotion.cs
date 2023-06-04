@@ -56,7 +56,7 @@ public class AttackMotion : ScriptableObject
         yield return null;
     }
 
-    public virtual IEnumerator AttackingPlayer(float i)
+    public virtual IEnumerator AttackingPlayer(int i)
     {
         yield return null;
     }

@@ -14,7 +14,7 @@ public class FireMeleeAttacks : AttackMotion
     [SerializeField] float waitTimeAfterMelee = 0.5f;
 
 
-    public override IEnumerator AttackingPlayer(float leftRightHand)
+    public override IEnumerator AttackingPlayer(int leftRightHand)
     {
         //yield return new WaitForSeconds(2f);
         //Debug.Log("5 " + enemy.bossState);
@@ -63,7 +63,7 @@ public class FireMeleeAttacks : AttackMotion
                 yield return null;
             }
 
-            if (SP[0].gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
+            if (SP[leftRightHand].gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
             {
                 hitbox.damage = damage;
             }

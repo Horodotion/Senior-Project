@@ -14,7 +14,7 @@ public class IceMeleeAttacks : AttackMotion
     [SerializeField] float waitTimeAfterMelee = 0.5f;
 
 
-    public override IEnumerator AttackingPlayer(float leftRightHand)
+    public override IEnumerator AttackingPlayer(int leftRightHand)
     {
         //yield return new WaitForSeconds(2f);
         //Debug.Log("5 " + enemy.bossState);
@@ -23,7 +23,7 @@ public class IceMeleeAttacks : AttackMotion
         //yield return new WaitForSeconds(5f);
         enemy.IdleAni();
         yield return null;
-        
+        Debug.Log(leftRightHand);
         while (!enemy.IsPlayerWithinDistance(meleeDistance))
         {
             enemy.RunningAni();
@@ -61,7 +61,7 @@ public class IceMeleeAttacks : AttackMotion
                 yield return null;
             }
 
-            if (SP[0].gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
+            if (SP[leftRightHand].gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
             {
                 hitbox.damage = -damage;
             }

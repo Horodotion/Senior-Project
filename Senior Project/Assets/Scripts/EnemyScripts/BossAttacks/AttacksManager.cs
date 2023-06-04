@@ -38,7 +38,7 @@ public class AttacksManager : MonoBehaviour
     [SerializeField] public AttackDecision meleeAttackDicision;
     [SerializeField] public AttackDecision[] meleeAttackDicisionMod = new AttackDecision[4];
 
-    public float leftRightHand = 0;
+    public int leftRightHand = 0;
     private bool ableToAttack = true;
 
     public void Awake()
@@ -90,7 +90,7 @@ public class AttacksManager : MonoBehaviour
         */
     }
 
-    private float ChangeHands()
+    private int ChangeHands()
     {
         if (leftRightHand == 0)
         {
@@ -229,19 +229,31 @@ public class AttacksManager : MonoBehaviour
     }
     */
 
-    public void SetHitBox()
+    public void SetHitBoxActive()
     {
         if (enemy.animator.GetFloat("element") == 0)
         {
-            iceMeleeAttack.spawnPoiont[0].gameObject.SetActive(iceMeleeAttack.spawnPoiont[0].gameObject.activeSelf ? false : true);
+            iceMeleeAttack.spawnPoiont[leftRightHand].gameObject.SetActive(true);
         }
         else
         {
-            fireMeleeAttack.spawnPoiont[0].gameObject.SetActive(fireMeleeAttack.spawnPoiont[0].gameObject.activeSelf ? false : true);
+            fireMeleeAttack.spawnPoiont[leftRightHand].gameObject.SetActive(true);
+        }
+    }
+    public void SetHitBoxInactive()
+    {
+        if (enemy.animator.GetFloat("element") == 0)
+        {
+            iceMeleeAttack.spawnPoiont[leftRightHand].gameObject.SetActive(false);
+        }
+        else
+        {
+            fireMeleeAttack.spawnPoiont[leftRightHand].gameObject.SetActive(false);
         }
     }
 
-    public void FireProjectile()
+
+    public void FireAProjectile()
     {
         
         if (enemy.animator.GetFloat("element") == 0)
@@ -250,8 +262,8 @@ public class AttacksManager : MonoBehaviour
             //Debug.Log(thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController testController));
             if (thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController projectileController))
             {
-                projectileController.transform.position = iceRangedAttack.spawnPoiont[0].transform.position;
-                projectileController.transform.rotation = iceRangedAttack.spawnPoiont[0].transform.rotation;
+                projectileController.transform.position = iceRangedAttack.spawnPoiont[leftRightHand].transform.position;
+                projectileController.transform.rotation = iceRangedAttack.spawnPoiont[leftRightHand].transform.rotation;
                 //SpawnManager.instance.GetGameObject(projectile, SpawnType.projectile);
                 projectileController.LaunchProjectile();
             }
@@ -262,8 +274,8 @@ public class AttacksManager : MonoBehaviour
             //Debug.Log(thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController testController));
             if (thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController projectileController))
             {
-                projectileController.transform.position = fireRangedAttack.spawnPoiont[0].transform.position;
-                projectileController.transform.rotation = fireRangedAttack.spawnPoiont[0].transform.rotation;
+                projectileController.transform.position = fireRangedAttack.spawnPoiont[leftRightHand].transform.position;
+                projectileController.transform.rotation = fireRangedAttack.spawnPoiont[leftRightHand].transform.rotation;
                 //SpawnManager.instance.GetGameObject(projectile, SpawnType.projectile);
                 projectileController.LaunchProjectile();
             }
@@ -319,7 +331,6 @@ public class AttacksManager : MonoBehaviour
     }
     public void ExitAttackAnimation()
     {
-        Debug.Log("Why???????");
         enemy.IdleAni();
     }
 }
