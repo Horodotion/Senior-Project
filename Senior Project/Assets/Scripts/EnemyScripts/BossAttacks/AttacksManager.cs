@@ -38,14 +38,14 @@ public class AttacksManager : MonoBehaviour
     [SerializeField] public AttackDecision meleeAttackDicision;
     [SerializeField] public AttackDecision[] meleeAttackDicisionMod = new AttackDecision[4];
 
-
+    public int leftRightHand = 0;
     private bool ableToAttack = true;
 
     public void Awake()
     {
         enemy = GetComponent<BossEnemyController>();
         //instance = GetComponent<AttacksManager>();
-
+        leftRightHand = Random.Range(0, 2);
 
         // Initialize the attacks so that the attackmotion class contain their spawn point
         iceMeleeAttack.attackMotion.InitializeAttacks(enemy, iceMeleeAttack.spawnPoiont);
@@ -90,21 +90,35 @@ public class AttacksManager : MonoBehaviour
         */
     }
 
+    private int ChangeHands()
+    {
+        if (leftRightHand == 0)
+        {
+            leftRightHand = 1;
+        }
+        else
+        {
+            leftRightHand = 0;
+        }
+        return leftRightHand;
+    }
+
     //Decide which element for the ranged attack
     public IEnumerator RangedAttack()
     {
+        
         // Decide if it fire or ice
         if (RangedAttackDicision())
         {
             //Use Ice
             Debug.Log("Use ice projectile");
-            return iceRangedAttack.attackMotion.AttackingPlayer();
+            return iceRangedAttack.attackMotion.AttackingPlayer(ChangeHands());
         }
         else
         {
             //Use Fire
             Debug.Log("Use fire projectile");
-            return fireRangedAttack.attackMotion.AttackingPlayer();
+            return fireRangedAttack.attackMotion.AttackingPlayer(ChangeHands());
         }
         
         //StartCoroutine(enemy.MovementCoroutine);
@@ -135,13 +149,13 @@ public class AttacksManager : MonoBehaviour
         {
             Debug.Log("Use ice melee attack");
             //Use Ice
-            return iceMeleeAttack.attackMotion.AttackingPlayer();
+            return iceMeleeAttack.attackMotion.AttackingPlayer(ChangeHands());
         }
         else
         {
             //Use Fire
             Debug.Log("Use fire melee attack");
-            return fireMeleeAttack.attackMotion.AttackingPlayer();
+            return fireMeleeAttack.attackMotion.AttackingPlayer(ChangeHands());
         }
         //StartCoroutine(enemy.MovementCoroutine);
     }
@@ -215,19 +229,31 @@ public class AttacksManager : MonoBehaviour
     }
     */
 
-    public void SetHitBox()
+    public void SetHitBoxActive()
     {
         if (enemy.animator.GetFloat("element") == 0)
         {
-            iceMeleeAttack.spawnPoiont[0].gameObject.SetActive(iceMeleeAttack.spawnPoiont[0].gameObject.activeSelf ? false : true);
+            iceMeleeAttack.spawnPoiont[leftRightHand].gameObject.SetActive(true);
         }
         else
         {
-            fireMeleeAttack.spawnPoiont[0].gameObject.SetActive(fireMeleeAttack.spawnPoiont[0].gameObject.activeSelf ? false : true);
+            fireMeleeAttack.spawnPoiont[leftRightHand].gameObject.SetActive(true);
+        }
+    }
+    public void SetHitBoxInactive()
+    {
+        if (enemy.animator.GetFloat("element") == 0)
+        {
+            iceMeleeAttack.spawnPoiont[leftRightHand].gameObject.SetActive(false);
+        }
+        else
+        {
+            fireMeleeAttack.spawnPoiont[leftRightHand].gameObject.SetActive(false);
         }
     }
 
-    public void FireProjectile()
+
+    public void FireAProjectile()
     {
         
         if (enemy.animator.GetFloat("element") == 0)
@@ -236,8 +262,8 @@ public class AttacksManager : MonoBehaviour
             //Debug.Log(thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController testController));
             if (thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController projectileController))
             {
-                projectileController.transform.position = iceRangedAttack.spawnPoiont[0].transform.position;
-                projectileController.transform.rotation = iceRangedAttack.spawnPoiont[0].transform.rotation;
+                projectileController.transform.position = iceRangedAttack.spawnPoiont[leftRightHand].transform.position;
+                projectileController.transform.rotation = iceRangedAttack.spawnPoiont[leftRightHand].transform.rotation;
                 //SpawnManager.instance.GetGameObject(projectile, SpawnType.projectile);
                 projectileController.LaunchProjectile();
             }
@@ -248,8 +274,8 @@ public class AttacksManager : MonoBehaviour
             //Debug.Log(thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController testController));
             if (thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController projectileController))
             {
-                projectileController.transform.position = fireRangedAttack.spawnPoiont[0].transform.position;
-                projectileController.transform.rotation = fireRangedAttack.spawnPoiont[0].transform.rotation;
+                projectileController.transform.position = fireRangedAttack.spawnPoiont[leftRightHand].transform.position;
+                projectileController.transform.rotation = fireRangedAttack.spawnPoiont[leftRightHand].transform.rotation;
                 //SpawnManager.instance.GetGameObject(projectile, SpawnType.projectile);
                 projectileController.LaunchProjectile();
             }
@@ -271,6 +297,7 @@ public class AttacksManager : MonoBehaviour
     }
 
 
+    /*
     public void ExitAttackAnimation(string action)
     {
         if (action == "melee")
@@ -287,5 +314,23 @@ public class AttacksManager : MonoBehaviour
             enemy.animator.SetBool("isLaserAttacking", false);
         }
     }
+    */
 
+
+    public void ChangeLaserAniState()
+    {
+        if (enemy.animator.GetInteger(enemy.aniLaserState) == 3)
+        {
+            enemy.animator.SetInteger(enemy.aniLaserState, 0);
+            ExitAttackAnimation();
+        }
+        else
+        {
+            enemy.animator.SetInteger(enemy.aniLaserState, enemy.animator.GetInteger(enemy.aniLaserState) + 1);
+        }
+    }
+    public void ExitAttackAnimation()
+    {
+        enemy.IdleAni();
+    }
 }

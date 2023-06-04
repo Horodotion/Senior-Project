@@ -55,6 +55,11 @@ public class AttackMotion : ScriptableObject
     {
         yield return null;
     }
+
+    public virtual IEnumerator AttackingPlayer(int i)
+    {
+        yield return null;
+    }
     /*
     public bool AbleToAttack(float timer)
     {
