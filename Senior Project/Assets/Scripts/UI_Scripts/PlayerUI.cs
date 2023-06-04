@@ -8,8 +8,10 @@ public class PlayerUI : MonoBehaviour
 {
     public static PlayerUI instance;
     public Slider temperatureSlider;
-    public CanvasGroup iceVingette;
-    public CanvasGroup fireVingette;
+    public VignetteController iceVingette;
+    public VignetteController fireVingette;
+    // public CanvasGroup iceVingette;
+    // public CanvasGroup fireVingette;
     public Transform damageTextParent;
     
     void Awake()
@@ -36,25 +38,29 @@ public class PlayerUI : MonoBehaviour
     {
         temperatureSlider.value = PlayerController.instance.temperature.stat;
 
-        if (PlayerController.puppet.fireMultiplier != 0)
-        {
-            fireVingette.alpha = PlayerController.puppet.fireMultiplier;
-        }
-        else if (PlayerController.puppet.iceMultiplier != 0)
-        {
-            iceVingette.alpha = PlayerController.puppet.iceMultiplier;
-        }
-        else if (fireVingette.alpha != 0 || iceVingette.alpha != 0)
-        {
-            fireVingette.alpha = 0;
-            iceVingette.alpha = 0;
-        }
+        fireVingette.SetVignetteIntensity(PlayerController.puppet.fireMultiplier);
+        iceVingette.SetVignetteIntensity(PlayerController.puppet.iceMultiplier);
+
+
+        // if (PlayerController.puppet.fireMultiplier != 0)
+        // {
+        //     fireVingette.SetVignetteIntensity(PlayerController.puppet.fireMultiplier);
+        // }
+        // else if (PlayerController.puppet.iceMultiplier != 0)
+        // {
+        //     iceVingette.SetVignetteIntensity(PlayerController.puppet.iceMultiplier);
+        // }
+        // else if (fireVingette.intensity != 0 || iceVingette.intensity != 0)
+        // {
+        //     fireVingette.SetVignetteIntensity(0f);
+        //     iceVingette.SetVignetteIntensity(0f);
+        // }
     }
 
     public void ResetUI()
     {
         temperatureSlider.value = 0;
-        fireVingette.alpha = 0;
-        iceVingette.alpha = 0;
+        fireVingette.SetVignetteIntensity(0f);
+        iceVingette.SetVignetteIntensity(0f);
     }
 }

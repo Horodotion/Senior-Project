@@ -44,7 +44,7 @@ public class GeneralManager : MonoBehaviour
     {
         // This if statement checks if there is a general manager
         // If it finds no manager, it becomes the manager. If not, it destroys itself.
-        if (instance == null)
+        if (instance == null && this.gameObject != null)
         {
             instance = this;
             DontDestroyOnLoad(this.gameObject);
