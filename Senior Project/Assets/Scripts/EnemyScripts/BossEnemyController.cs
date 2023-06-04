@@ -230,8 +230,8 @@ public class BossEnemyController : EnemyController
 
         bossState = BossState.idle;
 
-        //bossState = BossState.meleeAttack;
-        bossState = BossState.spawnTurrets;
+        bossState = BossState.meleeAttack;
+        //bossState = BossState.spawnTurrets;
         //animator.SetBool(aniDeathDecision, true);
         //bossState = BossState.laserAttack;
         //bossState = BossState.taunt;
