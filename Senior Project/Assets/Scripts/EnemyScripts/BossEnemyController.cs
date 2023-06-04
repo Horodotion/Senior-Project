@@ -21,15 +21,16 @@ public enum BossState
     spawnMines = 10,
     orbWalking = 11,
     ambushed = 12,
+    dead = 13,
 
     //testState,
-   // testState2,
-    
-    
-    
-    
-    
-    
+    // testState2,
+
+
+
+
+
+
 }
 
 public class Decision : ScriptableObject
@@ -88,8 +89,6 @@ public class BossEnemyController : EnemyController
 
     [Header("Orbwalk System")]
 
-    [SerializeField] private GameObject meshObject;
-
     private Vector3 destination;
     public float orbWalkSpeed;
     public float orbWalkAcceleration;
@@ -146,24 +145,23 @@ public class BossEnemyController : EnemyController
     [SerializeField] public float teleportSampleDistance;
     public float playerTooCloseDistanceToTeleport = 4f;
 
-    [Header("Animation Speed")]
-    [Range(.1f, 5)] public float orbWalkAniSpeed;
-    [Range(.1f, 5)] public float runAniSpeed;
+    [Header("Animation Setting")]
+    [Range(.5f, 5)] public float orbWalkAniSpeed;
+    [Range(.5f, 5)] public float runAniSpeed;
+    public bool isAbleToPlayDeathAni;
+    public float WinScreenActivationTimeAfterBossDeath;
+
 
     //Animation Parameter
     [HideInInspector] public string aniDecision = "idleDecision";
-    [HideInInspector] public int idleAni = 0;
-    [HideInInspector] public int runningAni = 1;
-    [HideInInspector] public int walkAni = 2;
-    [HideInInspector] public int tauntAni = 3;
-    [HideInInspector] public int throwAni = 4;
-    [HideInInspector] public int meleeAni = 5;
-    [HideInInspector] public int laserAni = 6;
+    [HideInInspector] public int idleAni , runningAni, walkAni, tauntAni, throwAni, meleeAni, laserAni;
 
-    [HideInInspector] public string aniLeftRightDecision = "LeftRight";
-    [HideInInspector] public string aniForwardBackDecision = "ForwardBackward";
-    [HideInInspector] public string aniElementDecision = "element";
-    [HideInInspector] public string aniLaserState = "laserState";
+    [HideInInspector] public string aniLeftRightDecision;
+    [HideInInspector] public string aniForwardBackDecision;
+    [HideInInspector] public string aniElementDecision;
+    [HideInInspector] public string aniLaserState;
+    [HideInInspector] public string aniDeathDecision;
+    //[HideInInspector] public bool isDeadAni;
 
     public BossState state = BossState.idle;
     
@@ -196,7 +194,7 @@ public class BossEnemyController : EnemyController
         navMeshAgent.angularSpeed = angularSpeed;
         navMeshAgent.acceleration = acceleration;
         attacksManager = GetComponent<AttacksManager>();
-        mobSpawnerController = GetComponent<MobSpawnerController>();
+        mobSpawnerController = mobSpawner.GetComponent<MobSpawnerController>();
         if (TryGetComponent<Animator>(out Animator thatAnimator))
         {
             animator = thatAnimator;
@@ -223,6 +221,8 @@ public class BossEnemyController : EnemyController
         aniForwardBackDecision = "ForwardBackward";
         aniElementDecision = "element";
         aniLaserState = "laserState";
+        aniDeathDecision = "isDead";
+        //isDeadAni = false;
     }
     void Start()
     {
@@ -231,6 +231,8 @@ public class BossEnemyController : EnemyController
         bossState = BossState.idle;
 
         bossState = BossState.meleeAttack;
+        //bossState = BossState.spawnTurrets;
+        //animator.SetBool(aniDeathDecision, true);
         //bossState = BossState.laserAttack;
         //bossState = BossState.taunt;
     }
@@ -278,6 +280,9 @@ public class BossEnemyController : EnemyController
                 break;
             case BossState.orbWalking:
                 MovementCoroutine = OrbWalkState();
+                break;
+            case BossState.dead:
+                MovementCoroutine = DeadState();
                 break;
             default:
                 break;
@@ -900,12 +905,10 @@ public class BossEnemyController : EnemyController
         Vector3 lookDirection;
         lookDirection = (PlayerController.puppet.transform.position - transform.position).normalized;
 
-        float step = turnSpeed * Time.fixedDeltaTime;
-
 
         lookDirection.y = 0;
         rotateGoalWithOutY = Quaternion.LookRotation(lookDirection);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateGoalWithOutY, step);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateGoalWithOutY, turnSpeed * Time.fixedDeltaTime);
 
         //xlookDirection.x = 0;
         //xlookDirection.y = 0;
@@ -970,9 +973,18 @@ public class BossEnemyController : EnemyController
     }
     public IEnumerator SpawnMinesState()
     {
-        mobSpawnerController.SpawningBaseOnIndex(1);
-        yield return null;
+        navMeshAgent.speed = 0;
+        animator.SetInteger(aniDecision, tauntAni);
+
+        while (animator.GetInteger(aniDecision) == tauntAni)
+        {
+            yield return null;
+        }
         ExitSpawnMinesState();
+
+        //mobSpawnerController.SpawningBaseOnIndex(1);
+        //yield return null;
+        //ExitSpawnMinesState();
         
     }
     public void ExitSpawnMinesState()
@@ -982,9 +994,20 @@ public class BossEnemyController : EnemyController
     }
     public IEnumerator SpawnTurretsState()
     {
-        mobSpawnerController.SpawningBaseOnIndex(0);
-        yield return null;
+
+        navMeshAgent.speed = 0;
+        animator.SetInteger(aniDecision, tauntAni);
+
+        while (animator.GetInteger(aniDecision) == tauntAni)
+        {
+            yield return null;
+        }
+
         ExitSpawnTurretState();
+
+        //mobSpawnerController.SpawningBaseOnIndex(0);
+        //yield return null;
+        //ExitSpawnTurretState();
 
     }
     public void ExitSpawnTurretState()
@@ -993,7 +1016,30 @@ public class BossEnemyController : EnemyController
         bossState = dropTurretDecision.GiveTheNextRandomDicision();
     }
 
+    public void TauntSpawnMobAni()
+    {
+        Debug.Log("SpawnStuff");
+        if (bossState == BossState.spawnMines)
+        {
+            mobSpawnerController.SpawningBaseOnIndex(1);
+        } 
+        else if (bossState == BossState.spawnTurrets)
+        {
+            mobSpawnerController.SpawningBaseOnIndex(0);
+        }
+    }
 
+    public IEnumerator DeadState()
+    {
+        navMeshAgent.speed = 0;
+        animator.SetBool(aniDeathDecision, true);
+        yield return null;
+        animator.SetBool(aniDeathDecision, false);
+        //isDeadAni = false;
+        yield return new WaitForSeconds(WinScreenActivationTimeAfterBossDeath);
+        GeneralManager.instance.WinGame();
+
+    }
 
     public bool IsPlayerWithinDistance(float range)
     {
@@ -1043,8 +1089,16 @@ public class BossEnemyController : EnemyController
 
     public override void CommitDie()
     {
+        
         base.CommitDie();
-
-        GeneralManager.instance.WinGame();
+        if (isAbleToPlayDeathAni)
+        {
+            bossState = BossState.dead;
+        }
+        else
+        {
+            GeneralManager.instance.WinGame();
+        }
+        
     }
 }
