@@ -14,7 +14,7 @@ public class IceGate : TriggerScript
     {
         if(playerIn)
         {
-            wallMesh.transform.position = Vector3.MoveTowards(wallMesh.transform.position, destination.position, speed * Time.deltaTime);
+            Invoke(nameof(Descend), 1f);
         }
     }
 
@@ -23,4 +23,10 @@ public class IceGate : TriggerScript
     {
         playerIn = true;
     }
+
+    public void Descend()
+    {
+        wallMesh.transform.position = Vector3.MoveTowards(wallMesh.transform.position, destination.position, speed * Time.deltaTime);
+    }
+
 }
