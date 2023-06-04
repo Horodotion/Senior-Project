@@ -22,9 +22,9 @@ MonoBehaviour:
   ourhand: 1
   chargingSpell: 0
   tempPerSecond: 0
-  temperatureChange: -10
+  temperatureChange: -9
   damageType: 1
-  damage: 10
+  damage: 50
   effectiveRange: 10
   sphereCastRadius: 0.01
   timeBetweenProjectiles: 0
@@ -34,10 +34,10 @@ MonoBehaviour:
   vfxEffectObj: {fileID: 0}
   vfx: {fileID: 0}
   usesCharges: 1
-  charges: 4
-  maximumCharges: 4
+  charges: 3
+  maximumCharges: 3
   rechargeRate: 1.5
   rechargeTimer: 0
-  pelletsPerShot: 3
+  pelletsPerShot: 7
   minimumSpreadRange: 3
-  spreadAngle: 20
+  spreadAngle: 40

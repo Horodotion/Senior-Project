@@ -14,7 +14,7 @@ public class FireMeleeAttacks : AttackMotion
     [SerializeField] float waitTimeAfterMelee = 0.5f;
 
 
-    public override IEnumerator AttackingPlayer()
+    public override IEnumerator AttackingPlayer(int leftRightHand)
     {
         //yield return new WaitForSeconds(2f);
         //Debug.Log("5 " + enemy.bossState);
@@ -22,10 +22,15 @@ public class FireMeleeAttacks : AttackMotion
         // Debug.Log("6 " + enemy.bossState);
         //yield return new WaitForSeconds(5f);
 
-        enemy.navMeshAgent.speed = enemy.speed;
-        enemy.navMeshAgent.stoppingDistance = stoppingDistance;
+        //enemy.navMeshAgent.speed = enemy.speed;
+        //enemy.animator.SetInteger(enemy.aniDecision, enemy.runningAni);
+        enemy.IdleAni();
+        yield return null;
+
         while (!enemy.IsPlayerWithinDistance(meleeDistance))
         {
+            enemy.RunningAni();
+            enemy.navMeshAgent.stoppingDistance = stoppingDistance;
             enemy.navMeshAgent.speed = chargeSpeed;
             enemy.navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
 
@@ -33,17 +38,19 @@ public class FireMeleeAttacks : AttackMotion
         }
         //enemy.bossState = BossState.inCombat;
 
-
+        enemy.IdleAni();
         yield return null;
 
 
-        enemy.animator.SetBool("isMeleeAttacking", true);
+        //enemy.animator.SetBool("isMeleeAttacking", true);
+        enemy.animator.SetFloat(enemy.aniLeftRightDecision, leftRightHand);
+        enemy.animator.SetInteger(enemy.aniDecision, enemy.meleeAni);
         enemy.animator.SetFloat("element", 1);
 
         //enemy.navMeshAgent.speed = 0f;
         enemy.navMeshAgent.isStopped = true;
 
-        while (enemy.animator.GetBool("isMeleeAttacking"))
+        while (enemy.animator.GetInteger(enemy.aniDecision) == enemy.meleeAni)
         {
 
             for (float timer = 0; true; timer += Time.deltaTime)
@@ -56,7 +63,7 @@ public class FireMeleeAttacks : AttackMotion
                 yield return null;
             }
 
-            if (SP[0].gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
+            if (SP[leftRightHand].gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
             {
                 hitbox.damage = damage;
             }
@@ -87,7 +94,8 @@ public class FireMeleeAttacks : AttackMotion
         yield return new WaitForSeconds(waitTimeAfterMelee);
         */
         //enemy.animator.SetBool("isMeleeAttacking", false);
-
+        yield return null;
+        enemy.IdleAni();
         enemy.navMeshAgent.isStopped = false;
         enemy.navMeshAgent.speed = enemy.speed;
         enemy.navMeshAgent.stoppingDistance = 0;

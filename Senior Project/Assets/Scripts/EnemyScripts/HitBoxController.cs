@@ -6,12 +6,12 @@ using UnityEngine;
 public class HitBoxController : MonoBehaviour
 {
     //Damage value is been change in the melee attacks
-    [SerializeField]  BossEnemyController bossEnemyController;
+    [HideInInspector] private BossEnemyController bossEnemyController;
     [HideInInspector] public float damage;
 
     private void Awake()
     {
-        bossEnemyController = GetComponent<BossEnemyController>();
+        bossEnemyController = GetComponentInParent<BossEnemyController>();
     }
 
     private void OnTriggerStay(Collider other)

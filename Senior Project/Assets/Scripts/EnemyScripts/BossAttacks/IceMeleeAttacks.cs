@@ -14,17 +14,20 @@ public class IceMeleeAttacks : AttackMotion
     [SerializeField] float waitTimeAfterMelee = 0.5f;
 
 
-    public override IEnumerator AttackingPlayer()
+    public override IEnumerator AttackingPlayer(int leftRightHand)
     {
         //yield return new WaitForSeconds(2f);
         //Debug.Log("5 " + enemy.bossState);
         //enemy.bossState = BossState.inCombat;
         //Debug.Log("6 " + enemy.bossState);
         //yield return new WaitForSeconds(5f);
-        
-        enemy.navMeshAgent.stoppingDistance = stoppingDistance;
+        enemy.IdleAni();
+        yield return null;
+        Debug.Log(leftRightHand);
         while (!enemy.IsPlayerWithinDistance(meleeDistance))
         {
+            enemy.RunningAni();
+            enemy.navMeshAgent.stoppingDistance = stoppingDistance;
             enemy.navMeshAgent.speed = chargeSpeed;
             enemy.navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
 
@@ -32,10 +35,12 @@ public class IceMeleeAttacks : AttackMotion
         }
         //enemy.bossState = BossState.inCombat;
 
-        
+        enemy.IdleAni();
         yield return null;
 
-        enemy.animator.SetBool("isMeleeAttacking", true);
+        //enemy.animator.SetBool("isMeleeAttacking", true);
+        enemy.animator.SetFloat(enemy.aniLeftRightDecision, leftRightHand);
+        enemy.animator.SetInteger(enemy.aniDecision, enemy.meleeAni);
         enemy.animator.SetFloat("element", 0);
 
         //enemy.navMeshAgent.speed = 0f;
@@ -43,7 +48,7 @@ public class IceMeleeAttacks : AttackMotion
         enemy.navMeshAgent.isStopped = true;
 
 
-        while (enemy.animator.GetBool("isMeleeAttacking"))
+        while (enemy.animator.GetInteger(enemy.aniDecision) == enemy.meleeAni)
         {
             
             for (float timer = 0; true; timer += Time.deltaTime)
@@ -56,7 +61,7 @@ public class IceMeleeAttacks : AttackMotion
                 yield return null;
             }
 
-            if (SP[0].gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
+            if (SP[leftRightHand].gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
             {
                 hitbox.damage = -damage;
             }
@@ -86,7 +91,7 @@ public class IceMeleeAttacks : AttackMotion
         //SP[0].gameObject.SetActive(false);
 
         //yield return new WaitForSeconds(waitTimeAfterMelee);
-
+        yield return null;
         enemy.navMeshAgent.isStopped = false;
 
         enemy.navMeshAgent.speed = enemy.speed;
@@ -108,6 +113,7 @@ public class IceMeleeAttacks : AttackMotion
 
     public void ExitAttackAnimation()
     {
-        enemy.animator.SetBool("isMeleeAttacking", false);
+        enemy.IdleAni();
+        //enemy.animator.SetBool("isMeleeAttacking", false);
     }
 }

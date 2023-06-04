@@ -21,15 +21,16 @@ public enum BossState
     spawnMines = 10,
     orbWalking = 11,
     ambushed = 12,
+    dead = 13,
 
     //testState,
-   // testState2,
-    
-    
-    
-    
-    
-    
+    // testState2,
+
+
+
+
+
+
 }
 
 public class Decision : ScriptableObject
@@ -45,6 +46,7 @@ public class BossEnemyController : EnemyController
     [Header("Boss Stats")]
     [HideInInspector] public NavMeshAgent navMeshAgent;
     [HideInInspector] public Animator animator;
+    [HideInInspector] AttacksManager attacksManager;
 
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float acceleration = 8f;
@@ -56,9 +58,8 @@ public class BossEnemyController : EnemyController
     [SerializeField] public float viewDegreeH = 100; // The Horizontal angle where the enemy can see the player
     [SerializeField] public float viewDegreeV = 50; // The Vertical angle where the enemy can see the player
     [SerializeField] public float viewRange = 10; // The distance that the enemy can see the player
-
+    /*
     [Header("Boss Dicision Setting")]
-    [HideInInspector] AttacksManager attacksManager;
     [SerializeField] public MovementDecision coverActionDecision;
     [SerializeField] public MovementDecision [] coverActionDecisionMod;
 
@@ -71,7 +72,7 @@ public class BossEnemyController : EnemyController
     [SerializeField] public MovementDecision rangedAtkFollowUpDecision;
 
     [SerializeField] public MovementDecision meleeAtkFollowUpDecision;
-
+    */
     [Header("Boss Dicision Setting 2.0")]
     [SerializeField] public MovementDecision meleeAttackDecision;
     [SerializeField] public MovementDecision orbwalkDecision;
@@ -87,8 +88,6 @@ public class BossEnemyController : EnemyController
     //public OrbWalkController orbWalkController = new OrbWalkController();
 
     [Header("Orbwalk System")]
-
-    [SerializeField] private GameObject meshObject;
 
     private Vector3 destination;
     public float orbWalkSpeed;
@@ -107,11 +106,11 @@ public class BossEnemyController : EnemyController
     public float maxEndOrbWalkingTime;
     private float orbWalkingTime;
 
-    public float minDodgeTime;
-    public float maxDodgeTime;
-    private float dodgeTime;
+    //public float minDodgeTime;
+    //public float maxDodgeTime;
+    //private float dodgeTime;
 
-    [SerializeField] WeightedDecision dodgeDecision;// = new WeightedDecision(new int[2]);
+    //[SerializeField] WeightedDecision dodgeDecision;// = new WeightedDecision(new int[2]);
 
     private float endOrbWalkingTimer;
     public Vector3 moveForwardVector;
@@ -146,6 +145,24 @@ public class BossEnemyController : EnemyController
     [SerializeField] public float teleportSampleDistance;
     public float playerTooCloseDistanceToTeleport = 4f;
 
+    [Header("Animation Setting")]
+    [Range(.5f, 5)] public float orbWalkAniSpeed;
+    [Range(.5f, 5)] public float runAniSpeed;
+    public bool isAbleToPlayDeathAni;
+    public float WinScreenActivationTimeAfterBossDeath;
+
+
+    //Animation Parameter
+    [HideInInspector] public string aniDecision = "idleDecision";
+    [HideInInspector] public int idleAni , runningAni, walkAni, tauntAni, throwAni, meleeAni, laserAni;
+
+    [HideInInspector] public string aniLeftRightDecision;
+    [HideInInspector] public string aniForwardBackDecision;
+    [HideInInspector] public string aniElementDecision;
+    [HideInInspector] public string aniLaserState;
+    [HideInInspector] public string aniDeathDecision;
+    //[HideInInspector] public bool isDeadAni;
+
     public BossState state = BossState.idle;
     
     private BossState tempState;
@@ -177,7 +194,7 @@ public class BossEnemyController : EnemyController
         navMeshAgent.angularSpeed = angularSpeed;
         navMeshAgent.acceleration = acceleration;
         attacksManager = GetComponent<AttacksManager>();
-        mobSpawnerController = GetComponent<MobSpawnerController>();
+        mobSpawnerController = mobSpawner.GetComponent<MobSpawnerController>();
         if (TryGetComponent<Animator>(out Animator thatAnimator))
         {
             animator = thatAnimator;
@@ -186,21 +203,36 @@ public class BossEnemyController : EnemyController
         OnBossStateChange += HandleStateChange;
         //player = PlayerController.puppet;
 
-        
+        AnimationParameter();
+    }
+    public void AnimationParameter()
+    {
+        //Animation Uses
+        aniDecision = "idleDecision";
+        idleAni = 0;
+        runningAni = 1;
+        walkAni = 2;
+        tauntAni = 3;
+        throwAni = 4;
+        meleeAni = 5;
+        laserAni = 6;
+
+        aniLeftRightDecision = "LeftRight";
+        aniForwardBackDecision = "ForwardBackward";
+        aniElementDecision = "element";
+        aniLaserState = "laserState";
+        aniDeathDecision = "isDead";
+        //isDeadAni = false;
     }
     void Start()
     {
-        //StartCoroutine(InCombatState());
-        //MovementDecision testDiscision = new MovementDecision(0,0,0,1);
-        //for (int i = 0; i < 100; i++)
-        //{
-        //    Debug.Log(testDiscision.GiveTheNextRandomDicision());
-        //}
         ChangeRandomElementState();
 
         bossState = BossState.idle;
 
         bossState = BossState.meleeAttack;
+        //bossState = BossState.spawnTurrets;
+        //animator.SetBool(aniDeathDecision, true);
         //bossState = BossState.laserAttack;
         //bossState = BossState.taunt;
     }
@@ -249,6 +281,9 @@ public class BossEnemyController : EnemyController
             case BossState.orbWalking:
                 MovementCoroutine = OrbWalkState();
                 break;
+            case BossState.dead:
+                MovementCoroutine = DeadState();
+                break;
             default:
                 break;
         }
@@ -261,28 +296,61 @@ public class BossEnemyController : EnemyController
     }
     private void Update()
     {
-        Ani();
+        //Ani();
+        AniSpeed();
     }
+    //Animation speed for walking and running
+    private void AniSpeed()
+    {
+        if (animator.GetInteger(aniDecision) == runningAni)
+        {
+            animator.speed = runAniSpeed;
+        }
+        else if (animator.GetInteger(aniDecision) == walkAni)
+        {
+            animator.speed = orbWalkAniSpeed;
+        }
+        else
+        {
+            animator.speed = 1;
+        }
+    }
+    public void IdleAni()
+    {
+        animator.SetInteger(aniDecision, idleAni);
+    }
+    public void RunningAni()
+    {
+        animator.SetInteger(aniDecision, runningAni);
+    }
+    /*
     private void Ani()
     {
         if (animator == null) return;
         if (navMeshAgent.speed > 0)
         {
-            animator.SetBool("isRunning", true);
+            animator.SetInteger(aniDecision, runAni);
+            //animator.SetInteger
+            //animator.SetFloat
+            //animator.SetBool("isRunning", true);
         }
         else
         {
-            animator.SetBool("isRunning", false);
+            IdleAni();
+            //animator.SetBool("isRunning", false);
         }
     }
+    */
+
 
     public IEnumerator TauntState()
     {
         navMeshAgent.speed = 0;
-        animator.SetBool("isTaunting", true);
+        //animator.SetBool("isTaunting", true);
+        animator.SetInteger(aniDecision, tauntAni);
         //bossSpawner.SpawningThings();
-        
-        while (animator.GetBool("isTaunting"))
+
+        while (animator.GetInteger(aniDecision) == tauntAni)
         {
             yield return null;
         }
@@ -300,9 +368,9 @@ public class BossEnemyController : EnemyController
     }
 
 
-    public void EndTauntState()
+    public void EndTauntStateAni()
     {
-        animator.SetBool("isTaunting", false);
+        IdleAni();
     }
 
     public void ChangeRandomElementState()
@@ -347,6 +415,7 @@ public class BossEnemyController : EnemyController
     private IEnumerator TakeCoverState(Transform target)
     {
         navMeshAgent.speed = speed;
+        RunningAni();
         WaitForSeconds wait = new WaitForSeconds(coverUpdateFrequency);
         
         while (true)
@@ -506,6 +575,7 @@ public class BossEnemyController : EnemyController
     private IEnumerator WaitInCoverState(float secondsToWait) // Either breakWhenSpotted should be true, or secondsToWait should be >0, or both. If not this would go forever
     {
         navMeshAgent.speed = 0;
+        IdleAni();
         // Check to see if this call is actually capable of ending
         if (secondsToWait == 0)
         {
@@ -528,7 +598,6 @@ public class BossEnemyController : EnemyController
                 //If the player detected the boss
                 if (hit.collider.CompareTag("Player"))
                 {
-                    //bossState = AmbushedDicision();
                     ExitInCoverState();
                     //bossState = BossState.takingCover;
                     yield break;
@@ -575,6 +644,7 @@ public class BossEnemyController : EnemyController
             return Vector3.Distance(navMeshAgent.transform.position, A.transform.position).CompareTo(Vector3.Distance(navMeshAgent.transform.position, B.transform.position));
         }
     }
+    /*
     //This output a bossstate by calculate the bossstate using the decision and decision modifier during CoverAction decision.
     public BossState CoverActionDicision()
     {
@@ -646,11 +716,12 @@ public class BossEnemyController : EnemyController
         // Find which bossstate to output
         return temp.GiveTheNextRandomDicision();
     }
-
+    */
 
     public IEnumerator TeleportingToCoverState(Transform target)
     {
         WaitForSeconds wait = new WaitForSeconds(coverUpdateFrequency);
+        IdleAni();
         //Debug.Log("Test");
         while (true)
         {
@@ -699,6 +770,7 @@ public class BossEnemyController : EnemyController
     public IEnumerator TeleportingBehindState(Transform target)
     {
         WaitForSeconds wait = new WaitForSeconds(coverUpdateFrequency);
+        IdleAni();
         Debug.Log("Test");
         while (true)
         {
@@ -783,6 +855,9 @@ public class BossEnemyController : EnemyController
     public IEnumerator OrbWalkState()
     {
         EnteringOrbWalk();
+        yield return null;
+        animator.SetInteger(aniDecision, walkAni);
+        yield return null;
         while (true)
         {
             MovementSystem();
@@ -799,9 +874,12 @@ public class BossEnemyController : EnemyController
         navMeshAgent.angularSpeed = 0;
         navMeshAgent.speed = orbWalkSpeed;
         navMeshAgent.acceleration = orbWalkAcceleration;
+
         orbWalkingTime = Random.Range(minEndOrbWalkingTime, maxEndOrbWalkingTime);
         endOrbWalkingTimer = orbWalkingTime;
-        dodgeTime = orbWalkingTime - Random.Range(minDodgeTime, maxDodgeTime);
+        //dodgeTime = orbWalkingTime - Random.Range(minDodgeTime, maxDodgeTime);
+        IdleAni();
+        
         if (Random.Range(0, 2) == 0)
         {
             ChangeDirection();
@@ -827,12 +905,10 @@ public class BossEnemyController : EnemyController
         Vector3 lookDirection;
         lookDirection = (PlayerController.puppet.transform.position - transform.position).normalized;
 
-        float step = turnSpeed * Time.fixedDeltaTime;
-
 
         lookDirection.y = 0;
         rotateGoalWithOutY = Quaternion.LookRotation(lookDirection);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateGoalWithOutY, step);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateGoalWithOutY, turnSpeed * Time.fixedDeltaTime);
 
         //xlookDirection.x = 0;
         //xlookDirection.y = 0;
@@ -840,6 +916,8 @@ public class BossEnemyController : EnemyController
         //p1.z -= 1;
 
         NavMeshHit hit;
+
+        
 
         if (!IsPlayerWithinDistance(farthestStoppingDistance))
         {
@@ -853,6 +931,9 @@ public class BossEnemyController : EnemyController
         {
             moveVector = moveMidRangeVector;
         }
+
+        animator.SetFloat(aniLeftRightDecision, moveVector.normalized.x);
+        animator.SetFloat(aniForwardBackDecision, moveVector.normalized.z);
 
         Vector3 tempMoveVector = moveVector.normalized * navMeshDetactionDistance;
         if (NavMesh.SamplePosition(transform.position + (transform.right.normalized * tempMoveVector.x) + (transform.forward.normalized * tempMoveVector.z), out hit, navMeshDetactionRadius, NavMesh.AllAreas))
@@ -870,16 +951,17 @@ public class BossEnemyController : EnemyController
         if (endOrbWalkingTimer <= 0)
         {
             //ChangeDirection();
-            navMeshAgent.stoppingDistance = 0;
-            navMeshAgent.angularSpeed = angularSpeed;
-            navMeshAgent.speed = speed;
-            navMeshAgent.acceleration = acceleration;
             ExitOrbWalkState();
             //changeDirectionTimer = dodgeDecision.GetRandomIndex() == 0 ? Random.Range(minChangeDirectionTime, maxChangeDirectionTime) : dodgeTime;
         }
     }
     public void ExitOrbWalkState()
     {
+        IdleAni();
+        navMeshAgent.stoppingDistance = 0;
+        navMeshAgent.angularSpeed = angularSpeed;
+        navMeshAgent.speed = speed;
+        navMeshAgent.acceleration = acceleration;
         bossState = orbwalkDecision.GiveTheNextRandomDicision();
         //bossState = 
     }
@@ -891,9 +973,18 @@ public class BossEnemyController : EnemyController
     }
     public IEnumerator SpawnMinesState()
     {
-        mobSpawnerController.SpawningBaseOnIndex(1);
-        yield return null;
+        navMeshAgent.speed = 0;
+        animator.SetInteger(aniDecision, tauntAni);
+
+        while (animator.GetInteger(aniDecision) == tauntAni)
+        {
+            yield return null;
+        }
         ExitSpawnMinesState();
+
+        //mobSpawnerController.SpawningBaseOnIndex(1);
+        //yield return null;
+        //ExitSpawnMinesState();
         
     }
     public void ExitSpawnMinesState()
@@ -903,9 +994,20 @@ public class BossEnemyController : EnemyController
     }
     public IEnumerator SpawnTurretsState()
     {
-        mobSpawnerController.SpawningBaseOnIndex(0);
-        yield return null;
+
+        navMeshAgent.speed = 0;
+        animator.SetInteger(aniDecision, tauntAni);
+
+        while (animator.GetInteger(aniDecision) == tauntAni)
+        {
+            yield return null;
+        }
+
         ExitSpawnTurretState();
+
+        //mobSpawnerController.SpawningBaseOnIndex(0);
+        //yield return null;
+        //ExitSpawnTurretState();
 
     }
     public void ExitSpawnTurretState()
@@ -914,7 +1016,30 @@ public class BossEnemyController : EnemyController
         bossState = dropTurretDecision.GiveTheNextRandomDicision();
     }
 
+    public void TauntSpawnMobAni()
+    {
+        Debug.Log("SpawnStuff");
+        if (bossState == BossState.spawnMines)
+        {
+            mobSpawnerController.SpawningBaseOnIndex(1);
+        } 
+        else if (bossState == BossState.spawnTurrets)
+        {
+            mobSpawnerController.SpawningBaseOnIndex(0);
+        }
+    }
 
+    public IEnumerator DeadState()
+    {
+        navMeshAgent.speed = 0;
+        animator.SetBool(aniDeathDecision, true);
+        yield return null;
+        animator.SetBool(aniDeathDecision, false);
+        //isDeadAni = false;
+        yield return new WaitForSeconds(WinScreenActivationTimeAfterBossDeath);
+        GeneralManager.instance.WinGame();
+
+    }
 
     public bool IsPlayerWithinDistance(float range)
     {
@@ -964,8 +1089,16 @@ public class BossEnemyController : EnemyController
 
     public override void CommitDie()
     {
+        
         base.CommitDie();
-
-        GeneralManager.instance.WinGame();
+        if (isAbleToPlayDeathAni)
+        {
+            bossState = BossState.dead;
+        }
+        else
+        {
+            GeneralManager.instance.WinGame();
+        }
+        
     }
 }

@@ -79,7 +79,6 @@ public class LaserVer2 : MonoBehaviour
 
         beamEndPoint = transform.position + (transform.forward * beamRange);
 
-        Debug.Log(beamEndPoint);
         if (laserDamage < 0)
         {
             if (fireBeam.activeInHierarchy)
@@ -123,7 +122,6 @@ public class LaserVer2 : MonoBehaviour
 
         if (isHittingPlayer)
         {
-            Debug.Log(laserDamage);
             if (timer <= 0)
             {
                 PlayerController.puppet.ChangeTemperature(laserDamage);
