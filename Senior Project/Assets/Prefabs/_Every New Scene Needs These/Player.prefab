@@ -1046,7 +1046,7 @@ GameObject:
   - component: {fileID: 693281424539172520}
   - component: {fileID: 3872006033997436090}
   - component: {fileID: 1684997679}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1217,9 +1217,9 @@ MonoBehaviour:
   movementState: 0
   isSliding: 0
   escalationMultiplier: 2
-  deescalationMultiplier: 2
+  deescalationMultiplier: 2.5
   damageMultiplier: 0
-  tempThreshold: 0.2
+  tempThreshold: 0.25
   tempMultiplier: 0
   fireMultiplier: 0
   iceMultiplier: 0
