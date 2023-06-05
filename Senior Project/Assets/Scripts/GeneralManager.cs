@@ -42,6 +42,11 @@ public class GeneralManager : MonoBehaviour
 
     void Awake()
     {
+#if UNITY_EDITOR
+    if (Application.isPlaying)
+        UnityEditor.SceneVisibilityManager.instance.Show(gameObject, false);
+#endif
+
         // This if statement checks if there is a general manager
         // If it finds no manager, it becomes the manager. If not, it destroys itself.
         if (instance == null && this.gameObject != null)
