@@ -28811,8 +28811,8 @@ MonoBehaviour:
   navMeshDetactionDistance: 10
   closestStoppingDistance: 6
   farthestStoppingDistance: 8
-  minEndOrbWalkingTime: 0.5
-  maxEndOrbWalkingTime: 1
+  minEndOrbWalkingTime: 0.25
+  maxEndOrbWalkingTime: 0.75
   moveForwardVector: {x: 1, y: 0, z: 1}
   moveMidRangeVector: {x: 1, y: 0, z: 0}
   moveBackwardVector: {x: 1, y: 0, z: -1}
@@ -28831,7 +28831,7 @@ MonoBehaviour:
   coverUpdateFrequency: 0.2
   coverSampleDistance: 100
   teleportSampleDistance: 100
-  playerTooCloseDistanceToTeleport: 1
+  playerTooCloseDistanceToTeleport: 0.5
   orbWalkAniSpeed: 3
   runAniSpeed: 1.5
   isAbleToPlayDeathAni: 0

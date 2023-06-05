@@ -181,6 +181,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
             }
             else
             {
+                anim.SetInteger("idleDecision", 1);
                 hasAttacked = true;
                 RunAway();
             }
@@ -196,7 +197,6 @@ public class JeffEnvironmentHazard : MonoBehaviour
     {
         //Stop Enemy and look at player
         transform.LookAt(player);
-        anim.speed = 2;
         anim.SetInteger("idleDecision", 4);
     }
 
