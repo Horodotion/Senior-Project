@@ -280,7 +280,6 @@ public class AttacksManager : MonoBehaviour
                 projectileController.LaunchProjectile();
             }
         }
-        GameObject projectile;
         
     }
 
