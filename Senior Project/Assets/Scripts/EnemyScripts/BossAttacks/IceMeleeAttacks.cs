@@ -23,7 +23,7 @@ public class IceMeleeAttacks : AttackMotion
         //yield return new WaitForSeconds(5f);
         enemy.IdleAni();
         yield return null;
-        Debug.Log(leftRightHand);
+
         while (!enemy.IsPlayerWithinDistance(meleeDistance))
         {
             enemy.RunningAni();
