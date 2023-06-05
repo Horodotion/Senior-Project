@@ -43,6 +43,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
     private bool playerFound;
     private bool hasAttacked;
     public bool extraDrop;
+    private bool dropped = false;
 
     [Header("Disintegration")]
     public GameObject iceMesh;
@@ -108,7 +109,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
 
             case HazardType.turret:
             case HazardType.mine:
-                SpawnTurret();
+                TauntSpawnMobAni();
                 break;
 
             case HazardType.wall:
@@ -124,13 +125,13 @@ public class JeffEnvironmentHazard : MonoBehaviour
 
     private void ActivateWall()
     {
-        if(wallHazard != null)
+        if (wallHazard != null)
         {
             wallHazard.SetActive(true);
 
             if (extraDrop)
             {
-                Invoke(nameof(SpawnTurret), 1f);
+                Invoke(nameof(TauntSpawnMobAni), 1f);
             }
             else
             {
@@ -145,16 +146,13 @@ public class JeffEnvironmentHazard : MonoBehaviour
         Gizmos.DrawSphere(transform.position, 1);
     }
 
-    private void Attack()
+    private void FireAProjectile()
     {
-        //Stop Enemy and look at player
-        transform.LookAt(player);
-
         if (!hasAttacked)
         {
             Debug.Log("I attacked!");
 
-            if(PlayerController.instance.temperature.stat >= 0)
+            if (PlayerController.instance.temperature.stat >= 0)
             {
                 GameObject thisProjectile1 = SpawnManager.instance.GetGameObject(fireProjectile, SpawnType.projectile);
                 //Debug.Log(thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController testController));
@@ -176,29 +174,55 @@ public class JeffEnvironmentHazard : MonoBehaviour
                     projectileController.LaunchProjectile();
                 }
             }
-            
+
             if (repeatingAttack)
             {
-                Invoke(nameof(Attack), 2f);
+                Invoke(nameof(Attack), 1.5f);
             }
             else
             {
                 hasAttacked = true;
-                Invoke(nameof(RunAway), 1f);
+                RunAway();
             }
         }
     }
 
-    private void SpawnTurret()
+    public void ExitAttackAnimation()
     {
-        Instantiate(myTurret, turretDropPoint.transform.position, Quaternion.identity);
-        Invoke(nameof(RunAway), 1f);
+
+    }
+
+    private void Attack()
+    {
+        //Stop Enemy and look at player
+        transform.LookAt(player);
+        anim.speed = 2;
+        anim.SetInteger("idleDecision", 4);
+    }
+
+    private void TauntSpawnMobAni()
+    {
+        anim.SetInteger("idleDecision", 3);
+        Invoke(nameof(EndTauntStateAni), 2.4f);
+    }
+
+    private void EndTauntStateAni()
+    {
+        if (!dropped)
+        {
+            Instantiate(myTurret, turretDropPoint.transform.position, Quaternion.identity);
+            dropped = true;
+        }
+
+        RunAway();
     }
 
     private void RunAway()
     {
         //transform.LookAt(runawayPoint);
-        anim.SetBool("isRunning", true);
+        //anim.SetBool("isRunning", true);
+        anim.speed = 1;
+        anim.SetInteger("idleDecision", 1);
         agent.SetDestination(runawayPoint.position);
         if(instantDisintegrate)
         {
