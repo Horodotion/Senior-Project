@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3990208369231823869}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.071666524, y: -0.019540625, z: -35.387012}
 --- !u!33 &4479978038977596243
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -115,7 +115,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3990208369231823869}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 5.0609975, y: -1.7776098, z: -28.757591}
 --- !u!33 &4448099624809677464
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -208,6 +208,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5849801833223410633}
   - component: {fileID: 5849801833223410635}
+  - component: {fileID: 6182676525205591452}
   m_Layer: 0
   m_Name: Fractured_Pillar_Animated
   m_TagString: Untagged
@@ -245,6 +246,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 8.51, y: 3.5, z: 3.69}
   m_Center: {x: 2.79, y: 3.19, z: 1.41}
+--- !u!114 &6182676525205591452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5849801833223410632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58e658c555f4ab4f9c34c5f74d1497a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animTriggerName: RocksFall
+  anim: {fileID: 0}
 --- !u!1 &5849801835006726068
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,7 +375,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3990208369231823869}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.014988372, y: 0.0067759296, z: -28.710194}
 --- !u!33 &3065798350670365363
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -510,7 +525,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3990208369231823869}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -2.1789842, y: -6.722327, z: -15.676713}
 --- !u!33 &485523215162897326
 MeshFilter:
   m_ObjectHideFlags: 0

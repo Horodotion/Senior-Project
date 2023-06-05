@@ -15,6 +15,8 @@ public enum HazardType
 
 public class JeffEnvironmentHazard : MonoBehaviour
 {
+    public EventFlag eventFlag;
+
     [Header("References")]
     public NavMeshAgent agent;
     public Transform player;
@@ -72,6 +74,15 @@ public class JeffEnvironmentHazard : MonoBehaviour
         shaderValue = bodyRend.material.GetFloat("_Disintigration");
     }
 
+    void Start()
+    {
+        GeneralManager.instance.AddEventToDict(eventFlag);
+        if (GeneralManager.instance.eventFlags[eventFlag.eventID].eventTriggered)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
     public void FixedUpdate()
     {
         if (!playerFound && Vector3.Distance(transform.position, PlayerController.puppet.transform.position) <= attackRange)
@@ -99,6 +110,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
 
     public void PlayerHasBeenFound()
     {
+        GeneralManager.instance.DisablePriorEvents(eventFlag.eventID);
         playerFound = true;
 
         switch(hazardType)
