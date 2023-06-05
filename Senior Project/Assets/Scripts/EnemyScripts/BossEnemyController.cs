@@ -750,7 +750,6 @@ public class BossEnemyController : EnemyController
                 }
             }
 
-
             yield return null;
         }
     }
