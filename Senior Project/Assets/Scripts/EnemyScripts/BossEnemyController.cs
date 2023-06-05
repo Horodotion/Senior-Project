@@ -614,7 +614,7 @@ public class BossEnemyController : EnemyController
     public void ExitInCoverState()
     {
         //bossState = AttackDicision();
-        if (health.stat - health.minimum / health.maximum >= 60)
+        if (health.stat - health.minimum / health.maximum >= 0.6)
         {
             bossState = coverDecision.GiveTheNextRandomDicision();
         }
