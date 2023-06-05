@@ -50,6 +50,7 @@ public class LaserAttacks : AttackMotion
         for (float timer = 0; true; timer += Time.deltaTime)
         {
             enemy.AimTowards(PlayerController.puppet.cameraObj.transform.position, turnSpeed);
+            /*
             Vector3 veiwToPlayerMesh = PlayerController.puppet.cameraObj.transform.position - SP[0].transform.position;
             if (Physics.Raycast(SP[0].transform.position, veiwToPlayerMesh, out RaycastHit hit, Mathf.Infinity, ~enemy.hidingSpotLayer))
             {
@@ -65,6 +66,15 @@ public class LaserAttacks : AttackMotion
                         laser.laserDamage = damage;
                     }
                 }
+            }
+            */
+            enemy.AimTowardsWithY(SP[0].gameObject, PlayerController.puppet.cameraObj.transform.position + new Vector3(0, -0.4f, 0), turnSpeed);
+            enemy.animator.SetInteger(enemy.aniLaserState, 3);
+            SP[0].gameObject.SetActive(true);
+            if (SP[0].gameObject.TryGetComponent<LaserVer2>(out LaserVer2 laser))
+            {
+                laser.laserDamageFrequency = laserFrequency;
+                laser.laserDamage = damage;
             }
             if (timer > firingTime)
             {   
