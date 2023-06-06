@@ -13,6 +13,9 @@ public class PlayerUI : MonoBehaviour
     // public CanvasGroup iceVingette;
     // public CanvasGroup fireVingette;
     public Transform damageTextParent;
+
+    public GameObject tutorialPanel;
+    public TMP_Text tutorialText;
     
     void Awake()
     {
@@ -62,5 +65,18 @@ public class PlayerUI : MonoBehaviour
         temperatureSlider.value = 0;
         fireVingette.SetVignetteIntensity(0f);
         iceVingette.SetVignetteIntensity(0f);
+    }
+
+    public void ActivateTutorialPanel(string textToChange)
+    {
+        textToChange = textToChange.Replace(";", System.Environment.NewLine);
+        tutorialText.text = textToChange;
+        tutorialPanel.SetActive(true);
+    }
+
+    public void DeactivateTutorialPanel()
+    {
+        tutorialText.text = "";
+        tutorialPanel.SetActive(false);
     }
 }

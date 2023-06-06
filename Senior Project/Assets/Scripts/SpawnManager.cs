@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public enum SpawnType
 {
@@ -30,11 +31,9 @@ public class SpawnManager : MonoBehaviour
 
     [Header("DamageInteraction Text Colors")]
     public Color fireDamageColor;
-    // public Color fireVulnerableColor;
-    // public Color fireResistantColor;
+    public TMP_FontAsset fireDamageFont;
     public Color iceDamageColor;
-    // public Color iceVulnerableColor;
-    // public Color iceResistantColor;
+    public TMP_FontAsset iceDamageFont;
 
 
     void Awake()
@@ -45,10 +44,10 @@ public class SpawnManager : MonoBehaviour
         {
             instance = this;
         }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
+        // else if (instance != this)
+        // {
+        //     Destroy(gameObject);
+        // }
     }
 
     // This function is what's called to get a gameobject, and if there isn't one available, it spawns a new one
