@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 297461133032179816}
   - component: {fileID: 4395904751962217772}
   m_Layer: 5
-  m_Name: ObeliskText
+  m_Name: DashText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,10 +103,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press Shift in Midair to Dash forward!
+  m_text: Press Shift to Dash forward
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8335650db124e97459dbce0fed229e4c, type: 2}
+  m_sharedMaterial: {fileID: 1975748410780497987, guid: 8335650db124e97459dbce0fed229e4c,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -312,10 +313,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Use your magic to interact with glowing objects in the environment
+  m_text: 'Glowing objects can be destroyed with magic
+
+
+    Use fire magic to burn
+    red objects
+
+    use ice magic to freeze blue objects'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8335650db124e97459dbce0fed229e4c, type: 2}
+  m_sharedMaterial: {fileID: 1975748410780497987, guid: 8335650db124e97459dbce0fed229e4c,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -484,12 +492,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Move using Left Stick
+  m_text: 'Move using W,A,S,D
 
-    Look using Right Stick'
+    Look using mouse'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8335650db124e97459dbce0fed229e4c, type: 2}
+  m_sharedMaterial: {fileID: 1975748410780497987, guid: 8335650db124e97459dbce0fed229e4c,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -642,6 +651,7 @@ MonoBehaviour:
   - {fileID: 8345447244880257184}
   - {fileID: 8345447245037662613}
   - {fileID: 8345447245356957089}
+  - {fileID: 2924595150125488823}
 --- !u!1 &8345447245629198634
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,12 +718,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Conjure flames with R-Trigger
-
-    Conjure icicles with L-Trigger'
+  m_text: "Conjure flames with \nRight mouse click\n\nConjure icicles with \nLeft
+    mouse click"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8335650db124e97459dbce0fed229e4c, type: 2}
+  m_sharedMaterial: {fileID: 1975748410780497987, guid: 8335650db124e97459dbce0fed229e4c,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -845,10 +855,15 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Obelisks will bring your heat gauge back to center
+  m_text: 'If you get too hot or too cold its game over
+
+
+    Obelisks will bring
+    your heat gauge back to center'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8335650db124e97459dbce0fed229e4c, type: 2}
+  m_sharedMaterial: {fileID: 1975748410780497987, guid: 8335650db124e97459dbce0fed229e4c,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1019,10 +1034,11 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Jump using Space
 
-    Press Space in midair to double jump!'
+    Press Space in midair to double jump'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8335650db124e97459dbce0fed229e4c, type: 2}
+  m_sharedMaterial: {fileID: 1975748410780497987, guid: 8335650db124e97459dbce0fed229e4c,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
