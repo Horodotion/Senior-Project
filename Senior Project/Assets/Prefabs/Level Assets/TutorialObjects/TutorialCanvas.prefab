@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 297461133032179816}
   - component: {fileID: 4395904751962217772}
   m_Layer: 5
-  m_Name: ObeliskText
+  m_Name: DashText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,9 +103,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press Shift in Midair to Dash forward!
+  m_text: Press Shift to Dash forward
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b66ac65712d8244428f26f7f037ae9c5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8335650db124e97459dbce0fed229e4c, type: 2}
   m_sharedMaterial: {fileID: 1975748410780497987, guid: 8335650db124e97459dbce0fed229e4c,
     type: 2}
   m_fontSharedMaterials: []
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &8345447244431536228
@@ -313,9 +313,15 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Use your magic to interact with glowing objects in the environment
+  m_text: 'Glowing objects can be destroyed with magic
+
+
+    Use fire magic to burn
+    red objects
+
+    use ice magic to freeze blue objects'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b66ac65712d8244428f26f7f037ae9c5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8335650db124e97459dbce0fed229e4c, type: 2}
   m_sharedMaterial: {fileID: 1975748410780497987, guid: 8335650db124e97459dbce0fed229e4c,
     type: 2}
   m_fontSharedMaterials: []
@@ -380,7 +386,7 @@ MonoBehaviour:
   m_margin: {x: -126.32837, y: 0, z: -127.8324, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &8345447245037662613
@@ -645,6 +651,7 @@ MonoBehaviour:
   - {fileID: 8345447244880257184}
   - {fileID: 8345447245037662613}
   - {fileID: 8345447245356957089}
+  - {fileID: 2924595150125488823}
 --- !u!1 &8345447245629198634
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,8 +721,8 @@ MonoBehaviour:
   m_text: "Conjure flames with \nRight mouse click\n\nConjure icicles with \nLeft
     mouse click"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b66ac65712d8244428f26f7f037ae9c5, type: 2}
-  m_sharedMaterial: {fileID: 1975748410780497987, guid: b66ac65712d8244428f26f7f037ae9c5,
+  m_fontAsset: {fileID: 11400000, guid: 8335650db124e97459dbce0fed229e4c, type: 2}
+  m_sharedMaterial: {fileID: 1975748410780497987, guid: 8335650db124e97459dbce0fed229e4c,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1027,9 +1034,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Jump using Space
 
-    Press Space in midair to double jump!'
+    Press Space in midair to double jump'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b66ac65712d8244428f26f7f037ae9c5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8335650db124e97459dbce0fed229e4c, type: 2}
   m_sharedMaterial: {fileID: 1975748410780497987, guid: 8335650db124e97459dbce0fed229e4c,
     type: 2}
   m_fontSharedMaterials: []
@@ -1094,7 +1101,7 @@ MonoBehaviour:
   m_margin: {x: -120.312805, y: 0, z: -118.80896, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &8345447246062993742
