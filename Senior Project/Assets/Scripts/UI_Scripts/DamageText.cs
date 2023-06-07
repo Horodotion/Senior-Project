@@ -39,10 +39,12 @@ public class DamageText : MonoBehaviour
 
         if (damageType == DamageType.fire)
         {
+            damageTextMesh.font = SpawnManager.instance.fireDamageFont;
             damageTextMesh.color = SpawnManager.instance.fireDamageColor;
         }
         else if (damageType == DamageType.ice)
         {
+            damageTextMesh.font = SpawnManager.instance.iceDamageFont;
             damageTextMesh.color = SpawnManager.instance.iceDamageColor;
         }
         

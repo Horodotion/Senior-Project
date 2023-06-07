@@ -17,8 +17,9 @@ public enum Faction
 {
     public string eventString; // A string to name the event in the hierarchy, planned to be unused
     public int eventID; // The int that will determine its place in the dictionary
+    public bool activatesItself;
     [HideInInspector] public bool eventTriggered; // A bool for if the variable has been activated or not
-    public List<int> eventRequirements;
+    public List<int> eventsToDisableAfterTriggering;
 }
 
 
@@ -91,25 +92,28 @@ public class GeneralManager : MonoBehaviour
         SpawnManager.instance.TurnOffEverything();
         PlayerPuppet puppet = PlayerController.puppet;
 
-        puppet.ResetStats();
+        // puppet.ResetStats();
+        // puppet.charController.enabled = false;
+
+        ReloadLevel();
+
+        GeneralManager.instance.StartCoroutine(GeneralManager.instance.MovePlayerToCheckpoint());
+        GeneralManager.instance.UnPauseGame();
+    }
+
+    public IEnumerator MovePlayerToCheckpoint()
+    {
+        yield return null;
+
+        PlayerPuppet puppet = PlayerController.puppet;
+        Debug.Log(Checkpoint.playerSpawn);
         puppet.charController.enabled = false;
-
-        if (Checkpoint.currentCheckpoint != null)
-        {
-            puppet.transform.position = Checkpoint.currentCheckpoint.transform.position;
-        }
-        else
-        {
-            puppet.transform.position = Checkpoint.playerSpawn;
-        }
-
+        puppet.transform.position = Checkpoint.playerSpawn;
         puppet.transform.localEulerAngles = Checkpoint.playerLookDirection;
         puppet.cameraObj.transform.localEulerAngles = new Vector3(puppet.transform.forward.x, 0f, 0f);
         puppet.lookRotation = new Vector3(0f, puppet.transform.localEulerAngles.y, 0f);
         PlayerController.instance.lookAxis = Vector2.zero;
-
         puppet.charController.enabled = true;
-        GeneralManager.instance.UnPauseGame();
     }
 
     public static void ReloadLevel()
@@ -234,27 +238,38 @@ public class GeneralManager : MonoBehaviour
     // This checks off the flag for an event, and triggers other events to be active if it's able to be
     public void SetEventFlag(int flagToTrigger)
     {
-        if (eventFlags[flagToTrigger].eventRequirements.Count > 0)
+        eventFlags[flagToTrigger].eventTriggered = true;
+
+        foreach(int flagToDisable in eventFlags[flagToTrigger].eventsToDisableAfterTriggering)
         {
-            bool allRequirementsActivated = true;
-
-            for (int i = 0; i < eventFlags[flagToTrigger].eventRequirements.Count; i++)
+            if (eventFlags.ContainsKey(flagToDisable) && eventFlags[flagToDisable].eventTriggered == false)
             {
-                if (eventFlags[i].eventTriggered == false)
-                {
-                    allRequirementsActivated = false;
-                    break;
-                }
-            }
-
-            if (allRequirementsActivated)
-            {
-                eventFlags[flagToTrigger].eventTriggered = true;
+                GeneralManager.instance.SetEventFlag(flagToDisable);
             }
         }
-        else
+    }
+
+    public void DisablePriorEvents(int flagToTrigger)
+    {
+        if (eventFlags.ContainsKey(flagToTrigger) && eventFlags[flagToTrigger].activatesItself == true)
         {
             eventFlags[flagToTrigger].eventTriggered = true;
+        }
+
+        foreach(int flagToDisable in eventFlags[flagToTrigger].eventsToDisableAfterTriggering)
+        {
+            if (eventFlags.ContainsKey(flagToDisable) && eventFlags[flagToDisable].eventTriggered == false)
+            {
+                GeneralManager.instance.SetEventFlag(flagToDisable);
+            }
+        }
+    }
+
+    public void AddEventToDict(EventFlag eventToAdd)
+    {
+        if (eventToAdd.eventID != 0 && !eventFlags.ContainsKey(eventToAdd.eventID))
+        {
+            eventFlags.Add(eventToAdd.eventID, eventToAdd);
         }
     }
 
