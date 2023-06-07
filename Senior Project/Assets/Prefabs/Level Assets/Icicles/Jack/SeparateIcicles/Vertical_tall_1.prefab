@@ -202,15 +202,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health:
-    stat: 0
-    baseStat: 0
-    minimum: -Infinity
-    maximum: Infinity
+    stat: 10
+    baseStat: 10
+    minimum: 0
+    maximum: 10
   inInvincibilityFrames: 0
   dead: 0
-  damageImmunities: 
+  usesDamageText: 0
+  damageImmunities: 01000000
   damageResistances: 
-  damageVulnerabilities: 
+  damageVulnerabilities: 01000000
   vulnerabilityMultiplier: 0
   resistanceMultiplier: 0
   enemyHitboxes: []
