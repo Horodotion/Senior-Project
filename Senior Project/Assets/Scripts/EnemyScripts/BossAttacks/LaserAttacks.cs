@@ -81,6 +81,7 @@ public class LaserAttacks : AttackMotion
                 break;
             }
             yield return null;
+
         }
 
         enemy.animator.SetInteger(enemy.aniDecision, 0);
