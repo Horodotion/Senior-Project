@@ -13,10 +13,10 @@ public class SoundEffectScript : MonoBehaviour
         ourAudioSource = GetComponent<AudioSource>();
     }
 
-    public IEnumerator PlaySoundEffect(float secondsToWait)
+    public void PlaySoundEffect()
     {
+        
 
-
-        yield return new WaitForSeconds(secondsToWait);
+        // yield return new WaitForSeconds(secondsToWait);
     }
 }
