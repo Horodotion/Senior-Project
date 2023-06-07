@@ -229,29 +229,43 @@ public class AttacksManager : MonoBehaviour
     }
     */
 
-    public void SetHitBoxActive()
+    public void SetMeleeHitBoxActive()
     {
         if (enemy.animator.GetFloat("element") == 0)
         {
             iceMeleeAttack.spawnPoiont[leftRightHand].gameObject.SetActive(true);
+            iceMeleeAttack.spawnPoiont[leftRightHand + 2].gameObject.SetActive(true);
         }
         else
         {
             fireMeleeAttack.spawnPoiont[leftRightHand].gameObject.SetActive(true);
+            fireMeleeAttack.spawnPoiont[leftRightHand + 2].gameObject.SetActive(true);
         }
     }
-    public void SetHitBoxInactive()
+    public void SetMeleeHitBoxInactive()
     {
         if (enemy.animator.GetFloat("element") == 0)
         {
             iceMeleeAttack.spawnPoiont[leftRightHand].gameObject.SetActive(false);
+            iceMeleeAttack.spawnPoiont[leftRightHand + 2].gameObject.SetActive(false);
         }
         else
         {
             fireMeleeAttack.spawnPoiont[leftRightHand].gameObject.SetActive(false);
+            fireMeleeAttack.spawnPoiont[leftRightHand + 2].gameObject.SetActive(false);
         }
     }
-
+    public void SetMeleeVFXActive()
+    {
+        if (enemy.animator.GetFloat("element") == 0)
+        {
+            iceMeleeAttack.spawnPoiont[leftRightHand + 2].gameObject.SetActive(true);
+        }
+        else
+        {
+            fireMeleeAttack.spawnPoiont[leftRightHand + 2].gameObject.SetActive(true);
+        }
+    }
 
     public void FireAProjectile()
     {
