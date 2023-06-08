@@ -34,6 +34,7 @@ Transform:
   m_Children:
   - {fileID: 279049926379126972}
   - {fileID: 184429008421952036}
+  - {fileID: 1355236017315193306}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -220,6 +221,81 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 361836399382101455}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8666938382825926133
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1534556033399568500}
+    m_Modifications:
+    - target: {fileID: 7676919309438454816, guid: 433b01de45bea33478fec67898b1ca19,
+        type: 3}
+      propertyPath: m_Name
+      value: 'BossProjectileFireball '
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676919309438454831, guid: 433b01de45bea33478fec67898b1ca19,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676919309438454831, guid: 433b01de45bea33478fec67898b1ca19,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676919309438454831, guid: 433b01de45bea33478fec67898b1ca19,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676919309438454831, guid: 433b01de45bea33478fec67898b1ca19,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676919309438454831, guid: 433b01de45bea33478fec67898b1ca19,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676919309438454831, guid: 433b01de45bea33478fec67898b1ca19,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676919309438454831, guid: 433b01de45bea33478fec67898b1ca19,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676919309438454831, guid: 433b01de45bea33478fec67898b1ca19,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676919309438454831, guid: 433b01de45bea33478fec67898b1ca19,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676919309438454831, guid: 433b01de45bea33478fec67898b1ca19,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676919309438454831, guid: 433b01de45bea33478fec67898b1ca19,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 433b01de45bea33478fec67898b1ca19, type: 3}
+--- !u!4 &1355236017315193306 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7676919309438454831, guid: 433b01de45bea33478fec67898b1ca19,
+    type: 3}
+  m_PrefabInstance: {fileID: 8666938382825926133}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8871205840794520479
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -227,10 +303,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1534556033399568500}
     m_Modifications:
+    - target: {fileID: 3645867213591353305, guid: 89ea489d2242ccb429a76596e56b981d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8702002143357356832, guid: 89ea489d2242ccb429a76596e56b981d,
         type: 3}
       propertyPath: m_Name
       value: FireBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 8702002143357356832, guid: 89ea489d2242ccb429a76596e56b981d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8702002143357356834, guid: 89ea489d2242ccb429a76596e56b981d,
         type: 3}

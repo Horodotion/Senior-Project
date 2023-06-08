@@ -44,7 +44,7 @@ public class BossEnemyController : EnemyController
     private MobSpawnerController mobSpawnerController;
     //[SerializeField] private BossSpawnerController turretSpawner;
     [Header("Boss Stats")]
-    [HideInInspector] public NavMeshAgent navMeshAgent;
+    public NavMeshAgent navMeshAgent;
     [HideInInspector] public Animator animator;
     [HideInInspector] AttacksManager attacksManager;
 
@@ -226,11 +226,12 @@ public class BossEnemyController : EnemyController
     }
     void Start()
     {
+        Debug.Log("Test");
         ChangeRandomElementState();
 
         bossState = BossState.idle;
 
-        bossState = BossState.meleeAttack;
+        bossState = BossState.laserAttack;
         //bossState = BossState.spawnTurrets;
         //animator.SetBool(aniDeathDecision, true);
         //bossState = BossState.laserAttack;
@@ -614,7 +615,7 @@ public class BossEnemyController : EnemyController
     public void ExitInCoverState()
     {
         //bossState = AttackDicision();
-        if (health.stat - health.minimum / health.maximum >= 0.6)
+        if ((health.stat - health.minimum) / health.maximum >= 0.6)
         {
             bossState = coverDecision.GiveTheNextRandomDicision();
         }
@@ -1032,10 +1033,11 @@ public class BossEnemyController : EnemyController
     {
         navMeshAgent.speed = 0;
         animator.SetBool(aniDeathDecision, true);
-        yield return null;
-        animator.SetBool(aniDeathDecision, false);
+        //yield return new WaitForEndOfFrame();
+        //animator.SetBool(aniDeathDecision, false);
         //isDeadAni = false;
         yield return new WaitForSeconds(WinScreenActivationTimeAfterBossDeath);
+        animator.SetBool(aniDeathDecision, false);
         GeneralManager.instance.WinGame();
 
     }
