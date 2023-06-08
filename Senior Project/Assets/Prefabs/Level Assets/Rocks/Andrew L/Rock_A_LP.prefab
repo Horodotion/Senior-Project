@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8909875327623903913}
   - component: {fileID: 7917770879541220056}
   - component: {fileID: 997962054533103586}
-  - component: {fileID: 732986939122111378}
   m_Layer: 0
   m_Name: Rock_A_LP1
   m_TagString: Untagged
@@ -62,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 371a5bec3fd67b94b8f2b62db5800fe7, type: 2}
+  - {fileID: 2100000, guid: 8e34496e7b587e04db212473d03fc408, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,20 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &732986939122111378
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496444216385601434}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2432090755550338912, guid: db93a19f939b5a248b92ccd85218c344, type: 3}
 --- !u!1 &6710481861763680238
 GameObject:
   m_ObjectHideFlags: 0
