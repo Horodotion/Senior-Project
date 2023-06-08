@@ -17,6 +17,26 @@ public class ShotgunSpell : Spell
         ChangePlayerTemp();
     }
 
+    public override void InitializeSpell()
+    {
+        base.InitializeSpell();
+
+        if (PlayerUI.instance != null)
+        {
+            PlayerUI.instance.InitializeIcicles(this);
+        }
+    }
+
+    public override void SecondarySpellUpdate(float timeHolder)
+    {
+        base.SecondarySpellUpdate(timeHolder);
+
+        if (PlayerUI.instance != null)
+        {
+            PlayerUI.instance.ChangeIcicleCounter(this);
+        }
+    }
+
     public override void ProjectileFire()
     {
         Vector3 pos = GetFirePos().position;

@@ -28,7 +28,7 @@ public abstract class Spell : ScriptableObject
 {
 
     [HideInInspector] public Transform playerCameraTransform; // The transform for the player camera
-    [HideInInspector] public bool canCast = true; // A bool to decide if the gun can fire or not
+    public bool canCast = true; // A bool to decide if the gun can fire or not
     [HideInInspector] public SpellState ourSpellState;
 
     [Header("Spells Variables")]
@@ -160,7 +160,6 @@ public abstract class Spell : ScriptableObject
                 return false;
             }
 
-            charges--;
             if (rechargeTimer <= 0)
             {
                 rechargeTimer = rechargeRate;
@@ -195,6 +194,16 @@ public abstract class Spell : ScriptableObject
         // Checks if the gun can be fired and if there is ammo in the magazine
         if (canCast)
         {
+            canCast = false;
+            spellAnimHolder.DisableCasting();
+
+            Debug.Log("Casted");
+
+            if (usesCharges)
+            {
+                charges--;
+            }
+
             if (animationLocation > 0 && spellAnimHolder != null)
             {
                 // Debug.Log("FIRING");
