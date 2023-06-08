@@ -23516,7 +23516,21 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
+    functionName: GoToIdle
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.033333335
     functionName: EnableCasting
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.06666667
+    functionName: CheckToRelease
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -23543,6 +23557,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.46666667
+    functionName: CheckToRelease
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.5
     functionName: EnableCasting
     data: 
@@ -23564,6 +23585,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.8
+    functionName: CheckToRelease
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.8333333
     functionName: EnableCasting
     data: 
@@ -23579,7 +23607,14 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1
-    functionName: EnableCasting
+    functionName: CheckToRelease
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.1333333
+    functionName: CheckToRelease
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -23601,6 +23636,13 @@ AnimationClip:
     messageOptions: 0
   - time: 1.3333334
     functionName: EnableCasting
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.4666667
+    functionName: CheckToRelease
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
