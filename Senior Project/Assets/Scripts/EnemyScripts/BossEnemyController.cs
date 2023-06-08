@@ -230,7 +230,7 @@ public class BossEnemyController : EnemyController
 
         bossState = BossState.idle;
 
-        bossState = BossState.meleeAttack;
+        bossState = BossState.waitingInCover;
         //bossState = BossState.spawnTurrets;
         //animator.SetBool(aniDeathDecision, true);
         //bossState = BossState.laserAttack;
@@ -614,7 +614,7 @@ public class BossEnemyController : EnemyController
     public void ExitInCoverState()
     {
         //bossState = AttackDicision();
-        if (health.stat - health.minimum / health.maximum >= 0.6)
+        if ((health.stat - health.minimum) / health.maximum >= 0.6)
         {
             bossState = coverDecision.GiveTheNextRandomDicision();
         }
