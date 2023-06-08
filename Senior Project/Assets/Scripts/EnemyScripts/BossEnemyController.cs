@@ -44,7 +44,7 @@ public class BossEnemyController : EnemyController
     private MobSpawnerController mobSpawnerController;
     //[SerializeField] private BossSpawnerController turretSpawner;
     [Header("Boss Stats")]
-    [HideInInspector] public NavMeshAgent navMeshAgent;
+    public NavMeshAgent navMeshAgent;
     [HideInInspector] public Animator animator;
     [HideInInspector] AttacksManager attacksManager;
 
@@ -226,11 +226,12 @@ public class BossEnemyController : EnemyController
     }
     void Start()
     {
+        Debug.Log("Test");
         ChangeRandomElementState();
 
         bossState = BossState.idle;
 
-        bossState = BossState.waitingInCover;
+        bossState = BossState.meleeAttack;
         //bossState = BossState.spawnTurrets;
         //animator.SetBool(aniDeathDecision, true);
         //bossState = BossState.laserAttack;
