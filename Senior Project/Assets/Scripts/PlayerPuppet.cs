@@ -80,6 +80,10 @@ public class PlayerPuppet : MonoBehaviour
     [HideInInspector] public RaycastHit groundedHit;
     [HideInInspector] public RaycastHit reticalHit;
 
+    [Header("Skin Shaders")]
+    public SkinTemperatureScript fireSkin;
+    public SkinTemperatureScript iceSkin;
+
 
     void Awake()
     {
@@ -406,6 +410,9 @@ public class PlayerPuppet : MonoBehaviour
             CommitDie();
             return;
         }
+
+        fireSkin.SetShaderIntensity(Mathf.Clamp((temp.stat / temp.maximum), 0, 1));
+        iceSkin.SetShaderIntensity(Mathf.Clamp((temp.stat / temp.minimum), 0, 1));
 
         if (temp.stat >= temp.maximum * tempThreshold)
         {
