@@ -28764,7 +28764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health:
-    stat: 3500
+    stat: 2500
     baseStat: 0
     minimum: 0
     maximum: 5000
@@ -28826,13 +28826,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1536
   playerSpottedDistance: 10
-  minWaitTimeinCover: 0.2
-  maxWaitTimeInCover: 0.5
-  playerTooCloseDistanceToCover: 0.5
+  minWaitTimeinCover: 0.1
+  maxWaitTimeInCover: 0.3
+  playerTooCloseDistanceToCover: 0.1
   coverUpdateFrequency: 0.2
   coverSampleDistance: 100
   teleportSampleDistance: 100
-  playerTooCloseDistanceToTeleport: 0.5
+  playerTooCloseDistanceToTeleport: 0.2
   orbWalkAniSpeed: 3
   runAniSpeed: 1.5
   isAbleToPlayDeathAni: 0
