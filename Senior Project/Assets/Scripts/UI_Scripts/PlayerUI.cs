@@ -23,8 +23,10 @@ public class PlayerUI : MonoBehaviour
     [Header("Icicle Counts")]
     public Slider icicleCountSlider;
     public Image iciclePanel;
-    private float maximumCharges;
-    private float currentCharges;
+
+    [Header("Dash Counts")]
+    public Slider dashCountSlider;
+    public Image dashPanel;
     
     void Awake()
     {
@@ -82,13 +84,23 @@ public class PlayerUI : MonoBehaviour
 
     public void ChangeIcicleCounter(Spell ourIcicle)
     {
-        // if (ourIcicle.charges == ourIcicle.maximumCharges)
-        // {
-        //     return;
-        // }
+        if (ourIcicle.charges == ourIcicle.maximumCharges && iciclePanel.fillAmount == 1f)
+        {
+            return;
+        }
 
-        // Debug.Log("Charge Amount = " + (ourIcicle.charges / ourIcicle.maximumCharges));
         iciclePanel.fillAmount = (float)ourIcicle.charges / (float)ourIcicle.maximumCharges;
         icicleCountSlider.value = 1 - (ourIcicle.rechargeTimer / ourIcicle.rechargeRate);
+    }
+
+    public void ChangeDashCounter(Spell ourDash)
+    {
+        if (ourDash.charges == ourDash.maximumCharges && dashPanel.fillAmount == 1f)
+        {
+            return;
+        }
+
+        dashPanel.fillAmount = (float)ourDash.charges / (float)ourDash.maximumCharges;
+        dashCountSlider.value = 1 - (ourDash.rechargeTimer / ourDash.rechargeRate);
     }
 }
