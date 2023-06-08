@@ -7,15 +7,24 @@ using TMPro;
 public class PlayerUI : MonoBehaviour
 {
     public static PlayerUI instance;
+    [Header("Temperature")]
     public Slider temperatureSlider;
+    [Header("Vignettes")]
     public VignetteController iceVingette;
     public VignetteController fireVingette;
     // public CanvasGroup iceVingette;
     // public CanvasGroup fireVingette;
     public Transform damageTextParent;
 
+    [Header("Tutorial Panel")]
     public GameObject tutorialPanel;
     public TMP_Text tutorialText;
+
+    [Header("Icicle Counts")]
+    public Slider icicleCountSlider;
+    public Image iciclePanel;
+    private float maximumCharges;
+    private float currentCharges;
     
     void Awake()
     {
@@ -44,20 +53,6 @@ public class PlayerUI : MonoBehaviour
         fireVingette.SetVignetteIntensity(PlayerController.puppet.fireMultiplier);
         iceVingette.SetVignetteIntensity(PlayerController.puppet.iceMultiplier);
 
-
-        // if (PlayerController.puppet.fireMultiplier != 0)
-        // {
-        //     fireVingette.SetVignetteIntensity(PlayerController.puppet.fireMultiplier);
-        // }
-        // else if (PlayerController.puppet.iceMultiplier != 0)
-        // {
-        //     iceVingette.SetVignetteIntensity(PlayerController.puppet.iceMultiplier);
-        // }
-        // else if (fireVingette.intensity != 0 || iceVingette.intensity != 0)
-        // {
-        //     fireVingette.SetVignetteIntensity(0f);
-        //     iceVingette.SetVignetteIntensity(0f);
-        // }
     }
 
     public void ResetUI()
@@ -78,5 +73,22 @@ public class PlayerUI : MonoBehaviour
     {
         tutorialText.text = "";
         tutorialPanel.SetActive(false);
+    }
+
+    public void InitializeIcicles(Spell ourIcicle)
+    {
+        
+    }
+
+    public void ChangeIcicleCounter(Spell ourIcicle)
+    {
+        // if (ourIcicle.charges == ourIcicle.maximumCharges)
+        // {
+        //     return;
+        // }
+
+        // Debug.Log("Charge Amount = " + (ourIcicle.charges / ourIcicle.maximumCharges));
+        iciclePanel.fillAmount = (float)ourIcicle.charges / (float)ourIcicle.maximumCharges;
+        icicleCountSlider.value = 1 - (ourIcicle.rechargeTimer / ourIcicle.rechargeRate);
     }
 }

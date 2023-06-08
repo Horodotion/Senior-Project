@@ -191,6 +191,7 @@ public class GeneralManager : MonoBehaviour
 
     public void WinGame()
     {
+        /*
         if (SceneManager.GetActiveScene().buildIndex >= 3)
         {
             OpenWinMenu();
@@ -199,6 +200,9 @@ public class GeneralManager : MonoBehaviour
         {
             LoadNextLevelScript.instance.activeLoadingZone = true;
         }
+        */
+
+        OpenWinMenu();
     }
 
     public void OpenWinMenu()
