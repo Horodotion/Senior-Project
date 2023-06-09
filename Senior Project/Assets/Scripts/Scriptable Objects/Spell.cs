@@ -232,11 +232,11 @@ public abstract class Spell : ScriptableObject
     {
         if (tempPerSecond)
         {
-            PlayerController.puppet.ChangeTemperature(temperatureChange * Time.deltaTime);
+            PlayerController.puppet.ChangeTemperatureOfSelf(temperatureChange * Time.deltaTime);
         }
         else
         {
-            PlayerController.puppet.ChangeTemperature(temperatureChange);
+            PlayerController.puppet.ChangeTemperatureOfSelf(temperatureChange);
         }
         
     }
