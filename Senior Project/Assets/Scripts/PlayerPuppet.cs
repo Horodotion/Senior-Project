@@ -387,6 +387,40 @@ public class PlayerPuppet : MonoBehaviour
         ChangeTemperature(0);
     }
 
+    public void ChangeTemperatureOfSelf(float tempToAdd)
+    {
+        float tempTemperatureToAdd = tempToAdd;
+
+
+        if (tempMultiplier != 0)
+        {
+            if (Mathf.Sign(tempToAdd) == Mathf.Sign(PlayerController.instance.temperature.stat))
+            {
+                tempTemperatureToAdd *= 1 + (tempMultiplier * escalationMultiplier);
+            }
+            else
+            {
+                tempTemperatureToAdd *= 1 + (tempMultiplier * deescalationMultiplier);
+            }
+        }
+
+        if ((PlayerController.instance.temperature.stat + tempTemperatureToAdd) >= PlayerController.instance.temperature.maximum * 0.95f)
+        {
+            PlayerController.instance.temperature.stat = PlayerController.instance.temperature.maximum * 0.95f;
+            ChangeTemperature(0f);
+        }
+        else if ((PlayerController.instance.temperature.stat + tempTemperatureToAdd) <= PlayerController.instance.temperature.minimum * 0.95f)
+        {
+            PlayerController.instance.temperature.stat = PlayerController.instance.temperature.minimum * 0.95f;
+            ChangeTemperature(0f);
+        }
+        else
+        {
+            ChangeTemperature(tempToAdd);
+        }
+
+    }
+
     public void ChangeTemperature(float tempToAdd)
     {
         IndividualStat temp = PlayerController.instance.temperature;
