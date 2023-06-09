@@ -7,7 +7,6 @@ public class VignetteController : MonoBehaviour
 {
     public string intensityName = "_Intensity";
     public float intensity;
-    // public Material ourMaterial;
     public Image ourImage;
 
     void Awake()

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 39804200200804606}
   - component: {fileID: 4479978038977596243}
   - component: {fileID: 8213564892395154064}
+  - component: {fileID: 5228289934051069529}
   m_Layer: 0
   m_Name: Rock_4_LP
   m_TagString: Untagged
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bec2f3db0dad0304da8161c9dc71f29a, type: 2}
+  - {fileID: 2100000, guid: fc0fe6290bf361649881c93a3a65bd6c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5228289934051069529
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1483680217901664469}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8370147497373931602, guid: 686565ffad4fc5e44957a49c1ae9ba77, type: 3}
 --- !u!1 &2018418971436988986
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +109,7 @@ GameObject:
   - component: {fileID: 1042406854505251012}
   - component: {fileID: 4448099624809677464}
   - component: {fileID: 1813537055053121038}
+  - component: {fileID: 4082224590871446676}
   m_Layer: 0
   m_Name: Rock_1_LP
   m_TagString: Untagged
@@ -144,7 +160,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bec2f3db0dad0304da8161c9dc71f29a, type: 2}
+  - {fileID: 2100000, guid: fc0fe6290bf361649881c93a3a65bd6c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -166,6 +182,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4082224590871446676
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018418971436988986}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 595155732033683235, guid: 686565ffad4fc5e44957a49c1ae9ba77, type: 3}
 --- !u!1 &5849801833001875123
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,8 +237,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5849801833223410633}
-  - component: {fileID: 5849801833223410635}
-  - component: {fileID: 6182676525205591452}
   m_Layer: 0
   m_Name: Fractured_Pillar_Animated
   m_TagString: Untagged
@@ -233,33 +261,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -11.642, z: -13.433}
---- !u!65 &5849801833223410635
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849801833223410632}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 8.51, y: 3.5, z: 3.69}
-  m_Center: {x: 2.79, y: 3.19, z: 1.41}
---- !u!114 &6182676525205591452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849801833223410632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d58e658c555f4ab4f9c34c5f74d1497a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animTriggerName: RocksFall
-  anim: {fileID: 0}
 --- !u!1 &5849801835006726068
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,7 +322,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bec2f3db0dad0304da8161c9dc71f29a, type: 2}
+  - {fileID: 2100000, guid: fc0fe6290bf361649881c93a3a65bd6c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -354,6 +355,7 @@ GameObject:
   - component: {fileID: 1982946506488464973}
   - component: {fileID: 3065798350670365363}
   - component: {fileID: 5029640935010315867}
+  - component: {fileID: 4803453109675334906}
   m_Layer: 0
   m_Name: Rock_2_LP
   m_TagString: Untagged
@@ -404,7 +406,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bec2f3db0dad0304da8161c9dc71f29a, type: 2}
+  - {fileID: 2100000, guid: fc0fe6290bf361649881c93a3a65bd6c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -426,6 +428,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4803453109675334906
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6122524494578934441}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3228244533823433283, guid: 686565ffad4fc5e44957a49c1ae9ba77, type: 3}
 --- !u!1 &6768842171723765134
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,6 +453,8 @@ GameObject:
   - component: {fileID: 6243135578766249780}
   - component: {fileID: 5849801833817829213}
   - component: {fileID: 563740789757914801}
+  - component: {fileID: 5753681172691934915}
+  - component: {fileID: 1019686453872100104}
   m_Layer: 0
   m_Name: FracturedRocks_Animated
   m_TagString: Untagged
@@ -491,8 +509,35 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.0783603, y: 1.2189792, z: 1.9389913}
-  m_Center: {x: 2.4267468, y: 1.6421894, z: 0.24746573}
+  m_Size: {x: 2.780901, y: 0.39372233, z: 1.7429957}
+  m_Center: {x: 2.2349555, y: 1.7410896, z: 0.19291577}
+--- !u!114 &5753681172691934915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6768842171723765134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58e658c555f4ab4f9c34c5f74d1497a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animTriggerName: RocksFall
+  anim: {fileID: 0}
+--- !u!65 &1019686453872100104
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6768842171723765134}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6516025, y: 5.1644306, z: 2.4405363}
+  m_Center: {x: 0.11533302, y: 2.3274043, z: 0.05981296}
 --- !u!1 &7204223959973243874
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,6 +549,7 @@ GameObject:
   - component: {fileID: 5109848777802554448}
   - component: {fileID: 485523215162897326}
   - component: {fileID: 2415807475088056232}
+  - component: {fileID: 5086006086527747764}
   m_Layer: 0
   m_Name: Rock_3_LP
   m_TagString: Untagged
@@ -554,7 +600,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bec2f3db0dad0304da8161c9dc71f29a, type: 2}
+  - {fileID: 2100000, guid: fc0fe6290bf361649881c93a3a65bd6c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -576,6 +622,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5086006086527747764
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7204223959973243874}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9058062237382586152, guid: 686565ffad4fc5e44957a49c1ae9ba77, type: 3}
 --- !u!1 &7660864477818671379
 GameObject:
   m_ObjectHideFlags: 0

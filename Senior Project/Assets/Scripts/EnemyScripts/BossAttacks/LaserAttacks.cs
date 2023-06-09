@@ -11,6 +11,7 @@ public class LaserAttacks : AttackMotion
     [SerializeField] float turnSpeed = 2;
     [SerializeField] float waitTimeAfterLaser = 1f;
     [SerializeField] float chargeLaserTime = 5f;
+    [Range(0, 2)][SerializeField] float aimLowerOnPlayerDistance = 0f;
 
     public override IEnumerator AttackingPlayer()
     {
@@ -68,7 +69,7 @@ public class LaserAttacks : AttackMotion
                 }
             }
             */
-            enemy.AimTowardsWithY(SP[0].gameObject, PlayerController.puppet.cameraObj.transform.position + new Vector3(0, -0.4f, 0), turnSpeed);
+            enemy.AimTowardsWithY(SP[0].gameObject, PlayerController.puppet.cameraObj.transform.position + new Vector3(0, -aimLowerOnPlayerDistance, 0), turnSpeed);
             enemy.animator.SetInteger(enemy.aniLaserState, 3);
             SP[0].gameObject.SetActive(true);
             if (SP[0].gameObject.TryGetComponent<LaserVer2>(out LaserVer2 laser))

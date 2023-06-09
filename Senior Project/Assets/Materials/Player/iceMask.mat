@@ -99,10 +99,11 @@ Material:
     - _Contrast: 1.21
     - _Cull: 2
     - _DstBlend: 0
-    - _EmissivePower: 2.84
-    - _HeightBlend: 30
+    - _EmissivePower: 5
+    - _HeightBlend: 0.35
+    - _Height_Amount: 0
     - _IceNormalStrength: 11.42
-    - _Invert: 0
+    - _Invert: 1
     - _Level: 2.86
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -110,15 +111,15 @@ Material:
     - _SkinNormalStrength: 0.01
     - _SrcBlend: 1
     - _Surface: 0
-    - _UpNode: -20.97
+    - _UpNode: 1.35
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
     - _iceHeightBlend: 19.6
-    - _roughnesspower: 0.84
+    - _roughnesspower: 0.85
     m_Colors:
-    - _MaskOffset: {r: 0.71, g: 0.47, b: 0.2, a: 0}
+    - _MaskOffset: {r: 0.7, g: 0.5, b: 0.2, a: 0}
     - _iceOffset: {r: 0.7, g: 0.47, b: 0.2, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3315323854018059354
