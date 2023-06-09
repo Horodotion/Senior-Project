@@ -185,7 +185,8 @@ public class PlayerController : MonoBehaviour
     // The function to call for the gun to shoot
     public void OnPrimaryFireAction(InputAction.CallbackContext context)
     {
-        if (puppet == null || puppet.primarySpell == null || ourPlayerState != PlayerState.inGame || puppet.currentSpellBeingCast != null)
+        if (puppet == null || puppet.primarySpell == null || ourPlayerState != PlayerState.inGame || puppet.currentSpellBeingCast != null
+            && !primaryFireHeldDown)
         {
             return;
         }

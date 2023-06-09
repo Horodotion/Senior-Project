@@ -18,6 +18,12 @@ public class Dash : Spell
         PlayerController.ourPlayerState = PlayerState.dashing;
         dashOrigin = PlayerController.puppet.transform.position;
 
+        if (usesCharges)
+        {
+            charges--;
+        }
+
+
         if (PlayerController.instance.moveAxis != Vector2.zero)
         {
             dashDirection = new Vector3(PlayerController.instance.moveAxis.x, 0f, PlayerController.instance.moveAxis.y).normalized;
@@ -46,6 +52,16 @@ public class Dash : Spell
             {
                 vfx.Stop();
             }
+        }
+    }
+
+    public override void SecondarySpellUpdate(float timeHolder)
+    {
+        base.SecondarySpellUpdate(timeHolder);
+
+        if (PlayerUI.instance != null)
+        {
+            PlayerUI.instance.ChangeDashCounter(this);
         }
     }
 }

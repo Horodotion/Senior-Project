@@ -475,9 +475,7 @@ MonoBehaviour:
   selectorPrefab: {fileID: 146244028917898469, guid: a33191f535a82dd489805d7053297055,
     type: 3}
   fireDamageColor: {r: 0.9019608, g: 0.47058824, b: 0.11764706, a: 1}
-  fireDamageFont: {fileID: 11400000, guid: d7db0b1c7c7bd9741a0094fe0c661667, type: 2}
   iceDamageColor: {r: 0, g: 0.627451, b: 1, a: 1}
-  iceDamageFont: {fileID: 11400000, guid: 2274044bfaf764445b5d523311afdfa3, type: 2}
 --- !u!1 &3571226799226010090
 GameObject:
   m_ObjectHideFlags: 0
@@ -1535,7 +1533,7 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 500, y: 150}
+  m_CellSize: {x: 450, y: 150}
   m_Spacing: {x: 0, y: 20}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -3145,7 +3143,7 @@ PrefabInstance:
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
@@ -3155,17 +3153,17 @@ PrefabInstance:
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
@@ -3210,7 +3208,7 @@ PrefabInstance:
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -340
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
@@ -3561,7 +3559,7 @@ PrefabInstance:
     - target: {fileID: 5659948959912130976, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130976, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
@@ -3572,11 +3570,6 @@ PrefabInstance:
     - target: {fileID: 5659948959912130976, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5659948959912130976, guid: ff22ca8c5e89b8b40a0a4950044f428e,
-        type: 3}
-      propertyPath: m_FillCenter
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130976, guid: ff22ca8c5e89b8b40a0a4950044f428e,
@@ -3622,7 +3615,7 @@ PrefabInstance:
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
@@ -3632,17 +3625,17 @@ PrefabInstance:
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}

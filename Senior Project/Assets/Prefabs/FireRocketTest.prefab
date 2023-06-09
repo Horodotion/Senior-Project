@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 2433902995986825506}
   - component: {fileID: 7162815296137968484}
   - component: {fileID: 314620141425248933}
+  - component: {fileID: 2188560703099084502}
   m_Layer: 0
   m_Name: FireRocketTest
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -66,7 +67,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   hostileFaction: 0
-  projectileSpeed: 20
+  projectileSpeed: 10
   lifeSpan: 10
   range: 100
   origin: {x: 0, y: 0, z: 0}
@@ -90,6 +91,35 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2188560703099084502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2964537244032325312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 505748569bba474419d1bca87bdd5ea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health:
+    stat: 1
+    baseStat: 0
+    minimum: 0
+    maximum: Infinity
+  inInvincibilityFrames: 0
+  dead: 0
+  usesDamageText: 0
+  damageImmunities: 00000000
+  damageResistances: 
+  damageVulnerabilities: 
+  vulnerabilityMultiplier: 0
+  resistanceMultiplier: 0
+  enemyHitboxes: []
+  fireDamageText: {fileID: 0}
+  iceDamageText: {fileID: 0}
+  ourProjectile: {fileID: 7162815296137968484}
 --- !u!1001 &361836399382101455
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -205,17 +235,17 @@ PrefabInstance:
     - target: {fileID: 8702002143357356834, guid: 89ea489d2242ccb429a76596e56b981d,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8702002143357356834, guid: 89ea489d2242ccb429a76596e56b981d,
         type: 3}
       propertyPath: InitialModule.startSizeY.scalar
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8702002143357356834, guid: 89ea489d2242ccb429a76596e56b981d,
         type: 3}
       propertyPath: InitialModule.startSizeZ.scalar
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8702002143357356835, guid: 89ea489d2242ccb429a76596e56b981d,
         type: 3}
@@ -286,6 +316,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8702002144112878229, guid: 89ea489d2242ccb429a76596e56b981d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8702002144258373944, guid: 89ea489d2242ccb429a76596e56b981d,
         type: 3}
