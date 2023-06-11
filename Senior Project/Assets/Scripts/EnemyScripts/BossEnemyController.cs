@@ -232,10 +232,6 @@ public class BossEnemyController : EnemyController
         bossState = BossState.idle;
 
         bossState = BossState.meleeAttack;
-        //bossState = BossState.spawnTurrets;
-        //animator.SetBool(aniDeathDecision, true);
-        //bossState = BossState.laserAttack;
-        //bossState = BossState.taunt;
     }
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
     {
@@ -297,7 +293,6 @@ public class BossEnemyController : EnemyController
     }
     private void Update()
     {
-        //Ani();
         AniSpeed();
     }
     //Animation speed for walking and running
