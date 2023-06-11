@@ -14,12 +14,6 @@ public class MainMenuScript : MenuScript
         exitGameButton.onPointerDownEvent.AddListener(() => Application.Quit());
         playGameButton.onPointerDownEvent.AddListener(() => GeneralManager.LoadNextLevel()); //Debug.Log("Level Select"));
         // levelSelectButton.onPointerDownEvent.AddListener(() => ToggleMenu(levelSelectPanel));
-
-        // for (int i = 0; i < levelButtons.Length; i++)
-        // {
-        //     int copyI = i;
-        //     levelButtons[copyI].onPointerDownEvent.AddListener(() => GeneralManager.LoadLevel(copyI + 1));
-        // }
     }
 
     public override void Start()
@@ -28,5 +22,8 @@ public class MainMenuScript : MenuScript
 
         GeneralManager.hasGameStarted = false;
         Cursor.lockState = CursorLockMode.None;
+
+        PlayerController.ourPlayerState = PlayerState.inMenu;
+        Time.timeScale = 0f;
     }
 }

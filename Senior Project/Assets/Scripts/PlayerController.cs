@@ -87,12 +87,6 @@ public class PlayerController : MonoBehaviour
             onJump.canceled += OffJumpAction;
             onDash.performed += OnDashAction;
             onPauseGame.performed += OnPauseMenu;
-
-            // This adds one of each type of key to the dictionary tracking them to allow easier coding later on
-            // foreach (KeyType keyType in System.Enum.GetValues(typeof(KeyType)))
-            // {
-            //     keyRing.Add(keyType, null);
-            // }
         }
     }
 
