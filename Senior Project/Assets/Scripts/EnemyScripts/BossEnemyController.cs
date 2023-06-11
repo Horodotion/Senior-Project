@@ -231,11 +231,7 @@ public class BossEnemyController : EnemyController
 
         bossState = BossState.idle;
 
-        bossState = BossState.laserAttack;
-        //bossState = BossState.spawnTurrets;
-        //animator.SetBool(aniDeathDecision, true);
-        //bossState = BossState.laserAttack;
-        //bossState = BossState.taunt;
+        bossState = BossState.meleeAttack;
     }
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
     {
@@ -297,7 +293,6 @@ public class BossEnemyController : EnemyController
     }
     private void Update()
     {
-        //Ani();
         AniSpeed();
     }
     //Animation speed for walking and running
@@ -1072,6 +1067,7 @@ public class BossEnemyController : EnemyController
         }
         return false;
     }
+    //Aim Horizontaly
     public virtual void AimTowards(Vector3 position, float aimSpeed)
     {
         Vector3 veiwToPlayerMesh = position - viewPoint.transform.position;
@@ -1079,6 +1075,13 @@ public class BossEnemyController : EnemyController
         transform.forward = Vector3.RotateTowards(transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
         Debug.DrawRay(viewPoint.transform.position, veiwToPlayerMesh, Color.blue);
     }
+    public virtual void AimTowards(GameObject gameObject, Vector3 position, float aimSpeed)
+    {
+        Vector3 veiwToPlayerMesh = position - viewPoint.transform.position;
+        veiwToPlayerMesh.y = 0;
+        gameObject.transform.forward = Vector3.RotateTowards(gameObject.transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
+    }
+
 
     public virtual void AimTowardsWithY(GameObject gameObject, Vector3 position, float aimSpeed)
     {

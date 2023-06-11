@@ -69,7 +69,7 @@ public class LaserAttacks : AttackMotion
                 }
             }
             */
-            enemy.AimTowardsWithY(SP[0].gameObject, PlayerController.puppet.cameraObj.transform.position + new Vector3(0, -aimLowerOnPlayerDistance, 0), turnSpeed);
+            //enemy.AimTowardsWithY(SP[0].gameObject, PlayerController.puppet.cameraObj.transform.position + new Vector3(0, -aimLowerOnPlayerDistance, 0), turnSpeed);
             enemy.animator.SetInteger(enemy.aniLaserState, 3);
             SP[0].gameObject.SetActive(true);
             if (SP[0].gameObject.TryGetComponent<LaserVer2>(out LaserVer2 laser))
