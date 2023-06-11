@@ -716,6 +716,7 @@ public class BossEnemyController : EnemyController
 
     public IEnumerator TeleportingToCoverState(Transform target)
     {
+        Debug.Log("Yes I did.");
         WaitForSeconds wait = new WaitForSeconds(coverUpdateFrequency);
         IdleAni();
         //Debug.Log("Test");
