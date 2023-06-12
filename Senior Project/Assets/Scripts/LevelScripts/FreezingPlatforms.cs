@@ -7,13 +7,17 @@ public class FreezingPlatforms : EnemyController
     [Header("References")]
     private float recoveryTimer;
     public float recoveryRate;
+    public float flashingPercentage = 0.6f;
     public float startDelay; 
     [SerializeField] private Transform targetA, targetB;
     public Material liveMaterial;
     public Material frozenMaterial;
     public GameObject colliderBox;
-
-
+    public GameObject unfreezeVFX;
+    public Transform vfxSpawnPoint;
+    bool yesFX = false;
+    
+    private int flashing = 1;
     private float startTimer = 0f;
     public float speed = 0.1f; //Change this to suit your game.
     private bool switching = false;
@@ -33,10 +37,30 @@ public class FreezingPlatforms : EnemyController
             startTimer += Time.deltaTime;
             return;
         }
-        
+        /*
+       if(recoveryTimer >= (recoveryRate * flashingPercentage) && dead)
+        {
+            if(flashing == 1)
+            {
+                GetComponent<MeshRenderer>().material = frozenMaterial;
+                Invoke(nameof(Flashing), 0.5f);
+            }
+            else
+            {
+                GetComponent<MeshRenderer>().material = liveMaterial;
+                Invoke(nameof(Flashing), 0.5f);
+            }
+        }
+        */
         if(dead)
         {
-            if(recoveryTimer < recoveryRate)
+            if (recoveryTimer >= (recoveryRate * flashingPercentage))
+            {
+                GetComponent<MeshRenderer>().material = frozenMaterial;
+                FlashingLive();
+            }
+
+            if (recoveryTimer < recoveryRate)
             {
                 recoveryTimer += Time.deltaTime;
             }
@@ -86,7 +110,38 @@ public class FreezingPlatforms : EnemyController
         {
             colliderBox.SetActive(false);
         }
+        Instantiate(unfreezeVFX, new Vector3(vfxSpawnPoint.position.x, vfxSpawnPoint.position.y, vfxSpawnPoint.position.z), Quaternion.identity);
         dead = false;
+    }
+    /*
+    public void Flashing()
+    {
+        if (flashing == 1)
+        {
+            flashing = 0;
+        }
+        else
+        {
+            flashing = 1;
+        }
+    }
+    */
+    public void FlashingLive()
+    {
+        if (dead)
+        {
+            GetComponent<MeshRenderer>().material = frozenMaterial;
+            Invoke(nameof(FlashingDead), 0.2f);
+        }
+    }
+
+    public void FlashingDead()
+    {
+        if (dead)
+        {
+            GetComponent<MeshRenderer>().material = liveMaterial;
+            Invoke(nameof(FlashingLive), 0.2f);
+        }
     }
 
 }
