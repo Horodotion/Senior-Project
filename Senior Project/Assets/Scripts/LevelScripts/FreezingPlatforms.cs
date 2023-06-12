@@ -13,9 +13,11 @@ public class FreezingPlatforms : EnemyController
     public Material liveMaterial;
     public Material frozenMaterial;
     public GameObject colliderBox;
+    public GameObject unfreezeVFX;
+    public Transform vfxSpawnPoint;
+    bool yesFX = false;
+    
     private int flashing = 1;
-
-
     private float startTimer = 0f;
     public float speed = 0.1f; //Change this to suit your game.
     private bool switching = false;
@@ -108,6 +110,7 @@ public class FreezingPlatforms : EnemyController
         {
             colliderBox.SetActive(false);
         }
+        Instantiate(unfreezeVFX, new Vector3(vfxSpawnPoint.position.x, vfxSpawnPoint.position.y, vfxSpawnPoint.position.z), Quaternion.identity);
         dead = false;
     }
     /*
