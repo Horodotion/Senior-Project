@@ -14,5 +14,6 @@ public class SpinningPlatform : MonoBehaviour
         {
             transform.Rotate(_axis.normalized * spinSpeed * Time.deltaTime);
         }
+
     }
 }

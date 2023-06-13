@@ -54,8 +54,6 @@ public class GeneralManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(this.gameObject);
-
-            // eventFlags = NewEventDictionary(eventList); // Wires up the dictionary of event flags.
         }
         else if (instance != this)
         {
@@ -65,7 +63,27 @@ public class GeneralManager : MonoBehaviour
 
     void Start()
     {
-        UnPauseGame();
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            UnPauseGame();
+        }
+        else
+        {
+            if (PlayerUI.instance != null)
+            {
+                PlayerUI.instance.gameObject.SetActive(true);
+            } 
+
+            if (PauseMenuScript.instance != null)
+            {
+                PauseMenuScript.instance.gameObject.SetActive(false);
+            }  
+
+            if (GameOverMenuScript.instance != null)
+            {
+                GameOverMenuScript.instance.gameObject.SetActive(false);
+            }
+        }
     }
 
     // Loads a scene by its build index
@@ -179,9 +197,6 @@ public class GeneralManager : MonoBehaviour
         {
             GameOverMenuScript.instance.gameObject.SetActive(false);
         }
-        
-        // textBoxText = null;
-        // textBoxObject.SetActive(false);
 
         PlayerController.ourPlayerState = PlayerState.inGame;
         Cursor.lockState = CursorLockMode.Locked;
