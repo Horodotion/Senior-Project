@@ -196,14 +196,21 @@ MonoBehaviour:
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
   turretHinge: {fileID: 2703690472251912050}
+  turretType: 0
+  iceProjectile: {fileID: 2964537244032325312, guid: 086afa8d9ddddc14da5581102539ee44,
+    type: 3}
+  fireProjectile: {fileID: 2964537244032325312, guid: eb94422f3fffae143a99751b50fda3e3,
+    type: 3}
   iceBeam: {fileID: 5813145559260143028, guid: b7976f6378b1c2d44b02bc15a18ce338, type: 3}
   fireBeam: {fileID: 1825884365860083250, guid: 159626a465b748c499c86821e214c11f,
     type: 3}
   rotationSpeed: 1
-  damagePerSecond: 5
-  detectionRadius: 6
-  attackRange: 6
+  damage: 20
+  detectionRadius: 10
+  attackRange: 10
   beamPos: {x: 0, y: 0, z: 0}
+  attackSpeed: 1
+  attackTimer: 0
 --- !u!1 &4885620600214922861
 GameObject:
   m_ObjectHideFlags: 0
