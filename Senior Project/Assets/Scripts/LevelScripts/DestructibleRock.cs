@@ -7,6 +7,7 @@ public class DestructibleRock : MonoBehaviour
     public GameObject smashVFX;
     public Transform vfxSpawnPoint;
     public GameObject toSmash;
+    public GameObject spotLight;
 
 
     private void OnTriggerEnter(Collider other)
@@ -14,7 +15,7 @@ public class DestructibleRock : MonoBehaviour
         if(other.gameObject.CompareTag("Log"))
         {
             Instantiate(smashVFX, new Vector3(vfxSpawnPoint.position.x, vfxSpawnPoint.position.y, vfxSpawnPoint.position.z), Quaternion.identity);
-            Invoke(nameof(Smash), 0.5f);
+            Invoke(nameof(Smash), 0.2f);
         }
     }
 
@@ -22,5 +23,6 @@ public class DestructibleRock : MonoBehaviour
     {
         Debug.Log("yep");
         Destroy(toSmash.gameObject);
+        spotLight.SetActive(true);
     }
 }

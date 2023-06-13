@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 637747523}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.18, z: 0}
+  m_LocalPosition: {x: 0, y: -0.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -221,9 +221,11 @@ MonoBehaviour:
   liveMaterial: {fileID: 2100000, guid: 315af59bb166c314ba4df5bc845019f1, type: 2}
   frozenMaterial: {fileID: 2100000, guid: 6dd39e89e65731f45b3272999e614100, type: 2}
   colliderBox: {fileID: 819926329}
-  unfreezeVFX: {fileID: 4473927184254439432, guid: 58483bf54dafe104c857257b7164971d,
+  unfreezeVFX: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
     type: 3}
   vfxSpawnPoint: {fileID: 637747524}
+  spinning: 1
+  isDead: 0
   speed: 0.1
 --- !u!1 &8297747333518087317
 GameObject:
@@ -265,6 +267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8297747333819378380}
+  - component: {fileID: 1696246722}
   m_Layer: 0
   m_Name: LilyPad_Environmental
   m_TagString: Untagged
@@ -290,6 +293,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1696246722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8297747333819378381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a7916c0d2359c8469d07579f6502673, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lilyPad: {fileID: 2427353352705464601}
+  spinSpeed: 30
+  _axis: {x: 0, y: 1, z: 0}
 --- !u!1 &8297747334465017536
 GameObject:
   m_ObjectHideFlags: 0
