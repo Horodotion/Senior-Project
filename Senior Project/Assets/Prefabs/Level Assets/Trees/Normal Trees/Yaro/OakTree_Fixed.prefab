@@ -709,6 +709,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8527237281691886221}
+  - component: {fileID: 8126641928930796747}
   m_Layer: 0
   m_Name: OakTree_Fixed
   m_TagString: Untagged
@@ -735,3 +736,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &8126641928930796747
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9015368129932834871}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.17353249, y: 11.51103, z: 0.63417816}
+  m_Size: 28.517849
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.84038407
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3951384398891089729}
+    - renderer: {fileID: 43208407524378912}
+    - renderer: {fileID: 9061547671549681782}
+    - renderer: {fileID: 5887845610511124212}
+    - renderer: {fileID: 1370574333337159024}
+    - renderer: {fileID: 7424775391468429466}
+    - renderer: {fileID: 3932890857559285740}
+    - renderer: {fileID: 3914552477636674481}
+  - screenRelativeHeight: 0.6546478
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3932890857559285740}
+    - renderer: {fileID: 7424775391468429466}
+    - renderer: {fileID: 3914552477636674481}
+  - screenRelativeHeight: 0.36498117
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7424775391468429466}
+    - renderer: {fileID: 3914552477636674481}
+  m_Enabled: 1
