@@ -598,8 +598,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd7cfcb9bbcaf7f4ea958554200961ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textToChange: Outlined objects can be destroyed with magic;;Use fire magic to burn
-    red objects;use ice magic to freeze blue objects
+  textToChange: Outlined objects can be destroyed with magic;;Use fire on red objects;Use
+    ice on blue objects
 --- !u!1 &7184063712860940195
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,7 +710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd7cfcb9bbcaf7f4ea958554200961ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textToChange: Move using W,A,S,D;Look using mouse
+  textToChange: Move using W,A,S,D;Look using mouse;Jump using Space
 --- !u!1 &7184063712972598090
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,7 +821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd7cfcb9bbcaf7f4ea958554200961ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textToChange: Jump using Space;Press Space in midair to double jump
+  textToChange: Press Space in midair to double jump
 --- !u!1 &7184063713373342561
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,5 +932,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd7cfcb9bbcaf7f4ea958554200961ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textToChange: Conjure flames with;Right mouse button;;Conjure icicles with;Left
-    mouse button
+  textToChange: Fire right mouse button;;Ice left mouse button

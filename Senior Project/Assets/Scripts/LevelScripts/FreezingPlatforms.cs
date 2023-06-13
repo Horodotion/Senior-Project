@@ -13,9 +13,12 @@ public class FreezingPlatforms : EnemyController
     public Material liveMaterial;
     public Material frozenMaterial;
     public GameObject colliderBox;
+    public GameObject unfreezeVFX;
+    public Transform vfxSpawnPoint;
+    public bool spinning = false;
+    public bool isDead = false;
+    
     private int flashing = 1;
-
-
     private float startTimer = 0f;
     public float speed = 0.1f; //Change this to suit your game.
     private bool switching = false;
@@ -69,21 +72,24 @@ public class FreezingPlatforms : EnemyController
             return;
         }
 
-        if (!switching)
+        if(!spinning)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetB.position, speed * Time.deltaTime);
-        }
-        else if (switching)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, targetA.position, speed * Time.deltaTime);
-        }
-        if (transform.position == targetB.position)
-        {
-            switching = true;
-        }
-        else if (transform.position == targetA.position)
-        {
-            switching = false;
+            if (!switching)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, targetB.position, speed * Time.deltaTime);
+            }
+            else if (switching)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, targetA.position, speed * Time.deltaTime);
+            }
+            if (transform.position == targetB.position)
+            {
+                switching = true;
+            }
+            else if (transform.position == targetA.position)
+            {
+                switching = false;
+            }
         }
 
     }
@@ -91,6 +97,7 @@ public class FreezingPlatforms : EnemyController
     public override void CommitDie()
     {
         base.CommitDie();
+        isDead = true;
         GetComponent<MeshRenderer>().material = frozenMaterial;
         
         if (colliderBox != null)
@@ -103,11 +110,13 @@ public class FreezingPlatforms : EnemyController
     public void Recover()
     {
         health.ResetStat();
+        isDead = false;
         GetComponent<MeshRenderer>().material = liveMaterial;
         if (colliderBox != null)
         {
             colliderBox.SetActive(false);
         }
+        Instantiate(unfreezeVFX, new Vector3(vfxSpawnPoint.position.x, vfxSpawnPoint.position.y, vfxSpawnPoint.position.z), Quaternion.identity);
         dead = false;
     }
     /*
