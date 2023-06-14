@@ -11,6 +11,7 @@ public class ShotgunSpell : Spell
     public float minimumSpreadRange;
     public float spreadAngle;
 
+
     public override void Fire()
     {
         ProjectileFire();
@@ -41,6 +42,11 @@ public class ShotgunSpell : Spell
     {
         Vector3 pos = GetFirePos().position;
         Vector3 targetDirection = FindTargetLocation() - pos;
+
+        if (GetFirePos().GetComponent<AudioSource>() != null)
+        {
+            GetFirePos().GetComponent<AudioSource>().Play();
+        }
 
         for (int i = 0; i < pelletsPerShot; i++)
         {
