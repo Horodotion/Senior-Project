@@ -162,6 +162,14 @@ public class BossEnemyController : EnemyController
     public bool isAbleToPlayDeathAni;
     public float WinScreenActivationTimeAfterBossDeath;
 
+    [Header("SFX")]
+    public AudioSource ourAudioSource;
+    public AudioClip meleeBugle;
+    public AudioClip projectileBugle;
+    public AudioClip laserBugle;
+    public AudioClip tauntBugle;
+    public AudioClip teleportBugle;
+
 
     //Animation Parameter
     [HideInInspector] public string aniDecision = "idleDecision";
@@ -206,6 +214,8 @@ public class BossEnemyController : EnemyController
         navMeshAgent.acceleration = acceleration;
         attacksManager = GetComponent<AttacksManager>();
         mobSpawnerController = mobSpawner.GetComponent<MobSpawnerController>();
+        ourAudioSource = GetComponent<AudioSource>();
+
         //healthBar = healthBarCanvasObject.GetComponentInChildren<Slider>();
         if (TryGetComponent<Animator>(out Animator thatAnimator))
         {
@@ -264,12 +274,18 @@ public class BossEnemyController : EnemyController
             case BossState.idle:
                 break;
             case BossState.taunt:
+                ourAudioSource.clip = tauntBugle;
+                ourAudioSource.Play();
                 MovementCoroutine = TauntState(); //Take care the taunt later
                 break;
             case BossState.meleeAttack:
+                ourAudioSource.clip = meleeBugle;
+                ourAudioSource.Play();
                 MovementCoroutine = attacksManager.MeleeAttack();
                 break;
             case BossState.rangedAttack:
+                ourAudioSource.clip = projectileBugle;
+                ourAudioSource.Play();
                 MovementCoroutine = attacksManager.RangedAttack();
                 break;
             case BossState.takingCover:
@@ -279,13 +295,19 @@ public class BossEnemyController : EnemyController
                 MovementCoroutine = WaitInCoverState(UnityEngine.Random.Range(minWaitTimeinCover, maxWaitTimeInCover));
                 break;
             case BossState.teleportToCover:
+                ourAudioSource.clip = teleportBugle;
+                ourAudioSource.Play();
                 MovementCoroutine = TeleportingToCoverState(PlayerController.puppet.transform);
                 break;
             case BossState.teleportBehindPlayer:
+                ourAudioSource.clip = teleportBugle;
+                ourAudioSource.Play();
                 MovementCoroutine = TeleportingBehindState(PlayerController.puppet.transform);
                 break;
             case BossState.laserAttack:
                 Debug.Log("Laser");
+                ourAudioSource.clip = laserBugle;
+                ourAudioSource.Play();
                 MovementCoroutine = attacksManager.LaserAttack();
                 break;
             case BossState.spawnTurrets:
