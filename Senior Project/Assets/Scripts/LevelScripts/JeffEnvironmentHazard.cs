@@ -57,6 +57,12 @@ public class JeffEnvironmentHazard : MonoBehaviour
     public float deltaValue = .1f;
     private bool disintegrating = false;
 
+    public AudioSource ourAudioSource;
+    public AudioClip meleeBugle;
+    public AudioClip projectileBugle;
+    public AudioClip laserBugle;
+    public AudioClip tauntBugle;
+    public AudioClip teleportBugle;
 
     private void Awake()
     {
@@ -67,6 +73,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
         player = GameObject.FindObjectOfType<PlayerPuppet>().transform;
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+        ourAudioSource = GetComponent<AudioSource>();
 
         iceRend = iceMesh.GetComponent<SkinnedMeshRenderer>();
         boneRend = boneBesh.GetComponent<SkinnedMeshRenderer>();
@@ -162,7 +169,8 @@ public class JeffEnvironmentHazard : MonoBehaviour
     {
         if (!hasAttacked)
         {
-            Debug.Log("I attacked!");
+            // Debug.Log("I attacked!");
+            
 
             if (PlayerController.instance.temperature.stat >= 0)
             {
@@ -210,11 +218,15 @@ public class JeffEnvironmentHazard : MonoBehaviour
         //Stop Enemy and look at player
         transform.LookAt(player);
         anim.SetInteger("idleDecision", 4);
+        ourAudioSource.clip = projectileBugle;
+        ourAudioSource.Play();
     }
 
     private void TauntSpawnMobAni()
     {
         anim.SetInteger("idleDecision", 3);
+        ourAudioSource.clip = laserBugle;
+        ourAudioSource.Play();
         Invoke(nameof(EndTauntStateAni), 2.4f);
     }
 
