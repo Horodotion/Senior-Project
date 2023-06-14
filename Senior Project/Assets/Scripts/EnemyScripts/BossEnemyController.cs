@@ -5,8 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.VFX;
 using UnityEngine.UI;
-
-
+using System.Collections.Generic;
 
 public enum BossState
 {
@@ -316,6 +315,14 @@ public class BossEnemyController : EnemyController
         //Ani();
         AniSpeed();
         HealthBar();
+        /*
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, coverSampleDistance, hidingSpotLayer);
+        foreach (Collider i in hitColliders)
+        {
+            IsItAValidHidingPoint(widthOfTheBoss, i.transform.position);
+        }
+        */
+        
     }
     //Animation speed for walking and running
     private void AniSpeed()
@@ -467,7 +474,7 @@ public class BossEnemyController : EnemyController
                 }
                 
                 //Find the right collider to hide
-                nextCol = FindValidHidingSpot(target, hitColliders);
+                nextCol = FindClosestValidHidingSpot(target, hitColliders);
                 //Debug.Log(tempCol.transform.position);
                 if (nextCol == null)
                 {
@@ -503,9 +510,10 @@ public class BossEnemyController : EnemyController
         }
     }
 
-    public Collider FindValidHidingSpot(Transform target, Collider[] colliders)
+    public Collider FindClosestValidHidingSpot(Transform target, Collider[] colliders)
     {
         Collider tempCol = null;
+        List<Collider> colList = new List<Collider>();
         foreach (Collider thisCol in colliders)
         {
             /*
@@ -560,6 +568,67 @@ public class BossEnemyController : EnemyController
         }
         return tempCol;
     }
+
+    public Collider FindRandomValidHidingSpot(Transform target, Collider[] colliders)
+    {
+        //Collider tempCol = null;
+        List<Collider> colList = new List<Collider>();
+        foreach (Collider thisCol in colliders)
+        {
+            /*
+            Vector3 playerToBossVector = transform.position - target.position;
+            //Checked if it's in front of the boss 
+            
+            if (Vector3.Dot(playerToBossVector, target.forward) > 0)
+            {
+                Vector3 playerToColloderVector = thisCol.transform.position - target.position;
+                if (Vector3.Dot(playerToBossVector, target.right) > 0)
+                {
+                    if (Vector3.Dot(playerToColloderVector, target.right) < 0)
+                    {
+                        continue;
+                    }
+
+                }
+                else
+                {
+                    if (Vector3.Dot(playerToColloderVector, target.right) > 0)
+                    {
+                        continue;
+                    }
+                }
+            }
+            */
+            if (prevousCoverPoint == thisCol.transform.position)
+            {
+                continue;
+            }
+
+
+
+            if (!IsItAValidHidingPoint(widthOfTheBoss, thisCol.transform.position))
+            {
+                continue;
+            }
+
+            if (Vector3.Distance(target.position, thisCol.transform.position) < playerTooCloseDistanceToCover)
+            {
+                continue;
+            }
+
+            colList.Add(thisCol);
+
+        }
+        for (int i = 0; i < colList.Count; i++)
+        {
+            Debug.Log("Leo " +i + ": " + colList[i].name);
+        }
+        //colList[Random.Range(0, colList.Count)];
+        Collider test = colList[Random.Range(0, colList.Count)];
+        Debug.Log("Leo " + "Test: " + test.name);
+        return test;
+    }
+
 
     //Check if a point is a valid hiding Spot. Size is the current object size. Position is the current position that is tried to hide.
     public bool IsItAValidHidingPoint(float size, Vector3 position)
@@ -760,7 +829,7 @@ public class BossEnemyController : EnemyController
             else
             {
                 //Find the right collider that's behind the player
-                Collider tempCol = FindValidHidingSpot(target, hitColliders);
+                Collider tempCol = FindRandomValidHidingSpot(target, hitColliders);
 
                 // If null, then boss is unable to find a spot to teleport behind
                 if (tempCol == null)
@@ -775,6 +844,7 @@ public class BossEnemyController : EnemyController
                     //Spawn VFX when teleport
                     SpawnTeleportVPX();
                     this.transform.position = tempCol.transform.position;
+                    //SpawnTeleportVPX();
                     ExitTeleportingState();
                 }
             }
@@ -826,7 +896,7 @@ public class BossEnemyController : EnemyController
                 if (tempCol == null)
                 {
                     // If there's no available spot that is behind the player, then seach all the spot
-                    tempCol = FindValidHidingSpot(target, hitColliders);
+                    tempCol = FindClosestValidHidingSpot(target, hitColliders);
 
                     // If null, then boss is unable to find a spot to teleport
                     if (tempCol == null)
