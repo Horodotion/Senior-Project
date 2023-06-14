@@ -18,6 +18,11 @@ public class Dash : Spell
         PlayerController.ourPlayerState = PlayerState.dashing;
         dashOrigin = PlayerController.puppet.transform.position;
 
+        if (PlayerController.puppet.jumpSource != null)
+        {
+            PlayerController.puppet.jumpSource.Play();
+        }
+
         if (usesCharges)
         {
             charges--;

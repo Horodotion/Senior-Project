@@ -40,6 +40,7 @@ public abstract class Spell : ScriptableObject
     public int animationLocation = -1;
     [Tooltip("1 for the left hand, 2 for right, 0 for neither")]
     public int ourhand;
+    public AudioClip ourAudioClip;
 
     [Header("Continuous spell")]
     [Tooltip("Check true if the spell needs to be held down/charged up before releasing.")]
@@ -100,6 +101,11 @@ public abstract class Spell : ScriptableObject
             {
                 vfx = vfxEffectObj.GetComponent<VisualEffect>();
             }
+        }
+
+        if (GetFirePos() != null && GetFirePos().GetComponent<AudioSource>() != null)
+        {
+            GetFirePos().GetComponent<AudioSource>().clip = ourAudioClip;
         }
     }
 
@@ -371,6 +377,11 @@ public abstract class Spell : ScriptableObject
             }
 
             vfx.Play();
+            
+            if (vfxEffectObj.GetComponent<AudioSource>() != null)
+            {
+                vfxEffectObj.GetComponent<AudioSource>().Play();
+            }
         }
     }
 
@@ -379,6 +390,11 @@ public abstract class Spell : ScriptableObject
         if (vfx != null)
         {
             vfx.Stop();
+
+            if (vfxEffectObj.GetComponent<AudioSource>() != null)
+            {
+                vfxEffectObj.GetComponent<AudioSource>().Stop();
+            }
         }
     }
 }

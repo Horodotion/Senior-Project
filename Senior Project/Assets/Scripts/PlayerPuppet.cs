@@ -84,6 +84,9 @@ public class PlayerPuppet : MonoBehaviour
     public SkinTemperatureScript fireSkin;
     public SkinTemperatureScript iceSkin;
 
+    [Header("Sounds")]
+    public AudioSource jumpSource;
+
 
     void Awake()
     {
@@ -287,12 +290,17 @@ public class PlayerPuppet : MonoBehaviour
         // If not, it checks if the player is trying to jump, then adds one tenth of the jump speed to the move
         if (PlayerController.instance.jumpHeldDown && (canJump && jumpsRemaining > 0))
         {
-            // if ()
+            if (jumpSource != null)
+            {
+                jumpSource.Play();
+            }
 
             canJump = false;
             jumpsRemaining--;
             fallingSpeed = jumpSpeed; //(JumpSpeed / 10);
             moveDirection.y = fallingSpeed * Time.deltaTime;
+
+            jumpSource.Play();
         }
         else if (!PlayerController.instance.jumpHeldDown)
         {

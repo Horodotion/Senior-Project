@@ -102,6 +102,7 @@ public class GeneralManager : MonoBehaviour
 
     public static void LoadNextLevel()
     {
+        GeneralManager.instance.eventFlags.Clear();
         LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
@@ -144,6 +145,8 @@ public class GeneralManager : MonoBehaviour
     public static void ReturnToMainMenu()
     {
         LoadLevel(0);
+
+        GeneralManager.instance.eventFlags.Clear();
 
         if (PauseMenuScript.instance != null)
         {

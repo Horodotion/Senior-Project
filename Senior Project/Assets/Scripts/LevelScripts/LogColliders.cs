@@ -7,6 +7,7 @@ public class LogColliders : EnemyController
     public GameObject boxCol;
     public GameObject meshCol;
     public int vinesLeft;
+    public AudioSource fallingSFXSource;
     
     // Start is called before the first frame update
     void Start()
@@ -18,6 +19,7 @@ public class LogColliders : EnemyController
     {
         if(enemyHitboxes.Count <= 0)
         {
+            fallingSFXSource.Play();
             meshCol.SetActive(false);
             boxCol.SetActive(true);
         }
