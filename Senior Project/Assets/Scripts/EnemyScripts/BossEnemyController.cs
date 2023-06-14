@@ -3,6 +3,7 @@ using System.Collections;
 //using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.VFX;
 
 
 
@@ -142,6 +143,7 @@ public class BossEnemyController : EnemyController
 
 
     [Header("Boss Teleport System")]
+    public GameObject teleportVFX;
     [SerializeField] public float teleportSampleDistance;
     public float playerTooCloseDistanceToTeleport = 4f;
 
@@ -231,7 +233,7 @@ public class BossEnemyController : EnemyController
 
         bossState = BossState.idle;
 
-        bossState = BossState.laserAttack;
+        bossState = BossState.meleeAttack;
         //bossState = BossState.spawnTurrets;
         //animator.SetBool(aniDeathDecision, true);
         //bossState = BossState.laserAttack;
@@ -746,6 +748,8 @@ public class BossEnemyController : EnemyController
                 }
                 else
                 {
+                    //Spawn VFX when teleport
+                    SpawnTeleportVPX();
                     this.transform.position = tempCol.transform.position;
                     ExitTeleportingState();
                 }
@@ -754,7 +758,16 @@ public class BossEnemyController : EnemyController
             yield return null;
         }
     }
-
+    public void SpawnTeleportVPX()
+    {
+        GameObject tpVFXGameObject = SpawnManager.instance.GetGameObject(teleportVFX, SpawnType.vfx);
+        tpVFXGameObject.transform.position = this.transform.position;
+        tpVFXGameObject.transform.rotation = this.transform.rotation;
+        if (tpVFXGameObject.TryGetComponent<VisualEffect>(out VisualEffect tpVFX))
+        {
+            tpVFX.Play();
+        }
+    }
     public void ExitTeleportingState()
     {
         if (health.stat - health.minimum / health.maximum >= 60)
