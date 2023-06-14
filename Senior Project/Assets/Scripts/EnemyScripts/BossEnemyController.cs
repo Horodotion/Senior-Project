@@ -815,7 +815,7 @@ public class BossEnemyController : EnemyController
 
     public IEnumerator TeleportingToCoverState(Transform target)
     {
-        WaitForSeconds wait = new WaitForSeconds(coverUpdateFrequency);
+        //WaitForSeconds wait = new WaitForSeconds(coverUpdateFrequency);
         IdleAni();
         //Debug.Log("Test");
         while (true)
