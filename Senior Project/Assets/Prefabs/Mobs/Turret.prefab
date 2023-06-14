@@ -118,7 +118,7 @@ MonoBehaviour:
     maximum: Infinity
   inInvincibilityFrames: 0
   dead: 0
-  usesDamageText: 0
+  usesDamageText: 1
   damageImmunities: 
   damageResistances: 
   damageVulnerabilities: 
@@ -127,6 +127,7 @@ MonoBehaviour:
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
+  deathRattle: {fileID: 0}
   critSpot: 0
   critMultiplier: 0
   enemy: {fileID: 0}
@@ -195,6 +196,7 @@ MonoBehaviour:
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
+  deathRattle: {fileID: 0}
   turretHinge: {fileID: 2703690472251912050}
   turretType: 0
   iceProjectile: {fileID: 2964537244032325312, guid: 086afa8d9ddddc14da5581102539ee44,
@@ -204,6 +206,8 @@ MonoBehaviour:
   iceBeam: {fileID: 5813145559260143028, guid: b7976f6378b1c2d44b02bc15a18ce338, type: 3}
   fireBeam: {fileID: 1825884365860083250, guid: 159626a465b748c499c86821e214c11f,
     type: 3}
+  fireProjectileSFX: {fileID: 8300000, guid: cdba6437d2373cd47a1086563ae4a3b3, type: 3}
+  iceProjectileSFX: {fileID: 8300000, guid: 4e791072c9845604a9597e9b2735e621, type: 3}
   rotationSpeed: 1
   damage: 20
   detectionRadius: 10
@@ -329,7 +333,7 @@ MonoBehaviour:
     maximum: Infinity
   inInvincibilityFrames: 0
   dead: 0
-  usesDamageText: 0
+  usesDamageText: 1
   damageImmunities: 
   damageResistances: 
   damageVulnerabilities: 
@@ -338,6 +342,7 @@ MonoBehaviour:
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
+  deathRattle: {fileID: 0}
   critSpot: 0
   critMultiplier: 0
   enemy: {fileID: 0}
@@ -459,7 +464,7 @@ MonoBehaviour:
     maximum: Infinity
   inInvincibilityFrames: 0
   dead: 0
-  usesDamageText: 0
+  usesDamageText: 1
   damageImmunities: 
   damageResistances: 
   damageVulnerabilities: 
@@ -468,6 +473,7 @@ MonoBehaviour:
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
+  deathRattle: {fileID: 0}
   critSpot: 0
   critMultiplier: 0
   enemy: {fileID: 0}
