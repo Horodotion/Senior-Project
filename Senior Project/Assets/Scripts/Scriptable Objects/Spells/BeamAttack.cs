@@ -14,6 +14,11 @@ public class BeamAttack : Spell
         if (vfxEffectObj != null)
         {
             vfxEffectObj.SetActive(false);
+
+            if (vfxEffectObj.GetComponent<AudioSource>() != null)
+            {
+                vfxEffectObj.GetComponent<AudioSource>().Stop();
+            }
         }
     }
 
@@ -54,6 +59,11 @@ public class BeamAttack : Spell
             }
 
             vfxEffectObj.SetActive(true);
+
+            if (vfxEffectObj.GetComponent<AudioSource>() != null)
+            {
+                vfxEffectObj.GetComponent<AudioSource>().Play();
+            }
         }
     }
 
@@ -62,6 +72,11 @@ public class BeamAttack : Spell
         if (vfxEffectObj != null)
         {
             vfxEffectObj.SetActive(false);
+
+            if (vfxEffectObj.GetComponent<AudioSource>() != null)
+            {
+                vfxEffectObj.GetComponent<AudioSource>().Stop();
+            }
         }
     }
 

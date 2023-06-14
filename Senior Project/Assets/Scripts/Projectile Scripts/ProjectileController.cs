@@ -15,6 +15,7 @@ public class ProjectileController : MonoBehaviour
     public DamageType damageType;
     public float damage;
     [HideInInspector] public bool launched = false;
+    public AudioClip impactSFX;
     
 
     public GameObject destroyEffectPrefab;
@@ -61,6 +62,14 @@ public class ProjectileController : MonoBehaviour
         Deactivate();
     }
 
+    // public virtual void OnTriggerExit(Collider col)
+    // {
+    //     if (!col.isTrigger && col.gameObject.GetComponent<PlayerPuppet>() == null)
+    //     {
+    //         Deactivate();
+    //     }
+    // }
+
     public virtual void Explode()
     {
         Deactivate();
@@ -69,14 +78,16 @@ public class ProjectileController : MonoBehaviour
     public virtual void LaunchProjectile()
     {
         origin = gameObject.transform.position;
-        // gameObject.transform.position = origin;
-        // gameObject.transform.rotation = rotation;
         rb.AddForce(transform.forward * projectileSpeed, ForceMode.VelocityChange);
         launched = true;
     }
 
     public virtual void Deactivate()
     {
+        if (impactSFX != null)
+        {
+            AudioSource.PlayClipAtPoint(impactSFX, transform.position);
+        }
         rb.velocity = Vector3.zero;
         launched = false;
         lifeSpan = 0;

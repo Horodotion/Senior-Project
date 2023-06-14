@@ -23,6 +23,10 @@ public class FreezingPlatforms : EnemyController
     public float speed = 0.1f; //Change this to suit your game.
     private bool switching = false;
 
+    [Header("SFX")]
+    public AudioClip freezingSFX;
+    public AudioClip thawingSFX;
+
     private void Start()
     {
         if(colliderBox != null)
@@ -99,7 +103,8 @@ public class FreezingPlatforms : EnemyController
         base.CommitDie();
         isDead = true;
         GetComponent<MeshRenderer>().material = frozenMaterial;
-        
+        AudioSource.PlayClipAtPoint(freezingSFX, transform.position);
+
         if (colliderBox != null)
         {
             colliderBox.SetActive(true);
@@ -117,21 +122,10 @@ public class FreezingPlatforms : EnemyController
             colliderBox.SetActive(false);
         }
         Instantiate(unfreezeVFX, new Vector3(vfxSpawnPoint.position.x, vfxSpawnPoint.position.y, vfxSpawnPoint.position.z), Quaternion.identity);
+        AudioSource.PlayClipAtPoint(thawingSFX, transform.position);
         dead = false;
     }
-    /*
-    public void Flashing()
-    {
-        if (flashing == 1)
-        {
-            flashing = 0;
-        }
-        else
-        {
-            flashing = 1;
-        }
-    }
-    */
+
     public void FlashingLive()
     {
         if (dead)

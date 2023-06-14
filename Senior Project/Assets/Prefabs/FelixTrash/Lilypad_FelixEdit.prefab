@@ -126,11 +126,19 @@ MonoBehaviour:
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
+  deathRattle: {fileID: 0}
   recoveryRate: 5
+  flashingPercentage: 0.6
   startDelay: 0
   targetA: {fileID: 0}
   targetB: {fileID: 0}
   liveMaterial: {fileID: 0}
   frozenMaterial: {fileID: 0}
   colliderBox: {fileID: 0}
+  unfreezeVFX: {fileID: 0}
+  vfxSpawnPoint: {fileID: 0}
+  spinning: 0
+  isDead: 0
   speed: 0.5
+  freezingSFX: {fileID: 8300000, guid: 414178901cb9d2b4ba5c185d62a9dcb9, type: 3}
+  thawingSFX: {fileID: 8300000, guid: 98773782c65f6bd42a07925d7f82d4c7, type: 3}
