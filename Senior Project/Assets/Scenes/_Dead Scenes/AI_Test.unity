@@ -436,6 +436,7 @@ MonoBehaviour:
   playerTooCloseDistanceToCover: 4
   coverUpdateFrequency: 1
   coverSampleDistance: 100
+  teleportVFX: {fileID: 0}
   teleportSampleDistance: 100
   playerTooCloseDistanceToTeleport: 4
   orbWalkAniSpeed: 0
@@ -719,6 +720,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263690975169019521, guid: e9f111476ad71e24d89ba81471e25894,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 251
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263690975169019521, guid: e9f111476ad71e24d89ba81471e25894,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.5776367
       objectReference: {fileID: 0}
     - target: {fileID: 7381363989894572582, guid: e9f111476ad71e24d89ba81471e25894,
         type: 3}
@@ -3614,6 +3625,16 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 4699805293264566015, guid: 59135bc463a0d4148b3ae058066dd503,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4699805293264566015, guid: 59135bc463a0d4148b3ae058066dd503,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5050592126102064890, guid: 59135bc463a0d4148b3ae058066dd503,
         type: 3}
       propertyPath: m_Layer
@@ -4227,6 +4248,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerController
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739040839120907245, guid: 73ebf3f6bcd11244bab73bce4ac833ff,
+        type: 3}
+      propertyPath: temperature.maximum
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5739040839120907245, guid: 73ebf3f6bcd11244bab73bce4ac833ff,
+        type: 3}
+      propertyPath: temperature.minimum
+      value: -10000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73ebf3f6bcd11244bab73bce4ac833ff, type: 3}
@@ -4924,6 +4955,12 @@ PrefabInstance:
       propertyPath: mobSpawner
       value: 
       objectReference: {fileID: 1147070219}
+    - target: {fileID: 1456991576604559661, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
+        type: 3}
+      propertyPath: teleportVFX
+      value: 
+      objectReference: {fileID: 4169953279256951507, guid: 8b017fc54df6aab489fac16d0bc78ca3,
+        type: 3}
     - target: {fileID: 1799522092324479054, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
         type: 3}
       propertyPath: m_Name
