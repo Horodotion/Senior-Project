@@ -15,6 +15,7 @@ public class ProjectileController : MonoBehaviour
     public DamageType damageType;
     public float damage;
     [HideInInspector] public bool launched = false;
+    public AudioClip spawnSFX;
     public AudioClip impactSFX;
     
 
@@ -77,6 +78,11 @@ public class ProjectileController : MonoBehaviour
 
     public virtual void LaunchProjectile()
     {
+        if (spawnSFX != null)
+        {
+            AudioSource.PlayClipAtPoint(spawnSFX, gameObject.transform.position);
+        }
+
         origin = gameObject.transform.position;
         rb.AddForce(transform.forward * projectileSpeed, ForceMode.VelocityChange);
         launched = true;

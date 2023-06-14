@@ -76,6 +76,8 @@ MonoBehaviour:
   damageType: 0
   damage: 45
   launched: 0
+  spawnSFX: {fileID: 8300000, guid: cdba6437d2373cd47a1086563ae4a3b3, type: 3}
+  impactSFX: {fileID: 8300000, guid: 25dee4f4e81d71a439c0bc9f5fc1f08b, type: 3}
   destroyEffectPrefab: {fileID: 50376443962348799, guid: c9a24ebdfe72e6b4b89d1faa3efe71ea,
     type: 3}
 --- !u!136 &314620141425248933
@@ -120,6 +122,7 @@ MonoBehaviour:
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
+  deathRattle: {fileID: 0}
   ourProjectile: {fileID: 7162815296137968484}
 --- !u!1001 &361836399382101455
 PrefabInstance:
