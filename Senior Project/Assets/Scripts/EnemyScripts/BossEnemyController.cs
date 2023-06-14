@@ -46,7 +46,7 @@ public class BossEnemyController : EnemyController
 
     //Health Bar system
     [SerializeField] private GameObject healthBarCanvasObject;
-    private Slider healthBar;
+    [SerializeField] private Slider healthBar;
 
     // Boss mob spawn system
     [SerializeField] private GameObject mobSpawner;
@@ -207,7 +207,7 @@ public class BossEnemyController : EnemyController
         navMeshAgent.acceleration = acceleration;
         attacksManager = GetComponent<AttacksManager>();
         mobSpawnerController = mobSpawner.GetComponent<MobSpawnerController>();
-        healthBar = healthBarCanvasObject.GetComponentInChildren<Slider>();
+        //healthBar = healthBarCanvasObject.GetComponentInChildren<Slider>();
         if (TryGetComponent<Animator>(out Animator thatAnimator))
         {
             animator = thatAnimator;
