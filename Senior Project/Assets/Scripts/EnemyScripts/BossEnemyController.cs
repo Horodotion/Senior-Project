@@ -3,6 +3,8 @@ using System.Collections;
 //using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.VFX;
+using UnityEngine.UI;
 
 
 
@@ -40,8 +42,17 @@ public class Decision : ScriptableObject
 
 public class BossEnemyController : EnemyController
 {
+    //[SerializeField] private GameObject healthBar;
+
+    //Health Bar system
+    [SerializeField] private GameObject healthBarCanvasObject;
+    [SerializeField] private Slider healthBar;
+
+    // Boss mob spawn system
     [SerializeField] private GameObject mobSpawner;
     private MobSpawnerController mobSpawnerController;
+
+
     //[SerializeField] private BossSpawnerController turretSpawner;
     [Header("Boss Stats")]
     public NavMeshAgent navMeshAgent;
@@ -142,6 +153,7 @@ public class BossEnemyController : EnemyController
 
 
     [Header("Boss Teleport System")]
+    public GameObject teleportVFX;
     [SerializeField] public float teleportSampleDistance;
     public float playerTooCloseDistanceToTeleport = 4f;
 
@@ -195,6 +207,7 @@ public class BossEnemyController : EnemyController
         navMeshAgent.acceleration = acceleration;
         attacksManager = GetComponent<AttacksManager>();
         mobSpawnerController = mobSpawner.GetComponent<MobSpawnerController>();
+        //healthBar = healthBarCanvasObject.GetComponentInChildren<Slider>();
         if (TryGetComponent<Animator>(out Animator thatAnimator))
         {
             animator = thatAnimator;
@@ -228,10 +241,17 @@ public class BossEnemyController : EnemyController
     {
         Debug.Log("Test");
         ChangeRandomElementState();
+        healthBar.maxValue = health.maximum;
+        healthBar.minValue = health.minimum;
+        healthBar.value = health.stat;
 
         bossState = BossState.idle;
 
         bossState = BossState.meleeAttack;
+        //bossState = BossState.spawnTurrets;
+        //animator.SetBool(aniDeathDecision, true);
+        //bossState = BossState.laserAttack;
+        //bossState = BossState.taunt;
     }
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
     {
@@ -293,7 +313,9 @@ public class BossEnemyController : EnemyController
     }
     private void Update()
     {
+        //Ani();
         AniSpeed();
+        HealthBar();
     }
     //Animation speed for walking and running
     private void AniSpeed()
@@ -311,6 +333,14 @@ public class BossEnemyController : EnemyController
             animator.speed = 1;
         }
     }
+
+    private void HealthBar()
+    {
+        Vector3 temp = new Vector3(PlayerController.puppet.cameraObj.transform.position.x, healthBarCanvasObject.transform.position.y, PlayerController.puppet.cameraObj.transform.position.z);
+        healthBarCanvasObject.transform.LookAt(temp);
+        healthBar.value = health.stat;
+    }
+
     public void IdleAni()
     {
         animator.SetInteger(aniDecision, idleAni);
@@ -716,7 +746,6 @@ public class BossEnemyController : EnemyController
 
     public IEnumerator TeleportingToCoverState(Transform target)
     {
-        Debug.Log("Yes I did.");
         WaitForSeconds wait = new WaitForSeconds(coverUpdateFrequency);
         IdleAni();
         //Debug.Log("Test");
@@ -742,6 +771,9 @@ public class BossEnemyController : EnemyController
                 }
                 else
                 {
+                    //Teleport boss
+                    //Spawn VFX when teleport
+                    SpawnTeleportVPX();
                     this.transform.position = tempCol.transform.position;
                     ExitTeleportingState();
                 }
@@ -750,7 +782,16 @@ public class BossEnemyController : EnemyController
             yield return null;
         }
     }
-
+    public void SpawnTeleportVPX()
+    {
+        GameObject tpVFXGameObject = SpawnManager.instance.GetGameObject(teleportVFX, SpawnType.vfx);
+        tpVFXGameObject.transform.position = this.transform.position;
+        tpVFXGameObject.transform.rotation = this.transform.rotation;
+        if (tpVFXGameObject.TryGetComponent<VisualEffect>(out VisualEffect tpVFX))
+        {
+            tpVFX.Play();
+        }
+    }
     public void ExitTeleportingState()
     {
         if (health.stat - health.minimum / health.maximum >= 60)
@@ -1068,7 +1109,6 @@ public class BossEnemyController : EnemyController
         }
         return false;
     }
-    //Aim Horizontaly
     public virtual void AimTowards(Vector3 position, float aimSpeed)
     {
         Vector3 veiwToPlayerMesh = position - viewPoint.transform.position;
@@ -1076,13 +1116,6 @@ public class BossEnemyController : EnemyController
         transform.forward = Vector3.RotateTowards(transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
         Debug.DrawRay(viewPoint.transform.position, veiwToPlayerMesh, Color.blue);
     }
-    public virtual void AimTowards(GameObject gameObject, Vector3 position, float aimSpeed)
-    {
-        Vector3 veiwToPlayerMesh = position - viewPoint.transform.position;
-        veiwToPlayerMesh.y = 0;
-        gameObject.transform.forward = Vector3.RotateTowards(gameObject.transform.forward, veiwToPlayerMesh, aimSpeed * Time.deltaTime, 0.0f);
-    }
-
 
     public virtual void AimTowardsWithY(GameObject gameObject, Vector3 position, float aimSpeed)
     {
