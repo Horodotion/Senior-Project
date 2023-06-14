@@ -748,6 +748,7 @@ public class BossEnemyController : EnemyController
                 }
                 else
                 {
+                    //Teleport boss
                     //Spawn VFX when teleport
                     SpawnTeleportVPX();
                     this.transform.position = tempCol.transform.position;
