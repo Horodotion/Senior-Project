@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.VFX;
+using UnityEngine.UI;
 
 
 
@@ -41,8 +42,17 @@ public class Decision : ScriptableObject
 
 public class BossEnemyController : EnemyController
 {
+    //[SerializeField] private GameObject healthBar;
+
+    //Health Bar system
+    [SerializeField] private GameObject healthBarCanvasObject;
+    private Slider healthBar;
+
+    // Boss mob spawn system
     [SerializeField] private GameObject mobSpawner;
     private MobSpawnerController mobSpawnerController;
+
+
     //[SerializeField] private BossSpawnerController turretSpawner;
     [Header("Boss Stats")]
     public NavMeshAgent navMeshAgent;
@@ -197,6 +207,7 @@ public class BossEnemyController : EnemyController
         navMeshAgent.acceleration = acceleration;
         attacksManager = GetComponent<AttacksManager>();
         mobSpawnerController = mobSpawner.GetComponent<MobSpawnerController>();
+        healthBar = healthBarCanvasObject.GetComponentInChildren<Slider>();
         if (TryGetComponent<Animator>(out Animator thatAnimator))
         {
             animator = thatAnimator;
@@ -230,6 +241,9 @@ public class BossEnemyController : EnemyController
     {
         Debug.Log("Test");
         ChangeRandomElementState();
+        healthBar.maxValue = health.maximum;
+        healthBar.minValue = health.minimum;
+        healthBar.value = health.stat;
 
         bossState = BossState.idle;
 
@@ -301,6 +315,7 @@ public class BossEnemyController : EnemyController
     {
         //Ani();
         AniSpeed();
+        HealthBar();
     }
     //Animation speed for walking and running
     private void AniSpeed()
@@ -318,6 +333,14 @@ public class BossEnemyController : EnemyController
             animator.speed = 1;
         }
     }
+
+    private void HealthBar()
+    {
+        Vector3 temp = new Vector3(PlayerController.puppet.cameraObj.transform.position.x, healthBarCanvasObject.transform.position.y, PlayerController.puppet.cameraObj.transform.position.z);
+        healthBarCanvasObject.transform.LookAt(temp);
+        healthBar.value = health.stat;
+    }
+
     public void IdleAni()
     {
         animator.SetInteger(aniDecision, idleAni);
