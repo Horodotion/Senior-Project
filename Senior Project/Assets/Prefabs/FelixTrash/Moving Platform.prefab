@@ -214,6 +214,7 @@ MonoBehaviour:
     maximum: 10
   inInvincibilityFrames: 0
   dead: 0
+  usesDamageText: 0
   damageImmunities: 
   damageResistances: 
   damageVulnerabilities: 
@@ -222,14 +223,53 @@ MonoBehaviour:
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
+  deathRattle: {fileID: 0}
   recoveryRate: 5
+  flashingPercentage: 0.6
   startDelay: 0
   targetA: {fileID: 5399746961450759975}
   targetB: {fileID: 5399746961027549710}
   liveMaterial: {fileID: 2100000, guid: f43fceaafeb34e24bb3855aa1a4b004a, type: 2}
   frozenMaterial: {fileID: 2100000, guid: 1a9733371ecbc664e8c1acb0cbd6f62f, type: 2}
   colliderBox: {fileID: 0}
+  unfreezeVFX: {fileID: 0}
+  vfxSpawnPoint: {fileID: 0}
+  spinning: 0
+  isDead: 0
   speed: 1
+  freezingSFX: {fileID: 0}
+  thawingSFX: {fileID: 0}
+--- !u!1 &6513060801652436987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2071055957747407793}
+  m_Layer: 13
+  m_Name: VFXSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2071055957747407793
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6513060801652436987}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.38, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1494543683468039616}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3724128898259116976
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -395,7 +435,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 55d9d409432c0774fa4f9965ad816027, type: 2}
+      objectReference: {fileID: 2100000, guid: 89b922a6d089e5349a96d8d0a55b175b, type: 2}
     - target: {fileID: 4253280567622488715, guid: 8f17a0b2963d14a41b265746e2610b35,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
@@ -458,6 +498,7 @@ MonoBehaviour:
     maximum: 10
   inInvincibilityFrames: 0
   dead: 0
+  usesDamageText: 0
   damageImmunities: 
   damageResistances: 
   damageVulnerabilities: 
@@ -466,14 +507,23 @@ MonoBehaviour:
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
+  deathRattle: {fileID: 0}
   recoveryRate: 5
+  flashingPercentage: 0.6
   startDelay: 0
   targetA: {fileID: 5399746961450759975}
   targetB: {fileID: 5399746961027549710}
-  liveMaterial: {fileID: 2100000, guid: 55d9d409432c0774fa4f9965ad816027, type: 2}
+  liveMaterial: {fileID: 2100000, guid: 89b922a6d089e5349a96d8d0a55b175b, type: 2}
   frozenMaterial: {fileID: 2100000, guid: 715e5e319f50ab846862a06d9bd1fc71, type: 2}
   colliderBox: {fileID: 0}
+  unfreezeVFX: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
+    type: 3}
+  vfxSpawnPoint: {fileID: 2071055957747407793}
+  spinning: 0
+  isDead: 0
   speed: 1
+  freezingSFX: {fileID: 8300000, guid: 414178901cb9d2b4ba5c185d62a9dcb9, type: 3}
+  thawingSFX: {fileID: 8300000, guid: 98773782c65f6bd42a07925d7f82d4c7, type: 3}
 --- !u!114 &3753550743900038625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -486,6 +536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7916c0d2359c8469d07579f6502673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lilyPad: {fileID: 0}
   spinSpeed: 10
   _axis: {x: 0, y: 1, z: 0}
 --- !u!4 &6734050564128833479 stripped
