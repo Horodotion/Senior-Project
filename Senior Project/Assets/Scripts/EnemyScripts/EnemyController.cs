@@ -69,8 +69,11 @@ public class EnemyController : MonoBehaviour
             GameObject damageText = GetDamageText(damageType);
             damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, damage, damageType);
         }
-
-        health.AddToStat(-damage);
+        if (!inInvincibilityFrames)
+        {
+            health.AddToStat(-damage);
+        }
+        
         if (health.stat <= health.minimum && !dead)
         {
             CommitDie();
