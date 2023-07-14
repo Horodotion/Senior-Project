@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e0d510b5dde4e284eb16f3ce6d2c62ae, type: 3}
-  m_Name: MeleeAttackDecision
+  m_Name: SpawnMobDecisionPhase3
   m_EditorClassIdentifier: 
-  decisions: 0000000004000000000000000000000000000000000000000000000000000000000000000000000006000000a0860100
+  decisions: 000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   taunt: 0
-  meleeAttack: 4
+  meleeAttack: 1
   rangedAttack: 0
   takingCover: 0
   wait: 0
@@ -23,5 +23,5 @@ MonoBehaviour:
   laser: 0
   turrets: 0
   mines: 0
-  orbWalk: 6
-  mobs: 100000
+  orbWalk: 0
+  mobs: 0

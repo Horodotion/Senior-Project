@@ -21,8 +21,10 @@ public enum BossState
     spawnTurrets = 9,
     spawnMines = 10,
     orbWalking = 11,
-    ambushed = 12,
-    dead = 13,
+    spawnMobs = 12,
+    ambushed = 13,
+    dead = 14,
+    
 
     //testState,
     // testState2,
@@ -61,7 +63,7 @@ public class BossEnemyController : EnemyController
     [Header("Boss Stats")]
     public NavMeshAgent navMeshAgent;
     [HideInInspector] public Animator animator;
-    [HideInInspector] AttacksManager attacksManager;
+    [HideInInspector] protected AttacksManager attacksManager;
 
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float acceleration = 8f;
@@ -102,8 +104,9 @@ public class BossEnemyController : EnemyController
     [SerializeField] public MovementDecision coverDecisionMod;
     [SerializeField] public MovementDecision teleportDecision;
     [SerializeField] public MovementDecision teleportDecisionMod;
-    [SerializeField] public MovementDecision dropMinesDecision;
+    [SerializeField] public MovementDecision dropMineDecision;
     [SerializeField] public MovementDecision dropTurretDecision;
+    [SerializeField] public MovementDecision spawnMobDecision;
     [SerializeField] public MovementDecision laserAttackDecision;
 
     //public OrbWalkController orbWalkController = new OrbWalkController();
@@ -171,7 +174,7 @@ public class BossEnemyController : EnemyController
     [Range(.5f, 5)] public float orbWalkAniSpeed;
     [Range(.5f, 5)] public float runAniSpeed;
     public bool isAbleToPlayDeathAni;
-    public float WinScreenActivationTimeAfterBossDeath;
+    public float activationTimeAfterDeath;
 
 
     //Animation Parameter
@@ -208,7 +211,7 @@ public class BossEnemyController : EnemyController
 
     // Coroutine variables
     public IEnumerator MovementCoroutine;
-    public void Awake()
+    public virtual void Awake()
     {
         
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -230,7 +233,7 @@ public class BossEnemyController : EnemyController
         AnimationParameter();
     }
 
-    public void EneterNextPhase()
+    public virtual void EneterNextPhase()
     {
         bossPhase++;
     }
@@ -254,23 +257,28 @@ public class BossEnemyController : EnemyController
         aniDeathDecision = "isDead";
         //isDeadAni = false;
     }
-    void Start()
+    public virtual void Start()
     {
         Debug.Log("Test");
         EnterFireArmorState();
-        healthBar.maxValue = health.maximum;
-        healthBar.minValue = health.minimum;
-        healthBar.value = health.stat;
-
+        ResetHealthBar();
         bossState = BossState.idle;
 
+        //bossState = BossState.meleeAttack;
         //bossState = BossState.spawnTurrets;
         //animator.SetBool(aniDeathDecision, true);
         //bossState = BossState.laserAttack;
         //bossState = BossState.taunt;
     }
 
-    private void FixedUpdate()
+    public void ResetHealthBar()
+    {
+        healthBar.maxValue = health.maximum;
+        healthBar.minValue = health.minimum;
+        healthBar.value = health.stat;
+    }
+
+    public virtual void FixedUpdate()
     {
         if (IsPlayerWithinDistance(bossActivateDistance) && isPlayerReachingBoss)
         {
@@ -294,12 +302,14 @@ public class BossEnemyController : EnemyController
                 MovementCoroutine = TauntState(); //Take care the taunt later
                 break;
             case BossState.meleeAttack:
+                Debug.Log("Melee " + transform.name);
                 MovementCoroutine = attacksManager.MeleeAttack();
                 break;
             case BossState.rangedAttack:
                 MovementCoroutine = attacksManager.RangedAttack();
                 break;
             case BossState.takingCover:
+                Debug.Log("Take cover " + transform.name);
                 MovementCoroutine = TakeCoverState(PlayerController.puppet.transform);
                 break;
             case BossState.waitingInCover:
@@ -312,7 +322,6 @@ public class BossEnemyController : EnemyController
                 MovementCoroutine = TeleportingBehindState(PlayerController.puppet.transform);
                 break;
             case BossState.laserAttack:
-                Debug.Log("Laser");
                 MovementCoroutine = attacksManager.LaserAttack();
                 break;
             case BossState.spawnTurrets:
@@ -320,6 +329,9 @@ public class BossEnemyController : EnemyController
                 break;
             case BossState.spawnMines:
                 MovementCoroutine = SpawnMinesState();
+                break;
+            case BossState.spawnMobs:
+                MovementCoroutine = SpawnMobsState();
                 break;
             case BossState.orbWalking:
                 MovementCoroutine = OrbWalkState();
@@ -1154,6 +1166,8 @@ public class BossEnemyController : EnemyController
     }
     public IEnumerator SpawnMinesState()
     {
+        mobSpawnerController.SpawningBaseOnIndex(1);
+        /*
         navMeshAgent.speed = 0;
         animator.SetInteger(aniDecision, tauntAni);
 
@@ -1161,21 +1175,23 @@ public class BossEnemyController : EnemyController
         {
             yield return null;
         }
+        */
         ExitSpawnMinesState();
-
+        yield return null;
         //mobSpawnerController.SpawningBaseOnIndex(1);
         //yield return null;
         //ExitSpawnMinesState();
-        
+
     }
     public void ExitSpawnMinesState()
     {
         //bossState = BossState.takingCover;
-        bossState = dropMinesDecision.GiveTheNextRandomDicision();
+        bossState = dropMineDecision.GiveTheNextRandomDicision();
     }
     public IEnumerator SpawnTurretsState()
     {
-
+        mobSpawnerController.SpawningBaseOnIndex(0);
+        /*
         navMeshAgent.speed = 0;
         animator.SetInteger(aniDecision, tauntAni);
 
@@ -1183,9 +1199,9 @@ public class BossEnemyController : EnemyController
         {
             yield return null;
         }
-
+        */
         ExitSpawnTurretState();
-
+        yield return null;
         //mobSpawnerController.SpawningBaseOnIndex(0);
         //yield return null;
         //ExitSpawnTurretState();
@@ -1195,6 +1211,31 @@ public class BossEnemyController : EnemyController
     {
         //bossState = BossState.takingCover;
         bossState = dropTurretDecision.GiveTheNextRandomDicision();
+    }
+
+    public IEnumerator SpawnMobsState()
+    {
+        mobSpawnerController.SpawningBaseOnIndex(2);
+        /*
+        navMeshAgent.speed = 0;
+        animator.SetInteger(aniDecision, tauntAni);
+
+        while (animator.GetInteger(aniDecision) == tauntAni)
+        {
+            yield return null;
+        }
+        */
+        ExitSpawnMobsState();
+        yield return null;
+        //mobSpawnerController.SpawningBaseOnIndex(0);
+        //yield return null;
+        //ExitSpawnTurretState();
+
+    }
+    public void ExitSpawnMobsState()
+    {
+        //bossState = BossState.takingCover;
+        bossState = spawnMobDecision.GiveTheNextRandomDicision();
     }
 
     public void TauntSpawnMobAni()
@@ -1210,18 +1251,7 @@ public class BossEnemyController : EnemyController
         }
     }
 
-    public IEnumerator DeadState()
-    {
-        navMeshAgent.speed = 0;
-        animator.SetBool(aniDeathDecision, true);
-        //yield return new WaitForEndOfFrame();
-        //animator.SetBool(aniDeathDecision, false);
-        //isDeadAni = false;
-        yield return new WaitForSeconds(WinScreenActivationTimeAfterBossDeath);
-        animator.SetBool(aniDeathDecision, false);
-        GeneralManager.instance.WinGame();
-
-    }
+    
 
     public bool IsPlayerWithinDistance(float range)
     {
@@ -1312,6 +1342,19 @@ public class BossEnemyController : EnemyController
         base.Damage(damageAmount, hitPosition, damageType);
     }
 
+    public IEnumerator DeadState()
+    {
+        navMeshAgent.speed = 0;
+        animator.SetBool(aniDeathDecision, true);
+        //yield return new WaitForEndOfFrame();
+        //animator.SetBool(aniDeathDecision, false);
+        //isDeadAni = false;
+        yield return new WaitForSeconds(activationTimeAfterDeath);
+        animator.SetBool(aniDeathDecision, false);
+        Dead();
+
+    }
+
     public override void CommitDie()
     {
         
@@ -1322,8 +1365,13 @@ public class BossEnemyController : EnemyController
         }
         else
         {
-            GeneralManager.instance.WinGame();
+            Dead();
         }
         
+    }
+
+    public virtual void Dead()
+    {
+        GeneralManager.instance.WinGame();
     }
 }
