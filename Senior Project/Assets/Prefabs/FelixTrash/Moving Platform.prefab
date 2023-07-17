@@ -12,7 +12,7 @@ GameObject:
   m_Layer: 0
   m_Name: Transform B
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -43,7 +43,7 @@ GameObject:
   m_Layer: 0
   m_Name: Transform A
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -239,6 +239,37 @@ MonoBehaviour:
   speed: 1
   freezingSFX: {fileID: 0}
   thawingSFX: {fileID: 0}
+--- !u!1 &6513060801652436987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2071055957747407793}
+  m_Layer: 0
+  m_Name: VFXSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2071055957747407793
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6513060801652436987}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.38, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1494543683468039616}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3724128898259116976
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -485,13 +516,14 @@ MonoBehaviour:
   liveMaterial: {fileID: 2100000, guid: 89b922a6d089e5349a96d8d0a55b175b, type: 2}
   frozenMaterial: {fileID: 2100000, guid: 715e5e319f50ab846862a06d9bd1fc71, type: 2}
   colliderBox: {fileID: 0}
-  unfreezeVFX: {fileID: 0}
-  vfxSpawnPoint: {fileID: 0}
+  unfreezeVFX: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
+    type: 3}
+  vfxSpawnPoint: {fileID: 2071055957747407793}
   spinning: 0
   isDead: 0
   speed: 1
-  freezingSFX: {fileID: 0}
-  thawingSFX: {fileID: 0}
+  freezingSFX: {fileID: 8300000, guid: 414178901cb9d2b4ba5c185d62a9dcb9, type: 3}
+  thawingSFX: {fileID: 8300000, guid: 98773782c65f6bd42a07925d7f82d4c7, type: 3}
 --- !u!114 &3753550743900038625
 MonoBehaviour:
   m_ObjectHideFlags: 0
