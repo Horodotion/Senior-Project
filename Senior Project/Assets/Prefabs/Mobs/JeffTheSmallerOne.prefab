@@ -4902,6 +4902,7 @@ MonoBehaviour:
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
+  deathRattle: {fileID: 0}
   bossPhase: 0
   healthBarCanvasObject: {fileID: 3857592530492947695}
   healthBar: {fileID: 3857592530092954818}
@@ -32719,7 +32720,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4234897468957340144}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -32757,7 +32758,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -8215804180744794619, guid: 5b963a6765b168f4089afdb0485ac9f8, type: 3}
+  m_Mesh: {fileID: -8215804180744794619, guid: b3507a3aaedf79f44bbe89e665ef84ce, type: 3}
   m_Bones:
   - {fileID: 6596878488521438659}
   - {fileID: 1854345408169071739}
@@ -33726,7 +33727,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -9205931746164691100, guid: 5b963a6765b168f4089afdb0485ac9f8, type: 3}
+  m_Mesh: {fileID: -9205931746164691100, guid: b3507a3aaedf79f44bbe89e665ef84ce, type: 3}
   m_Bones:
   - {fileID: 6596878488521438659}
   - {fileID: 1854345408169071739}
@@ -36230,7 +36231,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 6181807592810931949, guid: 5b963a6765b168f4089afdb0485ac9f8, type: 3}
+  m_Mesh: {fileID: 6181807592810931949, guid: b3507a3aaedf79f44bbe89e665ef84ce, type: 3}
   m_Bones:
   - {fileID: 1854345408169071739}
   - {fileID: 6596878488521438659}
