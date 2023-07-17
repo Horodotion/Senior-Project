@@ -13,7 +13,7 @@ public class LaserAttacks : AttackMotion
     [SerializeField] float chargeLaserTime = 5f;
     [Range(0, 2)][SerializeField] float aimLowerOnPlayerDistance = 0f;
 
-    public override IEnumerator AttackingPlayer()
+    public override IEnumerator AttackingPlayer(BossEnemyController enemy)
     {
 
         //Run Towards the player
@@ -50,7 +50,7 @@ public class LaserAttacks : AttackMotion
         //Aim at the player
         for (float timer = 0; true; timer += Time.deltaTime)
         {
-            enemy.AimTowards(PlayerController.puppet.cameraObj.transform.position, turnSpeed);
+            enemy.AimTowards(PlayerController.puppet.cameraObj.transform.position - new Vector3(0, aimLowerOnPlayerDistance, 0), turnSpeed);
             /*
             Vector3 veiwToPlayerMesh = PlayerController.puppet.cameraObj.transform.position - SP[0].transform.position;
             if (Physics.Raycast(SP[0].transform.position, veiwToPlayerMesh, out RaycastHit hit, Mathf.Infinity, ~enemy.hidingSpotLayer))
@@ -95,6 +95,6 @@ public class LaserAttacks : AttackMotion
         
         //enemy.bossState = BossState.inCombat;
 
-        ExitLaserAttack();
+        ExitLaserAttack(enemy);
     }
 }

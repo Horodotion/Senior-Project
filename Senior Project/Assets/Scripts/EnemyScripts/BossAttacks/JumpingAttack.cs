@@ -28,7 +28,7 @@ public class JumpingAttack : AttackMotion
     }
     */
         
-    public override IEnumerator AttackingPlayer()
+    public override IEnumerator AttackingPlayer(BossEnemyController enemy)
     {
         enemy.navMeshAgent.acceleration = 0f;
         enemy.navMeshAgent.enabled = false;

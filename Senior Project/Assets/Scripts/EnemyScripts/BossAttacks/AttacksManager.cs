@@ -13,9 +13,7 @@ public struct EnemyAttack
 
 public class AttacksManager : MonoBehaviour
 {
-    [HideInInspector] public BossEnemyController enemy;
-
-    public AttacksManager instance;
+    public BossEnemyController enemy;
     
     public float timer;
 
@@ -48,12 +46,12 @@ public class AttacksManager : MonoBehaviour
         leftRightHand = Random.Range(0, 2);
 
         // Initialize the attacks so that the attackmotion class contain their spawn point
-        iceMeleeAttack.attackMotion.InitializeAttacks(enemy, iceMeleeAttack.spawnPoiont);
-        fireMeleeAttack.attackMotion.InitializeAttacks(enemy, fireMeleeAttack.spawnPoiont);
-        iceRangedAttack.attackMotion.InitializeAttacks(enemy, iceRangedAttack.spawnPoiont);
-        fireRangedAttack.attackMotion.InitializeAttacks(enemy, fireRangedAttack.spawnPoiont);
-        iceLaserAttack.attackMotion.InitializeAttacks(enemy, iceLaserAttack.spawnPoiont);
-        fireLaserAttack.attackMotion.InitializeAttacks(enemy, fireLaserAttack.spawnPoiont);
+        iceMeleeAttack.attackMotion.InitializeAttacks(iceMeleeAttack.spawnPoiont);
+        fireMeleeAttack.attackMotion.InitializeAttacks(fireMeleeAttack.spawnPoiont);
+        iceRangedAttack.attackMotion.InitializeAttacks(iceRangedAttack.spawnPoiont);
+        fireRangedAttack.attackMotion.InitializeAttacks(fireRangedAttack.spawnPoiont);
+        iceLaserAttack.attackMotion.InitializeAttacks(iceLaserAttack.spawnPoiont);
+        fireLaserAttack.attackMotion.InitializeAttacks(fireLaserAttack.spawnPoiont);
         /*
         currentAttack = RandomAttack();
         timer = currentAttack.coolDown;
@@ -111,14 +109,14 @@ public class AttacksManager : MonoBehaviour
         if (RangedAttackDicision())
         {
             //Use Ice
-            Debug.Log("Use ice projectile");
-            return iceRangedAttack.attackMotion.AttackingPlayer(ChangeHands());
+            Debug.Log("Use ice projectile " + transform.name);
+            return iceRangedAttack.attackMotion.AttackingPlayer(enemy, ChangeHands());
         }
         else
         {
             //Use Fire
-            Debug.Log("Use fire projectile");
-            return fireRangedAttack.attackMotion.AttackingPlayer(ChangeHands());
+            Debug.Log("Use fire projectile " + transform.name);
+            return fireRangedAttack.attackMotion.AttackingPlayer(enemy, ChangeHands());
         }
         
         //StartCoroutine(enemy.MovementCoroutine);
@@ -129,14 +127,14 @@ public class AttacksManager : MonoBehaviour
         if (RangedAttackDicision())
         {
             //Use Ice
-            Debug.Log("Use ice projectile");
-            return iceLaserAttack.attackMotion.AttackingPlayer();
+            Debug.Log("Use ice laser " + transform.name);
+            return iceLaserAttack.attackMotion.AttackingPlayer(enemy);
         }
         else
         {
             //Use Fire
-            Debug.Log("Use fire projectile");
-            return fireLaserAttack.attackMotion.AttackingPlayer();
+            Debug.Log("Use fire laser " + transform.name);
+            return fireLaserAttack.attackMotion.AttackingPlayer(enemy);
         }
 
     }
@@ -147,15 +145,16 @@ public class AttacksManager : MonoBehaviour
         // Decide if it fire or ice
         if (MeleeAttackDicision())
         {
-            Debug.Log("Use ice melee attack");
             //Use Ice
-            return iceMeleeAttack.attackMotion.AttackingPlayer(ChangeHands());
+            Debug.Log("Use ice melee attack " + transform.name);
+            return iceMeleeAttack.attackMotion.AttackingPlayer(enemy, ChangeHands());
         }
         else
         {
             //Use Fire
-            Debug.Log("Use fire melee attack");
-            return fireMeleeAttack.attackMotion.AttackingPlayer(ChangeHands());
+            Debug.Log("Use fire melee attack " + transform.name);
+            //Debug.Log(fireMeleeAttack.attackMotion.AttackingPlayer(enemy, ChangeHands()));
+            return fireMeleeAttack.attackMotion.AttackingPlayer(enemy, ChangeHands());
         }
         //StartCoroutine(enemy.MovementCoroutine);
     }

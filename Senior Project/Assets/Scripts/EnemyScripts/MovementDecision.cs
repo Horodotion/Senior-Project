@@ -8,12 +8,12 @@ using System;
 [CreateAssetMenu(menuName = "Decision/Movement Dicision")]
 public class MovementDecision : WeightedDecision
 {
-    public int taunt, meleeAttack, rangedAttack, takingCover, wait, teleport, teleBindPlayer , laser, turrets, mines, orbWalk;
+    public int taunt, meleeAttack, rangedAttack, takingCover, wait, teleport, teleBindPlayer , laser, turrets, mines, orbWalk, mobs;
 
     //public int[] decisions = new int[6];
     private void OnValidate()
     {
-        decisions = new int[] { taunt, meleeAttack, rangedAttack, takingCover, wait, teleport, teleBindPlayer, laser, turrets, mines, orbWalk };
+        decisions = new int[] { taunt, meleeAttack, rangedAttack, takingCover, wait, teleport, teleBindPlayer, laser, turrets, mines, orbWalk, mobs };
     }
 
     //StateDecistion[] movementDecistion = new StateDecistion[5];
@@ -43,6 +43,6 @@ public class MovementDecision : WeightedDecision
 
     public void DisplayLog()
     {
-        Debug.Log("Taking Cover: " + decisions[0] + " Melee Attack: " + decisions[1] + " Ranged Attack: " + decisions[2] + " Taunt: " + decisions[3] + " Teleport: " + decisions[4] + " Laser: " + decisions[5]);
+        
     }
 }

@@ -8,13 +8,14 @@ public class FireProjectileAttacks : AttackMotion
     [SerializeField] GameObject projectile;
     [SerializeField] float fireDistance = 1;
     [SerializeField] float aimSpeed = 0.5f;
-
+    /*
     public FireProjectileAttacks(BossEnemyController enemyController, Transform[] SP)
     {
-        enemy = enemyController;
+        //enemy = enemyController;
         this.SP = SP;
     }
-    public override IEnumerator AttackingPlayer(int leftRightHand)
+    */
+    public override IEnumerator AttackingPlayer(BossEnemyController enemy, int leftRightHand)
     {
 
         while (true)
@@ -63,7 +64,7 @@ public class FireProjectileAttacks : AttackMotion
         //enemy.bossState = BossState.inCombat;
         //yield return null;
 
-        ExitRangedAttack();
+        ExitRangedAttack(enemy);
     }
 
     public GameObject getProjectile()

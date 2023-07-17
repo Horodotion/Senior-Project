@@ -14,7 +14,7 @@ public class FireMeleeAttacks : AttackMotion
     [SerializeField] float waitTimeAfterMelee = 0.5f;
 
 
-    public override IEnumerator AttackingPlayer(int leftRightHand)
+    public override IEnumerator AttackingPlayer(BossEnemyController enemy, int leftRightHand)
     {
         //yield return new WaitForSeconds(2f);
         //Debug.Log("5 " + enemy.bossState);
@@ -24,9 +24,11 @@ public class FireMeleeAttacks : AttackMotion
 
         //enemy.navMeshAgent.speed = enemy.speed;
         //enemy.animator.SetInteger(enemy.aniDecision, enemy.runningAni);
+        Debug.Log("Melee " + enemy.name);
+
         enemy.IdleAni();
         yield return null;
-
+        
         while (!enemy.IsPlayerWithinDistance(meleeDistance))
         {
             enemy.RunningAni();
@@ -101,7 +103,7 @@ public class FireMeleeAttacks : AttackMotion
         enemy.navMeshAgent.stoppingDistance = 0;
         
 
-        ExitMeleeAttack();
+        ExitMeleeAttack(enemy);
         //enemy.bossState = BossState.inCombat;
     }
 }
