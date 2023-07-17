@@ -32,6 +32,9 @@
         },
         {
             "m_Id": "0f4ba7edc71c4cb1ae51634a1d8842a7"
+        },
+        {
+            "m_Id": "242bd51d62794f63a802f81de661b6b1"
         }
     ],
     "m_Keywords": [],
@@ -266,6 +269,9 @@
         },
         {
             "m_Id": "f58320d5d3d5452ab3d23ccb0b621a96"
+        },
+        {
+            "m_Id": "c15544e1ca074d20bb7b5147ea348896"
         }
     ],
     "m_GroupDatas": [
@@ -1035,6 +1041,20 @@
                     "m_Id": "0c5b5cf06c714cb4ac049e81ad815325"
                 },
                 "m_SlotId": 1
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "c15544e1ca074d20bb7b5147ea348896"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "f58320d5d3d5452ab3d23ccb0b621a96"
+                },
+                "m_SlotId": 0
             }
         },
         {
@@ -2318,6 +2338,21 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "1f75ad0ec9074697ad8856205e777a79",
+    "m_Id": 0,
+    "m_DisplayName": "Alpha Clip Threshold",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.MultiplyNode",
     "m_ObjectId": "20551ed150b74c77982b838e2d52145f",
     "m_Group": {
@@ -2473,6 +2508,33 @@
         "e31": 0.0,
         "e32": 0.0,
         "e33": 1.0
+    }
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "242bd51d62794f63a802f81de661b6b1",
+    "m_Guid": {
+        "m_GuidSerialized": "66d69704-f35b-4c8f-9b1a-15a4a17e5a49"
+    },
+    "m_Name": "Alpha Clip Threshold",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Alpha Clip Threshold",
+    "m_DefaultReferenceName": "_Alpha_Clip_Threshold",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": 0.20000000298023225,
+    "m_FloatType": 0,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
     }
 }
 
@@ -8142,6 +8204,41 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "c15544e1ca074d20bb7b5147ea348896",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 6397.0,
+            "y": -2036.0,
+            "width": 183.0,
+            "height": 34.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "1f75ad0ec9074697ad8856205e777a79"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "242bd51d62794f63a802f81de661b6b1"
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Texture2DInputMaterialSlot",
     "m_ObjectId": "c5e1e4f8d6de4f538b80e09041c286c4",
     "m_Id": 1,
@@ -10004,6 +10101,9 @@
         },
         {
             "m_Id": "f978e528cc36480481a72747dbcf365d"
+        },
+        {
+            "m_Id": "242bd51d62794f63a802f81de661b6b1"
         }
     ]
 }
@@ -10384,10 +10484,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 5089.60009765625,
-            "y": -2307.199951171875,
+            "x": 5088.0,
+            "y": -2305.0,
             "width": 208.0,
-            "height": 390.39990234375
+            "height": 391.0
         }
     },
     "m_Slots": [
