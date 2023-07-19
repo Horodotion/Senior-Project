@@ -76,7 +76,8 @@ public class BossEnemyController : EnemyController
     [SerializeField] public float viewRange = 10; // The distance that the enemy can see the player
 
     [Header("Armor Syatem")]
-    public DamageType armorElementType;
+    public DamageType startingArmorType;
+    public DamageType currentArmorElementType;
     public GameObject iceArmorObject;
     public GameObject fireArmorObject;
     public IndividualStat armorHealth;
@@ -260,7 +261,22 @@ public class BossEnemyController : EnemyController
     public virtual void Start()
     {
         Debug.Log("Test");
-        EnterFireArmorState();
+
+        switch(startingArmorType)
+        {
+            case DamageType.ice:
+                EnterIceArmorState();
+                break;
+
+            case DamageType.fire:
+                EnterFireArmorState();
+                break;
+
+            case DamageType.nuetral:
+                EnterNoArmorState();
+                break;
+        }
+        //EnterFireArmorState();
         ResetHealthBar();
         bossState = BossState.idle;
 
@@ -471,11 +487,11 @@ public class BossEnemyController : EnemyController
     private void ChangeElementState()
     {
         Debug.Log("Change Elemental");
-        if (armorElementType == DamageType.ice)
+        if (currentArmorElementType == DamageType.ice)
         {
             EnterFireArmorState();
         }
-        else if (armorElementType == DamageType.fire)
+        else if (currentArmorElementType == DamageType.fire)
         {
             EnterIceArmorState();
         }
@@ -488,7 +504,7 @@ public class BossEnemyController : EnemyController
 
     private void WearIceArmor()
     {
-        armorElementType = DamageType.ice;
+        currentArmorElementType = DamageType.ice;
         iceArmorObject.SetActive(true);
         fireArmorObject.SetActive(false);
         //These interaction are for the boss health not the armor health
@@ -504,7 +520,7 @@ public class BossEnemyController : EnemyController
 
     private void WearFireArmor()
     {
-        armorElementType = DamageType.fire;
+        currentArmorElementType = DamageType.fire;
         fireArmorObject.SetActive(true);
         iceArmorObject.SetActive(false);
         //These interaction are for the boss health not the armor health
@@ -520,7 +536,7 @@ public class BossEnemyController : EnemyController
 
     private void WearNoArmor()
     {
-        armorElementType = DamageType.nuetral;
+        currentArmorElementType = DamageType.nuetral;
         fireArmorObject.SetActive(false);
         iceArmorObject.SetActive(false);
         //These interaction are for the boss health not the armor health
@@ -1303,7 +1319,7 @@ public class BossEnemyController : EnemyController
     public override void Damage(float damageAmount, Vector3 hitPosition, DamageType damageType = DamageType.nuetral)
     {
 
-        if (armorElementType != DamageType.nuetral)
+        if (currentArmorElementType != DamageType.nuetral)
         {
             if (damageImmunities.Contains(damageType))
             {
@@ -1346,7 +1362,7 @@ public class BossEnemyController : EnemyController
     {
         navMeshAgent.speed = 0;
         animator.SetBool(aniDeathDecision, true);
-        //yield return new WaitForEndOfFrame();
+        yield return null;
         //animator.SetBool(aniDeathDecision, false);
         //isDeadAni = false;
         yield return new WaitForSeconds(activationTimeAfterDeath);
