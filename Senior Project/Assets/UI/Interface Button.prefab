@@ -104,6 +104,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   anim: {fileID: 0}
+  idleImage: {fileID: 0}
+  hoverImage: {fileID: 0}
   highlighted: Highlighted
   pointerDown: PointerDown
   clicked: Clicked
@@ -119,7 +121,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 45587f9ef5f0b2841aeb7316c2402fc5, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0

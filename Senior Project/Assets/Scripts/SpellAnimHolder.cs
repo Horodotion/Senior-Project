@@ -8,6 +8,7 @@ public class SpellAnimHolder : MonoBehaviour
     public string spellStateAnim = "";
     public string canCastInAnim = "";
     public string releaseSpell = "";
+    public string canReleaseSpell = "";
     public bool castingSpell;
 
 
@@ -87,6 +88,7 @@ public class SpellAnimHolder : MonoBehaviour
         if (ourPuppet.currentSpellBeingCast.ourSpellState != SpellState.charging)
         {
             ourPuppet.currentSpellBeingCast.ourSpellState = SpellState.charging;
+            ourPuppet.spellAnim.SetBool(canReleaseSpell, false);
         }
     }
 
@@ -102,6 +104,11 @@ public class SpellAnimHolder : MonoBehaviour
             ourPuppet.currentSpellBeingCast.ourSpellState = SpellState.casting;
             ourPuppet.currentSpellBeingCast.PlayVFX();
         }
+    }
+
+    public void AllowRelease()
+    {
+        ourPuppet.spellAnim.SetBool(canReleaseSpell, true);
     }
 
     public void ReleaseSpell()
