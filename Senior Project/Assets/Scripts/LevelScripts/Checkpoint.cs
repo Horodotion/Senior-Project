@@ -9,6 +9,7 @@ public class Checkpoint : TriggerScript
     public static Vector3 playerSpawn;
     public static bool originalSpawnLocated;
     public static Vector3 playerLookDirection;
+    public static Checkpoint currentCheckpoint;
 
     void Start()
     {
@@ -20,30 +21,46 @@ public class Checkpoint : TriggerScript
         }
 
         GeneralManager.instance.AddEventToDict(eventFlag);
-        if (GeneralManager.instance.eventFlags[eventFlag.eventID].eventTriggered)
+        if (GeneralManager.HasEventBeenTriggered(eventFlag))
         {
             gameObject.SetActive(false);
         }
     }
 
     public override void ActionToTrigger()
-    {
-        if (GeneralManager.instance.eventFlags.ContainsKey(eventFlag.eventID) && !GeneralManager.instance.eventFlags[eventFlag.eventID].eventTriggered)
+    {        
+        if (!GeneralManager.HasEventBeenTriggered(eventFlag))
         {
-            if (!GeneralManager.instance.eventFlags[eventFlag.eventID].eventTriggered)
-            {
-                GeneralManager.instance.SetEventFlag(eventFlag.eventID);
+            currentCheckpoint = this;
+            GeneralManager.instance.SetEventFlag(eventFlag);
 
-                Debug.Log(PlayerController.puppet.transform.position);
-                playerSpawn = PlayerController.puppet.transform.position;
-                playerLookDirection = new Vector3(transform.forward.x, transform.forward.y, 0);
-            }
+            // playerSpawn = PlayerController.puppet.transform.position;
+            // playerLookDirection = new Vector3(transform.forward.x, transform.forward.y, 0);
         }
-        else
+        // else
+        // {
+        //     playerSpawn = PlayerController.puppet.transform.position;
+        //     playerLookDirection = new Vector3(transform.forward.x, transform.forward.y, 0);
+        // }
+    }
+
+    public static Vector3 GetPlayerRespawnPosition()
+    {
+        if (currentCheckpoint != null)
         {
-            Debug.Log(PlayerController.puppet.transform.position);
-            playerSpawn = PlayerController.puppet.transform.position;
-            playerLookDirection = new Vector3(transform.forward.x, transform.forward.y, 0);
+            return currentCheckpoint.transform.position;
         }
+        
+        return playerSpawn;
+    }
+
+    public static Vector3 GetPlayerRespawnRotation()
+    {
+        if (currentCheckpoint != null)
+        {
+            return currentCheckpoint.transform.eulerAngles;
+        }
+        
+        return playerLookDirection;
     }
 }

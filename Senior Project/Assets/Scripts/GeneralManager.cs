@@ -13,8 +13,16 @@ public enum Faction
     other
 }
 
+public enum EventFlagType
+{
+    Enemy,
+    Checkpoint,
+    Collectible
+}
+
 [System.Serializable] public class EventFlag
 {
+    public EventFlagType eventFlagType;
     public string eventString; // A string to name the event in the hierarchy, planned to be unused
     public int eventID; // The int that will determine its place in the dictionary
     public bool activatesItself;
@@ -33,13 +41,10 @@ public class GeneralManager : MonoBehaviour
     public static bool hasGameStarted = true;
 
     // Variables for the event flags
-    public Dictionary<int, EventFlag> eventFlags = new Dictionary<int, EventFlag>(); // The dictionary of event flagss that will be referenced by game objects
+    public static Dictionary<int, EventFlag> enemyEventFlags = new Dictionary<int, EventFlag>();
+    public static Dictionary<int, EventFlag> checkpointEventFlags = new Dictionary<int, EventFlag>();
+    public static Dictionary<int, EventFlag> collectibleEventFlags = new Dictionary<int, EventFlag>();
 
-    // Variables solely for the text box in the game
-    // public GameObject textBoxObject;
-    // public TMP_Text textToDisplay;
-    // [HideInInspector] public TextBoxText textBoxText;
-    // [HideInInspector] public bool typing = false;
 
     void Awake()
     {
@@ -102,7 +107,6 @@ public class GeneralManager : MonoBehaviour
 
     public static void LoadNextLevel()
     {
-        GeneralManager.instance.eventFlags.Clear();
         LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
@@ -111,10 +115,8 @@ public class GeneralManager : MonoBehaviour
         SpawnManager.instance.TurnOffEverything();
         PlayerPuppet puppet = PlayerController.puppet;
 
-        // puppet.ResetStats();
-        // puppet.charController.enabled = false;
-
-        ReloadLevel();
+        PlayerController.instance.temperature.ResetStat();
+        LoadLevel(SceneManager.GetActiveScene().buildIndex);
 
         GeneralManager.instance.StartCoroutine(GeneralManager.instance.MovePlayerToCheckpoint());
         GeneralManager.instance.UnPauseGame();
@@ -125,10 +127,10 @@ public class GeneralManager : MonoBehaviour
         yield return null;
 
         PlayerPuppet puppet = PlayerController.puppet;
-        Debug.Log(Checkpoint.playerSpawn);
+        Debug.Log(Checkpoint.GetPlayerRespawnPosition());
         puppet.charController.enabled = false;
-        puppet.transform.position = Checkpoint.playerSpawn;
-        puppet.transform.localEulerAngles = Checkpoint.playerLookDirection;
+        puppet.transform.position = Checkpoint.GetPlayerRespawnPosition();
+        puppet.transform.localEulerAngles = Checkpoint.GetPlayerRespawnRotation();
         puppet.cameraObj.transform.localEulerAngles = new Vector3(puppet.transform.forward.x, 0f, 0f);
         puppet.lookRotation = new Vector3(0f, puppet.transform.localEulerAngles.y, 0f);
         PlayerController.instance.lookAxis = Vector2.zero;
@@ -137,8 +139,8 @@ public class GeneralManager : MonoBehaviour
 
     public static void ReloadLevel()
     {
+        GeneralManager.checkpointEventFlags.Clear();
         PlayerController.instance.temperature.ResetStat();
-
         LoadLevel(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -146,7 +148,9 @@ public class GeneralManager : MonoBehaviour
     {
         LoadLevel(0);
 
-        GeneralManager.instance.eventFlags.Clear();
+        GeneralManager.enemyEventFlags.Clear();
+        GeneralManager.checkpointEventFlags.Clear();
+        GeneralManager.collectibleEventFlags.Clear();
 
         if (PauseMenuScript.instance != null)
         {
@@ -258,43 +262,69 @@ public class GeneralManager : MonoBehaviour
     }
 
     // This checks off the flag for an event, and triggers other events to be active if it's able to be
-    public void SetEventFlag(int flagToTrigger)
+    public void SetEventFlag(EventFlag eventToSet)
     {
-        eventFlags[flagToTrigger].eventTriggered = true;
+        Dictionary<int, EventFlag> eventDict = GetDictionary(eventToSet.eventFlagType);
+        int flagToTrigger = eventToSet.eventID;
 
-        foreach(int flagToDisable in eventFlags[flagToTrigger].eventsToDisableAfterTriggering)
+        if (eventDict.ContainsKey(flagToTrigger) && eventDict[flagToTrigger].activatesItself == true)
         {
-            if (eventFlags.ContainsKey(flagToDisable) && eventFlags[flagToDisable].eventTriggered == false)
-            {
-                GeneralManager.instance.SetEventFlag(flagToDisable);
-            }
+            eventDict[flagToTrigger].eventTriggered = true;
         }
     }
 
-    public void DisablePriorEvents(int flagToTrigger)
+    public void DisablePriorEvents(EventFlag eventToSet)
     {
-        if (eventFlags.ContainsKey(flagToTrigger) && eventFlags[flagToTrigger].activatesItself == true)
-        {
-            eventFlags[flagToTrigger].eventTriggered = true;
-        }
+        Dictionary<int, EventFlag> eventDict = GetDictionary(eventToSet.eventFlagType);
+        int flagToTrigger = eventToSet.eventID;
 
-        foreach(int flagToDisable in eventFlags[flagToTrigger].eventsToDisableAfterTriggering)
+        foreach(int flagToDisable in eventDict[flagToTrigger].eventsToDisableAfterTriggering)
         {
-            if (eventFlags.ContainsKey(flagToDisable) && eventFlags[flagToDisable].eventTriggered == false)
+            if (eventDict.ContainsKey(flagToDisable) && eventDict[flagToDisable].eventTriggered == false)
             {
-                GeneralManager.instance.SetEventFlag(flagToDisable);
+                eventDict[flagToDisable].eventTriggered = true;
+                GeneralManager.instance.DisablePriorEvents(eventDict[flagToDisable]);
             }
         }
     }
 
     public void AddEventToDict(EventFlag eventToAdd)
     {
-        if (eventToAdd.eventID != 0 && !eventFlags.ContainsKey(eventToAdd.eventID))
+        if (eventToAdd.eventID != 0 && !GetDictionary(eventToAdd.eventFlagType).ContainsKey(eventToAdd.eventID))
         {
-            eventFlags.Add(eventToAdd.eventID, eventToAdd);
+            GetDictionary(eventToAdd.eventFlagType).Add(eventToAdd.eventID, eventToAdd);
         }
     }
 
+    public static bool HasEventBeenTriggered(EventFlag ourEvent)
+    {
+        Dictionary<int, EventFlag> eventDict = GeneralManager.instance.GetDictionary(ourEvent.eventFlagType);
+
+        if (eventDict.ContainsKey(ourEvent.eventID) && eventDict[ourEvent.eventID].eventTriggered)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public Dictionary<int, EventFlag> GetDictionary(EventFlagType ourflagType)
+    {
+        switch (ourflagType)
+        {
+            case EventFlagType.Enemy:
+                return enemyEventFlags;
+
+            case EventFlagType.Checkpoint:
+                return checkpointEventFlags;
+
+            case EventFlagType.Collectible:
+                return collectibleEventFlags;
+
+            default:
+                return null;   
+        }
+    }
 
     // A text system, currently unused
     /*---------------------------------------------------------------------------------------------------
