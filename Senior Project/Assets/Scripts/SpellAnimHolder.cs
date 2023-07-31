@@ -8,10 +8,23 @@ public class SpellAnimHolder : MonoBehaviour
     public string spellStateAnim = "";
     public string canCastInAnim = "";
     public string releaseSpell = "";
+    public string canReleaseSpell = "";
+    public bool castingSpell;
+
 
     public virtual void SetAnimState(int newState)
     {
         ourPuppet.spellAnim.SetInteger(spellStateAnim, newState);
+    }
+
+    public bool CanCast()
+    {
+        if (ourPuppet.spellAnim.GetInteger(spellStateAnim) != 0)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public virtual void EnableCasting()
@@ -75,6 +88,7 @@ public class SpellAnimHolder : MonoBehaviour
         if (ourPuppet.currentSpellBeingCast.ourSpellState != SpellState.charging)
         {
             ourPuppet.currentSpellBeingCast.ourSpellState = SpellState.charging;
+            ourPuppet.spellAnim.SetBool(canReleaseSpell, false);
         }
     }
 
@@ -92,6 +106,11 @@ public class SpellAnimHolder : MonoBehaviour
         }
     }
 
+    public void AllowRelease()
+    {
+        ourPuppet.spellAnim.SetBool(canReleaseSpell, true);
+    }
+
     public void ReleaseSpell()
     {
         if (ourPuppet.currentSpellBeingCast == null)
@@ -104,37 +123,6 @@ public class SpellAnimHolder : MonoBehaviour
             ourPuppet.currentSpellBeingCast.ourSpellState = SpellState.releasing;
             ourPuppet.spellAnim.SetBool(releaseSpell, true);
             ourPuppet.currentSpellBeingCast.StopVFX();
-        }
-    }
-
-    public void CheckToRelease()
-    {
-        if (ourPuppet.currentSpellBeingCast == null || ourPuppet.currentSpellBeingCast.ourSpellState == SpellState.releasing)
-        {
-            return;
-        }
-
-        if (ourPuppet.currentSpellBeingCast == ourPuppet.primarySpell)
-        {
-            if (PlayerController.instance.onPrimaryFire.ReadValue<float>() <= 0.125)
-            {
-                if (ourPuppet.primarySpell.chargingSpell)
-                {
-                    PlayerController.instance.primaryFireHeldDown = false;
-                    ReleaseSpell();
-                }
-            }
-        }
-        else if (ourPuppet.currentSpellBeingCast == ourPuppet.secondarySpell)
-        {
-            if (PlayerController.instance.onSecondaryFire.ReadValue<float>() <= 0.125)
-            {
-                if (ourPuppet.secondarySpell.chargingSpell)
-                {
-                    PlayerController.instance.secondaryFireHeldDown = false;
-                    ReleaseSpell();
-                }
-            }
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
@@ -9,6 +10,8 @@ public class InterfaceButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [HideInInspector] public UnityEvent onPointerDownEvent, onPointerUpEvent, onPointerEnteredEvent, onPointerExitedEvent;
     
     public Animator anim;
+    public Sprite idleImage;
+    public Sprite hoverImage;
     [HideInInspector] public string highlighted = "Highlighted", pointerDown = "PointerDown", clicked = "Clicked"; 
 
     void Awake()
@@ -21,6 +24,11 @@ public class InterfaceButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        ButtonEnter();
+    }
+
+    public void ButtonEnter()
+    {
         if (anim != null)
         {
             anim.SetBool(highlighted, true);
@@ -29,13 +37,20 @@ public class InterfaceButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (MenuScript.currentMenu != null && MenuScript.currentMenu.selector != null)
         {
             MenuScript.currentMenu.MoveSelectorToButton(this);
+            onPointerEnteredEvent.Invoke();
         }
-
-        onPointerEnteredEvent.Invoke();
-        // Debug.Log("Entered");
+        else
+        {
+            onPointerEnteredEvent.Invoke();
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
+    {
+        ButtonExit();
+    }
+
+    public void ButtonExit()
     {
         if (anim != null)
         {
@@ -43,10 +58,14 @@ public class InterfaceButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         }
 
         onPointerExitedEvent.Invoke();
-        // Debug.Log("Exited");
     }
 
     public void OnPointerDown(PointerEventData eventData)
+    {
+        ButtonDown();
+    }
+
+    public void ButtonDown()
     {
         if (anim != null)
         {
@@ -55,10 +74,14 @@ public class InterfaceButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         }
 
         onPointerDownEvent.Invoke();
-        // Debug.Log("Clicked");
     }
 
     public void OnPointerUp(PointerEventData eventData)
+    {
+        ButtonUp();
+    }
+
+    public void ButtonUp()
     {
         if (anim != null)
         {
@@ -67,11 +90,21 @@ public class InterfaceButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         }
 
         onPointerUpEvent.Invoke();
-        // Debug.Log("Clicked");
     }
 
-    public void UpdateAnimation()
+    public void ChangeToIdleImage()
     {
+        if (idleImage != null)
+        {
+            GetComponent<Image>().sprite = idleImage;
+        }
+    }
 
+    public void ChangeToHoverImage()
+    {
+        if (hoverImage != null)
+        {
+            GetComponent<Image>().sprite = hoverImage;
+        }
     }
 }

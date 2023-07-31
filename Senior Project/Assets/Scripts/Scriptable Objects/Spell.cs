@@ -198,12 +198,10 @@ public abstract class Spell : ScriptableObject
         PlayerController.puppet.currentSpellBeingCast = this;
 
         // Checks if the gun can be fired and if there is ammo in the magazine
-        if (canCast)
+        if (spellAnimHolder.CanCast())
         {
             canCast = false;
             spellAnimHolder.DisableCasting();
-
-            Debug.Log("Casted");
 
             if (usesCharges)
             {
@@ -230,8 +228,55 @@ public abstract class Spell : ScriptableObject
 
     public virtual void Fire()
     {
-        HitScanFire();
+        if (chargingSpell)
+        {
+            if (timeBetweenProjectilesRemaining <= 0)
+            {
+                ProjectileFire();
+                timeBetweenProjectilesRemaining = timeBetweenProjectiles;
+            }
+
+            CheckToRelease();
+
+        }
+        else
+        {
+            ProjectileFire();
+        }
+
         ChangePlayerTemp();
+    
+    }
+
+    public void CheckToRelease()
+    {
+        if (PlayerController.puppet.currentSpellBeingCast == null || PlayerController.puppet.currentSpellBeingCast.ourSpellState == SpellState.releasing)
+        {
+            return;
+        }
+
+        if (this == PlayerController.puppet.primarySpell)
+        {
+            if (PlayerController.instance.onPrimaryFire.ReadValue<float>() <= 0.125)
+            {
+                if (PlayerController.puppet.primarySpell.chargingSpell)
+                {
+                    PlayerController.instance.primaryFireHeldDown = false;
+                    spellAnimHolder.ReleaseSpell();
+                }
+            }
+        }
+        else if (this == PlayerController.puppet.secondarySpell)
+        {
+            if (PlayerController.instance.onSecondaryFire.ReadValue<float>() <= 0.125)
+            {
+                if (PlayerController.puppet.secondarySpell.chargingSpell)
+                {
+                    PlayerController.instance.secondaryFireHeldDown = false;
+                    spellAnimHolder.ReleaseSpell();
+                }
+            }
+        }
     }
 
     public virtual void ChangePlayerTemp()

@@ -84,7 +84,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
     void Start()
     {
         GeneralManager.instance.AddEventToDict(eventFlag);
-        if (GeneralManager.instance.eventFlags[eventFlag.eventID].eventTriggered)
+        if (GeneralManager.HasEventBeenTriggered(eventFlag))
         {
             gameObject.SetActive(false);
         }
@@ -117,7 +117,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
 
     public void PlayerHasBeenFound()
     {
-        GeneralManager.instance.DisablePriorEvents(eventFlag.eventID);
+        GeneralManager.instance.SetEventFlag(eventFlag);
         playerFound = true;
 
         switch(hazardType)

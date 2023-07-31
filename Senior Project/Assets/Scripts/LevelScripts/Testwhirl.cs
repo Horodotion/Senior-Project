@@ -9,7 +9,7 @@ public class Testwhirl : MonoBehaviour
     [SerializeField] float spinSpeed = 30f;
     [SerializeField] float deadSpeed = 15f;
     [SerializeField] Vector3 _axis = Vector3.forward;
-    void Update()
+    void FixedUpdate()
     {
         if (lilyPad.isDead != true)
         {
