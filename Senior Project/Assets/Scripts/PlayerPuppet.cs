@@ -205,7 +205,6 @@ public class PlayerPuppet : MonoBehaviour
         Jump();
 
         charController.Move(moveDirection);
-        // velocity = charController.velocity;
     }
 
     public Vector3 HorizontalMovement()
