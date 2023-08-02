@@ -15,7 +15,7 @@ public class TutorialUI_TriggerScript : TriggerScript
     // Start is called before the first frame update
     void Awake()
     {
-        tutorialElements = manager.UI_Elements;
+        // tutorialElements = manager.UI_Elements;
     }
 
     private void Update()

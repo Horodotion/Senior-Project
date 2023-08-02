@@ -29,13 +29,18 @@ public class Checkpoint : TriggerScript
 
     public override void ActionToTrigger()
     {        
+        if (GeneralManager.HasEventBeenTriggered(eventFlag))
+        {
+            return;
+        }
+
         if (!GeneralManager.HasEventBeenTriggered(eventFlag))
         {
             currentCheckpoint = this;
             GeneralManager.instance.SetEventFlag(eventFlag);
 
-            // playerSpawn = PlayerController.puppet.transform.position;
-            // playerLookDirection = new Vector3(transform.forward.x, transform.forward.y, 0);
+            playerSpawn = transform.position;
+            playerLookDirection = transform.eulerAngles;
         }
         // else
         // {
@@ -48,10 +53,14 @@ public class Checkpoint : TriggerScript
     {
         if (currentCheckpoint != null)
         {
+            Debug.Log(currentCheckpoint.name);
             return currentCheckpoint.transform.position;
         }
-        
-        return playerSpawn;
+        else
+        {
+            Debug.Log("No Checkpoint");
+            return playerSpawn;
+        }
     }
 
     public static Vector3 GetPlayerRespawnRotation()
@@ -60,7 +69,9 @@ public class Checkpoint : TriggerScript
         {
             return currentCheckpoint.transform.eulerAngles;
         }
-        
-        return playerLookDirection;
+        else
+        {
+            return playerLookDirection;
+        }
     }
 }
