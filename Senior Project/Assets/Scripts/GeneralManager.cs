@@ -28,6 +28,7 @@ public enum EventFlagType
     public bool activatesItself;
     [HideInInspector] public bool eventTriggered; // A bool for if the variable has been activated or not
     public List<int> eventsToDisableAfterTriggering;
+
 }
 
 
@@ -122,12 +123,12 @@ public class GeneralManager : MonoBehaviour
 
     public IEnumerator MovePlayerToCheckpoint()
     {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSecondsRealtime(0.1f);
 
         PlayerPuppet puppet = PlayerController.puppet;
-        Debug.Log(Checkpoint.GetPlayerRespawnPosition());
-        
         puppet.charController.enabled = false;
+        yield return null;
+
         PlayerController.instance.moveAxis = Vector2.zero;
         PlayerController.instance.lookAxis = Vector2.zero;
         puppet.moveDirection = Vector2.zero;
@@ -138,7 +139,8 @@ public class GeneralManager : MonoBehaviour
         puppet.transform.localEulerAngles = Checkpoint.GetPlayerRespawnRotation();
         puppet.cameraObj.transform.localEulerAngles = new Vector3(puppet.transform.forward.x, 0f, 0f);
         puppet.lookRotation = new Vector3(0f, puppet.transform.localEulerAngles.y, 0f);
-        
+        yield return null;
+
         puppet.charController.enabled = true;
     }
 
@@ -275,6 +277,8 @@ public class GeneralManager : MonoBehaviour
         {
             eventDict[flagToTrigger].eventTriggered = true;
         }
+
+        DisablePriorEvents(eventDict[flagToTrigger]);
     }
 
     public void DisablePriorEvents(EventFlag eventToSet)
@@ -287,7 +291,7 @@ public class GeneralManager : MonoBehaviour
             if (eventDict.ContainsKey(flagToDisable) && eventDict[flagToDisable].eventTriggered == false)
             {
                 eventDict[flagToDisable].eventTriggered = true;
-                GeneralManager.instance.DisablePriorEvents(eventDict[flagToDisable]);
+                DisablePriorEvents(eventDict[flagToDisable]);
             }
         }
     }
