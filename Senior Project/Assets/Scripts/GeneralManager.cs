@@ -15,9 +15,9 @@ public enum Faction
 
 public enum EventFlagType
 {
-    Enemy,
-    Checkpoint,
-    Collectible
+    LevelSpecific,
+    Transferable,
+    other
 }
 
 [System.Serializable] public class EventFlag
@@ -28,6 +28,7 @@ public enum EventFlagType
     public bool activatesItself;
     [HideInInspector] public bool eventTriggered; // A bool for if the variable has been activated or not
     public List<int> eventsToDisableAfterTriggering;
+
 }
 
 
@@ -41,10 +42,8 @@ public class GeneralManager : MonoBehaviour
     public static bool hasGameStarted = true;
 
     // Variables for the event flags
-    public static Dictionary<int, EventFlag> enemyEventFlags = new Dictionary<int, EventFlag>();
-    public static Dictionary<int, EventFlag> checkpointEventFlags = new Dictionary<int, EventFlag>();
-    public static Dictionary<int, EventFlag> collectibleEventFlags = new Dictionary<int, EventFlag>();
-
+    public static Dictionary<int, EventFlag> levelSpecificEventFlags = new Dictionary<int, EventFlag>();
+    public static Dictionary<int, EventFlag> transferableEventFlags = new Dictionary<int, EventFlag>();
 
     void Awake()
     {
@@ -124,22 +123,30 @@ public class GeneralManager : MonoBehaviour
 
     public IEnumerator MovePlayerToCheckpoint()
     {
-        yield return null;
+        yield return new WaitForSecondsRealtime(0.1f);
 
         PlayerPuppet puppet = PlayerController.puppet;
-        Debug.Log(Checkpoint.GetPlayerRespawnPosition());
         puppet.charController.enabled = false;
+        yield return null;
+
+        PlayerController.instance.moveAxis = Vector2.zero;
+        PlayerController.instance.lookAxis = Vector2.zero;
+        puppet.moveDirection = Vector2.zero;
+
         puppet.transform.position = Checkpoint.GetPlayerRespawnPosition();
+        Debug.Log(puppet.transform.position);
+
         puppet.transform.localEulerAngles = Checkpoint.GetPlayerRespawnRotation();
         puppet.cameraObj.transform.localEulerAngles = new Vector3(puppet.transform.forward.x, 0f, 0f);
         puppet.lookRotation = new Vector3(0f, puppet.transform.localEulerAngles.y, 0f);
-        PlayerController.instance.lookAxis = Vector2.zero;
+        yield return null;
+
         puppet.charController.enabled = true;
     }
 
     public static void ReloadLevel()
     {
-        GeneralManager.checkpointEventFlags.Clear();
+        GeneralManager.levelSpecificEventFlags.Clear();
         PlayerController.instance.temperature.ResetStat();
         LoadLevel(SceneManager.GetActiveScene().buildIndex);
     }
@@ -148,9 +155,8 @@ public class GeneralManager : MonoBehaviour
     {
         LoadLevel(0);
 
-        GeneralManager.enemyEventFlags.Clear();
-        GeneralManager.checkpointEventFlags.Clear();
-        GeneralManager.collectibleEventFlags.Clear();
+        GeneralManager.levelSpecificEventFlags.Clear();
+        GeneralManager.transferableEventFlags.Clear();
 
         if (PauseMenuScript.instance != null)
         {
@@ -271,6 +277,8 @@ public class GeneralManager : MonoBehaviour
         {
             eventDict[flagToTrigger].eventTriggered = true;
         }
+
+        DisablePriorEvents(eventDict[flagToTrigger]);
     }
 
     public void DisablePriorEvents(EventFlag eventToSet)
@@ -283,7 +291,7 @@ public class GeneralManager : MonoBehaviour
             if (eventDict.ContainsKey(flagToDisable) && eventDict[flagToDisable].eventTriggered == false)
             {
                 eventDict[flagToDisable].eventTriggered = true;
-                GeneralManager.instance.DisablePriorEvents(eventDict[flagToDisable]);
+                DisablePriorEvents(eventDict[flagToDisable]);
             }
         }
     }
@@ -312,14 +320,11 @@ public class GeneralManager : MonoBehaviour
     {
         switch (ourflagType)
         {
-            case EventFlagType.Enemy:
-                return enemyEventFlags;
+            case EventFlagType.LevelSpecific:
+                return levelSpecificEventFlags;
 
-            case EventFlagType.Checkpoint:
-                return checkpointEventFlags;
-
-            case EventFlagType.Collectible:
-                return collectibleEventFlags;
+            case EventFlagType.Transferable:
+                return transferableEventFlags;
 
             default:
                 return null;   
