@@ -79,6 +79,7 @@ public class PlayerPuppet : MonoBehaviour
     [HideInInspector] public Vector3 moveDirection, inputDirection;
     [HideInInspector] public RaycastHit groundedHit;
     [HideInInspector] public RaycastHit reticalHit;
+    public Collectible currentCollectible;
 
     [Header("Skin Shaders")]
     public SkinTemperatureScript fireSkin;
@@ -130,7 +131,7 @@ public class PlayerPuppet : MonoBehaviour
 
     void FixedUpdate()
     {
-        reticalHit = FindTargetLocation(); 
+        CheckForCollectibles();
         SecondarySpellUpdate();
 
         switch(PlayerController.ourPlayerState)
@@ -175,7 +176,6 @@ public class PlayerPuppet : MonoBehaviour
             cameraObj.transform.localEulerAngles = new Vector3(lookRotation.x, 0, 0);
         }
     }
-
 
     //Functions that handle movement
     public void Movement()
@@ -243,7 +243,6 @@ public class PlayerPuppet : MonoBehaviour
 
         if (groundDetected && fallingSpeed <= 0)
         {
-            // Debug.Log(groundedHit.collider.gameObject.name + " + " + groundedHit.distance);
             if (Vector3.Angle(groundedHit.normal, Vector3.up) > charController.slopeLimit)
             {
                 return MovementState.sliding;
@@ -377,10 +376,37 @@ public class PlayerPuppet : MonoBehaviour
         return hit;
     }
 
+    public void CheckForCollectibles()
+    {
+        reticalHit = FindTargetLocation();
+
+        if (reticalHit.collider != null && reticalHit.collider.gameObject.GetComponent<Collectible>() != null)
+        {
+            currentCollectible = reticalHit.collider.GetComponent<Collectible>();
+            OnHover(currentCollectible.messageToDisplay);
+        }
+        else if (currentCollectible != null)
+        {
+            OffHover();
+        }
+    }
+
+    public void OnHover(string messageToDisplay)
+    {
+        PlayerUI.instance.ActivateTutorialPanel(messageToDisplay);
+    }
+
+    public void OffHover()
+    {
+        currentCollectible = null;
+
+        PlayerUI.instance.DeactivateTutorialPanel();
+    }
+
     // A function to take damage from, currently only has a debug log
     public void Damage(float damageTaken)
     {
-        // Debug.Log(damageTaken);
+
     }
 
     public void ResetStats()
