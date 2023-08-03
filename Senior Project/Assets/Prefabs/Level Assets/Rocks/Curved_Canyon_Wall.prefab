@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6142319352503551959}
   - component: {fileID: 8874937403934513713}
   - component: {fileID: 8468382266722707597}
+  - component: {fileID: 5042079810684680343}
   m_Layer: 0
   m_Name: Curved_Canyon_Wall_Top
   m_TagString: Untagged
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5042079810684680343
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2899121293155637216}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7311484656596193019, guid: f223f6c8a9c9ece4caa3450766fe006f, type: 3}
 --- !u!1 &3908846473804952420
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,6 +142,7 @@ GameObject:
   - component: {fileID: 24064399897301975}
   - component: {fileID: 6084042330230122652}
   - component: {fileID: 1048017721664566847}
+  - component: {fileID: 5194682898857336883}
   m_Layer: 0
   m_Name: Curved_Canyon_Wall_Bottom
   m_TagString: Untagged
@@ -199,3 +215,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5194682898857336883
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174037751897780884}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3166964498645626782, guid: f223f6c8a9c9ece4caa3450766fe006f, type: 3}
