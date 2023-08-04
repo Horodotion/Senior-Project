@@ -13,13 +13,22 @@ public enum Faction
     other
 }
 
+public enum EventFlagType
+{
+    LevelSpecific,
+    Transferable,
+    other
+}
+
 [System.Serializable] public class EventFlag
 {
+    public EventFlagType eventFlagType;
     public string eventString; // A string to name the event in the hierarchy, planned to be unused
     public int eventID; // The int that will determine its place in the dictionary
     public bool activatesItself;
     [HideInInspector] public bool eventTriggered; // A bool for if the variable has been activated or not
     public List<int> eventsToDisableAfterTriggering;
+
 }
 
 
@@ -33,13 +42,10 @@ public class GeneralManager : MonoBehaviour
     public static bool hasGameStarted = true;
 
     // Variables for the event flags
-    public Dictionary<int, EventFlag> eventFlags = new Dictionary<int, EventFlag>(); // The dictionary of event flagss that will be referenced by game objects
+    public static Dictionary<int, EventFlag> levelSpecificEventFlags = new Dictionary<int, EventFlag>();
+    public static Dictionary<int, EventFlag> transferableEventFlags = new Dictionary<int, EventFlag>();
 
-    // Variables solely for the text box in the game
-    // public GameObject textBoxObject;
-    // public TMP_Text textToDisplay;
-    // [HideInInspector] public TextBoxText textBoxText;
-    // [HideInInspector] public bool typing = false;
+    public int totalCollectibles;
 
     void Awake()
     {
@@ -102,7 +108,6 @@ public class GeneralManager : MonoBehaviour
 
     public static void LoadNextLevel()
     {
-        GeneralManager.instance.eventFlags.Clear();
         LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
@@ -111,10 +116,8 @@ public class GeneralManager : MonoBehaviour
         SpawnManager.instance.TurnOffEverything();
         PlayerPuppet puppet = PlayerController.puppet;
 
-        // puppet.ResetStats();
-        // puppet.charController.enabled = false;
-
-        ReloadLevel();
+        PlayerController.instance.temperature.ResetStat();
+        LoadLevel(SceneManager.GetActiveScene().buildIndex);
 
         GeneralManager.instance.StartCoroutine(GeneralManager.instance.MovePlayerToCheckpoint());
         GeneralManager.instance.UnPauseGame();
@@ -122,23 +125,31 @@ public class GeneralManager : MonoBehaviour
 
     public IEnumerator MovePlayerToCheckpoint()
     {
-        yield return null;
+        yield return new WaitForSecondsRealtime(0.1f);
 
         PlayerPuppet puppet = PlayerController.puppet;
-        Debug.Log(Checkpoint.playerSpawn);
         puppet.charController.enabled = false;
-        puppet.transform.position = Checkpoint.playerSpawn;
-        puppet.transform.localEulerAngles = Checkpoint.playerLookDirection;
+        yield return null;
+
+        PlayerController.instance.moveAxis = Vector2.zero;
+        PlayerController.instance.lookAxis = Vector2.zero;
+        puppet.moveDirection = Vector2.zero;
+
+        puppet.transform.position = Checkpoint.GetPlayerRespawnPosition();
+        Debug.Log(puppet.transform.position);
+
+        puppet.transform.localEulerAngles = Checkpoint.GetPlayerRespawnRotation();
         puppet.cameraObj.transform.localEulerAngles = new Vector3(puppet.transform.forward.x, 0f, 0f);
         puppet.lookRotation = new Vector3(0f, puppet.transform.localEulerAngles.y, 0f);
-        PlayerController.instance.lookAxis = Vector2.zero;
+        yield return null;
+
         puppet.charController.enabled = true;
     }
 
     public static void ReloadLevel()
     {
+        GeneralManager.levelSpecificEventFlags.Clear();
         PlayerController.instance.temperature.ResetStat();
-
         LoadLevel(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -146,7 +157,8 @@ public class GeneralManager : MonoBehaviour
     {
         LoadLevel(0);
 
-        GeneralManager.instance.eventFlags.Clear();
+        GeneralManager.levelSpecificEventFlags.Clear();
+        GeneralManager.transferableEventFlags.Clear();
 
         if (PauseMenuScript.instance != null)
         {
@@ -209,7 +221,7 @@ public class GeneralManager : MonoBehaviour
 
     public void WinGame()
     {
-        /*
+        
         if (SceneManager.GetActiveScene().buildIndex >= 3)
         {
             OpenWinMenu();
@@ -218,9 +230,9 @@ public class GeneralManager : MonoBehaviour
         {
             LoadNextLevelScript.instance.activeLoadingZone = true;
         }
-        */
+        
 
-        OpenWinMenu();
+        // OpenWinMenu();
     }
 
     public void OpenWinMenu()
@@ -258,43 +270,68 @@ public class GeneralManager : MonoBehaviour
     }
 
     // This checks off the flag for an event, and triggers other events to be active if it's able to be
-    public void SetEventFlag(int flagToTrigger)
+    public static void SetEventFlag(EventFlag eventToSet)
     {
-        eventFlags[flagToTrigger].eventTriggered = true;
+        Dictionary<int, EventFlag> eventDict = GetDictionary(eventToSet.eventFlagType);
+        int flagToTrigger = eventToSet.eventID;
 
-        foreach(int flagToDisable in eventFlags[flagToTrigger].eventsToDisableAfterTriggering)
+        if (eventDict.ContainsKey(flagToTrigger) && eventDict[flagToTrigger].activatesItself == true)
         {
-            if (eventFlags.ContainsKey(flagToDisable) && eventFlags[flagToDisable].eventTriggered == false)
+            eventDict[flagToTrigger].eventTriggered = true;
+        }
+
+        GeneralManager.DisablePriorEvents(eventDict[flagToTrigger]);
+    }
+
+    public static void DisablePriorEvents(EventFlag eventToSet)
+    {
+        Dictionary<int, EventFlag> eventDict = GetDictionary(eventToSet.eventFlagType);
+        int flagToTrigger = eventToSet.eventID;
+
+        foreach(int flagToDisable in eventDict[flagToTrigger].eventsToDisableAfterTriggering)
+        {
+            if (eventDict.ContainsKey(flagToDisable) && eventDict[flagToDisable].eventTriggered == false)
             {
-                GeneralManager.instance.SetEventFlag(flagToDisable);
+                eventDict[flagToDisable].eventTriggered = true;
+                DisablePriorEvents(eventDict[flagToDisable]);
             }
         }
     }
 
-    public void DisablePriorEvents(int flagToTrigger)
+    public static void AddEventToDict(EventFlag eventToAdd)
     {
-        if (eventFlags.ContainsKey(flagToTrigger) && eventFlags[flagToTrigger].activatesItself == true)
+        if (eventToAdd.eventID != 0 && !GetDictionary(eventToAdd.eventFlagType).ContainsKey(eventToAdd.eventID))
         {
-            eventFlags[flagToTrigger].eventTriggered = true;
-        }
-
-        foreach(int flagToDisable in eventFlags[flagToTrigger].eventsToDisableAfterTriggering)
-        {
-            if (eventFlags.ContainsKey(flagToDisable) && eventFlags[flagToDisable].eventTriggered == false)
-            {
-                GeneralManager.instance.SetEventFlag(flagToDisable);
-            }
+            GetDictionary(eventToAdd.eventFlagType).Add(eventToAdd.eventID, eventToAdd);
         }
     }
 
-    public void AddEventToDict(EventFlag eventToAdd)
+    public static bool HasEventBeenTriggered(EventFlag ourEvent)
     {
-        if (eventToAdd.eventID != 0 && !eventFlags.ContainsKey(eventToAdd.eventID))
+        Dictionary<int, EventFlag> eventDict = GeneralManager.GetDictionary(ourEvent.eventFlagType);
+
+        if (eventDict.ContainsKey(ourEvent.eventID) && eventDict[ourEvent.eventID].eventTriggered)
         {
-            eventFlags.Add(eventToAdd.eventID, eventToAdd);
+            return true;
         }
+
+        return false;
     }
 
+    public static Dictionary<int, EventFlag> GetDictionary(EventFlagType ourflagType)
+    {
+        switch (ourflagType)
+        {
+            case EventFlagType.LevelSpecific:
+                return levelSpecificEventFlags;
+
+            case EventFlagType.Transferable:
+                return transferableEventFlags;
+
+            default:
+                return null;   
+        }
+    }
 
     // A text system, currently unused
     /*---------------------------------------------------------------------------------------------------

@@ -79,14 +79,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   hostileFaction: 1
-  projectileSpeed: 26
+  projectileSpeed: 31
   lifeSpan: 0.5
-  range: 10
+  range: 15
   origin: {x: 0, y: 0, z: 0}
   rotation: {x: 0, y: 0, z: 0, w: 0}
   damageType: 0
   damage: 5
   launched: 0
+  spawnSFX: {fileID: 0}
   impactSFX: {fileID: 8300000, guid: b2e0815d361b1e5449db74d59501b486, type: 3}
   destroyEffectPrefab: {fileID: 0}
 --- !u!1001 &6746289572107134106

@@ -11,13 +11,6 @@ public class ShotgunSpell : Spell
     public float minimumSpreadRange;
     public float spreadAngle;
 
-
-    public override void Fire()
-    {
-        ProjectileFire();
-        ChangePlayerTemp();
-    }
-
     public override void InitializeSpell()
     {
         base.InitializeSpell();

@@ -13,6 +13,7 @@ public class MobSpawnerController : MonoBehaviour
         public GameObject gameObjectToSpawn;
         public Transform gameObjectSPParent;
         public int numOfGameObjectSpawn;
+        public bool isStationary;
     }
 
     [SerializeField] SpawnData[] spawnData;
@@ -47,7 +48,16 @@ public class MobSpawnerController : MonoBehaviour
             if (spawndata.gameObjectSPParent.GetChild(spawnIndex).transform.childCount == 0)
             {
                 //Spawn the Object and increase the count
-                Instantiate(spawndata.gameObjectToSpawn, spawndata.gameObjectSPParent.GetChild(spawnIndex).transform);
+                if (spawndata.isStationary)
+                {
+                    Instantiate(spawndata.gameObjectToSpawn, spawndata.gameObjectSPParent.GetChild(spawnIndex).transform);
+                }
+                else
+                {
+                    Debug.Log("Hi player");
+                    Instantiate(spawndata.gameObjectToSpawn, spawndata.gameObjectSPParent.GetChild(spawnIndex).transform.position, spawndata.gameObjectSPParent.GetChild(spawnIndex).transform.rotation);
+                }
+                
                 count++;
             }
         }

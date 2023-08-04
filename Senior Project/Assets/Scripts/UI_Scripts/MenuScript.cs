@@ -41,13 +41,11 @@ using TMPro;
     
     public void ClickButton()
     {
-        // currentlySelectedButton.activatingList = this;
         currentlySelectedButton.onPointerDownEvent.Invoke();
     }
 
     public void BackButton()
     {
-        // currentlySelectedButton.activatingList = this;
         currentlySelectedButton.onPointerUpEvent.Invoke();
     }
 }
@@ -86,6 +84,7 @@ public abstract class MenuScript : MonoBehaviour
         currentButtonID = 0;
         selector.transform.position = buttonList[currentButtonID].transform.position;
         currentlySelectedButton = buttonList[currentButtonID];
+        currentlySelectedButton.ButtonEnter();
     }
 
     public void CycleThoughList(int direction)
@@ -105,8 +104,10 @@ public abstract class MenuScript : MonoBehaviour
             currentButtonID += direction;
         }
 
+        currentlySelectedButton.ButtonExit();
         selector.transform.position = buttonList[currentButtonID].transform.position;
         currentlySelectedButton = buttonList[currentButtonID];
+        currentlySelectedButton.ButtonEnter();
     }
 
     public virtual void MoveSelectorToButton(InterfaceButton ourButton)
@@ -115,7 +116,6 @@ public abstract class MenuScript : MonoBehaviour
         selector.transform.position = buttonList[currentButtonID].transform.position;
         currentlySelectedButton = buttonList[currentButtonID];
     }
-
 
     public static void SwapToMenu(GameObject menuToGoTo, GameObject menuToTurnOff)
     {

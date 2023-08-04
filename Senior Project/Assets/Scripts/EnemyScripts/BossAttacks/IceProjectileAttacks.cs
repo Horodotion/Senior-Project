@@ -10,14 +10,14 @@ public class IceProjectileAttacks : AttackMotion
     [SerializeField] float fireDistance = 15;
     [SerializeField] float aimSpeed = 0.5f;
     //[SerializeField] float waitTimeAfterFire = 0.5f;
-
+    /*
     public IceProjectileAttacks(BossEnemyController enemyController, Transform[] SP)
     {
-        enemy = enemyController;
+        //enemy = enemyController;
         this.SP = SP;
     }
-
-    public override IEnumerator AttackingPlayer(int leftRightHand)
+    */
+    public override IEnumerator AttackingPlayer(BossEnemyController enemy, int leftRightHand)
     {
 
         while (true)
@@ -87,7 +87,7 @@ public class IceProjectileAttacks : AttackMotion
         enemy.navMeshAgent.isStopped = false;
         enemy.navMeshAgent.speed = enemy.speed;
 
-        ExitRangedAttack();
+        ExitRangedAttack(enemy);
         //enemy.bossState = BossState.inCombat;
         //yield return null;
     }

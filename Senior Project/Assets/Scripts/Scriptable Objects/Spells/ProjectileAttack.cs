@@ -5,8 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Spell/ProjectileAttack")]
 public class ProjectileAttack : Spell
 {
-
-
     public override void SpellUpdate()
     {
         base.SpellUpdate();
@@ -15,23 +13,5 @@ public class ProjectileAttack : Spell
         {
             timeBetweenProjectilesRemaining -= Time.deltaTime;
         }
-    }
-
-    public override void Fire()
-    {
-        if (chargingSpell)
-        {
-            if (timeBetweenProjectilesRemaining <= 0)
-            {
-                ProjectileFire();
-                timeBetweenProjectilesRemaining = timeBetweenProjectiles;
-            }
-        }
-        else
-        {
-            ProjectileFire();
-        }
-
-        ChangePlayerTemp();
     }
 }
