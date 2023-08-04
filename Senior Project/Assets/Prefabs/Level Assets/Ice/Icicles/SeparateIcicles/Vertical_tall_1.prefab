@@ -217,6 +217,7 @@ MonoBehaviour:
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
+  deathRattle: {fileID: 0}
   destroyEffectPrefab: {fileID: 4473927184254439432, guid: 58483bf54dafe104c857257b7164971d,
     type: 3}
   customTransform: {fileID: 2102826297010177457}
@@ -335,10 +336,20 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2f12a300de83e55459015b3edc9eeeee, type: 2}
+    - target: {fileID: -2251813504480547694, guid: d7980b92836cdda41b3ff6c901bddc20,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d7980b92836cdda41b3ff6c901bddc20,
         type: 3}
       propertyPath: m_Name
       value: Vertical_tall_1_LP
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d7980b92836cdda41b3ff6c901bddc20,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7980b92836cdda41b3ff6c901bddc20, type: 3}

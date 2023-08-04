@@ -34,19 +34,12 @@ public class Checkpoint : TriggerScript
             return;
         }
 
-        if (!GeneralManager.HasEventBeenTriggered(eventFlag))
-        {
-            currentCheckpoint = this;
-            GeneralManager.instance.SetEventFlag(eventFlag);
+        Debug.Log("Checkpoint Saved: " + gameObject.name);
+        currentCheckpoint = this;
+        GeneralManager.instance.SetEventFlag(eventFlag);
 
-            playerSpawn = transform.position;
-            playerLookDirection = transform.eulerAngles;
-        }
-        // else
-        // {
-        //     playerSpawn = PlayerController.puppet.transform.position;
-        //     playerLookDirection = new Vector3(transform.forward.x, transform.forward.y, 0);
-        // }
+        playerSpawn = transform.position;
+        playerLookDirection = transform.eulerAngles;
     }
 
     public static Vector3 GetPlayerRespawnPosition()
@@ -61,6 +54,8 @@ public class Checkpoint : TriggerScript
             Debug.Log("No Checkpoint");
             return playerSpawn;
         }
+
+        // return playerSpawn;
     }
 
     public static Vector3 GetPlayerRespawnRotation()
@@ -73,5 +68,7 @@ public class Checkpoint : TriggerScript
         {
             return playerLookDirection;
         }
+
+        // return playerLookDirection;
     }
 }
