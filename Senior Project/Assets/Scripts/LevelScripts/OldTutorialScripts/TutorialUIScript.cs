@@ -13,8 +13,6 @@ public class TutorialUIScript : TriggerScript
         {
             PlayerUI.instance.ActivateTutorialPanel(textToChange);
         }
-        // textObject.text = textToChange;
-        // textObject.gameObject.SetActive(true);
     }
 
     public override void ActionToStop()
@@ -23,7 +21,5 @@ public class TutorialUIScript : TriggerScript
         {
             PlayerUI.instance.DeactivateTutorialPanel();
         }
-        // textObject.text = textToChange;
-        // textObject.gameObject.SetActive(false);
     }
 }
