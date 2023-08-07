@@ -198,7 +198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1715010044915445027
 RectTransform:
   m_ObjectHideFlags: 0
@@ -294,6 +294,7 @@ MonoBehaviour:
   retryLevelButton: {fileID: 0}
   mainMenuButton: {fileID: 0}
   exitGameButton: {fileID: 0}
+  collectibleCounter: {fileID: 0}
 --- !u!1 &3285556458940228463
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,7 +459,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3286493234204896278}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -641,6 +642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e94635692a8ba44aab4bebc03932c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  totalCollectibles: 0
 --- !u!114 &3232147327816928521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1251,6 +1253,7 @@ MonoBehaviour:
   retryLevelButton: {fileID: 772696101576919212}
   mainMenuButton: {fileID: 8448476525834105135}
   exitGameButton: {fileID: 2852901308445736902}
+  collectibleCounter: {fileID: 0}
 --- !u!1 &4647579742296394986
 GameObject:
   m_ObjectHideFlags: 0
@@ -3311,7 +3314,7 @@ PrefabInstance:
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
@@ -3321,17 +3324,17 @@ PrefabInstance:
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 410
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 5659948959912130983, guid: ff22ca8c5e89b8b40a0a4950044f428e,
         type: 3}

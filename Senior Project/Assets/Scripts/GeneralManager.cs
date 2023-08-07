@@ -44,8 +44,7 @@ public class GeneralManager : MonoBehaviour
     // Variables for the event flags
     public static Dictionary<int, EventFlag> levelSpecificEventFlags = new Dictionary<int, EventFlag>();
     public static Dictionary<int, EventFlag> transferableEventFlags = new Dictionary<int, EventFlag>();
-
-    public int totalCollectibles;
+    public static int totalCollectiblesCounter;
 
     void Awake()
     {
