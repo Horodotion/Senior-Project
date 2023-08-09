@@ -40,6 +40,7 @@ public class GeneralManager : MonoBehaviour
     public static GeneralManager instance;
     public static bool isGameRunning = false;
     public static bool hasGameStarted = true;
+    public static bool isOptionsMenuOpen = false;
 
     // Variables for the event flags
     public static Dictionary<int, EventFlag> levelSpecificEventFlags = new Dictionary<int, EventFlag>();
@@ -88,6 +89,11 @@ public class GeneralManager : MonoBehaviour
             if (GameOverMenuScript.instance != null)
             {
                 GameOverMenuScript.instance.gameObject.SetActive(false);
+            }
+
+            if (OptionsMenuScript.instance != null)
+            {
+                OptionsMenuScript.instance.gameObject.SetActive(false);
             }
         }
     }
@@ -163,7 +169,12 @@ public class GeneralManager : MonoBehaviour
         if (PauseMenuScript.instance != null)
         {
             PauseMenuScript.instance.gameObject.SetActive(false);
-        }        
+        }
+
+        if (OptionsMenuScript.instance != null)
+        {
+            OptionsMenuScript.instance.gameObject.SetActive(false);
+        }
 
         if (PlayerUI.instance != null)
         {
@@ -213,10 +224,31 @@ public class GeneralManager : MonoBehaviour
             GameOverMenuScript.instance.gameObject.SetActive(false);
         }
 
+        if (OptionsMenuScript.instance != null)
+        {
+            OptionsMenuScript.instance.gameObject.SetActive(false);
+        }
+
         PlayerController.ourPlayerState = PlayerState.inGame;
         Cursor.lockState = CursorLockMode.Locked;
         isGameRunning = true;
         Time.timeScale = 1f;
+    }
+
+    public void OpenOptions()
+    {
+        if (OptionsMenuScript.instance != null)
+        {
+            OptionsMenuScript.instance.gameObject.SetActive(true);
+            OptionsMenuScript.instance.GetGain();
+        }
+    }
+    public void CloseOptions()
+    {
+        if (OptionsMenuScript.instance != null)
+        {
+            OptionsMenuScript.instance.gameObject.SetActive(false);
+        }
     }
 
     public void WinGame()

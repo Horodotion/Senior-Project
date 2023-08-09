@@ -1163,6 +1163,7 @@ MonoBehaviour:
   secondaryFirePosition: {fileID: 2600740540728195864}
   moveDirection: {x: 0, y: 0, z: 0}
   inputDirection: {x: 0, y: 0, z: 0}
+  currentCollectible: {fileID: 0}
   fireSkin: {fileID: 3226774353875884701}
   iceSkin: {fileID: 1338260212085641363}
   jumpSource: {fileID: 693281424539172520}
@@ -1175,7 +1176,8 @@ AudioSource:
   m_GameObject: {fileID: 693281424546211656}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 779d0dde1f8af4547bf655480b4ecfc8,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 222ae4e6bf6938946aa71523c4cc6896, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
