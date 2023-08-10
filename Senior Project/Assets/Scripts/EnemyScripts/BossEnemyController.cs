@@ -334,7 +334,6 @@ public class BossEnemyController : EnemyController
             isPlayerReachingBoss = false;
         }
         
-
         BossStageInteraction();
         //BossStageHandler();
 
