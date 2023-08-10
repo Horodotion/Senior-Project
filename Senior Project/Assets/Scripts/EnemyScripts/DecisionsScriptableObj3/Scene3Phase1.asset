@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d02cb88daccea54f917d5b4f5e2699c, type: 3}
+  m_Name: Scene3Phase1
+  m_EditorClassIdentifier: 
+  hPPercentageToEnterPhase: 75
+  meleeAttackDecision: {fileID: 11400000, guid: 289830768df829e47855440b7b865fc9,
+    type: 2}
+  orbwalkDecision: {fileID: 11400000, guid: 54aa88def0a0f4b47b1dbec1b93ddfe1, type: 2}
+  rangedAttackDecision: {fileID: 11400000, guid: 3110ebeeea050f44dbd8d8e135108e64,
+    type: 2}
+  coverDecision: {fileID: 11400000, guid: c929484345e8d0545b1cdc3c721fc9a7, type: 2}
+  teleportDecision: {fileID: 11400000, guid: d0218764768770749960495d50e0f012, type: 2}
+  dropMineDecision: {fileID: 11400000, guid: eaca19a657531bd499e6f69a73dbf28d, type: 2}
+  dropTurretDecision: {fileID: 11400000, guid: a692e92c023b1054f8448fc6c443b17f, type: 2}
+  spawnMobDecision: {fileID: 11400000, guid: 57fc200b2a6ffed43a04203c5e692aea, type: 2}
+  laserAttackDecision: {fileID: 11400000, guid: f2461c3cd6a1f294382d1a041958ce01,
+    type: 2}
+  armorDecision: {fileID: 0}

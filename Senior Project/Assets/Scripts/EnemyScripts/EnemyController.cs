@@ -30,9 +30,6 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public GameObject fireDamageText;
     [HideInInspector] public GameObject iceDamageText;
 
-    [Header("SFX")]
-    public AudioClip deathRattle;
-
 
     public virtual void OnEnable()
     {
@@ -72,8 +69,11 @@ public class EnemyController : MonoBehaviour
             GameObject damageText = GetDamageText(damageType);
             damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, damage, damageType);
         }
-
-        health.AddToStat(-damage);
+        if (!inInvincibilityFrames)
+        {
+            health.AddToStat(-damage);
+        }
+        
         if (health.stat <= health.minimum && !dead)
         {
             CommitDie();
@@ -82,10 +82,6 @@ public class EnemyController : MonoBehaviour
 
     public virtual void CommitDie()
     {
-        if (deathRattle != null)
-        {
-            AudioSource.PlayClipAtPoint(deathRattle, transform.position);
-        }
         dead = true;
         Debug.Log(gameObject.name + " is dead");
     }

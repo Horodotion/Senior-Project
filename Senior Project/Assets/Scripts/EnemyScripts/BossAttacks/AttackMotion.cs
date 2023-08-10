@@ -18,7 +18,7 @@ using UnityEngine;
 public class AttackMotion : ScriptableObject
 {
     //[HideInInspector] public PlayerPuppet player;
-    [HideInInspector] public BossEnemyController enemy;
+    //[HideInInspector] public BossEnemyController enemy;
 
     public int damage;
     //public float coolDown;
@@ -44,19 +44,19 @@ public class AttackMotion : ScriptableObject
     }
 
 
-    public virtual void InitializeAttacks(BossEnemyController enemyController, Transform[] SP)
+    public virtual void InitializeAttacks(Transform[] SP)
     {
-        enemy = enemyController;
+        //enemy = enemyController;
         this.SP = SP;
     }
 
 
-    public virtual IEnumerator AttackingPlayer()
+    public virtual IEnumerator AttackingPlayer(BossEnemyController enemyController)
     {
         yield return null;
     }
 
-    public virtual IEnumerator AttackingPlayer(int i)
+    public virtual IEnumerator AttackingPlayer(BossEnemyController enemyController, int i)
     {
         yield return null;
     }
@@ -71,21 +71,28 @@ public class AttackMotion : ScriptableObject
     }
     */
 
-    public void ExitMeleeAttack()
+    public void ExitMeleeAttack(BossEnemyController enemy)
     {
         //enemy.bossState = enemy.meleeAtkFollowUpDicision.GiveTheNextRandomDicision();
-        enemy.bossState = enemy.meleeAttackDecision.GiveTheNextRandomDicision();
+        //enemy.bossState = enemy.nodeDecision.Next();
+        //enemy.BossStageInteraction();
+        //enemy.BossStageHandler();
+        enemy.bossState = enemy.currentMovementStage.meleeAttackDecision.GetTheNextRandomDicision();
     }
-    public void ExitRangedAttack()
+    public void ExitRangedAttack(BossEnemyController enemy)
     {
         //enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
-        enemy.bossState = enemy.rangedAttackDecision.GiveTheNextRandomDicision();
+        //enemy.BossStageInteraction();
+        //enemy.BossStageHandler();
+        enemy.bossState = enemy.currentMovementStage.rangedAttackDecision.GetTheNextRandomDicision();
     }
 
-    public void ExitLaserAttack()
+    public void ExitLaserAttack(BossEnemyController enemy)
     {
         //enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
-        enemy.bossState = enemy.laserAttackDecision.GiveTheNextRandomDicision();
+        //enemy.BossStageInteraction();
+        //enemy.BossStageHandler();
+        enemy.bossState = enemy.currentMovementStage.laserAttackDecision.GetTheNextRandomDicision();
     }
 
 }

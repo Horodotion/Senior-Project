@@ -391,27 +391,32 @@ MonoBehaviour:
   iceDamageText: {fileID: 0}
   healthBarCanvasObject: {fileID: 0}
   healthBar: {fileID: 0}
+  bossActivateDistance: 0
   mobSpawner: {fileID: 0}
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
   speed: 8
   acceleration: 25
   angularSpeed: 120
-  elementType: 0
   viewPoint: {fileID: 709742767}
   viewDegreeH: 100
   viewDegreeV: 50
   viewRange: 10
-  meleeAttackDecision: {fileID: 0}
-  orbwalkDecision: {fileID: 0}
-  rangedAttackDecision: {fileID: 0}
-  coverDecision: {fileID: 0}
-  coverDecisionMod: {fileID: 0}
-  teleportDecision: {fileID: 0}
-  teleportDecisionMod: {fileID: 0}
-  dropMinesDecision: {fileID: 0}
-  dropTurretDecision: {fileID: 0}
-  laserAttackDecision: {fileID: 0}
+  startingArmorType: 0
+  currentArmorElementType: 0
+  armorType: 0
+  iceArmorObject: {fileID: 0}
+  fireArmorObject: {fileID: 0}
+  armorHealth:
+    stat: 0
+    baseStat: 0
+    minimum: -Infinity
+    maximum: Infinity
+  healthReducePercentOnArmorBreak: 0
+  iceArmorVFX: {fileID: 0}
+  fireArmorVFX: {fileID: 0}
+  movementPhase: []
+  currentMovementStage: {fileID: 0}
   orbWalkSpeed: 0
   orbWalkAcceleration: 0
   turnSpeed: 0
@@ -444,7 +449,13 @@ MonoBehaviour:
   orbWalkAniSpeed: 0
   runAniSpeed: 0
   isAbleToPlayDeathAni: 0
-  WinScreenActivationTimeAfterBossDeath: 0
+  activationTimeAfterDeath: 0
+  ourAudioSource: {fileID: 0}
+  meleeBugle: {fileID: 0}
+  projectileBugle: {fileID: 0}
+  laserBugle: {fileID: 0}
+  tauntBugle: {fileID: 0}
+  teleportBugle: {fileID: 0}
   aniDecision: idleDecision
   idleAni: 0
   runningAni: 1
@@ -472,7 +483,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 0}
-  instance: {fileID: 0}
   timer: 0
   iceMeleeAttack:
     attackMotion: {fileID: 11400000, guid: 8b1c351134043ad48bc4876463c212b2, type: 2}
@@ -2228,6 +2238,12 @@ CapsuleCollider:
 --- !u!1 &1147070219 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1648620211262580133, guid: 74b0f7e78645a1a49aa72b6ac8efe973,
+    type: 3}
+  m_PrefabInstance: {fileID: 7406603520177895546}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1147070221 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1648620211262580134, guid: 74b0f7e78645a1a49aa72b6ac8efe973,
     type: 3}
   m_PrefabInstance: {fileID: 7406603520177895546}
   m_PrefabAsset: {fileID: 0}
@@ -4996,7 +5012,7 @@ PrefabInstance:
     - target: {fileID: 1648620211262580134, guid: 74b0f7e78645a1a49aa72b6ac8efe973,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -26.37
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1648620211262580134, guid: 74b0f7e78645a1a49aa72b6ac8efe973,
         type: 3}
@@ -5046,7 +5062,12 @@ PrefabInstance:
     - target: {fileID: 1648620211262580135, guid: 74b0f7e78645a1a49aa72b6ac8efe973,
         type: 3}
       propertyPath: spawnData.Array.size
-      value: 2
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1648620211262580135, guid: 74b0f7e78645a1a49aa72b6ac8efe973,
+        type: 3}
+      propertyPath: spawnData.Array.data[2].isStationary
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1648620211262580135, guid: 74b0f7e78645a1a49aa72b6ac8efe973,
         type: 3}
@@ -5054,6 +5075,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2382120747578525233, guid: 09e15386b088f404aa2a6fc7497210e9,
         type: 3}
+    - target: {fileID: 1648620211262580135, guid: 74b0f7e78645a1a49aa72b6ac8efe973,
+        type: 3}
+      propertyPath: spawnData.Array.data[2].gameObjectToSpawn
+      value: 
+      objectReference: {fileID: 3274614151290309517, guid: 07abaffe3e07ec34597c3c1b5203372b,
+        type: 3}
+    - target: {fileID: 1648620211262580135, guid: 74b0f7e78645a1a49aa72b6ac8efe973,
+        type: 3}
+      propertyPath: spawnData.Array.data[2].gameObjectSPParent
+      value: 
+      objectReference: {fileID: 1147070221}
     - target: {fileID: 1648620211262580135, guid: 74b0f7e78645a1a49aa72b6ac8efe973,
         type: 3}
       propertyPath: spawnData.Array.data[1].numOfGameObjectSpawn

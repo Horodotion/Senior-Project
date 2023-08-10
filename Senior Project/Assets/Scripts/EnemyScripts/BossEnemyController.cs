@@ -21,16 +21,27 @@ public enum BossState
     spawnTurrets = 9,
     spawnMines = 10,
     orbWalking = 11,
-    ambushed = 12,
-    dead = 13,
+    spawnMobs = 12,
+    ambushed = 13,
+    dead = 14,
+    setArmor = 15
+    
 
     //testState,
     // testState2,
 
 
 
+}
 
-
+public enum BossPhase
+{
+    getArmor,
+    Scene1Phase1,
+    Scene1Phase2,
+    Scene3Phase1,
+    Scene3Phase2,
+    Scene3Phase3
 
 }
 
@@ -39,35 +50,58 @@ public class Decision : ScriptableObject
     //protected Decision [] decisions;
 }
 
+
 public class BossEnemyController : EnemyController
 {
     //[SerializeField] private GameObject healthBar;
+    //public NodeDecision nodeDecision;
+
+    //public int bossPhase;
 
     //Health Bar system
     [SerializeField] private GameObject healthBarCanvasObject;
     [SerializeField] private Slider healthBar;
 
+    //Boss activation system
+    private bool isPlayerReachingBoss;
+    [SerializeField] private float bossActivateDistance;
+
+
     // Boss mob spawn system
     [SerializeField] private GameObject mobSpawner;
     private MobSpawnerController mobSpawnerController;
 
+    
 
     //[SerializeField] private BossSpawnerController turretSpawner;
     [Header("Boss Stats")]
     public NavMeshAgent navMeshAgent;
     [HideInInspector] public Animator animator;
-    [HideInInspector] AttacksManager attacksManager;
+    [HideInInspector] protected AttacksManager attacksManager;
 
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float acceleration = 8f;
     [SerializeField] public float angularSpeed = 120f;
-    public DamageType elementType;
     
     
     [SerializeField] public GameObject viewPoint; // The starting point of the enemy view point
     [SerializeField] public float viewDegreeH = 100; // The Horizontal angle where the enemy can see the player
     [SerializeField] public float viewDegreeV = 50; // The Vertical angle where the enemy can see the player
     [SerializeField] public float viewRange = 10; // The distance that the enemy can see the player
+
+    [Header("Armor Syatem")]
+    public DamageType startingArmorType;
+    public DamageType currentArmorElementType;
+    public DamageType armorType;
+
+    public GameObject iceArmorObject;
+    public GameObject fireArmorObject;
+    public IndividualStat armorHealth;
+    public float healthReducePercentOnArmorBreak;
+
+    public GameObject iceArmorVFX;
+    public GameObject fireArmorVFX;
+
     /*
     [Header("Boss Dicision Setting")]
     [SerializeField] public MovementDecision coverActionDecision;
@@ -83,27 +117,27 @@ public class BossEnemyController : EnemyController
 
     [SerializeField] public MovementDecision meleeAtkFollowUpDecision;
     */
-    [Header("Boss Dicision Setting 2.0")]
-    [SerializeField] public MovementDecision meleeAttackDecision;
-    [SerializeField] public MovementDecision orbwalkDecision;
-    [SerializeField] public MovementDecision rangedAttackDecision;
-    [SerializeField] public MovementDecision coverDecision;
-    [SerializeField] public MovementDecision coverDecisionMod;
-    [SerializeField] public MovementDecision teleportDecision;
-    [SerializeField] public MovementDecision teleportDecisionMod;
-    [SerializeField] public MovementDecision dropMinesDecision;
-    [SerializeField] public MovementDecision dropTurretDecision;
-    [SerializeField] public MovementDecision laserAttackDecision;
 
+
+    
+
+    [Header("Boss Phase Setting")]
+
+    public MovementPhase[] movementPhase;
+    [HideInInspector] public MovementPhase currentMovementStage;
+    BossPhase bossPhase;
+    //private MovementDecision nextDecision;
+    //public MovementStage movementStage2;
+    //public MovementStage movementStage3;
     //public OrbWalkController orbWalkController = new OrbWalkController();
 
     [Header("Orbwalk System")]
 
-    private Vector3 destination;
     public float orbWalkSpeed;
     public float orbWalkAcceleration;
     public float turnSpeed;
     private Quaternion rotateGoalWithOutY;
+    private Vector3 destination;
 
     [Range(0.1f, 10)] public float navMeshDetactionRadius;
     [Range(0.1f, 10)] public float navMeshDetactionDistance;
@@ -160,7 +194,7 @@ public class BossEnemyController : EnemyController
     [Range(.5f, 5)] public float orbWalkAniSpeed;
     [Range(.5f, 5)] public float runAniSpeed;
     public bool isAbleToPlayDeathAni;
-    public float WinScreenActivationTimeAfterBossDeath;
+    public float activationTimeAfterDeath;
 
     [Header("SFX")]
     public AudioSource ourAudioSource;
@@ -205,7 +239,7 @@ public class BossEnemyController : EnemyController
 
     // Coroutine variables
     public IEnumerator MovementCoroutine;
-    public void Awake()
+    public virtual void Awake()
     {
         
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -214,8 +248,7 @@ public class BossEnemyController : EnemyController
         navMeshAgent.acceleration = acceleration;
         attacksManager = GetComponent<AttacksManager>();
         mobSpawnerController = mobSpawner.GetComponent<MobSpawnerController>();
-        ourAudioSource = GetComponent<AudioSource>();
-
+        isPlayerReachingBoss = true;
         //healthBar = healthBarCanvasObject.GetComponentInChildren<Slider>();
         if (TryGetComponent<Animator>(out Animator thatAnimator))
         {
@@ -227,6 +260,12 @@ public class BossEnemyController : EnemyController
 
         AnimationParameter();
     }
+
+    //public virtual void EneterNextPhase()
+    //{
+        //bossPhase++;
+    //}
+
     public void AnimationParameter()
     {
         //Animation Uses
@@ -246,22 +285,123 @@ public class BossEnemyController : EnemyController
         aniDeathDecision = "isDead";
         //isDeadAni = false;
     }
-    void Start()
+
+    public void SpawnVFX(GameObject VFX)
+    {
+        GameObject VFXGameObject = SpawnManager.instance.GetGameObject(VFX, SpawnType.vfx);
+        VFXGameObject.transform.position = this.transform.position;
+        VFXGameObject.transform.rotation = this.transform.rotation;
+        if (VFXGameObject.TryGetComponent<VisualEffect>(out VisualEffect playVFX))
+        {
+            playVFX.Play();
+        }
+    }
+
+    public virtual void Start()
     {
         Debug.Log("Test");
-        ChangeRandomElementState();
-        healthBar.maxValue = health.maximum;
-        healthBar.minValue = health.minimum;
-        healthBar.value = health.stat;
 
+        
+        //EnterFireArmorState();
+        ResetHealthBar();
         bossState = BossState.idle;
 
-        bossState = BossState.meleeAttack;
+        //nodeDecision.InitialiseNodeDecision();
+        //bossState = nodeDecision.GetCurrentState();
+
+        //bossState = BossState.meleeAttack;
+        currentMovementStage = movementPhase[0];
         //bossState = BossState.spawnTurrets;
         //animator.SetBool(aniDeathDecision, true);
         //bossState = BossState.laserAttack;
         //bossState = BossState.taunt;
     }
+
+    public void ResetHealthBar()
+    {
+        healthBar.maxValue = health.maximum;
+        healthBar.minValue = health.minimum;
+        healthBar.value = health.stat;
+    }
+
+    public virtual void FixedUpdate()
+    {
+        
+        if (IsPlayerWithinDistance(bossActivateDistance) && isPlayerReachingBoss)
+        {
+            bossState = BossState.meleeAttack;
+            //EneterNextPhase();
+            isPlayerReachingBoss = false;
+        }
+        
+
+        BossStageInteraction();
+        //BossStageHandler();
+
+    }
+
+    public void BossStageHandler()
+    {
+        switch (bossPhase)
+        {
+            case BossPhase.Scene1Phase1:
+                currentMovementStage = movementPhase[0];
+                break;
+            case BossPhase.Scene1Phase2:
+                currentMovementStage = movementPhase[1];
+                break;
+            case BossPhase.Scene3Phase1:
+                currentMovementStage = movementPhase[2];
+                break;
+            case BossPhase.Scene3Phase2:
+                currentMovementStage = movementPhase[3];
+                break;
+            case BossPhase.Scene3Phase3:
+                currentMovementStage = movementPhase[4];
+                break;
+            case BossPhase.getArmor:
+                break;
+        }
+    }
+
+    public void BossStageInteraction()
+    {
+        float healthPercentage = ((health.stat - health.minimum) / health.maximum) * 100;
+
+
+        for (int i = movementPhase.Length - 1; i >= 0 ; i--)
+        {
+            if (healthPercentage < movementPhase[i].hPPercentageToEnterPhase)
+            {
+                currentMovementStage = movementPhase[i];
+                break;
+            }
+        }
+
+        /*
+        if (healthPercentage > 95)
+        {
+            bossPhase = BossPhase.Scene1Phase1;
+        } 
+        else if (healthPercentage > 75)
+        {
+            bossPhase = BossPhase.Scene1Phase2;
+        } 
+        else if (healthPercentage > 55)
+        {
+            bossPhase = BossPhase.Scene3Phase1;
+        }
+        else if (healthPercentage > 50)
+        {
+            bossPhase = BossPhase.Scene3Phase2;
+        }
+        else
+        {
+            bossPhase = BossPhase.Scene3Phase3;
+        }
+        */
+    }
+
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
     {
         if (MovementCoroutine != null)
@@ -274,40 +414,41 @@ public class BossEnemyController : EnemyController
             case BossState.idle:
                 break;
             case BossState.taunt:
-                ourAudioSource.clip = tauntBugle;
-                ourAudioSource.Play();
+                //ourAudioSource.clip = tauntBugle;
+                //ourAudioSource.Play();
                 MovementCoroutine = TauntState(); //Take care the taunt later
                 break;
             case BossState.meleeAttack:
-                ourAudioSource.clip = meleeBugle;
-                ourAudioSource.Play();
+                Debug.Log("Melee " + transform.name);
+                //ourAudioSource.clip = meleeBugle;
+                //ourAudioSource.Play();
                 MovementCoroutine = attacksManager.MeleeAttack();
                 break;
             case BossState.rangedAttack:
-                ourAudioSource.clip = projectileBugle;
-                ourAudioSource.Play();
+                //ourAudioSource.clip = projectileBugle;
+                //ourAudioSource.Play();
                 MovementCoroutine = attacksManager.RangedAttack();
                 break;
             case BossState.takingCover:
+                Debug.Log("Take cover " + transform.name);
                 MovementCoroutine = TakeCoverState(PlayerController.puppet.transform);
                 break;
             case BossState.waitingInCover:
                 MovementCoroutine = WaitInCoverState(UnityEngine.Random.Range(minWaitTimeinCover, maxWaitTimeInCover));
                 break;
             case BossState.teleportToCover:
-                ourAudioSource.clip = teleportBugle;
-                ourAudioSource.Play();
+                //ourAudioSource.clip = teleportBugle;
+                //ourAudioSource.Play();
                 MovementCoroutine = TeleportingToCoverState(PlayerController.puppet.transform);
                 break;
             case BossState.teleportBehindPlayer:
-                ourAudioSource.clip = teleportBugle;
-                ourAudioSource.Play();
+                //ourAudioSource.clip = teleportBugle;
+                //ourAudioSource.Play();
                 MovementCoroutine = TeleportingBehindState(PlayerController.puppet.transform);
                 break;
             case BossState.laserAttack:
-                Debug.Log("Laser");
-                ourAudioSource.clip = laserBugle;
-                ourAudioSource.Play();
+                //ourAudioSource.clip = laserBugle;
+                //ourAudioSource.Play();
                 MovementCoroutine = attacksManager.LaserAttack();
                 break;
             case BossState.spawnTurrets:
@@ -316,11 +457,17 @@ public class BossEnemyController : EnemyController
             case BossState.spawnMines:
                 MovementCoroutine = SpawnMinesState();
                 break;
+            case BossState.spawnMobs:
+                MovementCoroutine = SpawnMobsState();
+                break;
             case BossState.orbWalking:
                 MovementCoroutine = OrbWalkState();
                 break;
             case BossState.dead:
                 MovementCoroutine = DeadState();
+                break;
+            case BossState.setArmor:
+                MovementCoroutine = ArmorState(armorType);
                 break;
             default:
                 break;
@@ -329,8 +476,8 @@ public class BossEnemyController : EnemyController
         {
             StartCoroutine(MovementCoroutine);
         }
-        
-        
+
+        ShowRayOnCheckHidingSpot();
     }
     private void Update()
     {
@@ -346,6 +493,16 @@ public class BossEnemyController : EnemyController
         */
         
     }
+
+    public void ShowRayOnCheckHidingSpot()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, coverSampleDistance, hidingSpotLayer);
+        foreach (Collider i in hitColliders)
+        {
+            IsItAValidHidingPoint(widthOfTheBoss, i.transform.position);
+        }
+    }
+
     //Animation speed for walking and running
     private void AniSpeed()
     {
@@ -428,43 +585,111 @@ public class BossEnemyController : EnemyController
         IdleAni();
     }
 
-    public void ChangeRandomElementState()
+    public IEnumerator ArmorState(DamageType elementArmor)
+    {
+        SetArmor(elementArmor);
+        ExitArmorState();
+        yield return null;
+
+    }
+
+    public void SetArmor(DamageType elementArmor)
+    {
+        switch (elementArmor)
+        {
+            case DamageType.ice:
+                EnterIceArmorState();
+                break;
+
+            case DamageType.fire:
+                EnterFireArmorState();
+                break;
+
+            case DamageType.nuetral:
+                EnterNoArmorState();
+                break;
+        }
+    }
+    public void ExitArmorState()
+    {
+        //BossStageInteraction();
+        //BossStageHandler();
+        bossState = currentMovementStage.armorDecision.GetTheNextRandomDicision();
+    }
+
+    private void ChangeRandomElementState()
     {
         //int temp = Random.Range(0, AddAllDicision());
         if (Random.Range(0 , 2) == 0)
         {
-            InFireState();
+            EnterFireArmorState();
         }
         else
         {
-            InIceState();
+            EnterIceArmorState();
         }
     }
 
-    public void ChangeElementState()
+    private void ChangeElementState()
     {
         Debug.Log("Change Elemental");
-        if (elementType == DamageType.ice)
+        if (currentArmorElementType == DamageType.ice)
         {
-            InFireState();
+            EnterFireArmorState();
         }
-        else if (elementType == DamageType.fire)
+        else if (currentArmorElementType == DamageType.fire)
         {
-            InIceState();
+            EnterIceArmorState();
         }
+    }
+    private void EnterIceArmorState()
+    {
+        WearIceArmor();
+        armorHealth.stat = armorHealth.maximum;
     }
 
-    public void InIceState()
+    private void WearIceArmor()
     {
-        elementType = DamageType.ice;
-        ChangeDamageInteraction(DamageType.ice, DamageInteraction.resistant);
-        ChangeDamageInteraction(DamageType.fire, DamageInteraction.vulnerable);
+        currentArmorElementType = DamageType.ice;
+        iceArmorObject.SetActive(true);
+        fireArmorObject.SetActive(false);
+        SpawnVFX(iceArmorVFX);
+        //These interaction are for the boss health not the armor health
+        ChangeDamageInteraction(DamageType.ice, DamageInteraction.immune);
+        ChangeDamageInteraction(DamageType.fire, DamageInteraction.nuetral);
     }
-    public void InFireState()
+
+    private void EnterFireArmorState()
     {
-        elementType = DamageType.fire;
-        ChangeDamageInteraction(DamageType.ice, DamageInteraction.vulnerable);
-        ChangeDamageInteraction(DamageType.fire, DamageInteraction.resistant);
+        WearFireArmor();
+        armorHealth.stat = armorHealth.maximum;
+    }
+
+    private void WearFireArmor()
+    {
+        currentArmorElementType = DamageType.fire;
+        fireArmorObject.SetActive(true);
+        iceArmorObject.SetActive(false);
+        SpawnVFX(fireArmorVFX);
+        //These interaction are for the boss health not the armor health
+        ChangeDamageInteraction(DamageType.ice, DamageInteraction.nuetral);
+        ChangeDamageInteraction(DamageType.fire, DamageInteraction.immune);
+    }
+
+    private void EnterNoArmorState()
+    {
+        WearNoArmor();
+        armorHealth.stat = armorHealth.minimum;
+    }
+
+    private void WearNoArmor()
+    {
+        currentArmorElementType = DamageType.nuetral;
+        fireArmorObject.SetActive(false);
+        iceArmorObject.SetActive(false);
+        //These interaction are for the boss health not the armor health
+        ChangeDamageInteraction(DamageType.ice, DamageInteraction.nuetral);
+        ChangeDamageInteraction(DamageType.fire, DamageInteraction.nuetral);
     }
 
     private IEnumerator TakeCoverState(Transform target)
@@ -643,12 +868,14 @@ public class BossEnemyController : EnemyController
         }
         for (int i = 0; i < colList.Count; i++)
         {
-            Debug.Log("Leo " +i + ": " + colList[i].name);
+            Debug.Log("Leo " + i + ": " + colList[i].name);
         }
         //colList[Random.Range(0, colList.Count)];
-        Collider test = colList[Random.Range(0, colList.Count)];
-        Debug.Log("Leo " + "Test: " + test.name);
-        return test;
+        int randomIndex = Random.Range(0, colList.Count);
+        Debug.Log("index: " + randomIndex);
+        Collider outputCollider = colList[randomIndex];
+        Debug.Log("Leo " + "Test: " + outputCollider.name);
+        return outputCollider;
     }
 
 
@@ -731,15 +958,25 @@ public class BossEnemyController : EnemyController
     public void ExitInCoverState()
     {
         //bossState = AttackDicision();
-        if ((health.stat - health.minimum) / health.maximum >= 0.6)
+        //if ((health.stat - health.minimum) / health.maximum >= 0.6)
+
+        //bossState = nodeDecision.Next();
+
+        //BossStageInteraction();
+        //BossStageHandler();
+        bossState = currentMovementStage.coverDecision.GetTheNextRandomDicision();
+        /*
+        if (bossPhase == 1)
         {
-            bossState = coverDecision.GiveTheNextRandomDicision();
+            bossState = currentMovementStage.coverDecision.GetTheNextRandomDicision();
         }
         else
         {
-            bossState = coverDecisionMod.GiveTheNextRandomDicision();
+            //bossState = currentMovementStage.coverDecisionMod.GetTheNextRandomDicision();
         }
+        */
         
+
     }
 
     public int CoverColliderArraySortComparer(Collider A, Collider B) // Refer to documentation on System.Array.Sort
@@ -864,7 +1101,7 @@ public class BossEnemyController : EnemyController
                 {
                     //Teleport boss
                     //Spawn VFX when teleport
-                    SpawnTeleportVPX();
+                    SpawnVFX(teleportVFX);
                     this.transform.position = tempCol.transform.position;
                     //SpawnTeleportVPX();
                     ExitTeleportingState();
@@ -874,25 +1111,16 @@ public class BossEnemyController : EnemyController
             yield return null;
         }
     }
-    public void SpawnTeleportVPX()
-    {
-        GameObject tpVFXGameObject = SpawnManager.instance.GetGameObject(teleportVFX, SpawnType.vfx);
-        tpVFXGameObject.transform.position = this.transform.position;
-        tpVFXGameObject.transform.rotation = this.transform.rotation;
-        if (tpVFXGameObject.TryGetComponent<VisualEffect>(out VisualEffect tpVFX))
-        {
-            tpVFX.Play();
-        }
-    }
+    
     public void ExitTeleportingState()
     {
         if (health.stat - health.minimum / health.maximum >= 60)
         {
-            bossState = teleportDecision.GiveTheNextRandomDicision();
+            bossState = currentMovementStage.teleportDecision.GetTheNextRandomDicision();
         }
         else
         {
-            bossState = teleportDecisionMod.GiveTheNextRandomDicision();
+            //bossState = teleportDecisionMod.GetTheNextRandomDicision();
         }
     }
 
@@ -1080,18 +1308,21 @@ public class BossEnemyController : EnemyController
         if (endOrbWalkingTimer <= 0)
         {
             //ChangeDirection();
+            IdleAni();
+            navMeshAgent.stoppingDistance = 0;
+            navMeshAgent.angularSpeed = angularSpeed;
+            navMeshAgent.speed = speed;
+            navMeshAgent.acceleration = acceleration;
             ExitOrbWalkState();
             //changeDirectionTimer = dodgeDecision.GetRandomIndex() == 0 ? Random.Range(minChangeDirectionTime, maxChangeDirectionTime) : dodgeTime;
         }
     }
+
     public void ExitOrbWalkState()
     {
-        IdleAni();
-        navMeshAgent.stoppingDistance = 0;
-        navMeshAgent.angularSpeed = angularSpeed;
-        navMeshAgent.speed = speed;
-        navMeshAgent.acceleration = acceleration;
-        bossState = orbwalkDecision.GiveTheNextRandomDicision();
+        //BossStageInteraction();
+        //BossStageHandler();
+        bossState = currentMovementStage.orbwalkDecision.GetTheNextRandomDicision();
         //bossState = 
     }
     private void ChangeDirection()
@@ -1102,6 +1333,8 @@ public class BossEnemyController : EnemyController
     }
     public IEnumerator SpawnMinesState()
     {
+        mobSpawnerController.SpawningBaseOnIndex(1);
+        /*
         navMeshAgent.speed = 0;
         animator.SetInteger(aniDecision, tauntAni);
 
@@ -1109,21 +1342,25 @@ public class BossEnemyController : EnemyController
         {
             yield return null;
         }
+        */
         ExitSpawnMinesState();
-
+        yield return null;
         //mobSpawnerController.SpawningBaseOnIndex(1);
         //yield return null;
         //ExitSpawnMinesState();
-        
+
     }
     public void ExitSpawnMinesState()
     {
         //bossState = BossState.takingCover;
-        bossState = dropMinesDecision.GiveTheNextRandomDicision();
+        //BossStageInteraction();
+        //BossStageHandler();
+        bossState = currentMovementStage.dropMineDecision.GetTheNextRandomDicision();
     }
     public IEnumerator SpawnTurretsState()
     {
-
+        mobSpawnerController.SpawningBaseOnIndex(0);
+        /*
         navMeshAgent.speed = 0;
         animator.SetInteger(aniDecision, tauntAni);
 
@@ -1131,9 +1368,9 @@ public class BossEnemyController : EnemyController
         {
             yield return null;
         }
-
+        */
         ExitSpawnTurretState();
-
+        yield return null;
         //mobSpawnerController.SpawningBaseOnIndex(0);
         //yield return null;
         //ExitSpawnTurretState();
@@ -1142,7 +1379,36 @@ public class BossEnemyController : EnemyController
     public void ExitSpawnTurretState()
     {
         //bossState = BossState.takingCover;
-        bossState = dropTurretDecision.GiveTheNextRandomDicision();
+        //BossStageInteraction();
+        //BossStageHandler();
+        bossState = currentMovementStage.dropTurretDecision.GetTheNextRandomDicision();
+    }
+
+    public IEnumerator SpawnMobsState()
+    {
+        mobSpawnerController.SpawningBaseOnIndex(2);
+        /*
+        navMeshAgent.speed = 0;
+        animator.SetInteger(aniDecision, tauntAni);
+
+        while (animator.GetInteger(aniDecision) == tauntAni)
+        {
+            yield return null;
+        }
+        */
+        ExitSpawnMobsState();
+        yield return null;
+        //mobSpawnerController.SpawningBaseOnIndex(0);
+        //yield return null;
+        //ExitSpawnTurretState();
+
+    }
+    public void ExitSpawnMobsState()
+    {
+        //bossState = BossState.takingCover;
+        //BossStageInteraction();
+        //BossStageHandler();
+        bossState = currentMovementStage.spawnMobDecision.GetTheNextRandomDicision();
     }
 
     public void TauntSpawnMobAni()
@@ -1158,18 +1424,7 @@ public class BossEnemyController : EnemyController
         }
     }
 
-    public IEnumerator DeadState()
-    {
-        navMeshAgent.speed = 0;
-        animator.SetBool(aniDeathDecision, true);
-        //yield return new WaitForEndOfFrame();
-        //animator.SetBool(aniDeathDecision, false);
-        //isDeadAni = false;
-        yield return new WaitForSeconds(WinScreenActivationTimeAfterBossDeath);
-        animator.SetBool(aniDeathDecision, false);
-        GeneralManager.instance.WinGame();
-
-    }
+    
 
     public bool IsPlayerWithinDistance(float range)
     {
@@ -1217,6 +1472,101 @@ public class BossEnemyController : EnemyController
         Debug.DrawRay(gameObject.transform.position, veiwToPlayerMesh, Color.red);
     }
 
+
+    public override void Damage(float damageAmount, Vector3 hitPosition, DamageType damageType = DamageType.nuetral)
+    {
+        float damage;
+        if (currentArmorElementType != DamageType.nuetral)
+        {
+            if (damageImmunities.Contains(damageType))
+            {
+                if (usesDamageText)
+                {
+                    GameObject damageText = GetDamageText(damageType);
+                    damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, 0, damageType);
+                }
+
+                return;
+            }
+
+            damage = DamageCalculation(damageAmount, damageType);
+
+            if (usesDamageText)
+            {
+                GameObject damageText = GetDamageText(damageType);
+                damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, damage, damageType);
+            }
+
+            armorHealth.AddToStat(-damage);
+
+            //Check for the health of armor
+            if (armorHealth.stat <= armorHealth.minimum)
+            {
+                armorHealth.stat = armorHealth.minimum;
+                //EneterNextPhase();
+                EnterNoArmorState();
+                health.AddToStat(-health.maximum * healthReducePercentOnArmorBreak/100);
+            }
+            StartCoroutine(InvincibilityFrames());
+            return;
+        }
+
+        Debug.Log("Health decrease");
+        //base.Damage(damageAmount, hitPosition, damageType);
+        if (damageImmunities.Contains(damageType))
+        {
+            if (usesDamageText)
+            {
+                GameObject damageText = GetDamageText(damageType);
+                damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, 0, damageType);
+            }
+
+            return;
+        }
+
+        damage = DamageCalculation(damageAmount, damageType);
+
+
+        if (usesDamageText)
+        {
+            GameObject damageText = GetDamageText(damageType);
+            damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, damage, damageType);
+        }
+        if (!inInvincibilityFrames)
+        {
+            health.AddToStat(-damage);
+            //StartCoroutine(CheckArmorPhase());
+            
+        }
+
+        if (health.stat <= health.minimum && !dead)
+        {
+            CommitDie();
+        }
+    }
+    public IEnumerator CheckArmorPhase()
+    {
+        BossPhase tempPhase = bossPhase;
+        yield return new WaitForSeconds(0.5f);
+        if (tempPhase != bossPhase)
+        {
+            bossState = BossState.setArmor;
+        }
+    }
+
+    public IEnumerator DeadState()
+    {
+        navMeshAgent.speed = 0;
+        animator.SetBool(aniDeathDecision, true);
+        yield return null;
+        //animator.SetBool(aniDeathDecision, false);
+        //isDeadAni = false;
+        yield return new WaitForSeconds(activationTimeAfterDeath);
+        animator.SetBool(aniDeathDecision, false);
+        Dead();
+
+    }
+
     public override void CommitDie()
     {
         
@@ -1227,8 +1577,15 @@ public class BossEnemyController : EnemyController
         }
         else
         {
-            GeneralManager.instance.WinGame();
+            Dead();
         }
         
     }
+
+    public virtual void Dead()
+    {
+        GeneralManager.instance.WinGame();
+    }
+
+    
 }

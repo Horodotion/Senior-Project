@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.VFX;
 using UnityEngine;
 
 
@@ -13,6 +14,7 @@ public class MobSpawnerController : MonoBehaviour
         public GameObject gameObjectToSpawn;
         public Transform gameObjectSPParent;
         public int numOfGameObjectSpawn;
+        public bool isStationary;
     }
 
     [SerializeField] SpawnData[] spawnData;
@@ -33,6 +35,7 @@ public class MobSpawnerController : MonoBehaviour
         SpawnItemBaseOnData(spawnData[i]);
     }
 
+    
 
     public void SpawnItemBaseOnData(SpawnData spawndata)
     {
@@ -47,12 +50,33 @@ public class MobSpawnerController : MonoBehaviour
             if (spawndata.gameObjectSPParent.GetChild(spawnIndex).transform.childCount == 0)
             {
                 //Spawn the Object and increase the count
-                Instantiate(spawndata.gameObjectToSpawn, spawndata.gameObjectSPParent.GetChild(spawnIndex).transform);
+                if (spawndata.isStationary)
+                {
+                    Instantiate(spawndata.gameObjectToSpawn, spawndata.gameObjectSPParent.GetChild(spawnIndex).transform);
+                }
+                else
+                {
+                    Debug.Log("Hi player");
+                    Instantiate(spawndata.gameObjectToSpawn, spawndata.gameObjectSPParent.GetChild(spawnIndex).transform.position, spawndata.gameObjectSPParent.GetChild(spawnIndex).transform.rotation);
+                }
+                
                 count++;
             }
         }
     }
+    public void SpawnVFX(GameObject VFX)
+    {
+        GameObject VFXGameObject = SpawnManager.instance.GetGameObject(VFX, SpawnType.vfx);
+        VFXGameObject.transform.position = this.transform.position;
+        VFXGameObject.transform.rotation = this.transform.rotation;
+        if (VFXGameObject.TryGetComponent<VisualEffect>(out VisualEffect playVFX))
+        {
+            playVFX.Play();
+        }
+    }
 }
+
+
 
 // A class that store number tickets into a pot, and can retrieve a random number ticket that is inside of the pot.
 public class TicketPot
