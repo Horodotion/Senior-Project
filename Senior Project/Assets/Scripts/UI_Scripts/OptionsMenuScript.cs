@@ -6,16 +6,16 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Audio;
 
-public class OptionsMenuScript : MonoBehaviour
+public class OptionsMenuScript : MenuScript
 {
     public static OptionsMenuScript instance;
     [SerializeField] private VolumeProfile profile;
     private LiftGammaGain lgg;
 
-    [SerializeField] private AudioMixer mixer;
+    public AudioMixer mixer;
 
     [SerializeField] private InterfaceButton backButton, resetGainButton;
-    [SerializeField] private Slider gainSlider, masterVolumeSlider;
+    [SerializeField] private Slider gainSlider;
 
     [SerializeField] private float defaultGain = 1f;
 
@@ -64,11 +64,62 @@ public class OptionsMenuScript : MonoBehaviour
         }
     }
 
-    public void SetVolume(float val)
+
+    // I'd much rather use a switch and an enum for this, but I don't want to create my own enum since it would conflict with yours
+    // One float per function works nicer with default Unity sliders anyway, but once you make the enum and everything, by all means condense these functions as you see fit
+
+    public void SetMasterVolume(float val)
     {
         if (mixer != null)
         {
-            mixer.SetFloat("MasterVolume", Mathf.Log10(val) * 20f);
+            mixer.SetFloat("Master", Mathf.Log10(val) * 20f);
         }
     }
+    public void SetSoundEffectVolume(float val)
+    {
+        if (mixer != null)
+        {
+            mixer.SetFloat("SoundEffect", Mathf.Log10(val) * 20f);
+        }
+    }
+    public void SetMusicVolume(float val)
+    {
+        if (mixer != null)
+        {
+            mixer.SetFloat("Music", Mathf.Log10(val) * 20f);
+        }
+    }
+    public void SetAmbientVolume(float val)
+    {
+        if (mixer != null)
+        {
+            mixer.SetFloat("Ambient", Mathf.Log10(val) * 20f);
+        }
+    }
+
+
+    //public float AudioMixerVolume() // Returns the volume of either the Master or SoundEffect mixer group (whichever is lower), between 1 and 0
+    //{
+    //    float vol = 0f;
+
+    //    if (instance.mixer != null)
+    //    {
+    //        instance.mixer.GetFloat("Master", out float master);
+    //        instance.mixer.GetFloat("SoundEffect", out float sfx);
+    //        Debug.Log($"Master: {master}, SoundEffect: {sfx}");
+
+    //        if (master <= sfx)
+    //        {
+    //            vol = master += 80f;
+    //        }
+    //        else
+    //        {
+    //            vol = sfx += 80f;
+    //        }
+
+    //        vol /= 80f;
+    //    }
+    //    Debug.Log($"{vol}");
+    //    return vol;
+    //}
 }
