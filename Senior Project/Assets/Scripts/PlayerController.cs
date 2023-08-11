@@ -244,7 +244,7 @@ public class PlayerController : MonoBehaviour
         // This only works from the puppet's side, and sends a message to it
         if (puppet != null && puppet.currentCollectible != null)
         {
-            puppet.currentCollectible.PressToCollect();
+            puppet.currentCollectible.Collect();
         }
     }
 

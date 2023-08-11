@@ -6,7 +6,7 @@ public class Collectible : MonoBehaviour
 {
     public EventFlag eventFlag;
     // public static int totalCollectiblesGrabbed;
-    public bool enemyCollectible;
+    // public bool enemyCollectible;
     public string messageToDisplay = "Collectible";
 
     void Start()
@@ -21,21 +21,11 @@ public class Collectible : MonoBehaviour
         }
     }
 
-    public void PressToCollect()
-    {
-        if (enemyCollectible)
-        {
-            return;
-        }
-
-        Collect();
-    }
-
     public void Collect()
     {
         GeneralManager.SetEventFlag(eventFlag);
+        GeneralManager.totalCollectiblesCounter++;
 
         gameObject.SetActive(false);
-        // totalCollectiblesGrabbed++;
     }
 }

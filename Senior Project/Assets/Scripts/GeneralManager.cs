@@ -45,6 +45,7 @@ public class GeneralManager : MonoBehaviour
     public static Dictionary<int, EventFlag> levelSpecificEventFlags = new Dictionary<int, EventFlag>();
     public static Dictionary<int, EventFlag> transferableEventFlags = new Dictionary<int, EventFlag>();
     public static int totalCollectiblesCounter;
+    public int totalCollectibles;
 
     void Awake()
     {
@@ -55,14 +56,14 @@ public class GeneralManager : MonoBehaviour
 
         // This if statement checks if there is a general manager
         // If it finds no manager, it becomes the manager. If not, it destroys itself.
-        if (instance == null && this.gameObject != null)
+        if (instance == null && gameObject != null)
         {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
