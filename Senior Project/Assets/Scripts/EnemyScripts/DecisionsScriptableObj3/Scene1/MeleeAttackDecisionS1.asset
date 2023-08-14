@@ -12,24 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0d510b5dde4e284eb16f3ce6d2c62ae, type: 3}
   m_Name: MeleeAttackDecisionS1
   m_EditorClassIdentifier: 
-  decisions: 00000000000000000400000000000000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000
+  decisions: 000000000000000004000000000000000000000000000000000000000000000000000000000000000000000006000000a0860100000000000000000000000000
   bossInt:
   - value: 4
     bossState: 2
   - value: 6
     bossState: 11
-  taunt: 0
-  meleeAttack: 4
-  rangedAttack: 0
-  takingCover: 0
-  wait: 0
-  teleport: 0
-  teleBindPlayer: 0
-  laser: 0
-  turrets: 0
-  mines: 0
-  orbWalk: 6
-  mobs: 0
-  ambushed: 0
-  dead: 0
-  setArmor: 0
+  - value: 100000
+    bossState: 12

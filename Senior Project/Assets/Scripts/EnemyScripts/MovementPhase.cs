@@ -5,12 +5,14 @@ using UnityEngine;
 [System.Serializable]
 public class MovementPhase : ScriptableObject
 {
-    //[Header("Boss Dicision startingPoint")]
+    [Header("Boss Phase Starting")]
     //[SerializeField] public MovementDecision startingDecision;
-    //public bool isArmored;
+    public bool isArmored;
 
-    //[ToggleableVarable("isArmored")] public DamageType startingArmorType;
-    //[ToggleableVarable("isArmored")] public float armorHP;
+    [ToggleableVarable("isArmored")] public DamageType startingArmorType;
+    [ToggleableVarable("isArmored")] public IndividualStat armorStats;
+    [ToggleableVarable("isArmored")] public float hPReductionPercentOnArmorBreak;
+
 
     public float hPPercentageToEnterPhase;
 
@@ -26,12 +28,14 @@ public class MovementPhase : ScriptableObject
     [SerializeField] public MovementDecision dropTurretDecision;
     [SerializeField] public MovementDecision spawnMobDecision;
     [SerializeField] public MovementDecision laserAttackDecision;
-    [HideInInspector] public MovementDecision armorDecision;
-    /*
-    public void GetTheNextRandomDicision()
+    [SerializeField] public MovementDecision tauntAttackDecision;
+    [SerializeField] public MovementDecision getArmor;
+    [HideInInspector] public MovementDecision privousDecision;
+    private void OnEnable()
     {
-
+        //getArmor = new MovementDecision(BossState.setArmor);
     }
-    */
+    
+
 }
 

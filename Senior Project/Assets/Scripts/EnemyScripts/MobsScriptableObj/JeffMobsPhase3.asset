@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6d02cb88daccea54f917d5b4f5e2699c, type: 3}
-  m_Name: Scene3Phase3
+  m_Name: JeffMobsPhase3
   m_EditorClassIdentifier: 
   isArmored: 0
   startingArmorType: 0
@@ -20,8 +20,8 @@ MonoBehaviour:
     minimum: -Infinity
     maximum: Infinity
   hPReductionPercentOnArmorBreak: 0
-  hPPercentageToEnterPhase: 50
-  meleeAttackDecision: {fileID: 11400000, guid: 00e2eb5a94e159f40a62e9413d812dbd,
+  hPPercentageToEnterPhase: 100
+  meleeAttackDecision: {fileID: 11400000, guid: 1aa24765ed33adb46b8e0e90b267052c,
     type: 2}
   orbwalkDecision: {fileID: 11400000, guid: 88e974e7e5fa7df4094abdb303d36c96, type: 2}
   rangedAttackDecision: {fileID: 11400000, guid: 8c855130a17d0a74d9c64262f22f6e19,
@@ -35,5 +35,5 @@ MonoBehaviour:
     type: 2}
   tauntAttackDecision: {fileID: 11400000, guid: d0218764768770749960495d50e0f012,
     type: 2}
-  getArmor: {fileID: 11400000, guid: 03d7559cdfc311d4ba20d8e634e1c386, type: 2}
+  getArmor: {fileID: 0}
   privousDecision: {fileID: 0}

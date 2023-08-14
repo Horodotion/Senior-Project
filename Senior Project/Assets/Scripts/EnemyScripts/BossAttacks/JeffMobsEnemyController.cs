@@ -47,10 +47,9 @@ public class JeffMobsEnemyController : BossEnemyController
     public override void Start()
     {
         ResetHealthBar();
-
         //bossState = BossState.idle;
-
         bossState = BossState.meleeAttack;
+        currentMovementPhase = movementPhase[0];
 
         //navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
     }

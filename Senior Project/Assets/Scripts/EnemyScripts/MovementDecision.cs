@@ -47,7 +47,7 @@ public class MovementDecision : WeightedDecision
                 }
             }
         }
-        DisplayLog();
+        //DisplayLog();
         
     }
 

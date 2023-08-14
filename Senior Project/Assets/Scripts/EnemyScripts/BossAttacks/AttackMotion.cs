@@ -77,14 +77,14 @@ public class AttackMotion : ScriptableObject
         //enemy.bossState = enemy.nodeDecision.Next();
         //enemy.BossStageInteraction();
         //enemy.BossStageHandler();
-        enemy.bossState = enemy.currentMovementStage.meleeAttackDecision.GetTheNextRandomDicision();
+        enemy.bossState = enemy.currentMovementPhase.meleeAttackDecision.GetTheNextRandomDicision();
     }
     public void ExitRangedAttack(BossEnemyController enemy)
     {
         //enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
         //enemy.BossStageInteraction();
         //enemy.BossStageHandler();
-        enemy.bossState = enemy.currentMovementStage.rangedAttackDecision.GetTheNextRandomDicision();
+        enemy.bossState = enemy.currentMovementPhase.rangedAttackDecision.GetTheNextRandomDicision();
     }
 
     public void ExitLaserAttack(BossEnemyController enemy)
@@ -92,7 +92,7 @@ public class AttackMotion : ScriptableObject
         //enemy.bossState = enemy.rangedAtkFollowUpDicision.GiveTheNextRandomDicision();
         //enemy.BossStageInteraction();
         //enemy.BossStageHandler();
-        enemy.bossState = enemy.currentMovementStage.laserAttackDecision.GetTheNextRandomDicision();
+        enemy.bossState = enemy.currentMovementPhase.laserAttackDecision.GetTheNextRandomDicision();
     }
 
 }

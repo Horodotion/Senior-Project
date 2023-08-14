@@ -16,12 +16,6 @@ public class IceMeleeAttacks : AttackMotion
 
     public override IEnumerator AttackingPlayer(BossEnemyController enemy, int leftRightHand)
     {
-        Debug.Log("Melee " + enemy.name);
-        //yield return new WaitForSeconds(2f);
-        //Debug.Log("5 " + enemy.bossState);
-        //enemy.bossState = BossState.inCombat;
-        //Debug.Log("6 " + enemy.bossState);
-        //yield return new WaitForSeconds(5f);
         enemy.IdleAni();
         yield return null;
         
@@ -35,12 +29,10 @@ public class IceMeleeAttacks : AttackMotion
 
             yield return null;
         }
-        //enemy.bossState = BossState.inCombat;
 
         enemy.IdleAni();
         yield return null;
 
-        //enemy.animator.SetBool("isMeleeAttacking", true);
         enemy.animator.SetFloat(enemy.aniLeftRightDecision, leftRightHand);
         enemy.animator.SetInteger(enemy.aniDecision, enemy.meleeAni);
         enemy.animator.SetFloat("element", 0);
@@ -70,29 +62,7 @@ public class IceMeleeAttacks : AttackMotion
 
             yield return null;
         }
-        //yield return new WaitForSeconds(1f);
-        /*
-        for (float timer = 0; true; timer += Time.deltaTime)
-        {
-            enemy.AimTowards(PlayerController.puppet.transform.position, turnSpeed);
-            if (timer > 0.2)
-            {
-                break;
-            }
-            yield return null;
-        }
-        
-        if (SP[0].gameObject.TryGetComponent<HitBoxController>(out HitBoxController hitbox))
-        {
-            hitbox.damage = -damage;
-        }
-        
-         */
-        //SP[0].gameObject.GetComponent<HitBoxController>().damage = -damage;
-        //yield return new WaitForSeconds(hitboxSpawnTime);
-        //SP[0].gameObject.SetActive(false);
 
-        //yield return new WaitForSeconds(waitTimeAfterMelee);
         yield return null;
         enemy.navMeshAgent.isStopped = false;
 
@@ -100,7 +70,6 @@ public class IceMeleeAttacks : AttackMotion
         enemy.navMeshAgent.stoppingDistance = 0;
 
         ExitMeleeAttack(enemy);
-        //enemy.bossState = BossState.inCombat;
     }
 
     public void SetHitBoxActive()
@@ -112,11 +81,4 @@ public class IceMeleeAttacks : AttackMotion
     {
         SP[0].gameObject.SetActive(false);
     }
-    /*
-    public void ExitAttackAnimation()
-    {
-        enemy.IdleAni();
-        //enemy.animator.SetBool("isMeleeAttacking", false);
-    }
-    */
 }

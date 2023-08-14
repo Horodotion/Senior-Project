@@ -12,6 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d02cb88daccea54f917d5b4f5e2699c, type: 3}
   m_Name: Scene3Phase2
   m_EditorClassIdentifier: 
+  isArmored: 1
+  startingArmorType: 1
+  armorStats:
+    stat: 2000
+    baseStat: 0
+    minimum: 0
+    maximum: 2000
+  hPReductionPercentOnArmorBreak: 5
   hPPercentageToEnterPhase: 55
   meleeAttackDecision: {fileID: 11400000, guid: 554d1fbc4f2cd24459c5c46bbd6030b5,
     type: 2}
@@ -25,4 +33,7 @@ MonoBehaviour:
   spawnMobDecision: {fileID: 11400000, guid: 96a3327012f525e41aeb7c87f9a2f4c4, type: 2}
   laserAttackDecision: {fileID: 11400000, guid: f2461c3cd6a1f294382d1a041958ce01,
     type: 2}
-  armorDecision: {fileID: 0}
+  tauntAttackDecision: {fileID: 11400000, guid: 03d7559cdfc311d4ba20d8e634e1c386,
+    type: 2}
+  getArmor: {fileID: 11400000, guid: 03d7559cdfc311d4ba20d8e634e1c386, type: 2}
+  privousDecision: {fileID: 0}
