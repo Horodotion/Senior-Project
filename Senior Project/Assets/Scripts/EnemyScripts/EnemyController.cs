@@ -30,9 +30,6 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public GameObject fireDamageText;
     [HideInInspector] public GameObject iceDamageText;
 
-    [Header("SFX")]
-    public AudioClip deathRattle;
-
 
     public virtual void OnEnable()
     {
@@ -85,10 +82,6 @@ public class EnemyController : MonoBehaviour
 
     public virtual void CommitDie()
     {
-        if (deathRattle != null)
-        {
-            AudioSource.PlayClipAtPoint(deathRattle, transform.position);
-        }
         dead = true;
         Debug.Log(gameObject.name + " is dead");
     }

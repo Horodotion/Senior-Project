@@ -10,18 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e0d510b5dde4e284eb16f3ce6d2c62ae, type: 3}
-  m_Name: MeleeAttackDecision
+  m_Name: DropTurretDecisionS3Phase1
   m_EditorClassIdentifier: 
-  decisions: 000000000400000000000000000000000000000000000000000000000000000000000000000000000600000000000000
+  decisions: 00000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000
+  bossInt:
+  - value: 1
+    bossState: 6
   taunt: 0
-  meleeAttack: 4
+  meleeAttack: 0
   rangedAttack: 0
   takingCover: 0
   wait: 0
-  teleport: 0
+  teleport: 1
   teleBindPlayer: 0
   laser: 0
   turrets: 0
   mines: 0
-  orbWalk: 6
+  orbWalk: 0
   mobs: 0
+  ambushed: 0
+  dead: 0
+  setArmor: 0

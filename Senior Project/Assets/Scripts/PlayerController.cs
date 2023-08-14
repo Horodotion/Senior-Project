@@ -162,6 +162,11 @@ public class PlayerController : MonoBehaviour
         if (ourPlayerState == PlayerState.inMenu)
         {
             MenuScript.currentMenu.CycleThoughList(-(int)System.Math.Round(onMove.ReadValue<Vector2>().y, System.MidpointRounding.AwayFromZero));
+
+            if (onMove.ReadValue<Vector2>().x >= 0.125)
+            {
+                MenuScript.currentMenu.currentlySelectedButton.OnSideInput((float)System.Math.Round(onMove.ReadValue<Vector2>().x, System.MidpointRounding.AwayFromZero));
+            }       
         }
     }
 

@@ -109,13 +109,11 @@ public class AttacksManager : MonoBehaviour
         if (RangedAttackDicision())
         {
             //Use Ice
-            Debug.Log("Use ice projectile " + transform.name);
             return iceRangedAttack.attackMotion.AttackingPlayer(enemy, ChangeHands());
         }
         else
         {
             //Use Fire
-            Debug.Log("Use fire projectile " + transform.name);
             return fireRangedAttack.attackMotion.AttackingPlayer(enemy, ChangeHands());
         }
         
@@ -146,14 +144,11 @@ public class AttacksManager : MonoBehaviour
         if (MeleeAttackDicision())
         {
             //Use Ice
-            Debug.Log("Use ice melee attack " + transform.name);
             return iceMeleeAttack.attackMotion.AttackingPlayer(enemy, ChangeHands());
         }
         else
         {
             //Use Fire
-            Debug.Log("Use fire melee attack " + transform.name);
-            //Debug.Log(fireMeleeAttack.attackMotion.AttackingPlayer(enemy, ChangeHands()));
             return fireMeleeAttack.attackMotion.AttackingPlayer(enemy, ChangeHands());
         }
         //StartCoroutine(enemy.MovementCoroutine);

@@ -879,6 +879,7 @@ GameObject:
   - component: {fileID: 3571226798405868832}
   - component: {fileID: 8592734825331538385}
   - component: {fileID: 3232147327816928521}
+  - component: {fileID: 1014138662474041367}
   m_Layer: 0
   m_Name: GeneralManager
   m_TagString: Untagged
@@ -941,6 +942,24 @@ MonoBehaviour:
   fireDamageFont: {fileID: 0}
   iceDamageColor: {r: 0, g: 0.627451, b: 1, a: 1}
   iceDamageFont: {fileID: 0}
+--- !u!114 &1014138662474041367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3571226798405868833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c25996de358e56479ed7c56a4b9a238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: bbdda868c49b764418cc7a677c958d3b, type: 2}
+  master: {fileID: -295903350058038609, guid: bbdda868c49b764418cc7a677c958d3b, type: 2}
+  soundEffect: {fileID: 0}
+  ambient: {fileID: -5987075309755761578, guid: bbdda868c49b764418cc7a677c958d3b,
+    type: 2}
+  music: {fileID: 8126842796067741690, guid: bbdda868c49b764418cc7a677c958d3b, type: 2}
 --- !u!1 &3571226799226010090
 GameObject:
   m_ObjectHideFlags: 0
