@@ -15,9 +15,6 @@ public class MovementPhase : ScriptableObject
     [ToggleableVarable("isArmored")] public IndividualStat armorStats;
     [ToggleableVarable("isArmored")] public float hPReductionPercentOnArmorBreak;
 
-
-    
-
     [Header("Boss Dicision")]
     [SerializeField] public MovementDecision meleeAttackDecision;
     [SerializeField] public MovementDecision orbwalkDecision;
