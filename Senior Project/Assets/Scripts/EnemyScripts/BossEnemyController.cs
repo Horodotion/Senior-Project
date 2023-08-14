@@ -490,6 +490,7 @@ public class BossEnemyController : EnemyController
 
         ShowRayOnCheckHidingSpot();
     }
+
     private void Update()
     {
         //Ani();
