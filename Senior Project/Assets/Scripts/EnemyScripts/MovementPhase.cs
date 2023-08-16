@@ -5,6 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class MovementPhase : ScriptableObject
 {
+    public float hPPercentageToEnterPhase;
+
     [Header("Boss Phase Starting")]
     //[SerializeField] public MovementDecision startingDecision;
     public bool isArmored;
@@ -12,9 +14,6 @@ public class MovementPhase : ScriptableObject
     [ToggleableVarable("isArmored")] public DamageType startingArmorType;
     [ToggleableVarable("isArmored")] public IndividualStat armorStats;
     [ToggleableVarable("isArmored")] public float hPReductionPercentOnArmorBreak;
-
-
-    public float hPPercentageToEnterPhase;
 
     [Header("Boss Dicision")]
     [SerializeField] public MovementDecision meleeAttackDecision;
