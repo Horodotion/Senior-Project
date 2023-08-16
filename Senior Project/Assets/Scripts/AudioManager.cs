@@ -51,7 +51,7 @@ public class AudioManager : MonoBehaviour
         };
     }
 
-    public static void PlaySoundAtLocation(Vector3 worldPosition, AudioClip audioToPlay, AudioMixerType audioMixerType = AudioMixerType.Master)
+    public static void PlaySoundAtLocation(AudioClip audioToPlay, Vector3 worldPosition, AudioMixerType audioMixerType = AudioMixerType.Master)
     {
         if (audioToPlay == null)
         {
@@ -64,7 +64,7 @@ public class AudioManager : MonoBehaviour
 
         audioSource.clip = audioToPlay;
         audioSource.outputAudioMixerGroup = GetAudioMixerGroup(audioMixerType);
-        audioSource.clip = audioToPlay;
+        audioSource.Play();
 
         Destroy(newAudioClip, audioToPlay.length * (Time.timeScale < 0.009999999 ? 0.01f : Time.timeScale));
     }
