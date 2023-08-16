@@ -1,12 +1,25 @@
 ﻿using UnityEngine;
 
-
-
-
 // Decision based on weight. The index of the decisions array is the dicision, and the integers within each index is the weight.
 [System.Serializable]
 public class WeightedDecision : ScriptableObject
 {
+    [System.Serializable]
+    public class StateInt
+    {
+        //BossState bossStat;
+        public int value;
+
+        public int GetValue()
+        {
+            return value;
+        }
+        public void SetValue(int i)
+        {
+            value = i;
+        }
+    }
+
     [HideInInspector] public int[] decisions;
     //public Decision
     public WeightedDecision(int[] d)

@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour
             onJump.canceled += OffJumpAction;
             onDash.performed += OnDashAction;
             onPauseGame.performed += OnPauseMenu;
+            onUse.performed += OnUseAction;
         }
     }
 
@@ -161,6 +162,11 @@ public class PlayerController : MonoBehaviour
         if (ourPlayerState == PlayerState.inMenu)
         {
             MenuScript.currentMenu.CycleThoughList(-(int)System.Math.Round(onMove.ReadValue<Vector2>().y, System.MidpointRounding.AwayFromZero));
+
+            if (onMove.ReadValue<Vector2>().x >= 0.125)
+            {
+                MenuScript.currentMenu.currentlySelectedButton.OnSideInput((float)System.Math.Round(onMove.ReadValue<Vector2>().x, System.MidpointRounding.AwayFromZero));
+            }       
         }
     }
 
@@ -240,11 +246,11 @@ public class PlayerController : MonoBehaviour
     // The button to allow interactable objects to be used
     public void OnUseAction(InputAction.CallbackContext context)
     {
-        // // This only works from the puppet's side, and sends a message to it
-        // if (puppet != null)
-        // {
-        //     puppet.UseObject();
-        // }
+        // This only works from the puppet's side, and sends a message to it
+        if (puppet != null && puppet.currentCollectible != null)
+        {
+            puppet.currentCollectible.Collect();
+        }
     }
 
     // This calls for the player to start jumping

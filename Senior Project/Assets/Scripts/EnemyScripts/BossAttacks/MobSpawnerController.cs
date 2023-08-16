@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.VFX;
 using UnityEngine;
 
 
@@ -13,6 +14,7 @@ public class MobSpawnerController : MonoBehaviour
         public GameObject gameObjectToSpawn;
         public Transform gameObjectSPParent;
         public int numOfGameObjectSpawn;
+        public GameObject vFX;
         public bool isStationary;
     }
 
@@ -34,6 +36,7 @@ public class MobSpawnerController : MonoBehaviour
         SpawnItemBaseOnData(spawnData[i]);
     }
 
+    
 
     public void SpawnItemBaseOnData(SpawnData spawndata)
     {
@@ -47,6 +50,10 @@ public class MobSpawnerController : MonoBehaviour
             //Check if the spawn is empty
             if (spawndata.gameObjectSPParent.GetChild(spawnIndex).transform.childCount == 0)
             {
+                if (spawndata.vFX != null)
+                {
+                    SpawnVFX(spawndata.vFX , spawndata.gameObjectSPParent.GetChild(spawnIndex).transform);
+                }
                 //Spawn the Object and increase the count
                 if (spawndata.isStationary)
                 {
@@ -54,7 +61,7 @@ public class MobSpawnerController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Hi player");
+
                     Instantiate(spawndata.gameObjectToSpawn, spawndata.gameObjectSPParent.GetChild(spawnIndex).transform.position, spawndata.gameObjectSPParent.GetChild(spawnIndex).transform.rotation);
                 }
                 
@@ -62,7 +69,19 @@ public class MobSpawnerController : MonoBehaviour
             }
         }
     }
+    public void SpawnVFX(GameObject VFX, Transform transform)
+    {
+        GameObject VFXGameObject = SpawnManager.instance.GetGameObject(VFX, SpawnType.vfx);
+        VFXGameObject.transform.position = transform.position;
+        VFXGameObject.transform.rotation = transform.rotation;
+        if (VFXGameObject.TryGetComponent<VisualEffect>(out VisualEffect playVFX))
+        {
+            playVFX.Play();
+        }
+    }
 }
+
+
 
 // A class that store number tickets into a pot, and can retrieve a random number ticket that is inside of the pot.
 public class TicketPot

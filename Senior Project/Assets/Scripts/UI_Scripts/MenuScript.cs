@@ -60,6 +60,8 @@ public abstract class MenuScript : MonoBehaviour
     public List<InterfaceButton> buttonList;
     [HideInInspector] public int currentButtonID;
 
+    public TMP_Text counterText;
+
     public virtual void Start()
     {
         MenuScript.currentMenu = this;
@@ -71,6 +73,14 @@ public abstract class MenuScript : MonoBehaviour
         }
 
         ConnectPlayerToMenu();
+    }
+
+    void OnEnable()
+    {
+        if (counterText != null)
+        {
+            counterText.text = GeneralManager.totalCollectiblesCounter + "/" + GeneralManager.instance.totalCollectibles;
+        }
     }
 
     public virtual void ConnectPlayerToMenu()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class ProjectileController : MonoBehaviour
 {   
@@ -80,7 +81,7 @@ public class ProjectileController : MonoBehaviour
     {
         if (spawnSFX != null)
         {
-            AudioSource.PlayClipAtPoint(spawnSFX, gameObject.transform.position);
+            AudioManager.PlaySoundAtLocation(spawnSFX, transform.position, AudioMixerType.SoundEffect);
         }
 
         origin = gameObject.transform.position;
@@ -92,7 +93,7 @@ public class ProjectileController : MonoBehaviour
     {
         if (impactSFX != null)
         {
-            AudioSource.PlayClipAtPoint(impactSFX, transform.position);
+            AudioManager.PlaySoundAtLocation(impactSFX, transform.position, AudioMixerType.SoundEffect);
         }
         rb.velocity = Vector3.zero;
         launched = false;

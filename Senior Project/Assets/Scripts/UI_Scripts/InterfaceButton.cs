@@ -7,14 +7,14 @@ using UnityEngine.EventSystems;
 
 public class InterfaceButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
-    [HideInInspector] public UnityEvent onPointerDownEvent, onPointerUpEvent, onPointerEnteredEvent, onPointerExitedEvent;
+    [HideInInspector] public UnityEvent onPointerDownEvent, onPointerUpEvent, onPointerEnteredEvent, onPointerExitedEvent, onSideInputEvent;
     
     public Animator anim;
     public Sprite idleImage;
     public Sprite hoverImage;
     [HideInInspector] public string highlighted = "Highlighted", pointerDown = "PointerDown", clicked = "Clicked"; 
 
-    void Awake()
+    public virtual void Awake()
     {
         if (GetComponent<Animator>() != null)
         {
@@ -106,5 +106,10 @@ public class InterfaceButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         {
             GetComponent<Image>().sprite = hoverImage;
         }
+    }
+
+    public virtual void OnSideInput(float direction)
+    {
+
     }
 }

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d02cb88daccea54f917d5b4f5e2699c, type: 3}
+  m_Name: Scene3Phase3
+  m_EditorClassIdentifier: 
+  isArmored: 0
+  startingArmorType: 0
+  armorStats:
+    stat: 0
+    baseStat: 0
+    minimum: -Infinity
+    maximum: Infinity
+  hPReductionPercentOnArmorBreak: 0
+  hPPercentageToEnterPhase: 50
+  meleeAttackDecision: {fileID: 11400000, guid: 00e2eb5a94e159f40a62e9413d812dbd,
+    type: 2}
+  orbwalkDecision: {fileID: 11400000, guid: 88e974e7e5fa7df4094abdb303d36c96, type: 2}
+  rangedAttackDecision: {fileID: 11400000, guid: 8c855130a17d0a74d9c64262f22f6e19,
+    type: 2}
+  coverDecision: {fileID: 11400000, guid: f70d1554ca05f074dafd9f9e467a0070, type: 2}
+  teleportDecision: {fileID: 11400000, guid: d0218764768770749960495d50e0f012, type: 2}
+  dropMineDecision: {fileID: 11400000, guid: 8a67f29a0981a2b40a91e7c9852814f3, type: 2}
+  dropTurretDecision: {fileID: 11400000, guid: d967736961f74c64289f5fc8c7612de2, type: 2}
+  spawnMobDecision: {fileID: 11400000, guid: 21a9de27f0b4bb84bb0fd56c038bd329, type: 2}
+  laserAttackDecision: {fileID: 11400000, guid: f2461c3cd6a1f294382d1a041958ce01,
+    type: 2}
+  tauntAttackDecision: {fileID: 11400000, guid: d0218764768770749960495d50e0f012,
+    type: 2}
+  getArmor: {fileID: 11400000, guid: 03d7559cdfc311d4ba20d8e634e1c386, type: 2}
+  privousDecision: {fileID: 0}

@@ -20,7 +20,7 @@ public class Checkpoint : TriggerScript
             playerLookDirection = PlayerController.puppet.transform.localEulerAngles;
         }
 
-        GeneralManager.instance.AddEventToDict(eventFlag);
+        GeneralManager.AddEventToDict(eventFlag);
         if (GeneralManager.HasEventBeenTriggered(eventFlag))
         {
             gameObject.SetActive(false);
@@ -34,9 +34,8 @@ public class Checkpoint : TriggerScript
             return;
         }
 
-        Debug.Log("Checkpoint Saved: " + gameObject.name);
         currentCheckpoint = this;
-        GeneralManager.instance.SetEventFlag(eventFlag);
+        GeneralManager.SetEventFlag(eventFlag);
 
         playerSpawn = transform.position;
         playerLookDirection = transform.eulerAngles;
@@ -51,7 +50,6 @@ public class Checkpoint : TriggerScript
         }
         else
         {
-            Debug.Log("No Checkpoint");
             return playerSpawn;
         }
 

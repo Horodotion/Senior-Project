@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using TMPro;
 
 public enum SpawnType
@@ -16,7 +17,7 @@ public class SpawnManager : MonoBehaviour
     // A static reference to the spawn manager
     public static SpawnManager instance;
     // A dictionary based off of gameobjects to be store all the spawned objects of various types
-    public Dictionary<GameObject, List<GameObject>> currentlySpawnedGameObjects = new Dictionary<GameObject, List<GameObject>>();
+    public Dictionary<GameObject, List<GameObject>> currentlySpawnedGameObjects = new();
 
     [Header("Parent Transforms")]
     // Transforms to sort out the hierarchy
@@ -34,7 +35,6 @@ public class SpawnManager : MonoBehaviour
     public TMP_FontAsset fireDamageFont;
     public Color iceDamageColor;
     public TMP_FontAsset iceDamageFont;
-
 
     void Awake()
     {
@@ -112,32 +112,17 @@ public class SpawnManager : MonoBehaviour
     }
 
 
-    public void PlaySoundAtLocation(Vector3 worldPosition, AudioClip audioToPlay)
-    {
-        
-    }
-
-
     // this returns the transform of the child object selected, based on the SpawnType
     public Transform NewSpawnParent(SpawnType typeOfObject)
     {
-        switch(typeOfObject)
+        return typeOfObject switch
         {
-            case SpawnType.projectile:
-                return projectileTransform;
-
-            case SpawnType.vfx:
-                return vfxTransform;
-
-            case SpawnType.damageText:
-                return PlayerUI.instance.damageTextParent;
-
-            case SpawnType.soundEffect:
-                return sfxTransform;
-
-            default:
-                return null;
-        }
+            SpawnType.projectile => projectileTransform,
+            SpawnType.vfx => vfxTransform,
+            SpawnType.damageText => PlayerUI.instance.damageTextParent,
+            SpawnType.soundEffect => sfxTransform,
+            _ => null,
+        };
     }
 
     public void TurnOffEverything()

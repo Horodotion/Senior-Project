@@ -44,6 +44,8 @@ public class GeneralManager : MonoBehaviour
     // Variables for the event flags
     public static Dictionary<int, EventFlag> levelSpecificEventFlags = new Dictionary<int, EventFlag>();
     public static Dictionary<int, EventFlag> transferableEventFlags = new Dictionary<int, EventFlag>();
+    public static int totalCollectiblesCounter;
+    public int totalCollectibles;
 
     void Awake()
     {
@@ -54,14 +56,14 @@ public class GeneralManager : MonoBehaviour
 
         // This if statement checks if there is a general manager
         // If it finds no manager, it becomes the manager. If not, it destroys itself.
-        if (instance == null && this.gameObject != null)
+        if (instance == null && gameObject != null)
         {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -219,7 +221,7 @@ public class GeneralManager : MonoBehaviour
 
     public void WinGame()
     {
-        /*
+        
         if (SceneManager.GetActiveScene().buildIndex >= 3)
         {
             OpenWinMenu();
@@ -228,9 +230,9 @@ public class GeneralManager : MonoBehaviour
         {
             LoadNextLevelScript.instance.activeLoadingZone = true;
         }
-        */
+        
 
-        OpenWinMenu();
+        // OpenWinMenu();
     }
 
     public void OpenWinMenu()
@@ -268,7 +270,7 @@ public class GeneralManager : MonoBehaviour
     }
 
     // This checks off the flag for an event, and triggers other events to be active if it's able to be
-    public void SetEventFlag(EventFlag eventToSet)
+    public static void SetEventFlag(EventFlag eventToSet)
     {
         Dictionary<int, EventFlag> eventDict = GetDictionary(eventToSet.eventFlagType);
         int flagToTrigger = eventToSet.eventID;
@@ -278,10 +280,10 @@ public class GeneralManager : MonoBehaviour
             eventDict[flagToTrigger].eventTriggered = true;
         }
 
-        DisablePriorEvents(eventDict[flagToTrigger]);
+        GeneralManager.DisablePriorEvents(eventDict[flagToTrigger]);
     }
 
-    public void DisablePriorEvents(EventFlag eventToSet)
+    public static void DisablePriorEvents(EventFlag eventToSet)
     {
         Dictionary<int, EventFlag> eventDict = GetDictionary(eventToSet.eventFlagType);
         int flagToTrigger = eventToSet.eventID;
@@ -296,7 +298,7 @@ public class GeneralManager : MonoBehaviour
         }
     }
 
-    public void AddEventToDict(EventFlag eventToAdd)
+    public static void AddEventToDict(EventFlag eventToAdd)
     {
         if (eventToAdd.eventID != 0 && !GetDictionary(eventToAdd.eventFlagType).ContainsKey(eventToAdd.eventID))
         {
@@ -306,7 +308,7 @@ public class GeneralManager : MonoBehaviour
 
     public static bool HasEventBeenTriggered(EventFlag ourEvent)
     {
-        Dictionary<int, EventFlag> eventDict = GeneralManager.instance.GetDictionary(ourEvent.eventFlagType);
+        Dictionary<int, EventFlag> eventDict = GeneralManager.GetDictionary(ourEvent.eventFlagType);
 
         if (eventDict.ContainsKey(ourEvent.eventID) && eventDict[ourEvent.eventID].eventTriggered)
         {
@@ -316,7 +318,7 @@ public class GeneralManager : MonoBehaviour
         return false;
     }
 
-    public Dictionary<int, EventFlag> GetDictionary(EventFlagType ourflagType)
+    public static Dictionary<int, EventFlag> GetDictionary(EventFlagType ourflagType)
     {
         switch (ourflagType)
         {
