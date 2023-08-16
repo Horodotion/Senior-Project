@@ -7,7 +7,6 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Slider))]
 public class InterfaceSlider : InterfaceButton
 {
-    [HideInInspector] public UnityEvent onSideInputEvent;
     public Slider slider;
 
     public override void Awake()
