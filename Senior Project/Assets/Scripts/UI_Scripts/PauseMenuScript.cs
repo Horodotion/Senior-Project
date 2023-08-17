@@ -6,7 +6,7 @@ using TMPro;
 public class PauseMenuScript : MenuScript
 {
     public static PauseMenuScript instance;
-    public InterfaceButton resumeGameButton, retryLevelButton, mainMenuButton, exitGameButton;
+    public InterfaceButton resumeGameButton, retryLevelButton, optionsMenuButton, mainMenuButton, exitGameButton;
     
 
     void Awake()

@@ -22,16 +22,10 @@ public class AudioManager : MonoBehaviour
 
     void Awake()
     {
-        // Setting up the static reference, and making sure there's not a duplicate instance
-
         if (instance == null)
         {
             instance = this;
         }
-        // else if (instance != this)
-        // {
-        //     Destroy(gameObject);
-        // }
     }
 
     public static void SetMixerVolume(float value, AudioMixerType audioMixerType = AudioMixerType.Master)
@@ -60,7 +54,7 @@ public class AudioManager : MonoBehaviour
 
         GameObject newAudioClip = new ("Detached Audio Source");
         newAudioClip.transform.position = worldPosition;
-        AudioSource audioSource = (AudioSource) newAudioClip.AddComponent(typeof (AudioSource));
+        AudioSource audioSource = (AudioSource) newAudioClip.AddComponent(typeof(AudioSource));
 
         audioSource.clip = audioToPlay;
         audioSource.outputAudioMixerGroup = GetAudioMixerGroup(audioMixerType);

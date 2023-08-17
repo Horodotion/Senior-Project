@@ -60,7 +60,9 @@ public abstract class MenuScript : MonoBehaviour
     public List<InterfaceButton> buttonList;
     [HideInInspector] public int currentButtonID;
 
+    [Header("Optional Components")]
     public TMP_Text counterText;
+    public MenuScript optionsMenu;
 
     public virtual void Start()
     {
@@ -143,5 +145,10 @@ public abstract class MenuScript : MonoBehaviour
         {
             menu.SetActive(true);
         }
+    }
+
+    public virtual void OpenOptionsMenu()
+    {
+        
     }
 }

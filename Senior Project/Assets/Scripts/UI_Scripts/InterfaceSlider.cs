@@ -9,9 +9,11 @@ public class InterfaceSlider : InterfaceButton
 {
     public Slider slider;
 
+
     public override void Awake()
     {
         slider = GetComponent<Slider>();
+        slider.onValueChanged.AddListener(delegate {OnSliderUpdate();});
     }
 
     public override void OnSideInput(float direction)
@@ -22,6 +24,10 @@ public class InterfaceSlider : InterfaceButton
         }
 
         slider.value += Mathf.Sign(direction);
+    }
+
+    public void OnSliderUpdate()
+    {
         onSideInputEvent.Invoke();
     }
 }
