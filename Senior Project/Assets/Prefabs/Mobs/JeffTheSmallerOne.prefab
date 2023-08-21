@@ -4926,8 +4926,10 @@ MonoBehaviour:
     minimum: -Infinity
     maximum: Infinity
   currenthPReductionPercentOnArmorBreak: 0
-  iceArmorVFX: {fileID: 0}
-  fireArmorVFX: {fileID: 0}
+  iceArmorFormedVFX: {fileID: 0}
+  fireArmorFormedVFX: {fileID: 0}
+  iceArmorDestroyedVFX: {fileID: 0}
+  fireArmorDestroyedVFX: {fileID: 0}
   orbWalkSpeed: 100
   orbWalkAcceleration: 100
   turnSpeed: 100
@@ -4983,7 +4985,7 @@ MonoBehaviour:
   aniDeathDecision: 
   state: 0
   isAbleToExplode: 1
-  explosionTime: 1000
+  explosionTime: 50000
   destroyEffectPrefab: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
     type: 3}
   customTransform: {fileID: 0}
