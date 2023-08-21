@@ -157,6 +157,7 @@ public class AttacksManager : MonoBehaviour
     //This output a bool (true is ice/ false is fire) by calculate the element needed to use using the decision and decision modifier during range attack.
     public bool RangedAttackDicision()
     {
+        
         AttackDecision temp = new AttackDecision(rangedAttackDicision);
 
         // Adds up all the modifier and calculate the weight of each elements for the ranged attack.
@@ -178,11 +179,14 @@ public class AttacksManager : MonoBehaviour
         }
         //Find which element for the next attack
         return temp.GiveTheNextRandomDicision(); 
+        
+        //return rangedAttackDicision.GiveTheNextRandomDicision();
     }
 
     //This output a bool (true is ice/ false is fire) by calculate the element needed to use using the decision and decision modifier during melee attack.
     public bool MeleeAttackDicision()
     {
+        
         AttackDecision temp = new AttackDecision(meleeAttackDicision);
 
         // Adds up all the modifier and calculate the weight of each elements for the melee attack.
@@ -205,6 +209,8 @@ public class AttacksManager : MonoBehaviour
 
         //Find which element for the next attack
         return temp.GiveTheNextRandomDicision(); 
+        
+        //return meleeAttackDicision.GiveTheNextRandomDicision();
     }
 
     /*
