@@ -65,6 +65,8 @@ public class JeffMobsEnemyController : BossEnemyController
         {
             if (explosionTimer < 0)
             {
+                //Debug.Log("Boom");
+                //bossState = BossState.taunt;
                 SelfExplode();
             }
             else
@@ -72,6 +74,12 @@ public class JeffMobsEnemyController : BossEnemyController
                 explosionTimer -= Time.deltaTime;
             }
         }
+    }
+
+    public override void ExitTauntState()
+    {
+        Debug.Log("Boom");
+        SelfExplode();
     }
 
     private void SelfExplode()
