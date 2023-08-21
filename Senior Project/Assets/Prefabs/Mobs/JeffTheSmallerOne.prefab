@@ -4902,8 +4902,6 @@ MonoBehaviour:
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
-  deathRattle: {fileID: 0}
-  bossPhase: 0
   healthBarCanvasObject: {fileID: 3857592530492947695}
   healthBar: {fileID: 3857592530092954818}
   bossActivateDistance: 10000
@@ -4917,31 +4915,19 @@ MonoBehaviour:
   viewDegreeH: 100
   viewDegreeV: 50
   viewRange: 10
-  startingArmorType: 0
-  armorElementType: 2
+  movementPhase:
+  - {fileID: 11400000, guid: e40510a0acf6ddb469e37a2884367161, type: 2}
+  currentArmorElementType: 2
   iceArmorObject: {fileID: 4234897468957340144}
   fireArmorObject: {fileID: 6581737176714312319}
-  armorHealth:
+  currentArmorHealth:
     stat: 0
     baseStat: 0
     minimum: -Infinity
     maximum: Infinity
-  healthReducePercentOnArmorBreak: 0
-  meleeAttackDecision: {fileID: 11400000, guid: 1aa24765ed33adb46b8e0e90b267052c,
-    type: 2}
-  orbwalkDecision: {fileID: 11400000, guid: 48d46dfe6b79cd64eada3bada1b3ba75, type: 2}
-  rangedAttackDecision: {fileID: 11400000, guid: e5b97303bcfc90942b94b477cf9734de,
-    type: 2}
-  coverDecision: {fileID: 11400000, guid: 9b20d04677d05f8458f3bc1759795f2f, type: 2}
-  coverDecisionMod: {fileID: 11400000, guid: b6a65f230a8263a41a6b73dc833baaff, type: 2}
-  teleportDecision: {fileID: 11400000, guid: 91c184adc0d710d4184bd70009a24240, type: 2}
-  teleportDecisionMod: {fileID: 11400000, guid: e433bbd7770d4a14fbd85fec77d0b613,
-    type: 2}
-  dropMineDecision: {fileID: 0}
-  dropTurretDecision: {fileID: 11400000, guid: b0a9d98dfff1b7b45a6b4514d7f5bee9, type: 2}
-  spawnMobDecision: {fileID: 0}
-  laserAttackDecision: {fileID: 11400000, guid: f2461c3cd6a1f294382d1a041958ce01,
-    type: 2}
+  currenthPReductionPercentOnArmorBreak: 0
+  iceArmorVFX: {fileID: 0}
+  fireArmorVFX: {fileID: 0}
   orbWalkSpeed: 100
   orbWalkAcceleration: 100
   turnSpeed: 100
@@ -4976,6 +4962,12 @@ MonoBehaviour:
   runAniSpeed: 1.5
   isAbleToPlayDeathAni: 1
   activationTimeAfterDeath: 4
+  ourAudioSource: {fileID: 0}
+  meleeBugle: {fileID: 0}
+  projectileBugle: {fileID: 0}
+  laserBugle: {fileID: 0}
+  tauntBugle: {fileID: 0}
+  teleportBugle: {fileID: 0}
   aniDecision: idleDecision
   idleAni: 0
   runningAni: 0
@@ -4990,6 +4982,13 @@ MonoBehaviour:
   aniLaserState: 
   aniDeathDecision: 
   state: 0
+  isAbleToExplode: 1
+  explosionTime: 1000
+  destroyEffectPrefab: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
+    type: 3}
+  customTransform: {fileID: 0}
+  explosionRadius: 5
+  baseDamageDealt: 10
 --- !u!136 &3857592529800715722
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -32721,7 +32720,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4234897468957340144}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -32734,7 +32733,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b2a1cf2a41379f14686d9e1046f92b72, type: 2}
+  - {fileID: 2100000, guid: 3f09b2339db19cf4f8f2509e8532169a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -33703,7 +33702,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2c73704c4781f544fbd7d9b0f0aca304, type: 2}
+  - {fileID: 2100000, guid: 4fed5f21b08123b49b448bf2f06153b6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

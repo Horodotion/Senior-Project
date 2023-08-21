@@ -29452,7 +29452,6 @@ MonoBehaviour:
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
-  bossPhase: 0
   healthBarCanvasObject: {fileID: 1114429228}
   healthBar: {fileID: 708034305}
   bossActivateDistance: 1000
@@ -29466,30 +29465,25 @@ MonoBehaviour:
   viewDegreeH: 100
   viewDegreeV: 50
   viewRange: 10
-  armorElementType: 2
+  movementPhase:
+  - {fileID: 11400000, guid: 80f0f8033db460f4780be77bc88ee329, type: 2}
+  - {fileID: 11400000, guid: cbe665355081caf4fbc75c2fbe2cf5fd, type: 2}
+  - {fileID: 11400000, guid: f190cf6a627f4024cb84a1c7974215c4, type: 2}
+  - {fileID: 11400000, guid: 7c82a58833a4a6e41837e5d298449467, type: 2}
+  - {fileID: 11400000, guid: 0455e2af4e93905408af6520187b5130, type: 2}
+  currentArmorElementType: 0
   iceArmorObject: {fileID: 1102690556799130163}
   fireArmorObject: {fileID: 501885386}
-  armorHealth:
-    stat: 1000
+  currentArmorHealth:
+    stat: 0
     baseStat: 0
-    minimum: 0
-    maximum: 1000
-  healthReducePercentOnArmorBreak: 5
-  meleeAttackDecision: {fileID: 11400000, guid: 8538d3959c5b8dc409c29478250b72b8,
-    type: 2}
-  orbwalkDecision: {fileID: 11400000, guid: 48d46dfe6b79cd64eada3bada1b3ba75, type: 2}
-  rangedAttackDecision: {fileID: 11400000, guid: e5b97303bcfc90942b94b477cf9734de,
-    type: 2}
-  coverDecision: {fileID: 11400000, guid: 9b20d04677d05f8458f3bc1759795f2f, type: 2}
-  coverDecisionMod: {fileID: 11400000, guid: b6a65f230a8263a41a6b73dc833baaff, type: 2}
-  teleportDecision: {fileID: 11400000, guid: 91c184adc0d710d4184bd70009a24240, type: 2}
-  teleportDecisionMod: {fileID: 11400000, guid: e433bbd7770d4a14fbd85fec77d0b613,
-    type: 2}
-  dropMineDecision: {fileID: 11400000, guid: e4811d2e7ead45a4385e0cd9957adb75, type: 2}
-  dropTurretDecision: {fileID: 11400000, guid: b0a9d98dfff1b7b45a6b4514d7f5bee9, type: 2}
-  spawnMobDecision: {fileID: 11400000, guid: d9be70aaf1245964d9de93229a690e8d, type: 2}
-  laserAttackDecision: {fileID: 11400000, guid: f2461c3cd6a1f294382d1a041958ce01,
-    type: 2}
+    minimum: -Infinity
+    maximum: Infinity
+  currenthPReductionPercentOnArmorBreak: 0
+  iceArmorVFX: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
+    type: 3}
+  fireArmorVFX: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
+    type: 3}
   orbWalkSpeed: 10
   orbWalkAcceleration: 25
   turnSpeed: 120
@@ -29524,6 +29518,12 @@ MonoBehaviour:
   runAniSpeed: 1.5
   isAbleToPlayDeathAni: 1
   activationTimeAfterDeath: 0
+  ourAudioSource: {fileID: 0}
+  meleeBugle: {fileID: 0}
+  projectileBugle: {fileID: 0}
+  laserBugle: {fileID: 0}
+  tauntBugle: {fileID: 0}
+  teleportBugle: {fileID: 0}
   aniDecision: idleDecision
   idleAni: 0
   runningAni: 0
