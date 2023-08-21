@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d02cb88daccea54f917d5b4f5e2699c, type: 3}
   m_Name: Scene3Phase1
   m_EditorClassIdentifier: 
-  isArmored: 0
+  hPPercentageToEnterPhase: 75
+  isArmored: 1
   startingArmorType: 0
   armorStats:
-    stat: 0
+    stat: 500
     baseStat: 0
-    minimum: -Infinity
-    maximum: Infinity
+    minimum: 0
+    maximum: 500
   hPReductionPercentOnArmorBreak: 0
-  hPPercentageToEnterPhase: 75
   meleeAttackDecision: {fileID: 11400000, guid: 289830768df829e47855440b7b865fc9,
     type: 2}
   orbwalkDecision: {fileID: 11400000, guid: 54aa88def0a0f4b47b1dbec1b93ddfe1, type: 2}
