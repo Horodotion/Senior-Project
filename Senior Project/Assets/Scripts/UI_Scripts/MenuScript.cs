@@ -60,6 +60,10 @@ public abstract class MenuScript : MonoBehaviour
     public List<InterfaceButton> buttonList;
     [HideInInspector] public int currentButtonID;
 
+    [Header("Optional Components")]
+    public TMP_Text counterText;
+    public MenuScript optionsMenu;
+
     public virtual void Start()
     {
         MenuScript.currentMenu = this;
@@ -71,6 +75,14 @@ public abstract class MenuScript : MonoBehaviour
         }
 
         ConnectPlayerToMenu();
+    }
+
+    void OnEnable()
+    {
+        if (counterText != null)
+        {
+            counterText.text = GeneralManager.totalCollectiblesCounter + "/" + GeneralManager.instance.totalCollectibles;
+        }
     }
 
     public virtual void ConnectPlayerToMenu()
@@ -133,5 +145,10 @@ public abstract class MenuScript : MonoBehaviour
         {
             menu.SetActive(true);
         }
+    }
+
+    public virtual void OpenOptionsMenu()
+    {
+        
     }
 }

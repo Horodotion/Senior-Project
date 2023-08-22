@@ -44,7 +44,7 @@ public class GeneralManager : MonoBehaviour
     // Variables for the event flags
     public static Dictionary<int, EventFlag> levelSpecificEventFlags = new Dictionary<int, EventFlag>();
     public static Dictionary<int, EventFlag> transferableEventFlags = new Dictionary<int, EventFlag>();
-
+    public static int totalCollectiblesCounter;
     public int totalCollectibles;
 
     void Awake()
@@ -56,14 +56,14 @@ public class GeneralManager : MonoBehaviour
 
         // This if statement checks if there is a general manager
         // If it finds no manager, it becomes the manager. If not, it destroys itself.
-        if (instance == null && this.gameObject != null)
+        if (instance == null && gameObject != null)
         {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -188,7 +188,7 @@ public class GeneralManager : MonoBehaviour
         if (PauseMenuScript.instance != null)
         {
             PauseMenuScript.instance.gameObject.SetActive(true);
-        }  
+        }
 
         PlayerController.ourPlayerState = PlayerState.inMenu;
         Cursor.lockState = CursorLockMode.None;
@@ -267,6 +267,11 @@ public class GeneralManager : MonoBehaviour
         isGameRunning = false;
         hasGameStarted = false;
         Time.timeScale = 0f;
+    }
+
+    public void OpenOptionsMenu(MenuScript menuToSwapBackTo)
+    {
+        
     }
 
     // This checks off the flag for an event, and triggers other events to be active if it's able to be

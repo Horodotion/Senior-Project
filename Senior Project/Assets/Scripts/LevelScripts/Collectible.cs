@@ -5,36 +5,27 @@ using UnityEngine;
 public class Collectible : MonoBehaviour
 {
     public EventFlag eventFlag;
-    public static int totalCollectiblesGrabbed;
-    public bool enemyCollectible;
+    // public static int totalCollectiblesGrabbed;
+    // public bool enemyCollectible;
     public string messageToDisplay = "Collectible";
 
     void Start()
     {
-        GeneralManager.AddEventToDict(eventFlag);
-
-        if (GeneralManager.HasEventBeenTriggered(eventFlag))
+         if (GeneralManager.HasEventBeenTriggered(eventFlag))
         {
             gameObject.SetActive(false);
         }
         else
         {
-
+            GeneralManager.AddEventToDict(eventFlag);
         }
     }
 
     public void Collect()
     {
-        if (enemyCollectible)
-        {
-            return;
-        }
-
         GeneralManager.SetEventFlag(eventFlag);
+        GeneralManager.totalCollectiblesCounter++;
 
         gameObject.SetActive(false);
-        totalCollectiblesGrabbed++;
     }
-
-    
 }

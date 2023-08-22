@@ -5,7 +5,25 @@ using UnityEngine.AI;
 
 public class JeffMobsEnemyController : BossEnemyController
 {
+    [Header("Self Explode/Dead System")]
+    [SerializeField] private bool isAbleToExplode;
+    [SerializeField] private float explosionTime;
+    private float explosionTimer;
 
+    public GameObject destroyEffectPrefab;
+    //GameObject to help in case the model does not have perfect transforms
+
+    //put an empty game object in the following variable so the explosion effect can find it - Matt
+    public GameObject customTransform;
+
+    // On fresh prefabs I set health to 10 by default, but feel free to change if we have a global damage scale
+    public float explosionRadius, baseDamageDealt;//, secondsUntilParticlesAreDestroyed;
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        explosionTimer = explosionTime;
+    }
     public override void Awake()
     {
 
@@ -29,10 +47,9 @@ public class JeffMobsEnemyController : BossEnemyController
     public override void Start()
     {
         ResetHealthBar();
-
-        bossState = BossState.idle;
-
+        //bossState = BossState.idle;
         bossState = BossState.meleeAttack;
+        currentMovementPhase = movementPhase[0];
 
         //navMeshAgent.SetDestination(PlayerController.puppet.transform.position);
     }
@@ -42,12 +59,97 @@ public class JeffMobsEnemyController : BossEnemyController
     {
         
     }
-    public override void EneterNextPhase()
+    private void Update()
     {
-        
+        if (isAbleToExplode && bossState != BossState.dead)
+        {
+            if (explosionTimer < 0)
+            {
+                //Debug.Log("Boom");
+                //bossState = BossState.taunt;
+                SelfExplode();
+            }
+            else
+            {
+                explosionTimer -= Time.deltaTime;
+            }
+        }
     }
+
+    public override void ExitTauntState()
+    {
+        Debug.Log("Boom");
+        SelfExplode();
+    }
+
+    private void SelfExplode()
+    {
+        /*
+        if (explosionObject != null)
+        {
+            Instantiate(explosionObject, transform.position, transform.rotation);
+            //bossState = BossState.idle;
+        }
+        */
+        //Debug.Log("Boom");
+        Explode();
+        StopCoroutine(MovementCoroutine);
+        Dead();
+    }
+
+    public override void Explode()
+    {
+        if (destroyEffectPrefab != null)
+        {
+            // Checks if there is a custom transform - Matt
+            if (customTransform != null)
+            {
+                // If there is use the custom transform to spawn the particles - Matt
+                GameObject destructionParticles = SpawnManager.instance.GetGameObject(destroyEffectPrefab, SpawnType.vfx);
+                destructionParticles.transform.position = customTransform.transform.position;
+            }
+            else
+            {
+                GameObject destructionParticles = SpawnManager.instance.GetGameObject(destroyEffectPrefab, SpawnType.vfx);
+                destructionParticles.transform.position = transform.transform.position;
+            }
+        }
+
+
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
+        foreach (var hC in hitColliders)
+        {
+            if (hC.gameObject.tag == "Player" && hC.GetComponent<PlayerPuppet>() != null)
+            {
+                Debug.Log(hC.gameObject.name);
+                
+                hC.GetComponent<PlayerPuppet>().ChangeTemperature(AbsoluteTempurature(baseDamageDealt));
+                return;
+            }
+
+        }
+    }
+
+    //This is a function that deal tamperature damage on the player depend on the player's tamperature.
+    //If player's tempuratrue lower than 0, it decrease player's tempuratrue.
+    public float AbsoluteTempurature(float damage)
+    {
+        if (PlayerController.instance.temperature.stat < 0)
+        {
+            return -Mathf.Abs(damage);
+        }
+        else
+        {
+            return Mathf.Abs(damage);
+        }
+    }
+
+    //public override void EneterNextPhase()
+    //{
+        
+    //}
     public override void Dead()
     {
-        Destroy(this);
+        Destroy(this.gameObject);
     }
 }
