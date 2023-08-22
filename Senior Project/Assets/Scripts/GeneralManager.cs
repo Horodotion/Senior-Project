@@ -188,7 +188,7 @@ public class GeneralManager : MonoBehaviour
         if (PauseMenuScript.instance != null)
         {
             PauseMenuScript.instance.gameObject.SetActive(true);
-        }  
+        }
 
         PlayerController.ourPlayerState = PlayerState.inMenu;
         Cursor.lockState = CursorLockMode.None;
@@ -267,6 +267,11 @@ public class GeneralManager : MonoBehaviour
         isGameRunning = false;
         hasGameStarted = false;
         Time.timeScale = 0f;
+    }
+
+    public void OpenOptionsMenu(MenuScript menuToSwapBackTo)
+    {
+        
     }
 
     // This checks off the flag for an event, and triggers other events to be active if it's able to be
