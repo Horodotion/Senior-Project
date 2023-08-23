@@ -32,6 +32,8 @@ public class JeffEnvironmentHazard : MonoBehaviour
     public bool cascadingJeff;
     public GameObject nextJeff = null;
     public bool instantDisintegrate;
+    public GameObject telePoof;
+    public Transform poofSpawnPoint;
     // public bool dropTurret;
     // public bool fireElem;
 
@@ -252,12 +254,14 @@ public class JeffEnvironmentHazard : MonoBehaviour
         {
             disintegrating = true;
         }
+
         Invoke(nameof(Disintegrate), despawnTime);
     }
 
     private void Disintegrate()
     {
         disintegrating = true;
+        Instantiate(telePoof, new Vector3(poofSpawnPoint.position.x, poofSpawnPoint.position.y, poofSpawnPoint.position.z), Quaternion.identity);
         Invoke(nameof(Disappear), despawnTime);
     }
 
@@ -266,6 +270,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
         if(cascadingJeff)
         {
             nextJeff.SetActive(true);
+            Instantiate(telePoof, new Vector3(poofSpawnPoint.position.x, poofSpawnPoint.position.y, poofSpawnPoint.position.z), Quaternion.identity);
             Destroy(gameObject);
 
         }
