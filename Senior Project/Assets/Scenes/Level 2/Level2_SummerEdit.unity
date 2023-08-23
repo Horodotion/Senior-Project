@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.7490196, g: 0, b: 0, a: 1}
   m_AmbientEquatorColor: {r: 0.83137256, g: 0.65445167, b: 0.23529409, a: 1}
   m_AmbientGroundColor: {r: 0, g: 0.027729679, b: 1.0592737, a: 1}
-  m_AmbientIntensity: 2
+  m_AmbientIntensity: 4
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 1, g: 1, b: 1, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: fe4e130f9947345a2b213cb5038851a2, type: 2}
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.030803392, g: 0.0145947505, b: 0.027151074, a: 1}
+  m_IndirectSpecularColor: {r: 0.03080694, g: 0.0145954965, b: 0.027156644, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -40842,7 +40842,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1171626917
 Transform:
   m_ObjectHideFlags: 0
@@ -70117,6 +70117,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 504367444, guid: 59135bc463a0d4148b3ae058066dd503, type: 3}
       propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 734212832, guid: 59135bc463a0d4148b3ae058066dd503, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1238976967, guid: 59135bc463a0d4148b3ae058066dd503, type: 3}
