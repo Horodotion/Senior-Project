@@ -210,11 +210,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   postExposure:
-    m_OverrideState: 0
-    m_Value: 1.5
+    m_OverrideState: 1
+    m_Value: 1
   contrast:
     m_OverrideState: 0
-    m_Value: -0
+    m_Value: 2
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 0.8478994, g: 0.8349056, b: 1, a: 1}
@@ -558,16 +558,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70afe9e12c7a7ed47911bb608a23a8ff, type: 3}
   m_Name: SplitToning
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
+    m_Value: {r: 0.0509804, g: 0.21386778, b: 0.48235294, a: 1}
   highlights:
     m_OverrideState: 1
-    m_Value: {r: 0.87843144, g: 0.50980395, b: 0, a: 1}
+    m_Value: {r: 0.050980397, g: 0.46274513, b: 0.48235297, a: 1}
   balance:
     m_OverrideState: 1
-    m_Value: 28
+    m_Value: 69
 --- !u!114 &8389790574852035538
 MonoBehaviour:
   m_ObjectHideFlags: 3
