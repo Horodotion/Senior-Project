@@ -4984,18 +4984,6 @@ PrefabInstance:
       propertyPath: mobSpawner
       value: 
       objectReference: {fileID: 1147070219}
-    - target: {fileID: 1456991576604559661, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
-        type: 3}
-      propertyPath: iceArmorFormedVFX
-      value: 
-      objectReference: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
-        type: 3}
-    - target: {fileID: 1456991576604559661, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
-        type: 3}
-      propertyPath: fireArmorFormedVFX
-      value: 
-      objectReference: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
-        type: 3}
     - target: {fileID: 1799522092324479054, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
         type: 3}
       propertyPath: m_Name
@@ -5129,6 +5117,16 @@ PrefabInstance:
         type: 3}
       propertyPath: spawnData.Array.data[0].gameObjectSP.Array.size
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1648620211262580135, guid: 74b0f7e78645a1a49aa72b6ac8efe973,
+        type: 3}
+      propertyPath: spawnData.Array.data[0].maxNumOfGameObjectSpawn
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1648620211262580135, guid: 74b0f7e78645a1a49aa72b6ac8efe973,
+        type: 3}
+      propertyPath: spawnData.Array.data[1].maxNumOfGameObjectSpawn
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1648620211262580135, guid: 74b0f7e78645a1a49aa72b6ac8efe973,
         type: 3}
