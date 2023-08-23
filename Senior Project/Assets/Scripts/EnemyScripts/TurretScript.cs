@@ -49,6 +49,8 @@ public class TurretScript : EnemyController
     {
         base.CommitDie();
 
+        MobSpawnerController.instance.ReduceObjectInMobSpawrer(this.gameObject);
+
         gameObject.SetActive(false);
     }
 

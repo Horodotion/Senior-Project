@@ -306,6 +306,7 @@ public class BossEnemyController : EnemyController
 
     public void SpawnVFX(GameObject VFX)
     {
+        if (VFX == null) return;
         GameObject VFXGameObject = SpawnManager.instance.GetGameObject(VFX, SpawnType.vfx);
         VFXGameObject.transform.position = this.transform.position;
         VFXGameObject.transform.rotation = this.transform.rotation;

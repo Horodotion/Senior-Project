@@ -13,14 +13,23 @@ public class MobSpawnerController : MonoBehaviour
     {
         public GameObject gameObjectToSpawn;
         public Transform gameObjectSPParent;
-        public int numOfGameObjectSpawn;
+        public int numOfGameObjectSpawnEachTime;
+        public int maxNumOfGameObjectSpawn;
+        //[HideInInspector] public int numOfGameObjectSpawn;
         public GameObject vFX;
         public bool isStationary;
+        [HideInInspector] public List<GameObject> spawnedObject;
     }
 
+    [HideInInspector] public static MobSpawnerController instance;
     [SerializeField] SpawnData[] spawnData;
     //[SerializeField] SpawnData turretsData
     //[SerializeField] SpawnData minesData;
+
+    private void Awake()
+    {
+        instance = GetComponent<MobSpawnerController>();
+    }
 
     public void SpawningThings()
     {
@@ -36,41 +45,54 @@ public class MobSpawnerController : MonoBehaviour
         SpawnItemBaseOnData(spawnData[i]);
     }
 
-    
-
-    public void SpawnItemBaseOnData(SpawnData spawndata)
+    public void ReduceObjectInMobSpawrer(GameObject gameObj)
     {
+        for (int i = 0; i < spawnData.Length; i++)
+        {
+            spawnData[i].spawnedObject.Remove(gameObj);
+        }
+    }
+
+    public void SpawnItemBaseOnData(SpawnData sD)
+    {
+
         // This is to create a pot that can retieve a random number ticket that is inside the pot
-        TicketPot pot = new TicketPot(spawndata.gameObjectSPParent.childCount);
+        TicketPot pot = new TicketPot(sD.gameObjectSPParent.childCount);
 
         //The count variable is to make sure it wont spawn the object more than it needs to
-        for (int i = 0, count = 0; i < spawndata.gameObjectSPParent.childCount && count < spawndata.numOfGameObjectSpawn; i++)
+        for (int i = 0, count = 0; i < sD.gameObjectSPParent.childCount && count < sD.numOfGameObjectSpawnEachTime ; i++)
         {
-            int spawnIndex = pot.PopRandomTicket();
-            //Check if the spawn is empty
-            if (spawndata.gameObjectSPParent.GetChild(spawnIndex).transform.childCount == 0)
+            //Debug.Log(sD.spawnedObject.Count);
+            if (sD.maxNumOfGameObjectSpawn <= sD.spawnedObject.Count)
             {
-                if (spawndata.vFX != null)
-                {
-                    SpawnVFX(spawndata.vFX , spawndata.gameObjectSPParent.GetChild(spawnIndex).transform);
-                }
+                return;
+            }
+
+            int spawnIndex = pot.PopRandomTicket();
+
+            //Check if the spawn is empty
+            if (sD.gameObjectSPParent.GetChild(spawnIndex).transform.childCount == 0)
+            {
+                SpawnVFX(sD.vFX, sD.gameObjectSPParent.GetChild(spawnIndex).transform);
                 //Spawn the Object and increase the count
-                if (spawndata.isStationary)
+                if (sD.isStationary)
                 {
-                    Instantiate(spawndata.gameObjectToSpawn, spawndata.gameObjectSPParent.GetChild(spawnIndex).transform);
+                    sD.spawnedObject.Add(Instantiate(sD.gameObjectToSpawn, sD.gameObjectSPParent.GetChild(spawnIndex).transform));
                 }
                 else
                 {
 
-                    Instantiate(spawndata.gameObjectToSpawn, spawndata.gameObjectSPParent.GetChild(spawnIndex).transform.position, spawndata.gameObjectSPParent.GetChild(spawnIndex).transform.rotation);
+                    sD.spawnedObject.Add(Instantiate(sD.gameObjectToSpawn, sD.gameObjectSPParent.GetChild(spawnIndex).transform.position, sD.gameObjectSPParent.GetChild(spawnIndex).transform.rotation));
                 }
-                
+
+                //spawndata.numOfGameObjectSpawn++;
                 count++;
             }
         }
     }
     public void SpawnVFX(GameObject VFX, Transform transform)
     {
+        if (VFX == null) return;
         GameObject VFXGameObject = SpawnManager.instance.GetGameObject(VFX, SpawnType.vfx);
         VFXGameObject.transform.position = transform.position;
         VFXGameObject.transform.rotation = transform.rotation;
