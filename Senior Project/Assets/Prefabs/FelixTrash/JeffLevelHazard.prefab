@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7524600638146378487
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 130727901032890932}
+  m_Layer: 0
+  m_Name: PoofSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &130727901032890932
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7524600638146378487}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8090080305510286366}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8090080304466531510
 GameObject:
   m_ObjectHideFlags: 0
@@ -6098,7 +6129,7 @@ Transform:
   - {fileID: 8090080305171279024}
   - {fileID: 8090080305448213377}
   m_Father: {fileID: 8090080305510286366}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8090080305320694516
 MeshFilter:
@@ -7387,6 +7418,7 @@ Transform:
   - {fileID: 8090080305144579119}
   - {fileID: 8090080305606602442}
   - {fileID: 8090080305423219863}
+  - {fileID: 130727901032890932}
   - {fileID: 8090080305320694515}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -7446,6 +7478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventFlag:
+    eventFlagType: 0
     eventString: 
     eventID: 0
     activatesItself: 0
@@ -7470,6 +7503,9 @@ MonoBehaviour:
   cascadingJeff: 0
   nextJeff: {fileID: 0}
   instantDisintegrate: 0
+  telePoof: {fileID: 7628682693131150422, guid: 11f02ba949864dc40900c4bcc0101956,
+    type: 3}
+  poofSpawnPoint: {fileID: 130727901032890932}
   hazardType: 1
   attackRange: 15
   criticalRange: 0
@@ -7529,7 +7565,6 @@ MonoBehaviour:
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
-  deathRattle: {fileID: 0}
   destroyEffectPrefab: {fileID: 0}
   customTransform: {fileID: 0}
   explosionRadius: 0

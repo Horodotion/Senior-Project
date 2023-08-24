@@ -133,8 +133,11 @@ public class BossEnemyController : EnemyController
     public IndividualStat currentArmorHealth;
     public float currenthPReductionPercentOnArmorBreak;
 
-    public GameObject iceArmorVFX;
-    public GameObject fireArmorVFX;
+    public GameObject iceArmorFormedVFX;
+    public GameObject fireArmorFormedVFX;
+
+    public GameObject iceArmorDestroyedVFX;
+    public GameObject fireArmorDestroyedVFX;
 
     /*
     [Header("Boss Dicision Setting")]
@@ -578,7 +581,7 @@ public class BossEnemyController : EnemyController
         {
             yield return null;
         }
-
+        
         //animator.SetBool("isTaunting", false);
         ExitTauntState();
         yield return null;
@@ -586,8 +589,9 @@ public class BossEnemyController : EnemyController
     }
 
     //Change the state of Taunt
-    public void ExitTauntState()
+    public virtual void ExitTauntState()
     {
+        Debug.Log("Boom");
         bossState = currentMovementPhase.tauntAttackDecision.GetTheNextRandomDicision();
     }
 
@@ -622,7 +626,7 @@ public class BossEnemyController : EnemyController
                 break;
         }
     }
-    public void ExitArmorState()
+    public virtual void ExitArmorState()
     {
         //BossStageInteraction();
         //BossStageHandler();
@@ -665,7 +669,7 @@ public class BossEnemyController : EnemyController
         currentArmorElementType = DamageType.ice;
         iceArmorObject.SetActive(true);
         fireArmorObject.SetActive(false);
-        SpawnVFX(iceArmorVFX);
+        SpawnVFX(iceArmorFormedVFX);
         //These interaction are for the boss health not the armor health
         ChangeDamageInteraction(DamageType.ice, DamageInteraction.immune);
         ChangeDamageInteraction(DamageType.fire, DamageInteraction.nuetral);
@@ -682,7 +686,7 @@ public class BossEnemyController : EnemyController
         currentArmorElementType = DamageType.fire;
         fireArmorObject.SetActive(true);
         iceArmorObject.SetActive(false);
-        SpawnVFX(fireArmorVFX);
+        SpawnVFX(fireArmorFormedVFX);
         //These interaction are for the boss health not the armor health
         ChangeDamageInteraction(DamageType.ice, DamageInteraction.nuetral);
         ChangeDamageInteraction(DamageType.fire, DamageInteraction.immune);
@@ -972,7 +976,7 @@ public class BossEnemyController : EnemyController
             //yield break;
         }
     }
-    public void ExitInCoverState()
+    public virtual void ExitInCoverState()
     {
         bossState = currentMovementPhase.coverDecision.GetTheNextRandomDicision();
     }
@@ -1110,7 +1114,7 @@ public class BossEnemyController : EnemyController
         }
     }
     
-    public void ExitTeleportingState()
+    public virtual void ExitTeleportingState()
     {
         bossState = currentMovementPhase.teleportDecision.GetTheNextRandomDicision();
     }
@@ -1309,7 +1313,7 @@ public class BossEnemyController : EnemyController
         }
     }
 
-    public void ExitOrbWalkState()
+    public virtual void ExitOrbWalkState()
     {
         //BossStageInteraction();
         //BossStageHandler();
@@ -1341,7 +1345,7 @@ public class BossEnemyController : EnemyController
         //ExitSpawnMinesState();
 
     }
-    public void ExitSpawnMinesState()
+    public virtual void ExitSpawnMinesState()
     {
         //bossState = BossState.takingCover;
         //BossStageInteraction();
@@ -1367,7 +1371,7 @@ public class BossEnemyController : EnemyController
         //ExitSpawnTurretState();
 
     }
-    public void ExitSpawnTurretState()
+    public virtual void ExitSpawnTurretState()
     {
         //bossState = BossState.takingCover;
         //BossStageInteraction();
@@ -1394,7 +1398,7 @@ public class BossEnemyController : EnemyController
         //ExitSpawnTurretState();
 
     }
-    public void ExitSpawnMobsState()
+    public virtual void ExitSpawnMobsState()
     {
         //bossState = BossState.takingCover;
         //BossStageInteraction();
@@ -1493,6 +1497,14 @@ public class BossEnemyController : EnemyController
             //Check for the health of armor
             if (currentArmorHealth.stat <= currentArmorHealth.minimum)
             {
+                if (currentArmorElementType == DamageType.ice)
+                {
+                    SpawnVFX(iceArmorDestroyedVFX);
+                }
+                if (currentArmorElementType == DamageType.fire)
+                {
+                    SpawnVFX(fireArmorDestroyedVFX);
+                }
                 currentArmorHealth.stat = currentArmorHealth.minimum;
                 //EneterNextPhase();
                 EnterNoArmorState();
