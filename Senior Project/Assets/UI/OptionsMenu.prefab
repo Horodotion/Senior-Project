@@ -27,7 +27,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1704518575766473864}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -103,7 +103,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43474205fb68d2c43abe373f639673c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instance: {fileID: 0}
+  selector: {fileID: 0}
+  currentlySelectedButton: {fileID: 0}
+  buttonList:
+  - {fileID: 1709445314213333383}
+  - {fileID: 5687881574512745376}
+  - {fileID: 704923228303823457}
+  - {fileID: 2834664347125556630}
+  - {fileID: 7567665785024138600}
+  - {fileID: 5461277003917305466}
+  currentButtonID: 0
+  counterText: {fileID: 0}
+  optionsMenu: {fileID: 0}
   menuToReturnTo: {fileID: 0}
   backButton: {fileID: 1709445314213333383}
   masterVolumeSlider: {fileID: 704923228303823457}
@@ -453,6 +464,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1457118158109902624, guid: a8a398d8246903c418e3b5a246780307,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5659948958719619056, guid: a8a398d8246903c418e3b5a246780307,
         type: 3}
       propertyPath: m_text
@@ -586,6 +602,26 @@ PrefabInstance:
     - target: {fileID: 6666817133529957373, guid: a8a398d8246903c418e3b5a246780307,
         type: 3}
       propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7311566316640647974, guid: a8a398d8246903c418e3b5a246780307,
+        type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7311566316640647974, guid: a8a398d8246903c418e3b5a246780307,
+        type: 3}
+      propertyPath: m_MaxValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7311566316640647974, guid: a8a398d8246903c418e3b5a246780307,
+        type: 3}
+      propertyPath: m_MinValue
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7311566316640647974, guid: a8a398d8246903c418e3b5a246780307,
+        type: 3}
+      propertyPath: m_WholeNumbers
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Slider))]
 public class InterfaceSlider : InterfaceButton
 {
     public Slider slider;
@@ -12,8 +11,8 @@ public class InterfaceSlider : InterfaceButton
 
     public override void Awake()
     {
-        slider = GetComponent<Slider>();
-        slider.onValueChanged.AddListener(delegate {OnSliderUpdate();});
+        slider = GetComponentInChildren<Slider>();
+        // slider.onValueChanged.AddListener(delegate {OnSliderUpdate();});
     }
 
     public override void OnSideInput(float direction)
@@ -22,12 +21,14 @@ public class InterfaceSlider : InterfaceButton
         {
             return;
         }
+        Debug.Log(Mathf.Sign(direction));
 
         slider.value += Mathf.Sign(direction);
-    }
-
-    public void OnSliderUpdate()
-    {
         onSideInputEvent.Invoke();
     }
+
+    // public void OnSliderUpdate()
+    // {
+    //     onSideInputEvent.Invoke();
+    // }
 }

@@ -157,15 +157,16 @@ public class PlayerController : MonoBehaviour
 
     public void OnMoveAction(InputAction.CallbackContext context)
     {
-        Debug.Log(ourPlayerState);
+        // Debug.Log(ourPlayerState);
 
         if (ourPlayerState == PlayerState.inMenu)
         {
             MenuScript.currentMenu.CycleThoughList(-(int)System.Math.Round(onMove.ReadValue<Vector2>().y, System.MidpointRounding.AwayFromZero));
 
-            if (onMove.ReadValue<Vector2>().x >= 0.125)
+            if (Mathf.Abs(onMove.ReadValue<Vector2>().x) >= 0.125)
             {
-                MenuScript.currentMenu.currentlySelectedButton.OnSideInput((float)System.Math.Round(onMove.ReadValue<Vector2>().x, System.MidpointRounding.AwayFromZero));
+                
+                MenuScript.currentMenu.currentlySelectedButton.OnSideInput(Mathf.Sign(onMove.ReadValue<Vector2>().x));
             }       
         }
     }

@@ -89,6 +89,11 @@ public class GeneralManager : MonoBehaviour
             {
                 GameOverMenuScript.instance.gameObject.SetActive(false);
             }
+
+            if (OptionsMenuScript.instance != null)
+            {
+                OptionsMenuScript.instance.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -190,6 +195,12 @@ public class GeneralManager : MonoBehaviour
             PauseMenuScript.instance.gameObject.SetActive(true);
         }
 
+        if (OptionsMenuScript.instance != null)
+        {
+            OptionsMenuScript.instance.gameObject.SetActive(false);
+        }
+
+
         PlayerController.ourPlayerState = PlayerState.inMenu;
         Cursor.lockState = CursorLockMode.None;
         isGameRunning = false;
@@ -211,6 +222,11 @@ public class GeneralManager : MonoBehaviour
         if (GameOverMenuScript.instance != null)
         {
             GameOverMenuScript.instance.gameObject.SetActive(false);
+        }
+
+        if (OptionsMenuScript.instance != null)
+        {
+            OptionsMenuScript.instance.gameObject.SetActive(false);
         }
 
         PlayerController.ourPlayerState = PlayerState.inGame;
@@ -271,7 +287,29 @@ public class GeneralManager : MonoBehaviour
 
     public void OpenOptionsMenu(MenuScript menuToSwapBackTo)
     {
-        
+        if (OptionsMenuScript.instance == null)
+        {
+            return;
+        }
+
+        menuToSwapBackTo.gameObject.SetActive(false);
+        OptionsMenuScript.instance.gameObject.SetActive(true);
+
+        // MenuScript.SwapToMenu(OptionsMenuScript.instance.gameObject, menuToSwapBackTo.gameObject);
+        OptionsMenuScript.instance.menuToReturnTo = menuToSwapBackTo;
+    }
+
+    public void CloseOptionsMenu()
+    {
+        if (OptionsMenuScript.instance == null)
+        {
+            return;
+        }
+
+        OptionsMenuScript.instance.gameObject.SetActive(false);
+        OptionsMenuScript.instance.menuToReturnTo.gameObject.SetActive(true);
+
+        // MenuScript.SwapToMenu(OptionsMenuScript.instance.menuToReturnTo.gameObject, OptionsMenuScript.instance.gameObject);
     }
 
     // This checks off the flag for an event, and triggers other events to be active if it's able to be

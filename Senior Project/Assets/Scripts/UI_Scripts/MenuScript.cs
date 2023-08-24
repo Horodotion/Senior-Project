@@ -74,7 +74,7 @@ public abstract class MenuScript : MonoBehaviour
             GetComponent<CanvasGroup>().alpha = 1;
         }
 
-        ConnectPlayerToMenu();
+        ConnectPlayerToMenu();  
     }
 
     void OnEnable()
@@ -83,6 +83,8 @@ public abstract class MenuScript : MonoBehaviour
         {
             counterText.text = GeneralManager.totalCollectiblesCounter + "/" + GeneralManager.instance.totalCollectibles;
         }
+
+        // ConnectPlayerToMenu();
     }
 
     public virtual void ConnectPlayerToMenu()
