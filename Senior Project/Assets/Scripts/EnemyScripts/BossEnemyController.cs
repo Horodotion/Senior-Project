@@ -133,11 +133,16 @@ public class BossEnemyController : EnemyController
     public IndividualStat currentArmorHealth;
     public float currenthPReductionPercentOnArmorBreak;
 
-    public GameObject iceArmorFormedVFX;
-    public GameObject fireArmorFormedVFX;
 
-    public GameObject iceArmorDestroyedVFX;
-    public GameObject fireArmorDestroyedVFX;
+    public VFXGameObject iceArmorFormedVFX;
+    public VFXGameObject fireArmorFormedVFX;
+    //public GameObject iceArmorFormedVFX;
+    //public GameObject fireArmorFormedVFX;
+
+    public VFXGameObject iceArmorDestroyedVFX;
+    public VFXGameObject fireArmorDestroyedVFX;
+    //public GameObject iceArmorDestroyedVFX;
+    //public GameObject fireArmorDestroyedVFX;
 
     /*
     [Header("Boss Dicision Setting")]
@@ -204,7 +209,7 @@ public class BossEnemyController : EnemyController
 
 
     [Header("Boss Teleport System")]
-    public GameObject teleportVFX;
+    public VFXGameObject teleportVFX;
     [SerializeField] public float teleportSampleDistance;
     public float playerTooCloseDistanceToTeleport = 4f;
 
@@ -303,9 +308,10 @@ public class BossEnemyController : EnemyController
         aniDeathDecision = "isDead";
         //isDeadAni = false;
     }
-
+    /*
     public void SpawnVFX(GameObject VFX)
     {
+        if (VFX == null) return;
         GameObject VFXGameObject = SpawnManager.instance.GetGameObject(VFX, SpawnType.vfx);
         VFXGameObject.transform.position = this.transform.position;
         VFXGameObject.transform.rotation = this.transform.rotation;
@@ -314,6 +320,7 @@ public class BossEnemyController : EnemyController
             playVFX.Play();
         }
     }
+    */
 
     public virtual void Start()
     {
@@ -669,7 +676,8 @@ public class BossEnemyController : EnemyController
         currentArmorElementType = DamageType.ice;
         iceArmorObject.SetActive(true);
         fireArmorObject.SetActive(false);
-        SpawnVFX(iceArmorFormedVFX);
+        SpawnManager.SpawnVFX(iceArmorFormedVFX.vFX, this.transform, iceArmorFormedVFX.offset);
+        //SpawnVFX(iceArmorFormedVFX);
         //These interaction are for the boss health not the armor health
         ChangeDamageInteraction(DamageType.ice, DamageInteraction.immune);
         ChangeDamageInteraction(DamageType.fire, DamageInteraction.nuetral);
@@ -686,7 +694,8 @@ public class BossEnemyController : EnemyController
         currentArmorElementType = DamageType.fire;
         fireArmorObject.SetActive(true);
         iceArmorObject.SetActive(false);
-        SpawnVFX(fireArmorFormedVFX);
+        SpawnManager.SpawnVFX(fireArmorFormedVFX.vFX, this.transform, fireArmorFormedVFX.offset);
+        //SpawnVFX(fireArmorFormedVFX);
         //These interaction are for the boss health not the armor health
         ChangeDamageInteraction(DamageType.ice, DamageInteraction.nuetral);
         ChangeDamageInteraction(DamageType.fire, DamageInteraction.immune);
@@ -1103,7 +1112,8 @@ public class BossEnemyController : EnemyController
                 {
                     //Teleport boss
                     //Spawn VFX when teleport
-                    SpawnVFX(teleportVFX);
+                    SpawnManager.SpawnVFX(teleportVFX.vFX, this.transform, teleportVFX.offset);
+                    //SpawnVFX(teleportVFX);
                     this.transform.position = tempCol.transform.position;
                     //SpawnTeleportVPX();
                     ExitTeleportingState();
@@ -1499,11 +1509,13 @@ public class BossEnemyController : EnemyController
             {
                 if (currentArmorElementType == DamageType.ice)
                 {
-                    SpawnVFX(iceArmorDestroyedVFX);
+                    SpawnManager.SpawnVFX(iceArmorDestroyedVFX.vFX, this.transform, iceArmorDestroyedVFX.offset);
+                    //SpawnVFX(iceArmorDestroyedVFX);
                 }
                 if (currentArmorElementType == DamageType.fire)
                 {
-                    SpawnVFX(fireArmorDestroyedVFX);
+                    SpawnManager.SpawnVFX(fireArmorDestroyedVFX.vFX, this.transform, fireArmorDestroyedVFX.offset);
+                    //SpawnVFX(fireArmorDestroyedVFX);
                 }
                 currentArmorHealth.stat = currentArmorHealth.minimum;
                 //EneterNextPhase();

@@ -60,6 +60,9 @@ public class ExplosiveObject : EnemyController
             }
 
         }
+
+        MobSpawnerController.instance.DestroyObjectInMobSpawrer(this.gameObject);
+
         Destroy(this.gameObject);
     }
 }

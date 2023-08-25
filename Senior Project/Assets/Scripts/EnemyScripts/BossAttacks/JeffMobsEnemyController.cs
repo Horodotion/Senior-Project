@@ -150,6 +150,7 @@ public class JeffMobsEnemyController : BossEnemyController
     //}
     public override void Dead()
     {
+        MobSpawnerController.instance.DestroyObjectInMobSpawrer(this.gameObject);
         Destroy(this.gameObject);
     }
 }
