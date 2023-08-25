@@ -16,7 +16,7 @@ public class MobSpawnerController : MonoBehaviour
         public int numOfGameObjectSpawnEachTime;
         public int maxNumOfGameObjectSpawn;
         //[HideInInspector] public int numOfGameObjectSpawn;
-        public GameObject vFX;
+        public VFXGameObject spawningVFX;
         public bool isStationary;
         [HideInInspector] public List<GameObject> spawnedObject;
     }
@@ -45,11 +45,14 @@ public class MobSpawnerController : MonoBehaviour
         SpawnItemBaseOnData(spawnData[i]);
     }
 
-    public void ReduceObjectInMobSpawrer(GameObject gameObj)
+    public void DestroyObjectInMobSpawrer(GameObject gameObj)
     {
         for (int i = 0; i < spawnData.Length; i++)
         {
-            spawnData[i].spawnedObject.Remove(gameObj);
+            if (spawnData[i].spawnedObject.Remove(gameObj))
+            {
+                Destroy(gameObj);
+            }
         }
     }
 
@@ -73,7 +76,8 @@ public class MobSpawnerController : MonoBehaviour
             //Check if the spawn is empty
             if (sD.gameObjectSPParent.GetChild(spawnIndex).transform.childCount == 0)
             {
-                SpawnVFX(sD.vFX, sD.gameObjectSPParent.GetChild(spawnIndex).transform);
+                SpawnManager.SpawnVFX(sD.spawningVFX.vFX, sD.gameObjectSPParent.GetChild(spawnIndex).transform, sD.spawningVFX.offset);
+                //SpawnVFX(sD.vFX, sD.gameObjectSPParent.GetChild(spawnIndex).transform);
                 //Spawn the Object and increase the count
                 if (sD.isStationary)
                 {
@@ -90,6 +94,7 @@ public class MobSpawnerController : MonoBehaviour
             }
         }
     }
+    /*
     public void SpawnVFX(GameObject VFX, Transform transform)
     {
         if (VFX == null) return;
@@ -101,6 +106,7 @@ public class MobSpawnerController : MonoBehaviour
             playVFX.Play();
         }
     }
+    */
 }
 
 

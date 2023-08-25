@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.VFX;
 
 public enum SpawnType
 {
@@ -9,6 +10,13 @@ public enum SpawnType
     vfx,
     damageText,
     soundEffect
+}
+
+[System.Serializable]
+public struct VFXGameObject
+{
+    public GameObject vFX;
+    public Vector3 offset;
 }
 
 public class SpawnManager : MonoBehaviour
@@ -153,4 +161,19 @@ public class SpawnManager : MonoBehaviour
             }
         }
     }
+
+    
+    public static void SpawnVFX(GameObject thisVFX, Transform targetToSpawn, Vector3 offset)
+    {
+        if (thisVFX == null) return;
+        GameObject VFXGameObject = SpawnManager.instance.GetGameObject(thisVFX, SpawnType.vfx);
+        VFXGameObject.transform.position = targetToSpawn.position + offset;
+        VFXGameObject.transform.rotation = targetToSpawn.rotation;
+        if (VFXGameObject.TryGetComponent<VisualEffect>(out VisualEffect playVFX))
+        {
+            playVFX.Play();
+        }
+    }
 }
+
+
