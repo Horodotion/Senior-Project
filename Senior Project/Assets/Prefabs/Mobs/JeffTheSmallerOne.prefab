@@ -4887,10 +4887,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health:
-    stat: 100
+    stat: 60
     baseStat: 0
     minimum: 0
-    maximum: 100
+    maximum: 60
   inInvincibilityFrames: 0
   dead: 0
   usesDamageText: 1
@@ -4983,7 +4983,7 @@ MonoBehaviour:
   aniDeathDecision: 
   state: 0
   isAbleToExplode: 1
-  explosionTime: 1000
+  explosionTime: 10
   destroyEffectPrefab: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
     type: 3}
   customTransform: {fileID: 0}
@@ -32697,7 +32697,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6715460792820048563
 Transform:
   m_ObjectHideFlags: 0
@@ -33702,7 +33702,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2c73704c4781f544fbd7d9b0f0aca304, type: 2}
+  - {fileID: 2100000, guid: 4d85f1453964f7141a0b06a830d704cc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -36206,7 +36206,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c35261305da77804093f1e9fe5f9bc4c, type: 2}
+  - {fileID: 2100000, guid: f150877e2c668cb4ba018f7aa65500bb, type: 2}
+  - {fileID: 2100000, guid: 07c6ec915ceba444eb668f006cd2ca09, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -36578,7 +36579,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6581737176714312317
 Transform:
   m_ObjectHideFlags: 0
