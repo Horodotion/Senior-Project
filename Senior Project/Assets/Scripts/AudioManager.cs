@@ -31,6 +31,7 @@ public class AudioManager : MonoBehaviour
     public static void SetMixerVolume(float value, AudioMixerType audioMixerType = AudioMixerType.Master)
     {
         instance.audioMixer.SetFloat(audioMixerType.ToString(), Mathf.Log10(value) * 20f);
+        // GetAudioMixerGroup(audioMixerType).audioMixer.SetFloat = value;
     }
 
     public static AudioMixerGroup GetAudioMixerGroup(AudioMixerType audioMixerType = AudioMixerType.Master)

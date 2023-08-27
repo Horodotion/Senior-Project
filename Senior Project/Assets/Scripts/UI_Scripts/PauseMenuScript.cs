@@ -16,6 +16,7 @@ public class PauseMenuScript : MenuScript
             instance = this;
             exitGameButton.onPointerDownEvent.AddListener(() => Application.Quit());
             resumeGameButton.onPointerDownEvent.AddListener(() => GeneralManager.instance.UnPauseGame());
+            optionsMenuButton.onPointerDownEvent.AddListener(() => GeneralManager.instance.OpenOptionsMenu(instance));
             mainMenuButton.onPointerDownEvent.AddListener(() => GeneralManager.ReturnToMainMenu());
             retryLevelButton.onPointerDownEvent.AddListener(() => GeneralManager.ReloadLevel());
 
