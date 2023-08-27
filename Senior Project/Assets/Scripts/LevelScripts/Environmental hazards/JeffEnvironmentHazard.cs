@@ -181,7 +181,10 @@ public class JeffEnvironmentHazard : MonoBehaviour
                 if (thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController projectileController))
                 {
                     projectileController.transform.position = shootPoint.transform.position;
-                    projectileController.transform.rotation = shootPoint.transform.rotation;
+                    Vector3 direction = (PlayerController.puppet.transform.position - shootPoint.transform.position).normalized;
+
+                    Quaternion directionToMove = Quaternion.LookRotation(direction, transform.up);
+                    projectileController.transform.rotation = directionToMove;
                     projectileController.LaunchProjectile();
                 }
             }
@@ -192,7 +195,10 @@ public class JeffEnvironmentHazard : MonoBehaviour
                 if (thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController projectileController))
                 {
                     projectileController.transform.position = shootPoint.transform.position;
-                    projectileController.transform.rotation = shootPoint.transform.rotation;
+                    Vector3 direction = (PlayerController.puppet.transform.position - shootPoint.transform.position).normalized;
+
+                    Quaternion directionToMove = Quaternion.LookRotation(direction, transform.up);
+                    projectileController.transform.rotation = directionToMove;
                     projectileController.LaunchProjectile();
                 }
             }

@@ -5,10 +5,12 @@ using UnityEngine;
 public class IceDisintegration : MonoBehaviour
 {
     [Header("References")]
-    public GameObject toAppear;
+    public GameObject iceWall;
     public Renderer rend;
     private float shaderValue;
-    private bool playerIn = false;
+    private bool disintegrate = false;
+    [SerializeField] private Transform destination;
+    [SerializeField] private float speed;
 
     [Header("Settings")]
     private float startValue = 0;
@@ -16,26 +18,29 @@ public class IceDisintegration : MonoBehaviour
     public float rateOfThing = 2;
     public float changeValue = .1f;
 
+
     // Start is called before the first frame update
     void Start()
     {
-        toAppear.SetActive(false);
-        rend = toAppear.GetComponent<Renderer>();
+        rend = iceWall.GetComponent<Renderer>();
         shaderValue = rend.material.GetFloat("_Disintigration");
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (playerIn)
+        if (disintegrate)
         {
-            if (shaderValue > 0)
+            Debug.Log("I'm doing it!");
+            
+            if (shaderValue < 1)
             {
-                toAppear.SetActive(true);
-                shaderValue -= changeValue * (rateOfThing * Time.deltaTime);
+                shaderValue += changeValue * (rateOfThing * Time.deltaTime);
                 Debug.Log(shaderValue);
                 rend.material.SetFloat("_Disintigration", shaderValue);
             }
+
+            iceWall.transform.position = Vector3.MoveTowards(iceWall.transform.position, destination.position, speed * Time.deltaTime);
         }
 
     }
@@ -44,7 +49,7 @@ public class IceDisintegration : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            playerIn = true;
+            disintegrate = true;
         }
     }
 }
