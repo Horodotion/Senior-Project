@@ -4926,10 +4926,18 @@ MonoBehaviour:
     minimum: -Infinity
     maximum: Infinity
   currenthPReductionPercentOnArmorBreak: 0
-  iceArmorFormedVFX: {fileID: 0}
-  fireArmorFormedVFX: {fileID: 0}
-  iceArmorDestroyedVFX: {fileID: 0}
-  fireArmorDestroyedVFX: {fileID: 0}
+  iceArmorFormedVFX:
+    vFX: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+  fireArmorFormedVFX:
+    vFX: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+  iceArmorDestroyedVFX:
+    vFX: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+  fireArmorDestroyedVFX:
+    vFX: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
   orbWalkSpeed: 100
   orbWalkAcceleration: 100
   turnSpeed: 100
@@ -4956,10 +4964,16 @@ MonoBehaviour:
   playerTooCloseDistanceToCover: 4
   coverUpdateFrequency: 0.75
   coverSampleDistance: 1000
-  teleportVFX: {fileID: 4169953279256951507, guid: 8b017fc54df6aab489fac16d0bc78ca3,
-    type: 3}
+  teleportVFX:
+    vFX: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
   teleportSampleDistance: 1000
   playerTooCloseDistanceToTeleport: 4
+  isBossTPOutToNextScene: 0
+  hPPercetageToTP: 0
+  bossEndSceneEvent:
+    m_PersistentCalls:
+      m_Calls: []
   orbWalkAniSpeed: 1
   runAniSpeed: 1.5
   isAbleToPlayDeathAni: 1
@@ -4984,9 +4998,10 @@ MonoBehaviour:
   aniLaserState: 
   aniDeathDecision: 
   state: 0
-  isAbleToExplode: 1
-  explosionTime: 50000
-  destroyEffectPrefab: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
+  isAbleToExplode: 0
+  isTauntAnimationOnExlpode: 0
+  explosionTime: 10
+  explodeEffectPrefab: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
     type: 3}
   customTransform: {fileID: 0}
   explosionRadius: 5
