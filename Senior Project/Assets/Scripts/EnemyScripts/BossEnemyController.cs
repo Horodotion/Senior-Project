@@ -218,7 +218,7 @@ public class BossEnemyController : EnemyController
     [Header("Boss Teleport Out At Certain Health System")]
     public bool isBossTPOutToNextScene;
     [ToggleableVarable("isBossTPOutToNextScene")] public float hPPercetageToTP;
-    [ToggleableVarable("isBossTPOutToNextScene")] public UnityEvent bossEndSceneEvent;
+    [ToggleableVarable("isBossTPOutToNextScene")] public GameObject bossEndSceneGameObject;
     
 
 
@@ -344,6 +344,12 @@ public class BossEnemyController : EnemyController
 
         //bossState = BossState.meleeAttack;
         currentMovementPhase = movementPhase[0];
+
+        if (isBossTPOutToNextScene)
+        {
+            bossEndSceneGameObject.SetActive(false);
+        }
+
         //bossState = BossState.spawnTurrets;
         //animator.SetBool(aniDeathDecision, true);
         //bossState = BossState.laserAttack;
@@ -560,9 +566,7 @@ public class BossEnemyController : EnemyController
 
     public void IdleAni()
     {
-        Debug.Log(animator.GetInteger(aniDecision) + " " + bossState);
         animator.SetInteger(aniDecision, idleAni);
-        Debug.Log(animator.GetInteger(aniDecision) + " " + bossState);
     }
     public void RunningAni()
     {
@@ -1556,9 +1560,10 @@ public class BossEnemyController : EnemyController
     {
         SpawnManager.SpawnVFX(teleportVFX.vFX, this.transform, teleportVFX.offset);
 
-        bossEndSceneEvent.Invoke();
+        bossEndSceneGameObject.SetActive(true);
 
-        
+        this.gameObject.SetActive(false);
+        //Destroy(this.gameObject);
     }
 
     /*
