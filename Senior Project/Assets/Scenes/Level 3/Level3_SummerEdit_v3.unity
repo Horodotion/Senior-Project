@@ -4060,7 +4060,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99993330}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 48.65, y: 20.73, z: 20.01}
+  m_LocalPosition: {x: 49.36, y: 18.35, z: 14.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25874,7 +25874,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644465053}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 38.57, y: 14.92, z: 6.88}
+  m_LocalPosition: {x: 38.54, y: 14.92, z: 8.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -80625,6 +80625,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1456991576604559661, guid: ec98760e3a965f8489dad9aab06c28a7,
         type: 3}
+      propertyPath: speed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456991576604559661, guid: ec98760e3a965f8489dad9aab06c28a7,
+        type: 3}
       propertyPath: mobSpawner
       value: 
       objectReference: {fileID: 1648620210545248831}
@@ -80632,7 +80637,7 @@ PrefabInstance:
         type: 3}
       propertyPath: teleportVFX.vFX
       value: 
-      objectReference: {fileID: 7628682693131150422, guid: 11f02ba949864dc40900c4bcc0101956,
+      objectReference: {fileID: 157936843782205027, guid: 927b8eeba20ade541b2ab11af50d41b7,
         type: 3}
     - target: {fileID: 1456991576604559661, guid: ec98760e3a965f8489dad9aab06c28a7,
         type: 3}
@@ -80660,7 +80665,7 @@ PrefabInstance:
     - target: {fileID: 1456991576604559661, guid: ec98760e3a965f8489dad9aab06c28a7,
         type: 3}
       propertyPath: teleportVFX.offset.y
-      value: -2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1456991576604559661, guid: ec98760e3a965f8489dad9aab06c28a7,
         type: 3}
@@ -80672,7 +80677,7 @@ PrefabInstance:
         type: 3}
       propertyPath: iceArmorFormedVFX.vFX
       value: 
-      objectReference: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
+      objectReference: {fileID: 7628682693131150422, guid: 11f02ba949864dc40900c4bcc0101956,
         type: 3}
     - target: {fileID: 1456991576604559661, guid: ec98760e3a965f8489dad9aab06c28a7,
         type: 3}
@@ -80683,20 +80688,40 @@ PrefabInstance:
         type: 3}
       propertyPath: fireArmorFormedVFX.vFX
       value: 
-      objectReference: {fileID: 4373543925861226524, guid: bf4f22a6485957f41aec2a1ab511fe74,
+      objectReference: {fileID: 7628682693131150422, guid: 575b433999532184c938082674ec55e8,
         type: 3}
     - target: {fileID: 1456991576604559661, guid: ec98760e3a965f8489dad9aab06c28a7,
         type: 3}
       propertyPath: iceArmorDestroyedVFX.vFX
       value: 
-      objectReference: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
+      objectReference: {fileID: 4373543925861226524, guid: 0e573d1b345ddca44a558f15e467fd3e,
         type: 3}
     - target: {fileID: 1456991576604559661, guid: ec98760e3a965f8489dad9aab06c28a7,
         type: 3}
       propertyPath: fireArmorDestroyedVFX.vFX
       value: 
-      objectReference: {fileID: 4373543925861226524, guid: bf4f22a6485957f41aec2a1ab511fe74,
+      objectReference: {fileID: 4373543925861226524, guid: 5dc7cdae8d5e2764791ef4f2f08ccba1,
         type: 3}
+    - target: {fileID: 1456991576604559661, guid: ec98760e3a965f8489dad9aab06c28a7,
+        type: 3}
+      propertyPath: iceArmorFormedVFX.offset.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456991576604559661, guid: ec98760e3a965f8489dad9aab06c28a7,
+        type: 3}
+      propertyPath: fireArmorFormedVFX.offset.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456991576604559661, guid: ec98760e3a965f8489dad9aab06c28a7,
+        type: 3}
+      propertyPath: iceArmorDestroyedVFX.offset.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456991576604559661, guid: ec98760e3a965f8489dad9aab06c28a7,
+        type: 3}
+      propertyPath: fireArmorDestroyedVFX.offset.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1456991576604559827, guid: ec98760e3a965f8489dad9aab06c28a7,
         type: 3}
       propertyPath: m_Radius
