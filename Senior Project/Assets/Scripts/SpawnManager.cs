@@ -148,12 +148,12 @@ public class SpawnManager : MonoBehaviour
     }
 
     
-    public static void SpawnVFX(GameObject thisVFX, Transform targetToSpawn, Vector3 offset)
+    public static void SpawnVFX(GameObject thisVFX, Transform spawnLocation, Vector3 offset)
     {
         if (thisVFX == null) return;
         GameObject VFXGameObject = SpawnManager.instance.GetGameObject(thisVFX, SpawnType.vfx);
-        VFXGameObject.transform.position = targetToSpawn.position + offset;
-        VFXGameObject.transform.rotation = targetToSpawn.rotation;
+        VFXGameObject.transform.position = spawnLocation.position + offset;
+        VFXGameObject.transform.rotation = spawnLocation.rotation;
         if (VFXGameObject.TryGetComponent<VisualEffect>(out VisualEffect playVFX))
         {
             playVFX.Play();

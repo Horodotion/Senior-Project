@@ -4887,10 +4887,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health:
-    stat: 60
+    stat: 100
     baseStat: 0
     minimum: 0
-    maximum: 60
+    maximum: 100
   inInvincibilityFrames: 0
   dead: 0
   usesDamageText: 1
@@ -4926,8 +4926,18 @@ MonoBehaviour:
     minimum: -Infinity
     maximum: Infinity
   currenthPReductionPercentOnArmorBreak: 0
-  iceArmorVFX: {fileID: 0}
-  fireArmorVFX: {fileID: 0}
+  iceArmorFormedVFX:
+    vFX: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+  fireArmorFormedVFX:
+    vFX: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+  iceArmorDestroyedVFX:
+    vFX: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+  fireArmorDestroyedVFX:
+    vFX: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
   orbWalkSpeed: 100
   orbWalkAcceleration: 100
   turnSpeed: 100
@@ -4954,10 +4964,16 @@ MonoBehaviour:
   playerTooCloseDistanceToCover: 4
   coverUpdateFrequency: 0.75
   coverSampleDistance: 1000
-  teleportVFX: {fileID: 4169953279256951507, guid: 8b017fc54df6aab489fac16d0bc78ca3,
-    type: 3}
+  teleportVFX:
+    vFX: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
   teleportSampleDistance: 1000
   playerTooCloseDistanceToTeleport: 4
+  isBossTPOutToNextScene: 0
+  hPPercetageToTP: 0
+  bossEndSceneEvent:
+    m_PersistentCalls:
+      m_Calls: []
   orbWalkAniSpeed: 1
   runAniSpeed: 1.5
   isAbleToPlayDeathAni: 1
@@ -4982,9 +4998,10 @@ MonoBehaviour:
   aniLaserState: 
   aniDeathDecision: 
   state: 0
-  isAbleToExplode: 1
+  isAbleToExplode: 0
+  isTauntAnimationOnExlpode: 0
   explosionTime: 10
-  destroyEffectPrefab: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
+  explodeEffectPrefab: {fileID: 4373543925861226524, guid: 1413acdaa6a14624d814e2b92dad054d,
     type: 3}
   customTransform: {fileID: 0}
   explosionRadius: 5
@@ -32697,7 +32714,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6715460792820048563
 Transform:
   m_ObjectHideFlags: 0
@@ -33702,7 +33719,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4d85f1453964f7141a0b06a830d704cc, type: 2}
+  - {fileID: 2100000, guid: 2c73704c4781f544fbd7d9b0f0aca304, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -36206,8 +36223,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f150877e2c668cb4ba018f7aa65500bb, type: 2}
-  - {fileID: 2100000, guid: 07c6ec915ceba444eb668f006cd2ca09, type: 2}
+  - {fileID: 2100000, guid: c35261305da77804093f1e9fe5f9bc4c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -36579,7 +36595,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6581737176714312317
 Transform:
   m_ObjectHideFlags: 0

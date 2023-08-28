@@ -7,17 +7,18 @@ public class JeffMobsEnemyController : BossEnemyController
 {
     [Header("Self Explode/Dead System")]
     [SerializeField] private bool isAbleToExplode;
-    [SerializeField] private float explosionTime;
+    [ToggleableVarable("isAbleToExplode")] [SerializeField] private bool isTauntAnimationOnExlpode;
+    [ToggleableVarable("isAbleToExplode")] [SerializeField] private float explosionTime;
     private float explosionTimer;
 
-    public GameObject destroyEffectPrefab;
+    [ToggleableVarable("isAbleToExplode")] public GameObject explodeEffectPrefab;
     //GameObject to help in case the model does not have perfect transforms
 
     //put an empty game object in the following variable so the explosion effect can find it - Matt
-    public GameObject customTransform;
+    [ToggleableVarable("isAbleToExplode")] public GameObject customTransform;
 
     // On fresh prefabs I set health to 10 by default, but feel free to change if we have a global damage scale
-    public float explosionRadius, baseDamageDealt;//, secondsUntilParticlesAreDestroyed;
+    [ToggleableVarable("isAbleToExplode")] public float explosionRadius, baseDamageDealt;//, secondsUntilParticlesAreDestroyed;
 
     public override void OnEnable()
     {
@@ -61,13 +62,22 @@ public class JeffMobsEnemyController : BossEnemyController
     }
     private void Update()
     {
-        if (isAbleToExplode && bossState != BossState.dead)
+        if (isAbleToExplode && bossState != BossState.dead && bossState != BossState.taunt)
         {
             if (explosionTimer < 0)
             {
-                //Debug.Log("Boom");
-                //bossState = BossState.taunt;
-                SelfExplode();
+                
+                if (isTauntAnimationOnExlpode)
+                {
+                    StopCoroutine(MovementCoroutine);
+                    bossState = BossState.taunt;
+                }
+                else
+                {
+                    SelfExplode();
+                }
+
+                //SelfExplode();
             }
             else
             {
@@ -75,12 +85,13 @@ public class JeffMobsEnemyController : BossEnemyController
             }
         }
     }
-
+    
     public override void ExitTauntState()
     {
         Debug.Log("Boom");
         SelfExplode();
     }
+    
 
     private void SelfExplode()
     {
@@ -99,18 +110,18 @@ public class JeffMobsEnemyController : BossEnemyController
 
     public override void Explode()
     {
-        if (destroyEffectPrefab != null)
+        if (explodeEffectPrefab != null)
         {
             // Checks if there is a custom transform - Matt
             if (customTransform != null)
             {
                 // If there is use the custom transform to spawn the particles - Matt
-                GameObject destructionParticles = SpawnManager.instance.GetGameObject(destroyEffectPrefab, SpawnType.vfx);
+                GameObject destructionParticles = SpawnManager.instance.GetGameObject(explodeEffectPrefab, SpawnType.vfx);
                 destructionParticles.transform.position = customTransform.transform.position;
             }
             else
             {
-                GameObject destructionParticles = SpawnManager.instance.GetGameObject(destroyEffectPrefab, SpawnType.vfx);
+                GameObject destructionParticles = SpawnManager.instance.GetGameObject(explodeEffectPrefab, SpawnType.vfx);
                 destructionParticles.transform.position = transform.transform.position;
             }
         }

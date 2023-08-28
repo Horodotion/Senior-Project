@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.VFX;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public enum BossState
 {
@@ -24,7 +25,8 @@ public enum BossState
     spawnMobs = 12,
     ambushed = 13,
     dead = 14,
-    setArmor = 15
+    setArmor = 15,
+    tPAndEndScene = 16
     
 
     //testState,
@@ -213,6 +215,13 @@ public class BossEnemyController : EnemyController
     [SerializeField] public float teleportSampleDistance;
     public float playerTooCloseDistanceToTeleport = 4f;
 
+    [Header("Boss Teleport Out At Certain Health System")]
+    public bool isBossTPOutToNextScene;
+    [ToggleableVarable("isBossTPOutToNextScene")] public float hPPercetageToTP;
+    [ToggleableVarable("isBossTPOutToNextScene")] public GameObject bossEndSceneGameObject;
+    
+
+
     [Header("Animation Setting")]
     [Range(.5f, 5)] public float orbWalkAniSpeed;
     [Range(.5f, 5)] public float runAniSpeed;
@@ -335,6 +344,12 @@ public class BossEnemyController : EnemyController
 
         //bossState = BossState.meleeAttack;
         currentMovementPhase = movementPhase[0];
+
+        if (isBossTPOutToNextScene)
+        {
+            bossEndSceneGameObject.SetActive(false);
+        }
+
         //bossState = BossState.spawnTurrets;
         //animator.SetBool(aniDeathDecision, true);
         //bossState = BossState.laserAttack;
@@ -583,9 +598,9 @@ public class BossEnemyController : EnemyController
         //animator.SetBool("isTaunting", true);
         animator.SetInteger(aniDecision, tauntAni);
         //bossSpawner.SpawningThings();
-
         while (animator.GetInteger(aniDecision) == tauntAni)
         {
+            Debug.Log(animator.GetInteger(aniDecision));
             yield return null;
         }
         
@@ -598,13 +613,13 @@ public class BossEnemyController : EnemyController
     //Change the state of Taunt
     public virtual void ExitTauntState()
     {
-        Debug.Log("Boom");
         bossState = currentMovementPhase.tauntAttackDecision.GetTheNextRandomDicision();
     }
 
 
     public void EndTauntStateAni()
     {
+        //Debug.Log("Boom");
         IdleAni();
     }
 
@@ -1522,45 +1537,35 @@ public class BossEnemyController : EnemyController
                 EnterNoArmorState();
                 health.AddToStat(-health.maximum * currenthPReductionPercentOnArmorBreak/100);
             }
+
+            
+
             StartCoroutine(InvincibilityFrames());
             return;
         }
 
         Debug.Log("Health decrease");
         base.Damage(damageAmount, hitPosition, damageType);
-        /*
-        if (damageImmunities.Contains(damageType))
+
+        if (isBossTPOutToNextScene)
         {
-            if (usesDamageText)
+            if (((health.stat - health.minimum) / health.maximum) * 100 <= hPPercetageToTP)
             {
-                GameObject damageText = GetDamageText(damageType);
-                damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, 0, damageType);
+                TPOutOfScene();
             }
-
-            return;
         }
-
-        damage = DamageCalculation(damageAmount, damageType);
-
-
-        if (usesDamageText)
-        {
-            GameObject damageText = GetDamageText(damageType);
-            damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, damage, damageType);
-        }
-        if (!inInvincibilityFrames)
-        {
-            health.AddToStat(-damage);
-            //StartCoroutine(CheckArmorPhase());
-            
-        }
-
-        if (health.stat <= health.minimum && !dead)
-        {
-            CommitDie();
-        }
-        */
     }
+
+    public void TPOutOfScene()
+    {
+        SpawnManager.SpawnVFX(teleportVFX.vFX, this.transform, teleportVFX.offset);
+
+        bossEndSceneGameObject.SetActive(true);
+
+        this.gameObject.SetActive(false);
+        //Destroy(this.gameObject);
+    }
+
     /*
     public IEnumerator CheckArmorPhase()
     {
