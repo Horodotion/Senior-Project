@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7524600638146378487}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 13.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7503,15 +7503,16 @@ MonoBehaviour:
   cascadingJeff: 0
   nextJeff: {fileID: 0}
   instantDisintegrate: 0
-  telePoof: {fileID: 7628682693131150422, guid: 11f02ba949864dc40900c4bcc0101956,
-    type: 3}
+  telePoof: {fileID: 157936843782205027, guid: 927b8eeba20ade541b2ab11af50d41b7, type: 3}
   poofSpawnPoint: {fileID: 130727901032890932}
+  iceWallToMelt: {fileID: 0}
   hazardType: 1
   attackRange: 15
   criticalRange: 0
   despawnTime: 2
   repeatingAttack: 0
   extraDrop: 0
+  connectedIceWall: 0
   iceMesh: {fileID: 8090080305840361532}
   boneBesh: {fileID: 8090080304994776628}
   bodyMesh: {fileID: 8090080305147168582}

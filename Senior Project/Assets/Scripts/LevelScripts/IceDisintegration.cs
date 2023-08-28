@@ -8,7 +8,7 @@ public class IceDisintegration : MonoBehaviour
     public GameObject iceWall;
     public Renderer rend;
     private float shaderValue;
-    private bool disintegrate = false;
+    public bool disintegrate = false;
     [SerializeField] private Transform destination;
     [SerializeField] private float speed;
 

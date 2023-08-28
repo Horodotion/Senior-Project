@@ -34,6 +34,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
     public bool instantDisintegrate;
     public GameObject telePoof;
     public Transform poofSpawnPoint;
+    public IceDisintegration iceWallToMelt;
     // public bool dropTurret;
     // public bool fireElem;
 
@@ -48,6 +49,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
     private bool hasAttacked;
     public bool extraDrop;
     private bool dropped = false;
+    public bool connectedIceWall = false;
 
     [Header("Disintegration")]
     public GameObject iceMesh;
@@ -81,6 +83,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
         boneRend = boneBesh.GetComponent<SkinnedMeshRenderer>();
         bodyRend = bodyMesh.GetComponent<SkinnedMeshRenderer>();
         shaderValue = bodyRend.material.GetFloat("_Disintigration");
+        Instantiate(telePoof, new Vector3(poofSpawnPoint.position.x, poofSpawnPoint.position.y, poofSpawnPoint.position.z), Quaternion.identity);
     }
 
     void Start()
@@ -253,6 +256,10 @@ public class JeffEnvironmentHazard : MonoBehaviour
     {
         //transform.LookAt(runawayPoint);
         //anim.SetBool("isRunning", true);
+        if (connectedIceWall && iceWallToMelt != null)
+        {
+            iceWallToMelt.disintegrate = true;
+        }
         anim.speed = 1;
         anim.SetInteger("idleDecision", 1);
         agent.SetDestination(runawayPoint.position);
