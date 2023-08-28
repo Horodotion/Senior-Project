@@ -457,9 +457,7 @@ MonoBehaviour:
   playerTooCloseDistanceToTeleport: 4
   isBossTPOutToNextScene: 0
   hPPercetageToTP: 0
-  bossEndSceneEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  bossEndSceneGameObject: {fileID: 0}
   orbWalkAniSpeed: 0
   runAniSpeed: 0
   isAbleToPlayDeathAni: 0
@@ -4783,6 +4781,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1868929932}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1918858121 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1799522092324479054, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1456991578016999084}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1921684648
 GameObject:
   m_ObjectHideFlags: 0
@@ -5127,6 +5131,21 @@ PrefabInstance:
         type: 3}
       propertyPath: bossEndSceneEvent.m_PersistentCalls.m_Calls.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456991576604559661, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
+        type: 3}
+      propertyPath: bossEndSceneEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1918858121}
+    - target: {fileID: 1456991576604559661, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
+        type: 3}
+      propertyPath: bossEndSceneEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456991576604559661, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
+        type: 3}
+      propertyPath: bossEndSceneEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Test()
       objectReference: {fileID: 0}
     - target: {fileID: 1799522092324479054, guid: 9222ae1a1190ad044ad4fa857e3a60c7,
         type: 3}
