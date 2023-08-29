@@ -17,6 +17,7 @@ public class TimedDanger_v2 : TriggerScript
 
     // Aesthetic
     [SerializeField] private GameObject myParticles;
+    public Transform poofSpawnPoint;
 
 
     void FixedUpdate()
@@ -28,7 +29,7 @@ public class TimedDanger_v2 : TriggerScript
             if (activated)
             {
                 // All effects that happen when the object deactivates
-                myParticles.SetActive(false);
+                //myParticles.SetActive(false);
 
                 // Reset timer and toggle activity state
                 timer = inactiveTime;
@@ -37,8 +38,8 @@ public class TimedDanger_v2 : TriggerScript
             else
             {
                 // All effects that happen when the object activates
-                myParticles.SetActive(true);
-
+                //myParticles.SetActive(true);
+                Instantiate(myParticles, poofSpawnPoint.transform.position, poofSpawnPoint.transform.rotation);
                 // Reset timer and toggle activity state
                 timer = activeTime;
                 activated = true;

@@ -7,7 +7,7 @@ public class QuickSelfDestruct : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Invoke(nameof(Die), 2f);
+        Invoke(nameof(Die), 4f);
     }
 
     private void Die()
