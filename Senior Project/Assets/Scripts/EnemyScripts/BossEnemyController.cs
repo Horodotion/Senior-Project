@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.VFX;
-using UnityEngine.UI;
+//using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
@@ -26,7 +26,7 @@ public enum BossState
     ambushed = 13,
     dead = 14,
     setArmor = 15,
-    tPAndEndScene = 16
+    //tPAndEndScene = 16
     
 
     //testState,
@@ -61,8 +61,17 @@ public class BossEnemyController : EnemyController
     //public int bossPhase;
 
     //Health Bar system
+    [Header("Canvas Syatem")]
     [SerializeField] private GameObject healthBarCanvasObject;
-    [SerializeField] private Slider healthBar;
+
+    [SerializeField] private GameObject healthBar;
+    private StatSlinderController healthBarController;
+
+    [SerializeField] private GameObject iceArmorHealthBar;
+    private StatSlinderController iceArmorHealthBarController;
+
+    [SerializeField] private GameObject fireArmorHealthBar;
+    private StatSlinderController fireArmorHealthBarController;
 
     //Boss activation system
     private bool isPlayerReachingBoss;
@@ -278,19 +287,31 @@ public class BossEnemyController : EnemyController
         navMeshAgent.speed = speed;
         navMeshAgent.angularSpeed = angularSpeed;
         navMeshAgent.acceleration = acceleration;
+
+
         attacksManager = GetComponent<AttacksManager>();
+
         mobSpawnerController = mobSpawner.GetComponent<MobSpawnerController>();
-        isPlayerReachingBoss = true;
-        //healthBar = healthBarCanvasObject.GetComponentInChildren<Slider>();
+
+        
+
         if (TryGetComponent<Animator>(out Animator thatAnimator))
         {
             animator = thatAnimator;
         }
-        //HandleStateChange(state, BossState.inCombat);
+
         OnBossStateChange += HandleStateChange;
-        //player = PlayerController.puppet;
+
+        //Health and Armror UI
+
+        healthBarController = healthBar.GetComponent<StatSlinderController>();
+        iceArmorHealthBarController = iceArmorHealthBar.GetComponent<StatSlinderController>();
+        fireArmorHealthBarController = fireArmorHealthBar.GetComponent<StatSlinderController>();
+
 
         AnimationParameter();
+
+        isPlayerReachingBoss = true;
     }
 
     //public virtual void EneterNextPhase()
@@ -317,26 +338,12 @@ public class BossEnemyController : EnemyController
         aniDeathDecision = "isDead";
         //isDeadAni = false;
     }
-    /*
-    public void SpawnVFX(GameObject VFX)
-    {
-        if (VFX == null) return;
-        GameObject VFXGameObject = SpawnManager.instance.GetGameObject(VFX, SpawnType.vfx);
-        VFXGameObject.transform.position = this.transform.position;
-        VFXGameObject.transform.rotation = this.transform.rotation;
-        if (VFXGameObject.TryGetComponent<VisualEffect>(out VisualEffect playVFX))
-        {
-            playVFX.Play();
-        }
-    }
-    */
+
 
     public virtual void Start()
     {
-
-        
-        //EnterFireArmorState();
-        ResetHealthBar();
+        healthBarController.ResetAllValue(health);
+        //ResetHealthBar();
         bossState = BossState.idle;
 
         //nodeDecision.InitialiseNodeDecision();
@@ -356,13 +363,6 @@ public class BossEnemyController : EnemyController
         //bossState = BossState.taunt;
     }
 
-    public void ResetHealthBar()
-    {
-        healthBar.maxValue = health.maximum;
-        healthBar.minValue = health.minimum;
-        healthBar.value = health.stat;
-    }
-
     public virtual void FixedUpdate()
     {
         
@@ -377,31 +377,6 @@ public class BossEnemyController : EnemyController
         //BossStageHandler();
 
     }
-    /*
-    public void BossStageHandler()
-    {
-        switch (bossPhase)
-        {
-            case BossPhase.Scene1Phase1:
-                currentMovementPhase = movementPhase[0];
-                break;
-            case BossPhase.Scene1Phase2:
-                currentMovementPhase = movementPhase[1];
-                break;
-            case BossPhase.Scene3Phase1:
-                currentMovementPhase = movementPhase[2];
-                break;
-            case BossPhase.Scene3Phase2:
-                currentMovementPhase = movementPhase[3];
-                break;
-            case BossPhase.Scene3Phase3:
-                currentMovementPhase = movementPhase[4];
-                break;
-            case BossPhase.getArmor:
-                break;
-        }
-    }
-    */
     public void BossStageInteraction()
     {
         float healthPercentage = ((health.stat - health.minimum) / health.maximum) * 100;
@@ -415,29 +390,6 @@ public class BossEnemyController : EnemyController
                 break;
             }
         }
-
-        /*
-        if (healthPercentage > 95)
-        {
-            bossPhase = BossPhase.Scene1Phase1;
-        } 
-        else if (healthPercentage > 75)
-        {
-            bossPhase = BossPhase.Scene1Phase2;
-        } 
-        else if (healthPercentage > 55)
-        {
-            bossPhase = BossPhase.Scene3Phase1;
-        }
-        else if (healthPercentage > 50)
-        {
-            bossPhase = BossPhase.Scene3Phase2;
-        }
-        else
-        {
-            bossPhase = BossPhase.Scene3Phase3;
-        }
-        */
     }
 
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
@@ -520,7 +472,8 @@ public class BossEnemyController : EnemyController
     {
         //Ani();
         AniSpeed();
-        HealthBar();
+        CanvasPointAtPlayer();
+        ResetTheValueInCanvas();
         /*
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, coverSampleDistance, hidingSpotLayer);
         foreach (Collider i in hitColliders)
@@ -557,11 +510,26 @@ public class BossEnemyController : EnemyController
         }
     }
 
-    private void HealthBar()
+    //Make the canvas point at player
+    public void CanvasPointAtPlayer()
     {
         Vector3 temp = new Vector3(PlayerController.puppet.cameraObj.transform.position.x, healthBarCanvasObject.transform.position.y, PlayerController.puppet.cameraObj.transform.position.z);
         healthBarCanvasObject.transform.LookAt(temp);
-        healthBar.value = health.stat;
+    }
+
+
+    private void ResetTheValueInCanvas()
+    {
+        healthBarController.ResetValue(health.stat);
+        if (currentArmorElementType == DamageType.ice && iceArmorHealthBar.activeSelf)
+        {
+            iceArmorHealthBarController.ResetValue(currentArmorHealth.stat);
+        }
+        if (currentArmorElementType == DamageType.fire && fireArmorHealthBar.activeSelf)
+        {
+            fireArmorHealthBarController.ResetValue(currentArmorHealth.stat);
+        }
+        //healthBar.value = health.stat;
     }
 
     public void IdleAni()
@@ -683,6 +651,8 @@ public class BossEnemyController : EnemyController
     private void EnterIceArmorState()
     {
         WearIceArmor();
+        SetArmorBarActive(true, false);
+        iceArmorHealthBarController.ResetAllValue(currentArmorHealth);
         currentArmorHealth.stat = currentArmorHealth.maximum;
     }
 
@@ -701,6 +671,8 @@ public class BossEnemyController : EnemyController
     private void EnterFireArmorState()
     {
         WearFireArmor();
+        SetArmorBarActive(false, true);
+        fireArmorHealthBarController.ResetAllValue(currentArmorHealth);
         currentArmorHealth.stat = currentArmorHealth.maximum;
     }
 
@@ -719,6 +691,7 @@ public class BossEnemyController : EnemyController
     private void EnterNoArmorState()
     {
         WearNoArmor();
+        SetArmorBarActive(false, false);
         currentArmorHealth.stat = currentArmorHealth.minimum;
     }
 
@@ -730,6 +703,18 @@ public class BossEnemyController : EnemyController
         //These interaction are for the boss health not the armor health
         ChangeDamageInteraction(DamageType.ice, DamageInteraction.nuetral);
         ChangeDamageInteraction(DamageType.fire, DamageInteraction.nuetral);
+    }
+
+    private void SetArmorBarActive(bool iceArmor, bool fireArmor)
+    {
+        if (iceArmorHealthBar != null)
+        {
+            iceArmorHealthBar.SetActive(iceArmor);
+        }
+        if (fireArmorHealthBar != null)
+        {
+            fireArmorHealthBar.SetActive(fireArmor);
+        }
     }
 
     private IEnumerator TakeCoverState(Transform target)
