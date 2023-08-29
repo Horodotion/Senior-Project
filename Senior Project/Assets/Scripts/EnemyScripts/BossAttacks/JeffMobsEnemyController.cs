@@ -32,14 +32,21 @@ public class JeffMobsEnemyController : BossEnemyController
         navMeshAgent.speed = speed;
         navMeshAgent.angularSpeed = angularSpeed;
         navMeshAgent.acceleration = acceleration;
+
+
         attacksManager = GetComponent<AttacksManager>();
+
         //healthBar = healthBarCanvasObject.GetComponentInChildren<Slider>();
+
         if (TryGetComponent<Animator>(out Animator thatAnimator))
         {
             animator = thatAnimator;
         }
+
         //HandleStateChange(state, BossState.inCombat);
+
         OnBossStateChange += HandleStateChange;
+
         //player = PlayerController.puppet;
 
         AnimationParameter();
@@ -47,7 +54,8 @@ public class JeffMobsEnemyController : BossEnemyController
     // Start is called before the first frame update
     public override void Start()
     {
-        ResetHealthBar();
+        //ResetHealthBar();
+        
         //bossState = BossState.idle;
         bossState = BossState.meleeAttack;
         currentMovementPhase = movementPhase[0];
