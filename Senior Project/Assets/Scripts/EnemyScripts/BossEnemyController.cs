@@ -65,13 +65,13 @@ public class BossEnemyController : EnemyController
     [SerializeField] private GameObject healthBarCanvasObject;
 
     [SerializeField] private GameObject healthBar;
-    private StatSlinderController healthBarController;
+    private StatSliderController healthBarController;
 
     [SerializeField] private GameObject iceArmorHealthBar;
-    private StatSlinderController iceArmorHealthBarController;
+    private StatSliderController iceArmorHealthBarController;
 
     [SerializeField] private GameObject fireArmorHealthBar;
-    private StatSlinderController fireArmorHealthBarController;
+    private StatSliderController fireArmorHealthBarController;
 
     //Boss activation system
     private bool isPlayerReachingBoss;
@@ -304,9 +304,9 @@ public class BossEnemyController : EnemyController
 
         //Health and Armror UI
 
-        healthBarController = healthBar.GetComponent<StatSlinderController>();
-        iceArmorHealthBarController = iceArmorHealthBar.GetComponent<StatSlinderController>();
-        fireArmorHealthBarController = fireArmorHealthBar.GetComponent<StatSlinderController>();
+        healthBarController = healthBar.GetComponent<StatSliderController>();
+        iceArmorHealthBarController = iceArmorHealthBar.GetComponent<StatSliderController>();
+        fireArmorHealthBarController = fireArmorHealthBar.GetComponent<StatSliderController>();
 
 
         AnimationParameter();
