@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 //Add this into the GameObject that has a slider in a canvas
 [RequireComponent(typeof(Slider))]
-public class StatSlinderController : MonoBehaviour
+public class StatSliderController : MonoBehaviour
 {
     
     private Slider slider;
