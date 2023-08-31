@@ -463,6 +463,14 @@ public class BossEnemyController : EnemyController
         if (MovementCoroutine != null)
         {
             StartCoroutine(MovementCoroutine);
+            Debug.Log($"{gameObject.name} starting {MovementCoroutine}");
+
+            StopCoroutine(CoverTakingFailsafe());
+            if (bossState == BossState.takingCover)
+            {
+                Debug.Log($"Started failsafe");
+                StartCoroutine(CoverTakingFailsafe());
+            }
         }
 
         ShowRayOnCheckHidingSpot();
@@ -717,6 +725,17 @@ public class BossEnemyController : EnemyController
         }
     }
 
+
+    private IEnumerator CoverTakingFailsafe(float timeToWait = 9f, float timeVariance = 4f)
+    {
+        timeToWait += Random.Range(-timeVariance, timeVariance);
+
+        yield return new WaitForSeconds(timeToWait);
+
+        Debug.Log($"Could not find cover in {timeToWait} seconds, teleporting to cover instead");
+        bossState = BossState.teleportToCover;
+    }
+
     private IEnumerator TakeCoverState(Transform target)
     {
         navMeshAgent.speed = speed;
@@ -893,7 +912,7 @@ public class BossEnemyController : EnemyController
         }
 
         //colList[Random.Range(0, colList.Count)];
-        Debug.Log(colList.Count);
+        Debug.Log(colList.Count + " from random spot");
         Collider outputCollider;
         if (colList.Count > 0)
         {
