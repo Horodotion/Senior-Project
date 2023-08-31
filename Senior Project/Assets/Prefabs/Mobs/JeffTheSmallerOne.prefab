@@ -4801,18 +4801,18 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 5
-  m_Speed: 4
-  m_Acceleration: 25
+  m_Speed: 2.65
+  m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 20
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 2
 --- !u!114 &2427631415426802415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4903,7 +4903,9 @@ MonoBehaviour:
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
   healthBarCanvasObject: {fileID: 3857592530492947695}
-  healthBar: {fileID: 3857592530092954818}
+  healthBar: {fileID: 0}
+  iceArmorHealthBar: {fileID: 0}
+  fireArmorHealthBar: {fileID: 0}
   bossActivateDistance: 10000
   mobSpawner: {fileID: 0}
   navMeshAgent: {fileID: 0}
@@ -33717,7 +33719,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4fed5f21b08123b49b448bf2f06153b6, type: 2}
+  - {fileID: 2100000, guid: 371a5bec3fd67b94b8f2b62db5800fe7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
