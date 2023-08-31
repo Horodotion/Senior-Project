@@ -46,12 +46,14 @@ public class AttacksManager : MonoBehaviour
         leftRightHand = Random.Range(0, 2);
 
         // Initialize the attacks so that the attackmotion class contain their spawn point
+        /*
         iceMeleeAttack.attackMotion.InitializeAttacks(iceMeleeAttack.spawnPoiont);
         fireMeleeAttack.attackMotion.InitializeAttacks(fireMeleeAttack.spawnPoiont);
         iceRangedAttack.attackMotion.InitializeAttacks(iceRangedAttack.spawnPoiont);
         fireRangedAttack.attackMotion.InitializeAttacks(fireRangedAttack.spawnPoiont);
         iceLaserAttack.attackMotion.InitializeAttacks(iceLaserAttack.spawnPoiont);
         fireLaserAttack.attackMotion.InitializeAttacks(fireLaserAttack.spawnPoiont);
+        */
         /*
         currentAttack = RandomAttack();
         timer = currentAttack.coolDown;
@@ -109,12 +111,12 @@ public class AttacksManager : MonoBehaviour
         if (RangedAttackDicision())
         {
             //Use Ice
-            return iceRangedAttack.attackMotion.AttackingPlayer(enemy, ChangeHands());
+            return iceRangedAttack.attackMotion.AttackingPlayer(enemy, ChangeHands(), iceRangedAttack.spawnPoiont);
         }
         else
         {
             //Use Fire
-            return fireRangedAttack.attackMotion.AttackingPlayer(enemy, ChangeHands());
+            return fireRangedAttack.attackMotion.AttackingPlayer(enemy, ChangeHands(), fireRangedAttack.spawnPoiont);
         }
         
         //StartCoroutine(enemy.MovementCoroutine);
@@ -126,13 +128,13 @@ public class AttacksManager : MonoBehaviour
         {
             //Use Ice
             Debug.Log("Use ice laser " + transform.name);
-            return iceLaserAttack.attackMotion.AttackingPlayer(enemy);
+            return iceLaserAttack.attackMotion.AttackingPlayer(enemy, iceLaserAttack.spawnPoiont);
         }
         else
         {
             //Use Fire
             Debug.Log("Use fire laser " + transform.name);
-            return fireLaserAttack.attackMotion.AttackingPlayer(enemy);
+            return fireLaserAttack.attackMotion.AttackingPlayer(enemy, fireLaserAttack.spawnPoiont);
         }
 
     }
@@ -144,12 +146,12 @@ public class AttacksManager : MonoBehaviour
         if (MeleeAttackDicision())
         {
             //Use Ice
-            return iceMeleeAttack.attackMotion.AttackingPlayer(enemy, ChangeHands());
+            return iceMeleeAttack.attackMotion.AttackingPlayer(enemy, ChangeHands(), iceMeleeAttack.spawnPoiont);
         }
         else
         {
             //Use Fire
-            return fireMeleeAttack.attackMotion.AttackingPlayer(enemy, ChangeHands());
+            return fireMeleeAttack.attackMotion.AttackingPlayer(enemy, ChangeHands(), fireMeleeAttack.spawnPoiont);
         }
         //StartCoroutine(enemy.MovementCoroutine);
     }
