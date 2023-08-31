@@ -14,7 +14,7 @@ public class FireMeleeAttacks : AttackMotion
     [SerializeField] float waitTimeAfterMelee = 0.5f;
 
 
-    public override IEnumerator AttackingPlayer(BossEnemyController enemy, int leftRightHand)
+    public override IEnumerator AttackingPlayer(BossEnemyController enemy, int leftRightHand, Transform[] SP)
     {
 
         enemy.IdleAni();
