@@ -7,12 +7,13 @@ using UnityEngine.Events;
 public class InterfaceSlider : InterfaceButton
 {
     public Slider slider;
-
+    public float minValue, maxValue, interval, currentValue;
 
     public override void Awake()
     {
+        base.Awake();
         slider = GetComponentInChildren<Slider>();
-        // slider.onValueChanged.AddListener(delegate {OnSliderUpdate();});
+        // interval = (maxValue - minValue) / 10; 
     }
 
     public override void OnSideInput(float direction)
@@ -21,14 +22,15 @@ public class InterfaceSlider : InterfaceButton
         {
             return;
         }
-        Debug.Log(Mathf.Sign(direction));
-
+        
         slider.value += Mathf.Sign(direction);
+        currentValue = Mathf.Clamp(maxValue, minValue, minValue + (interval * slider.value));
+
         onSideInputEvent.Invoke();
     }
 
-    // public void OnSliderUpdate()
-    // {
-    //     onSideInputEvent.Invoke();
-    // }
+    public void SetSliderValue(float referenceValue)
+    {
+        slider.value = referenceValue;
+    }
 }

@@ -289,6 +289,12 @@ public class PlayerController : MonoBehaviour
         if (GeneralManager.isGameRunning)
         {
             GeneralManager.instance.PauseGame();
+            return;
+        }
+
+        if (MenuScript.inOptionsMenu)
+        {
+            GeneralManager.instance.CloseOptionsMenu();
         }
         else
         {

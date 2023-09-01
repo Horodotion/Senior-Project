@@ -16,7 +16,10 @@ public class DustinsLightsScript : MonoBehaviour
     void Awake()
     {
         instance = this;
+        volume = GetComponent<Volume>();
         volume.profile.TryGet(out gammaGain);
+
+        SetGain(currentBrightness);
     }
 
 
@@ -26,5 +29,7 @@ public class DustinsLightsScript : MonoBehaviour
         Vector4 tempVector = instance.gammaGain.gain.value;
         tempVector.w = currentBrightness;
         instance.gammaGain.gain.Override(tempVector);
+
+        currentBrightness = newGain;
     }
 }

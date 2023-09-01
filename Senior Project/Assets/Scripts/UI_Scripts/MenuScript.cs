@@ -55,6 +55,7 @@ public abstract class MenuScript : MonoBehaviour
 {
     [Header("Menu Scripts")]
     public static MenuScript currentMenu;
+    public static bool inOptionsMenu;
     public GameObject selector;
     public InterfaceButton currentlySelectedButton;
     public List<InterfaceButton> buttonList;
@@ -66,15 +67,7 @@ public abstract class MenuScript : MonoBehaviour
 
     public virtual void Start()
     {
-        MenuScript.currentMenu = this;
-        PlayerController.ourPlayerState = PlayerState.inMenu;
-
-        if (GetComponent<CanvasGroup>() != null)
-        {
-            GetComponent<CanvasGroup>().alpha = 1;
-        }
-
-        ConnectPlayerToMenu();  
+        MenuSetup();
     }
 
     void OnEnable()
@@ -83,8 +76,19 @@ public abstract class MenuScript : MonoBehaviour
         {
             counterText.text = GeneralManager.totalCollectiblesCounter + "/" + GeneralManager.instance.totalCollectibles;
         }
+    }
 
-        // ConnectPlayerToMenu();
+    public virtual void MenuSetup()
+    {
+        currentMenu = this;
+        PlayerController.ourPlayerState = PlayerState.inMenu;
+
+        if (GetComponent<CanvasGroup>() != null)
+        {
+            GetComponent<CanvasGroup>().alpha = 1;
+        }
+
+        ConnectPlayerToMenu();
     }
 
     public virtual void ConnectPlayerToMenu()
