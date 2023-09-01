@@ -8,6 +8,7 @@ public class DestructibleRock : MonoBehaviour
     public Transform vfxSpawnPoint;
     public GameObject toSmash;
     public GameObject spotLight;
+    public AudioSource ownSource;
 
 
     private void OnTriggerEnter(Collider other)
@@ -22,6 +23,7 @@ public class DestructibleRock : MonoBehaviour
     public void Smash()
     {
         Debug.Log("yep");
+        if (ownSource != null) ownSource.Play();
         Destroy(toSmash.gameObject);
         spotLight.SetActive(true);
     }
