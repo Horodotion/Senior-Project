@@ -124,8 +124,7 @@ public class GeneralManager : MonoBehaviour
         PlayerController.instance.temperature.ResetStat();
         LoadLevel(SceneManager.GetActiveScene().buildIndex);
 
-        GeneralManager.instance.StartCoroutine(GeneralManager.instance.MovePlayerToCheckpoint());
-        GeneralManager.instance.UnPauseGame();
+        instance.StartCoroutine(instance.MovePlayerToCheckpoint());
     }
 
     public IEnumerator MovePlayerToCheckpoint()
@@ -149,6 +148,7 @@ public class GeneralManager : MonoBehaviour
         yield return null;
 
         puppet.charController.enabled = true;
+        instance.UnPauseGame();
     }
 
     public static void ReloadLevel()
