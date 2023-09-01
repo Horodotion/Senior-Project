@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
             onPauseGame = playerInput.currentActionMap.FindAction("PauseGame");
 
             // These however, do have held down functions, and therefore need 2 functions to turn on and off
-            onMove.performed += OnMoveAction;
+            onMove.started += OnMoveAction;
             onRun.started += OnRunAction;
             onRun.canceled += OffRunAction;
             onPrimaryFire.started += OnPrimaryFireAction;
