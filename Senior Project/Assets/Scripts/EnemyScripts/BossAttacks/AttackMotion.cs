@@ -43,20 +43,20 @@ public class AttackMotion : ScriptableObject
         //enemy = enemyGameObject.GetComponent<MovingEnemyController>();
     }
 
-
+    /*
     public virtual void InitializeAttacks(Transform[] SP)
     {
         //enemy = enemyController;
         this.SP = SP;
     }
+    */
 
-
-    public virtual IEnumerator AttackingPlayer(BossEnemyController enemyController)
+    public virtual IEnumerator AttackingPlayer(BossEnemyController enemyController, Transform[] SP)
     {
         yield return null;
     }
 
-    public virtual IEnumerator AttackingPlayer(BossEnemyController enemyController, int i)
+    public virtual IEnumerator AttackingPlayer(BossEnemyController enemyController, int i, Transform[] SP)
     {
         yield return null;
     }
