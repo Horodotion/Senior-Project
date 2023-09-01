@@ -20,6 +20,7 @@ MonoBehaviour:
   spellAnimHolder: {fileID: 0}
   animationLocation: -1
   ourhand: 0
+  ourAudioClip: {fileID: 0}
   chargingSpell: 0
   tempPerSecond: 0
   temperatureChange: 0
@@ -35,7 +36,7 @@ MonoBehaviour:
   usesCharges: 1
   charges: 1
   maximumCharges: 1
-  rechargeRate: 4
+  rechargeRate: 2.5
   rechargeTimer: 0
   dashDirection: {x: 0, y: 0, z: 0}
   dashOrigin: {x: 0, y: 0, z: 0}

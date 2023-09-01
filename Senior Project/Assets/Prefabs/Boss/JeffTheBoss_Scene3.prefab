@@ -29496,15 +29496,15 @@ MonoBehaviour:
   fireArmorDestroyedVFX:
     vFX: {fileID: 4373543925861226524, guid: 0e573d1b345ddca44a558f15e467fd3e, type: 3}
     offset: {x: 0, y: 1, z: 0}
-  orbWalkSpeed: 8
-  orbWalkAcceleration: 20
+  orbWalkSpeed: 5
+  orbWalkAcceleration: 15
   turnSpeed: 120
   navMeshDetactionRadius: 9.22
   navMeshDetactionDistance: 10
-  closestStoppingDistance: 10
-  farthestStoppingDistance: 12
-  minEndOrbWalkingTime: 1.5
-  maxEndOrbWalkingTime: 2
+  closestStoppingDistance: 8
+  farthestStoppingDistance: 14
+  minEndOrbWalkingTime: 3
+  maxEndOrbWalkingTime: 4
   moveForwardVector: {x: 1, y: 0, z: 1}
   moveMidRangeVector: {x: 1, y: 0, z: 0}
   moveBackwardVector: {x: 1, y: 0, z: -1}
