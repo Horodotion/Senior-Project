@@ -187,6 +187,7 @@ public class PlayerPuppet : MonoBehaviour
         {
             case MovementState.grounded:
                 moveDirection = transform.TransformDirection(inputDirection * PlayerController.instance.speed.stat * Time.deltaTime);
+                ourAnimHolder.jumpTarget = 0;
                 break;
 
             case MovementState.sliding:
@@ -195,6 +196,7 @@ public class PlayerPuppet : MonoBehaviour
 
             case MovementState.inAir:
                 AerialMovement();
+                ourAnimHolder.jumpTarget = 1;
                 break;
 
             case MovementState.other:
@@ -205,6 +207,9 @@ public class PlayerPuppet : MonoBehaviour
         Jump();
 
         charController.Move(moveDirection);
+
+        if (inputDirection != Vector3.zero && movementState == MovementState.grounded) ourAnimHolder.isMovingTarget = 1;
+        else ourAnimHolder.isMovingTarget = 0;
     }
 
     public Vector3 HorizontalMovement()
