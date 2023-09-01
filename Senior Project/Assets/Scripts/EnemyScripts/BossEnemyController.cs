@@ -104,6 +104,8 @@ public class BossEnemyController : EnemyController
     [Header("Boss Phase Setting")]
 
     public MovementPhase[] movementPhase;
+    public float timeToWait = 5f;
+    public float timeVariance = 4f;
     private MovementPhase phase;
     [HideInInspector]
     public MovementPhase currentMovementPhase
@@ -465,11 +467,11 @@ public class BossEnemyController : EnemyController
             StartCoroutine(MovementCoroutine);
             Debug.Log($"{gameObject.name} starting {MovementCoroutine}");
 
-            StopCoroutine(CoverTakingFailsafe());
+            StopCoroutine(CoverTakingFailsafe(timeToWait, timeVariance));
             if (bossState == BossState.takingCover)
             {
                 Debug.Log($"Started failsafe");
-                StartCoroutine(CoverTakingFailsafe());
+                StartCoroutine(CoverTakingFailsafe(timeToWait, timeVariance));
             }
         }
 
@@ -726,7 +728,7 @@ public class BossEnemyController : EnemyController
     }
 
 
-    private IEnumerator CoverTakingFailsafe(float timeToWait = 9f, float timeVariance = 4f)
+    private IEnumerator CoverTakingFailsafe(float timeToWait, float timeVariance)
     {
         timeToWait += Random.Range(-timeVariance, timeVariance);
 

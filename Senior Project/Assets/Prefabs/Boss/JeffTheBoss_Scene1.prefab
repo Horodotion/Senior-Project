@@ -29626,6 +29626,8 @@ MonoBehaviour:
   movementPhase:
   - {fileID: 11400000, guid: 80f0f8033db460f4780be77bc88ee329, type: 2}
   - {fileID: 11400000, guid: cbe665355081caf4fbc75c2fbe2cf5fd, type: 2}
+  timeToWait: 5
+  timeVariance: 4
   currentArmorElementType: 0
   iceArmorObject: {fileID: 1102690556799130163}
   fireArmorObject: {fileID: 501885386}
@@ -29647,15 +29649,15 @@ MonoBehaviour:
   fireArmorDestroyedVFX:
     vFX: {fileID: 4373543925861226524, guid: 0e573d1b345ddca44a558f15e467fd3e, type: 3}
     offset: {x: 0, y: 1, z: 0}
-  orbWalkSpeed: 10
-  orbWalkAcceleration: 25
+  orbWalkSpeed: 8
+  orbWalkAcceleration: 20
   turnSpeed: 120
   navMeshDetactionRadius: 9.22
   navMeshDetactionDistance: 10
-  closestStoppingDistance: 8
-  farthestStoppingDistance: 10
-  minEndOrbWalkingTime: 0.25
-  maxEndOrbWalkingTime: 0.5
+  closestStoppingDistance: 7
+  farthestStoppingDistance: 9
+  minEndOrbWalkingTime: 1.5
+  maxEndOrbWalkingTime: 2
   moveForwardVector: {x: 1, y: 0, z: 1}
   moveMidRangeVector: {x: 1, y: 0, z: 0}
   moveBackwardVector: {x: 1, y: 0, z: -1}
