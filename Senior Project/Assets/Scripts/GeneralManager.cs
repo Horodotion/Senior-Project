@@ -190,16 +190,21 @@ public class GeneralManager : MonoBehaviour
             PlayerUI.instance.gameObject.SetActive(false);
         }  
 
+        if (OptionsMenuScript.instance.menuToReturnTo != null)
+        {
+            CloseOptionsMenu();
+        }
+        else
+        {
+            SetActiveAfterNullCheck(OptionsMenuScript.instance, false);
+        }
+
         if (PauseMenuScript.instance != null)
         {
             PauseMenuScript.instance.gameObject.SetActive(true);
         }
 
-        if (OptionsMenuScript.instance != null)
-        {
-            OptionsMenuScript.instance.gameObject.SetActive(false);
-        }
-
+        // PauseMenuScript.instance.ConnectPlayerToMenu();
 
         PlayerController.ourPlayerState = PlayerState.inMenu;
         Cursor.lockState = CursorLockMode.None;
@@ -212,27 +217,33 @@ public class GeneralManager : MonoBehaviour
         if (PlayerUI.instance != null)
         {
             PlayerUI.instance.gameObject.SetActive(true);
-        } 
-
-        if (PauseMenuScript.instance != null)
-        {
-            PauseMenuScript.instance.gameObject.SetActive(false);
-        }  
-
-        if (GameOverMenuScript.instance != null)
-        {
-            GameOverMenuScript.instance.gameObject.SetActive(false);
         }
 
-        if (OptionsMenuScript.instance != null)
+        if (OptionsMenuScript.instance.menuToReturnTo != null)
         {
-            OptionsMenuScript.instance.gameObject.SetActive(false);
+            CloseOptionsMenu();
         }
+        else
+        {
+            SetActiveAfterNullCheck(OptionsMenuScript.instance, false);
+        }
+        
+
+        SetActiveAfterNullCheck(PauseMenuScript.instance, false);
+        SetActiveAfterNullCheck(GameOverMenuScript.instance, false);
 
         PlayerController.ourPlayerState = PlayerState.inGame;
         Cursor.lockState = CursorLockMode.Locked;
         isGameRunning = true;
         Time.timeScale = 1f;
+    }
+
+    public void SetActiveAfterNullCheck(MenuScript menuScript, bool trueFalse)
+    {
+        if (menuScript != null)
+        {
+            menuScript.gameObject.SetActive(trueFalse);
+        }
     }
 
     public void WinGame()
@@ -294,9 +305,10 @@ public class GeneralManager : MonoBehaviour
 
         menuToSwapBackTo.gameObject.SetActive(false);
         OptionsMenuScript.instance.gameObject.SetActive(true);
+        OptionsMenuScript.instance.MenuSetup();
 
-        // MenuScript.SwapToMenu(OptionsMenuScript.instance.gameObject, menuToSwapBackTo.gameObject);
         OptionsMenuScript.instance.menuToReturnTo = menuToSwapBackTo;
+        MenuScript.inOptionsMenu = true;
     }
 
     public void CloseOptionsMenu()
@@ -308,6 +320,8 @@ public class GeneralManager : MonoBehaviour
 
         OptionsMenuScript.instance.gameObject.SetActive(false);
         OptionsMenuScript.instance.menuToReturnTo.gameObject.SetActive(true);
+        OptionsMenuScript.instance.menuToReturnTo.MenuSetup();
+        MenuScript.inOptionsMenu = false;
 
         // MenuScript.SwapToMenu(OptionsMenuScript.instance.menuToReturnTo.gameObject, OptionsMenuScript.instance.gameObject);
     }
