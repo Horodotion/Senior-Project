@@ -15,7 +15,7 @@ public class FireProjectileAttacks : AttackMotion
         this.SP = SP;
     }
     */
-    public override IEnumerator AttackingPlayer(BossEnemyController enemy, int leftRightHand)
+    public override IEnumerator AttackingPlayer(BossEnemyController enemy, int leftRightHand, Transform[] SP)
     {
 
         while (true)
