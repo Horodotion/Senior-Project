@@ -29654,8 +29654,8 @@ MonoBehaviour:
   turnSpeed: 120
   navMeshDetactionRadius: 9.22
   navMeshDetactionDistance: 10
-  closestStoppingDistance: 7
-  farthestStoppingDistance: 9
+  closestStoppingDistance: 10
+  farthestStoppingDistance: 12
   minEndOrbWalkingTime: 1.5
   maxEndOrbWalkingTime: 2
   moveForwardVector: {x: 1, y: 0, z: 1}
@@ -29680,8 +29680,8 @@ MonoBehaviour:
     offset: {x: 0, y: 1, z: 0}
   teleportSampleDistance: 100
   playerTooCloseDistanceToTeleport: 0.2
-  isBossTPOutToNextScene: 0
-  hPPercetageToTP: 0
+  isBossTPOutToNextScene: 1
+  hPPercetageToTP: 75
   bossEndSceneGameObject: {fileID: 0}
   orbWalkAniSpeed: 3
   runAniSpeed: 1.5
