@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2667302375250315251}
   - component: {fileID: 5462677834553693497}
+  - component: {fileID: 7392759795759885083}
   m_Layer: 0
   m_Name: Level 2
   m_TagString: Untagged
@@ -49,6 +50,21 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: be35125d43d793d419cbe7de0886495f, type: 2}
+--- !u!114 &7392759795759885083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27669039757846451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1de83c0bcbbcbbb4ea9c7cc1065fec86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: {fileID: 0}
+  gammaGain: {fileID: 0}
+  vignette: {fileID: 0}
 --- !u!1 &6011338746993991665
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,6 +109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6011338747975429111}
   - component: {fileID: 6011338747975429110}
+  - component: {fileID: 2202764340045013161}
   m_Layer: 0
   m_Name: 'Level 1 '
   m_TagString: Untagged
@@ -132,6 +149,21 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: be35125d43d793d419cbe7de0886495f, type: 2}
+--- !u!114 &2202764340045013161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6011338747975429108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1de83c0bcbbcbbb4ea9c7cc1065fec86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: {fileID: 0}
+  gammaGain: {fileID: 0}
+  vignette: {fileID: 0}
 --- !u!1 &7784140495637369939
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7709980966051237421}
   - component: {fileID: 4092041903668396392}
+  - component: {fileID: 8210850463276975564}
   m_Layer: 0
   m_Name: Leve 3
   m_TagString: Untagged
@@ -181,3 +214,18 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: be35125d43d793d419cbe7de0886495f, type: 2}
+--- !u!114 &8210850463276975564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7784140495637369939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1de83c0bcbbcbbb4ea9c7cc1065fec86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: {fileID: 0}
+  gammaGain: {fileID: 0}
+  vignette: {fileID: 0}
