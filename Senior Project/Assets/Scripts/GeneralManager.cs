@@ -166,6 +166,7 @@ public class GeneralManager : MonoBehaviour
 
         levelSpecificEventFlags.Clear();
         transferableEventFlags.Clear();
+        totalCollectiblesCounter = 0;
 
         if (PauseMenuScript.instance != null)
         {
