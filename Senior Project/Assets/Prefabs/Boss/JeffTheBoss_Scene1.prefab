@@ -10395,7 +10395,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -8215804180744794619, guid: 188fcdd7fa69c0d47bf0d7b361635b35, type: 3}
+  m_Mesh: {fileID: -8215804180744794619, guid: 06881850c60818d4b83d35b8a961df6a, type: 3}
   m_Bones:
   - {fileID: 7927525011473817088}
   - {fileID: 3184923057221074872}
@@ -28298,7 +28298,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -8215804180744794619, guid: 41ee63fc81fe3b84b870c5e1a1201082, type: 3}
+  m_Mesh: {fileID: -8215804180744794619, guid: 06881850c60818d4b83d35b8a961df6a, type: 3}
   m_Bones:
   - {fileID: 7927525011473817088}
   - {fileID: 3184923057221074872}
@@ -29654,10 +29654,10 @@ MonoBehaviour:
   turnSpeed: 120
   navMeshDetactionRadius: 9.22
   navMeshDetactionDistance: 10
-  closestStoppingDistance: 8
-  farthestStoppingDistance: 14
-  minEndOrbWalkingTime: 3
-  maxEndOrbWalkingTime: 4
+  closestStoppingDistance: 3
+  farthestStoppingDistance: 6
+  minEndOrbWalkingTime: 1.5
+  maxEndOrbWalkingTime: 2
   moveForwardVector: {x: 1, y: 0, z: 1}
   moveMidRangeVector: {x: 1, y: 0, z: 0}
   moveBackwardVector: {x: 1, y: 0, z: -1}
@@ -29683,7 +29683,7 @@ MonoBehaviour:
   isBossTPOutToNextScene: 1
   hPPercetageToTP: 75
   bossEndSceneGameObject: {fileID: 0}
-  orbWalkAniSpeed: 2
+  orbWalkAniSpeed: 2.5
   runAniSpeed: 1.5
   isAbleToPlayDeathAni: 1
   activationTimeAfterDeath: 0
@@ -39241,7 +39241,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 6181807592810931949, guid: 41ee63fc81fe3b84b870c5e1a1201082, type: 3}
+  m_Mesh: {fileID: 6181807592810931949, guid: 06881850c60818d4b83d35b8a961df6a, type: 3}
   m_Bones:
   - {fileID: 3184923057221074872}
   - {fileID: 7927525011473817088}
@@ -39681,7 +39681,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -8215804180744794619, guid: 188fcdd7fa69c0d47bf0d7b361635b35, type: 3}
+  m_Mesh: {fileID: -8215804180744794619, guid: 06881850c60818d4b83d35b8a961df6a, type: 3}
   m_Bones:
   - {fileID: 7927525011473817088}
   - {fileID: 3184923057221074872}
@@ -40846,7 +40846,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -9205931746164691100, guid: 41ee63fc81fe3b84b870c5e1a1201082, type: 3}
+  m_Mesh: {fileID: -9205931746164691100, guid: 06881850c60818d4b83d35b8a961df6a, type: 3}
   m_Bones:
   - {fileID: 7927525011473817088}
   - {fileID: 3184923057221074872}

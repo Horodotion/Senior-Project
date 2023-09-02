@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: 5249941067705964599}
   - component: {fileID: 7204066329771699307}
   - component: {fileID: 2698937712618878526}
+  - component: {fileID: 9061193720726305806}
   m_Layer: 0
   m_Name: Collectible Test
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,6 +109,8 @@ MonoBehaviour:
     eventTriggered: 0
     eventsToDisableAfterTriggering: 
   messageToDisplay: Collectible
+  ourPoof: {fileID: 7628682693131150422, guid: 46e2b1a09655bc444889f8d54f05e179, type: 3}
+  ourPing: {fileID: 8300000, guid: 6a41c0faef564634ea244805b0f652b7, type: 3}
 --- !u!135 &5249941067705964599
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -149,6 +152,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   height: 0.1
+--- !u!114 &9061193720726305806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563289556599185310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b374f95f309324548bd25701a5705734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health:
+    stat: 10
+    baseStat: 0
+    minimum: 0
+    maximum: 10
+  inInvincibilityFrames: 0
+  dead: 0
+  usesDamageText: 0
+  damageImmunities: 
+  damageResistances: 
+  damageVulnerabilities: 
+  vulnerabilityMultiplier: 0
+  resistanceMultiplier: 0
+  enemyHitboxes: []
+  fireDamageText: {fileID: 0}
+  iceDamageText: {fileID: 0}
+  ourCollectible: {fileID: 0}
 --- !u!1001 &6141017429416813189
 PrefabInstance:
   m_ObjectHideFlags: 0
