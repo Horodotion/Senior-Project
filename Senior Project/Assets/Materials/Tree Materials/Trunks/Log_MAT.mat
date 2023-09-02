@@ -23,6 +23,7 @@ Material:
   m_Name: Log_MAT
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ValidKeywords:
+  - _METALLICSPECGLOSSMAP
   - _NORMALMAP
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -36,11 +37,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 99e7b777144a49a4a9ca19733c989f1d, type: 3}
+        m_Texture: {fileID: 2800000, guid: dc6c79e176d3eff45b9d8220f571b296, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 22901d906f39dc14bbd05d3ec25e0108, type: 3}
+        m_Texture: {fileID: 2800000, guid: b7cf01e179a8c2e40a5c6830583b586e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -60,11 +61,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 99e7b777144a49a4a9ca19733c989f1d, type: 3}
+        m_Texture: {fileID: 2800000, guid: dc6c79e176d3eff45b9d8220f571b296, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: c7ddb614de5bb6e4f8c3306bf855c157, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -95,7 +96,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _Blend: 0
-    - _BumpScale: 2
+    - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -129,8 +130,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.8490566, g: 0.75815034, b: 0.54067284, a: 1}
-    - _Color: {r: 0.8490566, g: 0.75815034, b: 0.54067284, a: 1}
+    - _BaseColor: {r: 0.7921569, g: 0.77254903, b: 0.7294118, a: 1}
+    - _Color: {r: 0.7921569, g: 0.77254903, b: 0.7294118, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _UvOffset: {r: 0, g: 0, b: 0, a: 0}

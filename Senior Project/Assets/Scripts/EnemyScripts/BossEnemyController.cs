@@ -4,8 +4,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.VFX;
-using UnityEngine.UI;
+//using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public enum BossState
 {
@@ -24,7 +25,8 @@ public enum BossState
     spawnMobs = 12,
     ambushed = 13,
     dead = 14,
-    setArmor = 15
+    setArmor = 15,
+    //tPAndEndScene = 16
     
 
     //testState,
@@ -59,8 +61,17 @@ public class BossEnemyController : EnemyController
     //public int bossPhase;
 
     //Health Bar system
+    [Header("Canvas Syatem")]
     [SerializeField] private GameObject healthBarCanvasObject;
-    [SerializeField] private Slider healthBar;
+
+    [SerializeField] private GameObject healthBar;
+    private StatSliderController healthBarController;
+
+    [SerializeField] private GameObject iceArmorHealthBar;
+    private StatSliderController iceArmorHealthBarController;
+
+    [SerializeField] private GameObject fireArmorHealthBar;
+    private StatSliderController fireArmorHealthBarController;
 
     //Boss activation system
     private bool isPlayerReachingBoss;
@@ -93,6 +104,8 @@ public class BossEnemyController : EnemyController
     [Header("Boss Phase Setting")]
 
     public MovementPhase[] movementPhase;
+    public float timeToWait = 5f;
+    public float timeVariance = 4f;
     private MovementPhase phase;
     [HideInInspector]
     public MovementPhase currentMovementPhase
@@ -133,11 +146,16 @@ public class BossEnemyController : EnemyController
     public IndividualStat currentArmorHealth;
     public float currenthPReductionPercentOnArmorBreak;
 
-    public GameObject iceArmorFormedVFX;
-    public GameObject fireArmorFormedVFX;
 
-    public GameObject iceArmorDestroyedVFX;
-    public GameObject fireArmorDestroyedVFX;
+    public VFXGameObject iceArmorFormedVFX;
+    public VFXGameObject fireArmorFormedVFX;
+    //public GameObject iceArmorFormedVFX;
+    //public GameObject fireArmorFormedVFX;
+
+    public VFXGameObject iceArmorDestroyedVFX;
+    public VFXGameObject fireArmorDestroyedVFX;
+    //public GameObject iceArmorDestroyedVFX;
+    //public GameObject fireArmorDestroyedVFX;
 
     /*
     [Header("Boss Dicision Setting")]
@@ -204,9 +222,16 @@ public class BossEnemyController : EnemyController
 
 
     [Header("Boss Teleport System")]
-    public GameObject teleportVFX;
+    public VFXGameObject teleportVFX;
     [SerializeField] public float teleportSampleDistance;
     public float playerTooCloseDistanceToTeleport = 4f;
+
+    [Header("Boss Teleport Out At Certain Health System")]
+    public bool isBossTPOutToNextScene;
+    [ToggleableVarable("isBossTPOutToNextScene")] public float hPPercetageToTP;
+    [ToggleableVarable("isBossTPOutToNextScene")] public GameObject bossEndSceneGameObject;
+    
+
 
     [Header("Animation Setting")]
     [Range(.5f, 5)] public float orbWalkAniSpeed;
@@ -264,19 +289,31 @@ public class BossEnemyController : EnemyController
         navMeshAgent.speed = speed;
         navMeshAgent.angularSpeed = angularSpeed;
         navMeshAgent.acceleration = acceleration;
+
+
         attacksManager = GetComponent<AttacksManager>();
+
         mobSpawnerController = mobSpawner.GetComponent<MobSpawnerController>();
-        isPlayerReachingBoss = true;
-        //healthBar = healthBarCanvasObject.GetComponentInChildren<Slider>();
+
+        
+
         if (TryGetComponent<Animator>(out Animator thatAnimator))
         {
             animator = thatAnimator;
         }
-        //HandleStateChange(state, BossState.inCombat);
+
         OnBossStateChange += HandleStateChange;
-        //player = PlayerController.puppet;
+
+        //Health and Armror UI
+
+        healthBarController = healthBar.GetComponent<StatSliderController>();
+        iceArmorHealthBarController = iceArmorHealthBar.GetComponent<StatSliderController>();
+        fireArmorHealthBarController = fireArmorHealthBar.GetComponent<StatSliderController>();
+
 
         AnimationParameter();
+
+        isPlayerReachingBoss = true;
     }
 
     //public virtual void EneterNextPhase()
@@ -304,23 +341,11 @@ public class BossEnemyController : EnemyController
         //isDeadAni = false;
     }
 
-    public void SpawnVFX(GameObject VFX)
-    {
-        GameObject VFXGameObject = SpawnManager.instance.GetGameObject(VFX, SpawnType.vfx);
-        VFXGameObject.transform.position = this.transform.position;
-        VFXGameObject.transform.rotation = this.transform.rotation;
-        if (VFXGameObject.TryGetComponent<VisualEffect>(out VisualEffect playVFX))
-        {
-            playVFX.Play();
-        }
-    }
 
     public virtual void Start()
     {
-
-        
-        //EnterFireArmorState();
-        ResetHealthBar();
+        healthBarController.ResetAllValue(health);
+        //ResetHealthBar();
         bossState = BossState.idle;
 
         //nodeDecision.InitialiseNodeDecision();
@@ -328,17 +353,16 @@ public class BossEnemyController : EnemyController
 
         //bossState = BossState.meleeAttack;
         currentMovementPhase = movementPhase[0];
+
+        if (isBossTPOutToNextScene)
+        {
+            bossEndSceneGameObject.SetActive(false);
+        }
+
         //bossState = BossState.spawnTurrets;
         //animator.SetBool(aniDeathDecision, true);
         //bossState = BossState.laserAttack;
         //bossState = BossState.taunt;
-    }
-
-    public void ResetHealthBar()
-    {
-        healthBar.maxValue = health.maximum;
-        healthBar.minValue = health.minimum;
-        healthBar.value = health.stat;
     }
 
     public virtual void FixedUpdate()
@@ -355,31 +379,6 @@ public class BossEnemyController : EnemyController
         //BossStageHandler();
 
     }
-    /*
-    public void BossStageHandler()
-    {
-        switch (bossPhase)
-        {
-            case BossPhase.Scene1Phase1:
-                currentMovementPhase = movementPhase[0];
-                break;
-            case BossPhase.Scene1Phase2:
-                currentMovementPhase = movementPhase[1];
-                break;
-            case BossPhase.Scene3Phase1:
-                currentMovementPhase = movementPhase[2];
-                break;
-            case BossPhase.Scene3Phase2:
-                currentMovementPhase = movementPhase[3];
-                break;
-            case BossPhase.Scene3Phase3:
-                currentMovementPhase = movementPhase[4];
-                break;
-            case BossPhase.getArmor:
-                break;
-        }
-    }
-    */
     public void BossStageInteraction()
     {
         float healthPercentage = ((health.stat - health.minimum) / health.maximum) * 100;
@@ -393,29 +392,6 @@ public class BossEnemyController : EnemyController
                 break;
             }
         }
-
-        /*
-        if (healthPercentage > 95)
-        {
-            bossPhase = BossPhase.Scene1Phase1;
-        } 
-        else if (healthPercentage > 75)
-        {
-            bossPhase = BossPhase.Scene1Phase2;
-        } 
-        else if (healthPercentage > 55)
-        {
-            bossPhase = BossPhase.Scene3Phase1;
-        }
-        else if (healthPercentage > 50)
-        {
-            bossPhase = BossPhase.Scene3Phase2;
-        }
-        else
-        {
-            bossPhase = BossPhase.Scene3Phase3;
-        }
-        */
     }
 
     public void HandleStateChange(BossState oldState, BossState newState) // Standard handler for boss states and transitions
@@ -489,6 +465,14 @@ public class BossEnemyController : EnemyController
         if (MovementCoroutine != null)
         {
             StartCoroutine(MovementCoroutine);
+            Debug.Log($"{gameObject.name} starting {MovementCoroutine}");
+
+            StopCoroutine(CoverTakingFailsafe(timeToWait, timeVariance));
+            if (bossState == BossState.takingCover)
+            {
+                Debug.Log($"Started failsafe");
+                StartCoroutine(CoverTakingFailsafe(timeToWait, timeVariance));
+            }
         }
 
         ShowRayOnCheckHidingSpot();
@@ -498,7 +482,8 @@ public class BossEnemyController : EnemyController
     {
         //Ani();
         AniSpeed();
-        HealthBar();
+        CanvasPointAtPlayer();
+        ResetTheValueInCanvas();
         /*
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, coverSampleDistance, hidingSpotLayer);
         foreach (Collider i in hitColliders)
@@ -535,11 +520,26 @@ public class BossEnemyController : EnemyController
         }
     }
 
-    private void HealthBar()
+    //Make the canvas point at player
+    public void CanvasPointAtPlayer()
     {
         Vector3 temp = new Vector3(PlayerController.puppet.cameraObj.transform.position.x, healthBarCanvasObject.transform.position.y, PlayerController.puppet.cameraObj.transform.position.z);
         healthBarCanvasObject.transform.LookAt(temp);
-        healthBar.value = health.stat;
+    }
+
+
+    private void ResetTheValueInCanvas()
+    {
+        healthBarController.ResetValue(health.stat);
+        if (currentArmorElementType == DamageType.ice && iceArmorHealthBar.activeSelf)
+        {
+            iceArmorHealthBarController.ResetValue(currentArmorHealth.stat);
+        }
+        if (currentArmorElementType == DamageType.fire && fireArmorHealthBar.activeSelf)
+        {
+            fireArmorHealthBarController.ResetValue(currentArmorHealth.stat);
+        }
+        //healthBar.value = health.stat;
     }
 
     public void IdleAni()
@@ -576,9 +576,9 @@ public class BossEnemyController : EnemyController
         //animator.SetBool("isTaunting", true);
         animator.SetInteger(aniDecision, tauntAni);
         //bossSpawner.SpawningThings();
-
         while (animator.GetInteger(aniDecision) == tauntAni)
         {
+            Debug.Log(animator.GetInteger(aniDecision));
             yield return null;
         }
         
@@ -591,13 +591,13 @@ public class BossEnemyController : EnemyController
     //Change the state of Taunt
     public virtual void ExitTauntState()
     {
-        Debug.Log("Boom");
         bossState = currentMovementPhase.tauntAttackDecision.GetTheNextRandomDicision();
     }
 
 
     public void EndTauntStateAni()
     {
+        //Debug.Log("Boom");
         IdleAni();
     }
 
@@ -661,6 +661,8 @@ public class BossEnemyController : EnemyController
     private void EnterIceArmorState()
     {
         WearIceArmor();
+        SetArmorBarActive(true, false);
+        iceArmorHealthBarController.ResetAllValue(currentArmorHealth);
         currentArmorHealth.stat = currentArmorHealth.maximum;
     }
 
@@ -669,7 +671,8 @@ public class BossEnemyController : EnemyController
         currentArmorElementType = DamageType.ice;
         iceArmorObject.SetActive(true);
         fireArmorObject.SetActive(false);
-        SpawnVFX(iceArmorFormedVFX);
+        SpawnManager.SpawnVFX(iceArmorFormedVFX.vFX, this.transform, iceArmorFormedVFX.offset);
+        //SpawnVFX(iceArmorFormedVFX);
         //These interaction are for the boss health not the armor health
         ChangeDamageInteraction(DamageType.ice, DamageInteraction.immune);
         ChangeDamageInteraction(DamageType.fire, DamageInteraction.nuetral);
@@ -678,6 +681,8 @@ public class BossEnemyController : EnemyController
     private void EnterFireArmorState()
     {
         WearFireArmor();
+        SetArmorBarActive(false, true);
+        fireArmorHealthBarController.ResetAllValue(currentArmorHealth);
         currentArmorHealth.stat = currentArmorHealth.maximum;
     }
 
@@ -686,7 +691,8 @@ public class BossEnemyController : EnemyController
         currentArmorElementType = DamageType.fire;
         fireArmorObject.SetActive(true);
         iceArmorObject.SetActive(false);
-        SpawnVFX(fireArmorFormedVFX);
+        SpawnManager.SpawnVFX(fireArmorFormedVFX.vFX, this.transform, fireArmorFormedVFX.offset);
+        //SpawnVFX(fireArmorFormedVFX);
         //These interaction are for the boss health not the armor health
         ChangeDamageInteraction(DamageType.ice, DamageInteraction.nuetral);
         ChangeDamageInteraction(DamageType.fire, DamageInteraction.immune);
@@ -695,6 +701,7 @@ public class BossEnemyController : EnemyController
     private void EnterNoArmorState()
     {
         WearNoArmor();
+        SetArmorBarActive(false, false);
         currentArmorHealth.stat = currentArmorHealth.minimum;
     }
 
@@ -706,6 +713,29 @@ public class BossEnemyController : EnemyController
         //These interaction are for the boss health not the armor health
         ChangeDamageInteraction(DamageType.ice, DamageInteraction.nuetral);
         ChangeDamageInteraction(DamageType.fire, DamageInteraction.nuetral);
+    }
+
+    private void SetArmorBarActive(bool iceArmor, bool fireArmor)
+    {
+        if (iceArmorHealthBar != null)
+        {
+            iceArmorHealthBar.SetActive(iceArmor);
+        }
+        if (fireArmorHealthBar != null)
+        {
+            fireArmorHealthBar.SetActive(fireArmor);
+        }
+    }
+
+
+    private IEnumerator CoverTakingFailsafe(float timeToWait, float timeVariance)
+    {
+        timeToWait += Random.Range(-timeVariance, timeVariance);
+
+        yield return new WaitForSeconds(timeToWait);
+
+        Debug.Log($"Could not find cover in {timeToWait} seconds, teleporting to cover instead");
+        bossState = BossState.teleportToCover;
     }
 
     private IEnumerator TakeCoverState(Transform target)
@@ -884,7 +914,7 @@ public class BossEnemyController : EnemyController
         }
 
         //colList[Random.Range(0, colList.Count)];
-        Debug.Log(colList.Count);
+        Debug.Log(colList.Count + " from random spot");
         Collider outputCollider;
         if (colList.Count > 0)
         {
@@ -1103,7 +1133,8 @@ public class BossEnemyController : EnemyController
                 {
                     //Teleport boss
                     //Spawn VFX when teleport
-                    SpawnVFX(teleportVFX);
+                    SpawnManager.SpawnVFX(teleportVFX.vFX, this.transform, teleportVFX.offset);
+                    //SpawnVFX(teleportVFX);
                     this.transform.position = tempCol.transform.position;
                     //SpawnTeleportVPX();
                     ExitTeleportingState();
@@ -1499,56 +1530,48 @@ public class BossEnemyController : EnemyController
             {
                 if (currentArmorElementType == DamageType.ice)
                 {
-                    SpawnVFX(iceArmorDestroyedVFX);
+                    SpawnManager.SpawnVFX(iceArmorDestroyedVFX.vFX, this.transform, iceArmorDestroyedVFX.offset);
+                    //SpawnVFX(iceArmorDestroyedVFX);
                 }
                 if (currentArmorElementType == DamageType.fire)
                 {
-                    SpawnVFX(fireArmorDestroyedVFX);
+                    SpawnManager.SpawnVFX(fireArmorDestroyedVFX.vFX, this.transform, fireArmorDestroyedVFX.offset);
+                    //SpawnVFX(fireArmorDestroyedVFX);
                 }
                 currentArmorHealth.stat = currentArmorHealth.minimum;
                 //EneterNextPhase();
                 EnterNoArmorState();
                 health.AddToStat(-health.maximum * currenthPReductionPercentOnArmorBreak/100);
             }
+
+            
+
             StartCoroutine(InvincibilityFrames());
             return;
         }
 
         Debug.Log("Health decrease");
         base.Damage(damageAmount, hitPosition, damageType);
-        /*
-        if (damageImmunities.Contains(damageType))
+
+        if (isBossTPOutToNextScene)
         {
-            if (usesDamageText)
+            if (((health.stat - health.minimum) / health.maximum) * 100 <= hPPercetageToTP)
             {
-                GameObject damageText = GetDamageText(damageType);
-                damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, 0, damageType);
+                TPOutOfScene();
             }
-
-            return;
         }
-
-        damage = DamageCalculation(damageAmount, damageType);
-
-
-        if (usesDamageText)
-        {
-            GameObject damageText = GetDamageText(damageType);
-            damageText.GetComponent<DamageText>().UpdateDamage(hitPosition, damage, damageType);
-        }
-        if (!inInvincibilityFrames)
-        {
-            health.AddToStat(-damage);
-            //StartCoroutine(CheckArmorPhase());
-            
-        }
-
-        if (health.stat <= health.minimum && !dead)
-        {
-            CommitDie();
-        }
-        */
     }
+
+    public void TPOutOfScene()
+    {
+        SpawnManager.SpawnVFX(teleportVFX.vFX, this.transform, teleportVFX.offset);
+
+        bossEndSceneGameObject.SetActive(true);
+
+        this.gameObject.SetActive(false);
+        //Destroy(this.gameObject);
+    }
+
     /*
     public IEnumerator CheckArmorPhase()
     {

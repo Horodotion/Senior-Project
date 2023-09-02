@@ -13,7 +13,7 @@ public class LaserAttacks : AttackMotion
     [SerializeField] float chargeLaserTime = 5f;
     [Range(0, 2)][SerializeField] float aimLowerOnPlayerDistance = 0f;
 
-    public override IEnumerator AttackingPlayer(BossEnemyController enemy)
+    public override IEnumerator AttackingPlayer(BossEnemyController enemy, Transform[] SP)
     {
 
         //Run Towards the player

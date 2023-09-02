@@ -4,14 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using DigitalRuby.WeatherMaker;
 
 public class InterfaceButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     [HideInInspector] public UnityEvent onPointerDownEvent, onPointerUpEvent, onPointerEnteredEvent, onPointerExitedEvent, onSideInputEvent;
     
     public Animator anim;
+    public Image buttonImage;
     public Sprite idleImage;
     public Sprite hoverImage;
+    public float idleScale = 1f, hoverScale = 1.2f;
+    public Color idleColor = Color.white, hoverColor = Color.grey;
     [HideInInspector] public string highlighted = "Highlighted", pointerDown = "PointerDown", clicked = "Clicked"; 
 
     public virtual void Awake()
@@ -34,8 +38,12 @@ public class InterfaceButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
             anim.SetBool(highlighted, true);
         }
 
-        if (MenuScript.currentMenu != null && MenuScript.currentMenu.selector != null)
+        if (MenuScript.currentMenu != null)// && MenuScript.currentMenu.selector != null)
         {
+            if (MenuScript.currentMenu.currentlySelectedButton != this)
+            {
+                MenuScript.currentMenu.currentlySelectedButton.ButtonExit();
+            }
             MenuScript.currentMenu.MoveSelectorToButton(this);
             onPointerEnteredEvent.Invoke();
         }
@@ -98,6 +106,18 @@ public class InterfaceButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         {
             GetComponent<Image>().sprite = idleImage;
         }
+
+        transform.localScale = Vector3.one * idleScale;
+
+        if (buttonImage != null)
+        {
+            buttonImage.color = idleColor;
+        }
+        else if (GetComponent<Image>() != null)
+        {
+            GetComponent<Image>().color = idleColor;
+        }
+        
     }
 
     public void ChangeToHoverImage()
@@ -105,6 +125,16 @@ public class InterfaceButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (hoverImage != null)
         {
             GetComponent<Image>().sprite = hoverImage;
+        }
+        transform.localScale = Vector3.one * hoverScale;
+
+        if (buttonImage != null)
+        {
+            buttonImage.color = hoverColor;
+        }
+        else if (GetComponent<Image>() != null)
+        {
+            GetComponent<Image>().color = hoverColor;
         }
     }
 

@@ -9,8 +9,33 @@ public class SpellAnimHolder : MonoBehaviour
     public string canCastInAnim = "";
     public string releaseSpell = "";
     public string canReleaseSpell = "";
+
+    public string jump = "";
+    public string isMoving = "";
+    private float jumpVal, isMovingVal;
+    [HideInInspector] public int jumpTarget, isMovingTarget;
+    public float jumpRate = 5f, isMovingRate = 3.5f;
+
     public bool castingSpell;
 
+
+    private void Update()
+    {
+        if (jumpVal != jumpTarget)
+        {
+            if (jumpVal > jumpTarget) jumpVal = Mathf.Clamp01(jumpVal - (Time.deltaTime * jumpRate));
+            else jumpVal = Mathf.Clamp01(jumpVal + (Time.deltaTime * jumpRate));
+
+            ourPuppet.spellAnim.SetFloat(jump, jumpVal);
+        }
+        if (isMovingVal != isMovingTarget)
+        {
+            if (isMovingVal > isMovingTarget) isMovingVal = Mathf.Clamp01(isMovingVal - (Time.deltaTime * isMovingRate));
+            else isMovingVal = Mathf.Clamp01(isMovingVal + (Time.deltaTime * isMovingRate));
+
+            ourPuppet.spellAnim.SetFloat(isMoving, isMovingVal);
+        }
+    }
 
     public virtual void SetAnimState(int newState)
     {

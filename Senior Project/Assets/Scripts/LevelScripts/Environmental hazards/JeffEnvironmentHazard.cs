@@ -32,6 +32,9 @@ public class JeffEnvironmentHazard : MonoBehaviour
     public bool cascadingJeff;
     public GameObject nextJeff = null;
     public bool instantDisintegrate;
+    public GameObject telePoof;
+    public Transform poofSpawnPoint;
+    public IceDisintegration iceWallToMelt;
     // public bool dropTurret;
     // public bool fireElem;
 
@@ -46,6 +49,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
     private bool hasAttacked;
     public bool extraDrop;
     private bool dropped = false;
+    public bool connectedIceWall = false;
 
     [Header("Disintegration")]
     public GameObject iceMesh;
@@ -79,6 +83,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
         boneRend = boneBesh.GetComponent<SkinnedMeshRenderer>();
         bodyRend = bodyMesh.GetComponent<SkinnedMeshRenderer>();
         shaderValue = bodyRend.material.GetFloat("_Disintigration");
+        Instantiate(telePoof, new Vector3(poofSpawnPoint.position.x, poofSpawnPoint.position.y, poofSpawnPoint.position.z), Quaternion.identity);
     }
 
     void Start()
@@ -179,7 +184,10 @@ public class JeffEnvironmentHazard : MonoBehaviour
                 if (thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController projectileController))
                 {
                     projectileController.transform.position = shootPoint.transform.position;
-                    projectileController.transform.rotation = shootPoint.transform.rotation;
+                    Vector3 direction = (PlayerController.puppet.transform.position - shootPoint.transform.position).normalized;
+
+                    Quaternion directionToMove = Quaternion.LookRotation(direction, transform.up);
+                    projectileController.transform.rotation = directionToMove;
                     projectileController.LaunchProjectile();
                 }
             }
@@ -190,7 +198,10 @@ public class JeffEnvironmentHazard : MonoBehaviour
                 if (thisProjectile1.TryGetComponent<ProjectileController>(out ProjectileController projectileController))
                 {
                     projectileController.transform.position = shootPoint.transform.position;
-                    projectileController.transform.rotation = shootPoint.transform.rotation;
+                    Vector3 direction = (PlayerController.puppet.transform.position - shootPoint.transform.position).normalized;
+
+                    Quaternion directionToMove = Quaternion.LookRotation(direction, transform.up);
+                    projectileController.transform.rotation = directionToMove;
                     projectileController.LaunchProjectile();
                 }
             }
@@ -245,6 +256,10 @@ public class JeffEnvironmentHazard : MonoBehaviour
     {
         //transform.LookAt(runawayPoint);
         //anim.SetBool("isRunning", true);
+        if (connectedIceWall && iceWallToMelt != null)
+        {
+            iceWallToMelt.disintegrate = true;
+        }
         anim.speed = 1;
         anim.SetInteger("idleDecision", 1);
         agent.SetDestination(runawayPoint.position);
@@ -252,12 +267,14 @@ public class JeffEnvironmentHazard : MonoBehaviour
         {
             disintegrating = true;
         }
+
         Invoke(nameof(Disintegrate), despawnTime);
     }
 
     private void Disintegrate()
     {
         disintegrating = true;
+        Instantiate(telePoof, new Vector3(poofSpawnPoint.position.x, poofSpawnPoint.position.y, poofSpawnPoint.position.z), Quaternion.identity);
         Invoke(nameof(Disappear), despawnTime);
     }
 
@@ -266,6 +283,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
         if(cascadingJeff)
         {
             nextJeff.SetActive(true);
+            Instantiate(telePoof, new Vector3(poofSpawnPoint.position.x, poofSpawnPoint.position.y, poofSpawnPoint.position.z), Quaternion.identity);
             Destroy(gameObject);
 
         }

@@ -69,12 +69,12 @@ MonoBehaviour:
   rb: {fileID: 0}
   hostileFaction: 0
   projectileSpeed: 25
-  lifeSpan: 10
-  range: 100
+  lifeSpan: 2
+  range: 30
   origin: {x: 0, y: 0, z: 0}
   rotation: {x: 0, y: 0, z: 0, w: 0}
   damageType: 1
-  damage: 45
+  damage: 35
   launched: 0
   spawnSFX: {fileID: 8300000, guid: 651b021b3df26aa4c8ec3f2663cb2eb3, type: 3}
   impactSFX: {fileID: 8300000, guid: 58844ac8e08c68b4c9769d188fa555ba, type: 3}
@@ -122,7 +122,6 @@ MonoBehaviour:
   enemyHitboxes: []
   fireDamageText: {fileID: 0}
   iceDamageText: {fileID: 0}
-  deathRattle: {fileID: 0}
   ourProjectile: {fileID: 7162815296137968484}
 --- !u!1001 &361836399382101455
 PrefabInstance:
