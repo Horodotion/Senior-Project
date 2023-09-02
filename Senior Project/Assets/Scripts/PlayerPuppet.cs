@@ -127,6 +127,7 @@ public class PlayerPuppet : MonoBehaviour
 
 
         PlayerController.instance.SetUpAllSpells();
+        PlayerController.ourPlayerState = PlayerState.inGame;
     }
 
     void FixedUpdate()

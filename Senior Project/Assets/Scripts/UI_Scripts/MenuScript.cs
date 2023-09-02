@@ -56,7 +56,7 @@ public abstract class MenuScript : MonoBehaviour
     [Header("Menu Scripts")]
     public static MenuScript currentMenu;
     public static bool inOptionsMenu;
-    public GameObject selector;
+    // public GameObject selector;
     public InterfaceButton currentlySelectedButton;
     public List<InterfaceButton> buttonList;
     [HideInInspector] public int currentButtonID;
@@ -93,14 +93,14 @@ public abstract class MenuScript : MonoBehaviour
 
     public virtual void ConnectPlayerToMenu()
     {
-        if (selector == null)
-        {
-            selector = Instantiate(SpawnManager.instance.selectorPrefab);
-            selector.transform.SetParent(currentMenu.transform);
-        }
+        // if (selector == null)
+        // {
+        //     selector = Instantiate(SpawnManager.instance.selectorPrefab);
+        //     selector.transform.SetParent(currentMenu.transform);
+        // }
 
         currentButtonID = 0;
-        selector.transform.position = buttonList[currentButtonID].transform.position;
+        // selector.transform.position = buttonList[currentButtonID].transform.position;
         currentlySelectedButton = buttonList[currentButtonID];
         currentlySelectedButton.ButtonEnter();
     }
@@ -123,7 +123,7 @@ public abstract class MenuScript : MonoBehaviour
         }
 
         currentlySelectedButton.ButtonExit();
-        selector.transform.position = buttonList[currentButtonID].transform.position;
+        // selector.transform.position = buttonList[currentButtonID].transform.position;
         currentlySelectedButton = buttonList[currentButtonID];
         currentlySelectedButton.ButtonEnter();
     }
@@ -131,7 +131,7 @@ public abstract class MenuScript : MonoBehaviour
     public virtual void MoveSelectorToButton(InterfaceButton ourButton)
     {
         currentButtonID = buttonList.IndexOf(ourButton);
-        selector.transform.position = buttonList[currentButtonID].transform.position;
+        // selector.transform.position = buttonList[currentButtonID].transform.position;
         currentlySelectedButton = buttonList[currentButtonID];
     }
 
