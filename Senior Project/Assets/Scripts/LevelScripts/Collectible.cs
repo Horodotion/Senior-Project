@@ -8,6 +8,8 @@ public class Collectible : MonoBehaviour
     // public static int totalCollectiblesGrabbed;
     // public bool enemyCollectible;
     public string messageToDisplay = "Collectible";
+    public GameObject ourPoof;
+    public AudioClip ourPing;
 
     void Start()
     {
@@ -25,7 +27,8 @@ public class Collectible : MonoBehaviour
     {
         GeneralManager.SetEventFlag(eventFlag);
         GeneralManager.totalCollectiblesCounter++;
-
+        Instantiate(ourPoof, transform.position, Quaternion.identity);
+        AudioManager.PlaySoundAtLocation(ourPing, transform.position, AudioMixerType.SoundEffect);
         gameObject.SetActive(false);
     }
 }

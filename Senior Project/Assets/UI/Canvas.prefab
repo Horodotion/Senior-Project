@@ -618,7 +618,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d9f1e21e3d917f419587f4d5cba5228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selector: {fileID: 0}
   currentlySelectedButton: {fileID: 0}
   buttonList: []
   currentButtonID: 0
@@ -718,7 +717,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d9f1e21e3d917f419587f4d5cba5228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selector: {fileID: 0}
   currentlySelectedButton: {fileID: 0}
   buttonList:
   - {fileID: 1023686025889307168}
@@ -1284,39 +1282,13 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 638208773602857509}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5068646250300418947 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5659948959912130982, guid: ff22ca8c5e89b8b40a0a4950044f428e,
-    type: 3}
-  m_PrefabInstance: {fileID: 638208773602857509}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &7920532022998009129
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5068646250300418947}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 45587f9ef5f0b2841aeb7316c2402fc5, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &5068646250300418951 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5659948959912130978, guid: ff22ca8c5e89b8b40a0a4950044f428e,
     type: 3}
   m_PrefabInstance: {fileID: 638208773602857509}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5068646250300418947}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4050c9ae94cd34e42b6d90db36957860, type: 3}
