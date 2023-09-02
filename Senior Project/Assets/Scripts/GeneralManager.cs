@@ -122,7 +122,6 @@ public class GeneralManager : MonoBehaviour
         // PlayerPuppet puppet = PlayerController.puppet;
         PlayerController.ourPlayerState = PlayerState.inGame;
 
-        PlayerController.instance.temperature.ResetStat();
         LoadLevel(SceneManager.GetActiveScene().buildIndex);
 
         instance.StartCoroutine(instance.MovePlayerToCheckpoint());
@@ -149,6 +148,7 @@ public class GeneralManager : MonoBehaviour
         puppet.lookRotation = new Vector3(0f, puppet.transform.localEulerAngles.y, 0f);
         yield return null;
 
+        PlayerController.instance.temperature.ResetStat();
         puppet.charController.enabled = true;
         instance.UnPauseGame();
     }
@@ -166,6 +166,7 @@ public class GeneralManager : MonoBehaviour
 
         levelSpecificEventFlags.Clear();
         transferableEventFlags.Clear();
+        totalCollectiblesCounter = 0;
 
         if (PauseMenuScript.instance != null)
         {
