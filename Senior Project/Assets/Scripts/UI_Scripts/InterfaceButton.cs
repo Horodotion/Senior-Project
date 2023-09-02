@@ -38,7 +38,7 @@ public class InterfaceButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
             anim.SetBool(highlighted, true);
         }
 
-        if (MenuScript.currentMenu != null && MenuScript.currentMenu.selector != null)
+        if (MenuScript.currentMenu != null)// && MenuScript.currentMenu.selector != null)
         {
             if (MenuScript.currentMenu.currentlySelectedButton != this)
             {

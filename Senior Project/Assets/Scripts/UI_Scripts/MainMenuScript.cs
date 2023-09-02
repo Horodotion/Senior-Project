@@ -11,6 +11,7 @@ public class MainMenuScript : MenuScript
 
     void Awake()
     {
+        
         exitGameButton.onPointerDownEvent.AddListener(() => Application.Quit());
         playGameButton.onPointerDownEvent.AddListener(() => GeneralManager.LoadNextLevel()); //Debug.Log("Level Select"));
         // levelSelectButton.onPointerDownEvent.AddListener(() => ToggleMenu(levelSelectPanel));

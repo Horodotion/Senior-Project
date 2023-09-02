@@ -119,12 +119,13 @@ public class GeneralManager : MonoBehaviour
     public static void LoadCheckPoint()
     {
         SpawnManager.instance.TurnOffEverything();
-        PlayerPuppet puppet = PlayerController.puppet;
+        // PlayerPuppet puppet = PlayerController.puppet;
+        PlayerController.ourPlayerState = PlayerState.inGame;
 
-        PlayerController.instance.temperature.ResetStat();
         LoadLevel(SceneManager.GetActiveScene().buildIndex);
 
         instance.StartCoroutine(instance.MovePlayerToCheckpoint());
+        
     }
 
     public IEnumerator MovePlayerToCheckpoint()
@@ -147,6 +148,7 @@ public class GeneralManager : MonoBehaviour
         puppet.lookRotation = new Vector3(0f, puppet.transform.localEulerAngles.y, 0f);
         yield return null;
 
+        PlayerController.instance.temperature.ResetStat();
         puppet.charController.enabled = true;
         instance.UnPauseGame();
     }
@@ -162,8 +164,9 @@ public class GeneralManager : MonoBehaviour
     {
         LoadLevel(0);
 
-        GeneralManager.levelSpecificEventFlags.Clear();
-        GeneralManager.transferableEventFlags.Clear();
+        levelSpecificEventFlags.Clear();
+        transferableEventFlags.Clear();
+        totalCollectiblesCounter = 0;
 
         if (PauseMenuScript.instance != null)
         {
@@ -271,6 +274,8 @@ public class GeneralManager : MonoBehaviour
         
         MenuScript.SwapToMenu(GameOverMenuScript.instance.gameObject, PlayerUI.instance.gameObject);
         MenuScript.SwapToMenu(GameOverMenuScript.instance.winPanel, GameOverMenuScript.instance.losePanel);
+        GameOverMenuScript.instance.MenuSetup();
+
 
         PlayerController.ourPlayerState = PlayerState.inMenu;
         Cursor.lockState = CursorLockMode.None;
@@ -288,6 +293,7 @@ public class GeneralManager : MonoBehaviour
 
         MenuScript.SwapToMenu(GameOverMenuScript.instance.gameObject, PlayerUI.instance.gameObject);
         MenuScript.SwapToMenu(GameOverMenuScript.instance.losePanel, GameOverMenuScript.instance.winPanel);
+        GameOverMenuScript.instance.MenuSetup();
 
         PlayerController.ourPlayerState = PlayerState.inMenu;
         Cursor.lockState = CursorLockMode.None;
