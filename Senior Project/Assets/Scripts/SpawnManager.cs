@@ -139,7 +139,7 @@ public class SpawnManager : MonoBehaviour
         {
             for (int i = 0; i < currentlySpawnedGameObjects[objectType].Count; i++)
             {
-                if (currentlySpawnedGameObjects[objectType][i].GetComponent<ProjectileController>() != null)
+                if (currentlySpawnedGameObjects[objectType][i] != null && currentlySpawnedGameObjects[objectType][i].GetComponent<ProjectileController>() != null)
                 {
                     currentlySpawnedGameObjects[objectType][i].GetComponent<ProjectileController>().Deactivate();
                 }
