@@ -100,9 +100,8 @@ public class GeneralManager : MonoBehaviour
     // Loads a scene by its build index
     public static void LoadLevel(int levelToLoad)
     {
-        //SpawnManager.instance.TurnOffEverything();
         SceneManager.LoadScene(levelToLoad);
-        GeneralManager.instance.UnPauseGame();
+        instance.UnPauseGame();
         PathLight.ClearPath();
 
         if (levelToLoad > 0)
@@ -113,19 +112,19 @@ public class GeneralManager : MonoBehaviour
 
     public static void LoadNextLevel()
     {
+        levelSpecificEventFlags.Clear();
         LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public static void LoadCheckPoint()
     {
+        Time.timeScale = 0;
         SpawnManager.instance.TurnOffEverything();
-        // PlayerPuppet puppet = PlayerController.puppet;
         PlayerController.ourPlayerState = PlayerState.inGame;
 
         LoadLevel(SceneManager.GetActiveScene().buildIndex);
 
         instance.StartCoroutine(instance.MovePlayerToCheckpoint());
-        
     }
 
     public IEnumerator MovePlayerToCheckpoint()
@@ -140,10 +139,12 @@ public class GeneralManager : MonoBehaviour
         PlayerController.instance.lookAxis = Vector2.zero;
         puppet.moveDirection = Vector2.zero;
 
-        puppet.transform.position = Checkpoint.GetPlayerRespawnPosition();
-        Debug.Log(puppet.transform.position);
+        if (Checkpoint.playerSpawn != Vector3.zero)
+        {
+            puppet.transform.position = Checkpoint.playerSpawn;
+        }
 
-        puppet.transform.localEulerAngles = Checkpoint.GetPlayerRespawnRotation();
+        puppet.transform.localEulerAngles = Checkpoint.playerLookDirection;
         puppet.cameraObj.transform.localEulerAngles = new Vector3(puppet.transform.forward.x, 0f, 0f);
         puppet.lookRotation = new Vector3(0f, puppet.transform.localEulerAngles.y, 0f);
         yield return null;
@@ -155,7 +156,7 @@ public class GeneralManager : MonoBehaviour
 
     public static void ReloadLevel()
     {
-        GeneralManager.levelSpecificEventFlags.Clear();
+        levelSpecificEventFlags.Clear();
         PlayerController.instance.temperature.ResetStat();
         LoadLevel(SceneManager.GetActiveScene().buildIndex);
     }

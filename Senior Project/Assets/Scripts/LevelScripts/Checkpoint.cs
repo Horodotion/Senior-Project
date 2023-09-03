@@ -52,8 +52,6 @@ public class Checkpoint : TriggerScript
         {
             return playerSpawn;
         }
-
-        // return playerSpawn;
     }
 
     public static Vector3 GetPlayerRespawnRotation()
@@ -66,7 +64,5 @@ public class Checkpoint : TriggerScript
         {
             return playerLookDirection;
         }
-
-        // return playerLookDirection;
     }
 }
