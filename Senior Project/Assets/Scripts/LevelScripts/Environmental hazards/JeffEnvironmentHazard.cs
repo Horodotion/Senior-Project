@@ -36,6 +36,7 @@ public class JeffEnvironmentHazard : MonoBehaviour
     public Transform poofSpawnPoint;
     public IceDisintegration iceWallToMelt;
     public GameObject arenaCutter;
+    public bool spawnsIn = false;
     // public bool dropTurret;
     // public bool fireElem;
 
@@ -84,7 +85,10 @@ public class JeffEnvironmentHazard : MonoBehaviour
         boneRend = boneBesh.GetComponent<SkinnedMeshRenderer>();
         bodyRend = bodyMesh.GetComponent<SkinnedMeshRenderer>();
         shaderValue = bodyRend.material.GetFloat("_Disintigration");
-        Instantiate(telePoof, new Vector3(poofSpawnPoint.position.x, poofSpawnPoint.position.y, poofSpawnPoint.position.z), Quaternion.identity);
+        if(spawnsIn)
+        {
+            Instantiate(telePoof, new Vector3(poofSpawnPoint.position.x, poofSpawnPoint.position.y, poofSpawnPoint.position.z), Quaternion.identity);
+        }
         if(arenaCutter != null)
         {
             arenaCutter.SetActive(false);
