@@ -110,6 +110,8 @@ public class PlayerPuppet : MonoBehaviour
                 ourAnimHolder = GetComponentInChildren<SpellAnimHolder>();
                 ourAnimHolder.ourPuppet = this;
             }
+
+            lookRotation = new Vector3(0f, transform.localEulerAngles.y, 0f);
         }
         else if (PlayerController.puppet != this)
         {
@@ -169,9 +171,9 @@ public class PlayerPuppet : MonoBehaviour
         if (PlayerController.instance.lookAxis != Vector2.zero)
         {
             // Adding to the look rotation multiplied by the mouse sensetivity and by time
-            lookRotation.y += PlayerController.instance.lookAxis.x * mouseSensetivity * Time.fixedDeltaTime;
+            lookRotation.y += PlayerController.instance.lookAxis.x * (mouseSensetivity * PlayerController.currentSensetivity) * Time.fixedDeltaTime;
             // Makes sure that the player cannot infinitely spin up and down
-            lookRotation.x = Mathf.Clamp((lookRotation.x - ((PlayerController.instance.lookAxis.y * mouseSensetivity) * Time.fixedDeltaTime)), -lookAngles, lookAngles);
+            lookRotation.x = Mathf.Clamp(lookRotation.x - (PlayerController.instance.lookAxis.y * (mouseSensetivity * PlayerController.currentSensetivity) * Time.fixedDeltaTime), -lookAngles, lookAngles);
             // Converts the added look rotation to the game object's rotation and camera object's rotation
             transform.localEulerAngles = new Vector3(0, lookRotation.y, 0);
             cameraObj.transform.localEulerAngles = new Vector3(lookRotation.x, 0, 0);

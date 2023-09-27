@@ -7,7 +7,8 @@ public class OptionsMenuScript : MenuScript
     public static OptionsMenuScript instance;
     public MenuScript menuToReturnTo;
     public InterfaceButton backButton;
-    public InterfaceSlider masterVolumeSlider, musicVolumeSlider, ambientVolumeSlider, sfxVolumeSlider, brightnessSlider;
+    public InterfaceSlider sensetivitySlider;
+    // public InterfaceSlider masterVolumeSlider, musicVolumeSlider, ambientVolumeSlider, sfxVolumeSlider, brightnessSlider;
 
     void Awake()
     {
@@ -19,14 +20,13 @@ public class OptionsMenuScript : MenuScript
         instance = this;
 
         backButton.onPointerDownEvent.AddListener(() => GeneralManager.instance.CloseOptionsMenu());
+        // brightnessSlider.slider.value = DustinsLightsScript.currentBrightness;
+        // brightnessSlider.onSideInputEvent.AddListener(() => DustinsLightsScript.SetGain(brightnessSlider.slider.value));
 
-        brightnessSlider.slider.value = DustinsLightsScript.currentBrightness;
-        brightnessSlider.onSideInputEvent.AddListener(() => DustinsLightsScript.SetGain(brightnessSlider.slider.value));
-
-        masterVolumeSlider.onSideInputEvent.AddListener(() => AudioManager.SetMixerVolume(masterVolumeSlider.currentValue, AudioMixerType.Master));
-        musicVolumeSlider.onSideInputEvent.AddListener(() => AudioManager.SetMixerVolume(musicVolumeSlider.currentValue, AudioMixerType.Music));
-        ambientVolumeSlider.onSideInputEvent.AddListener(() => AudioManager.SetMixerVolume(ambientVolumeSlider.currentValue, AudioMixerType.Ambient));
-        sfxVolumeSlider.onSideInputEvent.AddListener(() => AudioManager.SetMixerVolume(sfxVolumeSlider.currentValue, AudioMixerType.SoundEffect));
+        // masterVolumeSlider.onSideInputEvent.AddListener(() => AudioManager.SetMixerVolume(masterVolumeSlider.currentValue, AudioMixerType.Master));
+        // musicVolumeSlider.onSideInputEvent.AddListener(() => AudioManager.SetMixerVolume(musicVolumeSlider.currentValue, AudioMixerType.Music));
+        // ambientVolumeSlider.onSideInputEvent.AddListener(() => AudioManager.SetMixerVolume(ambientVolumeSlider.currentValue, AudioMixerType.Ambient));
+        // sfxVolumeSlider.onSideInputEvent.AddListener(() => AudioManager.SetMixerVolume(sfxVolumeSlider.currentValue, AudioMixerType.SoundEffect));
 
         gameObject.SetActive(false);
     }
@@ -35,10 +35,13 @@ public class OptionsMenuScript : MenuScript
     {
         base.Start();
 
-        masterVolumeSlider.slider.value = AudioManager.masterVolume;
-        musicVolumeSlider.slider.value = AudioManager.musicVolume;
-        ambientVolumeSlider.slider.value = AudioManager.ambientVolume;
-        sfxVolumeSlider.slider.value = AudioManager.soundVolume;
+        sensetivitySlider.slider.value = PlayerController.currentSensetivitySliderValue;
+        sensetivitySlider.onSideInputEvent.AddListener(() => PlayerController.ChangeSensetivity(sensetivitySlider.slider.value, sensetivitySlider.currentValue));
+
+        // masterVolumeSlider.slider.value = AudioManager.masterVolume;
+        // musicVolumeSlider.slider.value = AudioManager.musicVolume;
+        // ambientVolumeSlider.slider.value = AudioManager.ambientVolume;
+        // sfxVolumeSlider.slider.value = AudioManager.soundVolume;
     }
 
     public void OpenOptionsMenu(MenuScript menu)

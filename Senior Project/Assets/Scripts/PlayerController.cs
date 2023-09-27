@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     // public Stats playerStats;
     public IndividualStat speed;
     public IndividualStat temperature;
+    public static float currentSensetivitySliderValue = 5;
+    public static float currentSensetivity = 1;
     
     // A lot of hidden variables for the inputs, all stored in a PlayerInput component on the gameObject
     // They're hidden to allow for a cleaner set up in the inspector
@@ -153,6 +155,12 @@ public class PlayerController : MonoBehaviour
             Debug.Log("No Spell to set up");
             return null;
         }
+    }
+
+    public static void ChangeSensetivity(float newSliderValue, float newSenesetvityValue)
+    {
+        currentSensetivitySliderValue = newSliderValue;
+        currentSensetivity = newSenesetvityValue;
     }
 
     public void OnMoveAction(InputAction.CallbackContext context)
