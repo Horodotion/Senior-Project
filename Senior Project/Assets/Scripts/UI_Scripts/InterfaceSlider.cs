@@ -13,7 +13,16 @@ public class InterfaceSlider : InterfaceButton
     {
         base.Awake();
         slider = GetComponentInChildren<Slider>();
+
+        slider.onValueChanged.AddListener(OnValueChanged);
         // interval = (maxValue - minValue) / 10; 
+    }
+
+    public void OnValueChanged(float newValue)
+    {
+        currentValue = Mathf.Clamp(maxValue, minValue, minValue + (interval * slider.value));
+
+        onSideInputEvent.Invoke();
     }
 
     public override void OnSideInput(float direction)
@@ -24,9 +33,6 @@ public class InterfaceSlider : InterfaceButton
         }
         
         slider.value += Mathf.Sign(direction);
-        currentValue = Mathf.Clamp(maxValue, minValue, minValue + (interval * slider.value));
-
-        onSideInputEvent.Invoke();
     }
 
     public void SetSliderValue(float referenceValue)

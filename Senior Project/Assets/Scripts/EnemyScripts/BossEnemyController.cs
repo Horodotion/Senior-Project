@@ -406,18 +406,18 @@ public class BossEnemyController : EnemyController
             case BossState.idle:
                 break;
             case BossState.taunt:
-                //ourAudioSource.clip = tauntBugle;
-                //ourAudioSource.Play();
+                ourAudioSource.clip = tauntBugle;
+                ourAudioSource.Play();
                 MovementCoroutine = TauntState(); //Take care the taunt later
                 break;
             case BossState.meleeAttack:
-                //ourAudioSource.clip = meleeBugle;
-                //ourAudioSource.Play();
+                ourAudioSource.clip = meleeBugle;
+                ourAudioSource.Play();
                 MovementCoroutine = attacksManager.MeleeAttack();
                 break;
             case BossState.rangedAttack:
-                //ourAudioSource.clip = projectileBugle;
-                //ourAudioSource.Play();
+                ourAudioSource.clip = projectileBugle;
+                ourAudioSource.Play();
                 MovementCoroutine = attacksManager.RangedAttack();
                 break;
             case BossState.takingCover:
@@ -427,18 +427,18 @@ public class BossEnemyController : EnemyController
                 MovementCoroutine = WaitInCoverState(UnityEngine.Random.Range(minWaitTimeinCover, maxWaitTimeInCover));
                 break;
             case BossState.teleportToCover:
-                //ourAudioSource.clip = teleportBugle;
-                //ourAudioSource.Play();
+                ourAudioSource.clip = teleportBugle;
+                ourAudioSource.Play();
                 MovementCoroutine = TeleportingToCoverState(PlayerController.puppet.transform);
                 break;
             case BossState.teleportBehindPlayer:
-                //ourAudioSource.clip = teleportBugle;
-                //ourAudioSource.Play();
+                ourAudioSource.clip = teleportBugle;
+                ourAudioSource.Play();
                 MovementCoroutine = TeleportingBehindState(PlayerController.puppet.transform);
                 break;
             case BossState.laserAttack:
-                //ourAudioSource.clip = laserBugle;
-                //ourAudioSource.Play();
+                ourAudioSource.clip = laserBugle;
+                ourAudioSource.Play();
                 MovementCoroutine = attacksManager.LaserAttack();
                 break;
             case BossState.spawnTurrets:
@@ -1567,6 +1567,7 @@ public class BossEnemyController : EnemyController
         SpawnManager.SpawnVFX(teleportVFX.vFX, this.transform, teleportVFX.offset);
 
         bossEndSceneGameObject.SetActive(true);
+        Instantiate(teleportVFX.vFX, new Vector3(bossEndSceneGameObject.transform.position.x, bossEndSceneGameObject.transform.position.y + 1f, bossEndSceneGameObject.transform.position.z), Quaternion.identity);
 
         this.gameObject.SetActive(false);
         //Destroy(this.gameObject);

@@ -21,6 +21,9 @@ public class Obelisk_Orb_Script : MonoBehaviour
     [SerializeField] private float RotationSpeed = 0.5f;
     // [SerializeField] private float fireRateB = 0.5f;
     [SerializeField] private float sliderAmount = 0;
+    public AudioSource checkpointDing;
+    private bool hasDung = false;
+
     private void Start()
     {
         
@@ -29,6 +32,11 @@ public class Obelisk_Orb_Script : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            if (!hasDung)
+            {
+                checkpointDing.Play();
+                hasDung = true;
+            }
             target = other.gameObject;
         }
     }
